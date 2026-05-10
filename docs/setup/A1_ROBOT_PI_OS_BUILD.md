@@ -68,7 +68,7 @@ Click **Write** and wait for completion.
    ssh robot@<IP_ADDRESS>
    ```
 
-> **Remote development:** With SSH enabled here, the Pi 500 can connect to this robot using VSCode Remote SSH — no additional robot-side setup needed. See [A1_PI500_OS_BUILD.md](A1_PI500_OS_BUILD.md) for Pi 500 configuration.
+> **Remote development:** With SSH enabled here, the Pi 500 can connect to this robot using VSCode Remote SSH. See [A1_PI500_OS_BUILD.md](A1_PI500_OS_BUILD.md) for Pi 500 configuration.
 
 ---
 
@@ -198,7 +198,31 @@ All should print without errors.
 
 ---
 
-## Step 6: Install PathfinderV2
+## Step 6: Install Visual Studio Code
+
+VS Code is installed directly on the robot so students can code on it locally or via Remote SSH from the Pi 500.
+
+```bash
+sudo apt-get install -y code
+```
+
+### Install the Python Extension
+
+```bash
+code --install-extension ms-python.python --user-data-dir /home/robot/.vscode
+```
+
+This also installs Pylance and the Python debugger automatically.
+
+### Verify
+```bash
+code --version
+# Should show VS Code version number
+```
+
+---
+
+## Step 7: Install PathfinderV2
 
 ### Clone Repository
 ```bash
@@ -233,7 +257,7 @@ All imports OK!
 
 ---
 
-## Step 7: Verify User Permissions
+## Step 8: Verify User Permissions
 
 The `robot` user should already have the correct groups from Raspberry Pi Imager. Verify:
 
@@ -253,7 +277,7 @@ sudo usermod -a -G dialout,i2c,gpio,video robot
 
 ---
 
-## Step 8: Test Hardware
+## Step 9: Test Hardware
 
 **Important:** Robot must be assembled with batteries installed before this step.
 
@@ -406,7 +430,7 @@ print('Hardware test complete!')
 
 ---
 
-## Step 9: Create Startup Service
+## Step 10: Create Startup Service
 
 Initializes the robot at boot: stops motors, turns off LEDs, positions arm forward, checks battery, beeps when ready.
 
@@ -433,7 +457,7 @@ sudo systemctl start pathfinder-startup.service
 
 ---
 
-## Step 10: Clone the Image
+## Step 11: Clone the Image
 
 Once one SD card is fully set up and tested, clone it for all robots:
 
@@ -478,6 +502,8 @@ sudo nmcli dev wifi connect "SSID" password "PASSWORD"
 | SMBus2 | 0.4.3 | I2C communication (Pi 4) |
 | PyYAML | 6.0.2 | Configuration files |
 | NumPy | 2.2.4 | Math operations |
+| Visual Studio Code | 1.119+ | Code editor |
+| Python extension (ms-python) | 2026.4+ | Python language support in VS Code |
 | PathfinderV2 | Latest | Robot framework |
 
 ## Quick Reference: Hardware Interfaces
@@ -550,4 +576,5 @@ sudo reboot
 
 *Created: March 26, 2026*  
 *Updated: May 3, 2026 — Added serial console disable steps (Step 4 + troubleshooting); fixed startup service script name (`start_robot.py`)*  
+*Updated: May 9, 2026 — Added Step 6: VS Code + Python extension install; renumbered Steps 7–11*  
 *Tested on: Raspberry Pi 4 Model B, Debian 13.4 Trixie 64-bit, kernel 6.12.75, Python 3.13.5*
