@@ -1,8 +1,8 @@
-# A1 — Robot Pi OS Build Steps
+# A1 â Robot Pi OS Build Steps
 
 **Purpose:** Create an SD card image for a PathfinderV2 competition robot.  
 **Platform:** Raspberry Pi 4 (4GB+)  
-**OS:** Raspberry Pi OS (Debian 13 Trixie, 64-bit) — see note below  
+**OS:** Raspberry Pi OS (Debian 13 Trixie, 64-bit) â see note below  
 **Time:** ~30 minutes
 
 > **OS Note:** As of April 2026, the latest Raspberry Pi OS ships with **Debian 13 (Trixie)**.  
@@ -13,7 +13,7 @@
 
 ## Overview
 
-After completing these steps you will have an SD card that can be cloned for all competition robots. Each robot gets an identical image — only WiFi credentials and hostname change per robot.
+After completing these steps you will have an SD card that can be cloned for all competition robots. Each robot gets an identical image â only WiFi credentials and hostname change per robot.
 
 **Materials:** see [BILL_OF_MATERIALS.md](BILL_OF_MATERIALS.md) in this folder for the robot/setup BOM.
 
@@ -26,7 +26,7 @@ After completing these steps you will have an SD card that can be cloned for all
 - Download **Raspberry Pi Imager**
 
 ### Flash Settings
-- **OS:** Raspberry Pi OS (64-bit) — latest (Trixie / Debian 13)
+- **OS:** Raspberry Pi OS (64-bit) â latest (Trixie / Debian 13)
   - Lite (no desktop) is recommended for competition robots
   - Desktop is fine if students will use VNC
 - **Storage:** Select your SD card (16GB minimum, 32GB recommended)
@@ -113,7 +113,7 @@ sudo systemctl stop bluetooth
 
 ### Disable Serial Console on ttyAMA0
 
-By default, the kernel and systemd both attach a serial console to `ttyAMA0`. This conflicts with the motor board — the port must be completely free for 1Mbaud communication.
+By default, the kernel and systemd both attach a serial console to `ttyAMA0`. This conflicts with the motor board â the port must be completely free for 1Mbaud communication.
 
 ```bash
 # Remove the serial console from kernel boot parameters
@@ -166,7 +166,7 @@ fuser /dev/ttyAMA0
 sudo apt-get install -y python3-pip python3-dev i2c-tools git python3-opencv
 ```
 
-> **Trixie note:** `python3-opencv` (4.10.0) is available via apt on Debian 13 Trixie and is the recommended install method — no pip needed for OpenCV.
+> **Trixie note:** `python3-opencv` (4.10.0) is available via apt on Debian 13 Trixie and is the recommended install method â no pip needed for OpenCV.
 
 ### Python Packages
 ```bash
@@ -194,7 +194,7 @@ python3 -c "import numpy; print(f'NumPy: OK')"
 
 All should print without errors.
 
-> **Flask version warning:** Flask 3.1+ shows a deprecation warning when accessing `flask.__version__`. This is harmless — Flask is working correctly.
+> **Flask version warning:** Flask 3.1+ shows a deprecation warning when accessing `flask.__version__`. This is harmless â Flask is working correctly.
 
 ---
 
@@ -296,7 +296,7 @@ for i in range(5):
         break
     time.sleep(0.3)
 else:
-    print('No battery reading — check motor board power')
+    print('No battery reading â check motor board power')
 "
 ```
 
@@ -343,12 +343,12 @@ cam = cv2.VideoCapture(0)
 import time; time.sleep(1)
 ret, frame = cam.read()
 if ret: print(f'Camera: {frame.shape[1]}x{frame.shape[0]} OK')
-else: print('Camera: FAILED — check USB connection')
+else: print('Camera: FAILED â check USB connection')
 cam.release()
 "
 ```
 
-> **GStreamer warning:** On Trixie you may see `GStreamer warning: Cannot query video position` — this is harmless, the camera works fine.
+> **GStreamer warning:** On Trixie you may see `GStreamer warning: Cannot query video position` â this is harmless, the camera works fine.
 
 ### Sonar
 ```bash
@@ -430,29 +430,43 @@ print('Hardware test complete!')
 
 ---
 
-## Step 10: Create Startup Service
+## Step 10: Enable Startup Service
 
-Initializes the robot at boot: stops motors, turns off LEDs, positions arm forward, checks battery, beeps when ready.
+`start_robot.py` runs automatically at boot and verifies all hardware is ready.
+
+**Checks performed:**
+- **Board** -- motor controller connected
+- **Battery** -- voltage with good / caution / LOW status
+- **Arm** -- moves to camera-forward position, gripper open
+- **Sonar** -- reads distance, LEDs show distance-zone color
+- **Camera** -- opens and captures a test frame
+
+**Feedback (no screen needed):**
+- **All clear:** 2 quick beeps + green LEDs for 5 seconds then off
+- **Needs attention:** 5 slow beeps + red LEDs stay on until next boot
+
+### Run Manually to Verify
 
 ```bash
-sudo tee /etc/systemd/system/pathfinder-startup.service << 'EOF'
-[Unit]
-Description=PathfinderV2 Robot Startup
-After=network.target
+cd /home/robot/pathfinder
+python3 start_robot.py
+```
 
-[Service]
-Type=oneshot
-User=robot
-WorkingDirectory=/home/robot/pathfinder
-ExecStart=/usr/bin/python3 /home/robot/pathfinder/start_robot.py
-RemainAfterExit=yes
+### Install the Service
 
-[Install]
-WantedBy=multi-user.target
-EOF
+The service file is included in the repo at `systemd/pathfinder-startup.service`.
 
+```bash
+sudo cp /home/robot/pathfinder/systemd/pathfinder-startup.service /etc/systemd/system/
+sudo systemctl daemon-reload
 sudo systemctl enable pathfinder-startup.service
 sudo systemctl start pathfinder-startup.service
+```
+
+### Check Last Run
+
+```bash
+journalctl -u pathfinder-startup.service
 ```
 
 ---
@@ -484,7 +498,7 @@ WiFi credentials should already be set from Step 1. If different networks are ne
 sudo nmcli dev wifi connect "SSID" password "PASSWORD"
 ```
 
-> **Trixie note:** Debian 13 Trixie uses NetworkManager by default. `wpa_supplicant.conf` may not be the right place to set WiFi — use `nmcli` or the desktop network manager instead.
+> **Trixie note:** Debian 13 Trixie uses NetworkManager by default. `wpa_supplicant.conf` may not be the right place to set WiFi â use `nmcli` or the desktop network manager instead.
 
 ---
 
@@ -523,7 +537,7 @@ sudo nmcli dev wifi connect "SSID" password "PASSWORD"
 ### No battery reading
 - Check motor board power switch (must be ON)
 - Check battery voltage (needs >7.0V)
-- Try: `sudo i2cdetect -y 1` — should show `77` (sonar). **Note:** The motor board (`0x7A`) does NOT appear in `i2cdetect` output — it uses a non-standard probe response. Presence of `77` confirms I2C wiring is good; use the Python battery test to confirm the motor board is responding.
+- Try: `sudo i2cdetect -y 1` â should show `77` (sonar). **Note:** The motor board (`0x7A`) does NOT appear in `i2cdetect` output â it uses a non-standard probe response. Presence of `77` confirms I2C wiring is good; use the Python battery test to confirm the motor board is responding.
 
 ### Motors don't move
 - Battery must be >7.0V
@@ -533,17 +547,17 @@ sudo nmcli dev wifi connect "SSID" password "PASSWORD"
 ### Camera not found
 - Check USB cable
 - Try: `ls /dev/video0`
-- If locked: `lsof /dev/video0` — another process using it?
+- If locked: `lsof /dev/video0` â another process using it?
 - GStreamer warning is harmless on Trixie
 
-### UART not available / serial0 → ttyS0
-- Bluetooth is still active — verify `dtoverlay=disable-bt` is in `/boot/firmware/config.txt` under `[all]`
+### UART not available / serial0 â ttyS0
+- Bluetooth is still active â verify `dtoverlay=disable-bt` is in `/boot/firmware/config.txt` under `[all]`
 - Verify `systemctl is-active bluetooth` returns `inactive`
 - Must reboot after config change
 - After fix: `ls -la /dev/serial0` should show `-> ttyAMA0`
 
 ### Motor board not responding / ttyAMA0 held at boot
-Even after disabling Bluetooth, the serial console may still hold `ttyAMA0`. This is a separate issue — the kernel attaches a console to the port and systemd starts a login prompt on it.
+Even after disabling Bluetooth, the serial console may still hold `ttyAMA0`. This is a separate issue â the kernel attaches a console to the port and systemd starts a login prompt on it.
 
 Check:
 ```bash
@@ -575,6 +589,6 @@ sudo reboot
 ---
 
 *Created: March 26, 2026*  
-*Updated: May 3, 2026 — Added serial console disable steps (Step 4 + troubleshooting); fixed startup service script name (`start_robot.py`)*  
-*Updated: May 9, 2026 — Added Step 6: VS Code + Python extension install; renumbered Steps 7–11*  
+*Updated: May 3, 2026 â Added serial console disable steps (Step 4 + troubleshooting); fixed startup service script name (`start_robot.py`)*  
+*Updated: May 9, 2026 â Added Step 6: VS Code + Python extension install; renumbered Steps 7â11*  
 *Tested on: Raspberry Pi 4 Model B, Debian 13.4 Trixie 64-bit, kernel 6.12.75, Python 3.13.5*
