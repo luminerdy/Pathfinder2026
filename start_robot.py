@@ -54,8 +54,13 @@ def main():
     # --- Battery ---
     print('\nBattery')
     try:
-        time.sleep(0.5)
-        mv = board.get_battery()
+        time.sleep(1.0)
+        mv = None
+        for _ in range(5):
+            mv = board.get_battery()
+            if mv and 5000 < mv < 20000:
+                break
+            time.sleep(0.3)
         if mv and 5000 < mv < 20000:
             v = mv / 1000.0
             if v >= 7.5:
