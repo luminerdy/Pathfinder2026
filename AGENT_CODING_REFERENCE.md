@@ -16,6 +16,49 @@
 
 ---
 
+## 0. Capabilities at a Glance
+
+```json
+{
+  "locomotion": {
+    "drive_type": "mecanum — omnidirectional",
+    "modes": ["forward", "backward", "rotate_left", "rotate_right", "strafe_left", "strafe_right"],
+    "low_level": "per-wheel duty cycle via robot.drive(fl, fr, rl, rr)"
+  },
+  "manipulation": {
+    "arm_dof": 4,
+    "gripper": "single servo open/close",
+    "pickup_target": "foam blocks (~5x5x5cm)",
+    "named_sequences": ["pickup_front", "pickup_left", "pickup_right", "backward_drop", "gentle_place"],
+    "note": "camera is mounted on the arm — arm pose affects field of view"
+  },
+  "sensing": {
+    "vision": "USB camera 640x480 30fps — AprilTag detection (tag36h11), HSV color segmentation",
+    "ranging": "ultrasonic sonar 0-5000mm with RGB indicator LEDs",
+    "battery": "live voltage via robot.battery"
+  },
+  "navigation": {
+    "tag_nav": "proportional strafe to AprilTag baskets — StrafeNavigator",
+    "visual_servoing": "center block in frame then drive-to-contact — bump_grab",
+    "line_following": "HSV green line detection with proportional steering"
+  },
+  "high_level_autonomy": {
+    "pickup":     "bump_grab(robot, color) — autonomous color-targeted block pickup",
+    "delivery":   "color_delivery(robot, color) — navigate to matching basket and drop",
+    "multi_block":"bin_collect(robot, count, color) — collect N blocks to rear bin",
+    "tag_tour":   "StrafeNavigator.tour([578,579,580]) — visit multiple baskets in sequence"
+  },
+  "competition_context": {
+    "game":         "Supply Chain Scramble — sort colored foam blocks into matching baskets",
+    "block_colors": ["red", "blue", "yellow"],
+    "basket_tags":  {"blue": 578, "yellow": 579, "red": 580},
+    "field":        "tag36h11 family, 8-tag layout"
+  }
+}
+```
+
+---
+
 ## 1. Entry Point
 
 ```json
