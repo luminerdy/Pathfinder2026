@@ -43,7 +43,7 @@ python3 web/web_control.py
 ### ✅ Navigation — Proven
 - **100% success** on 8-tag AprilTag tour (tag36h11 family)
 - Proportional centering with damping
-- Sonar collision avoidance
+- Sonar collision avoidance (sonar-visible: walls, cardboard boxes — foam cubes are sonar-invisible)
 - Calibrated turns (90° = 0.87s at power 30)
 
 ### ✅ Vision — Working
@@ -55,7 +55,8 @@ python3 web/web_control.py
 ### ✅ Manipulation — Working
 - 5-servo arm control (gripper, wrist, elbow, shoulder, base)
 - Action group playback (pre-recorded sequences)
-- Autonomous pickup (scan → approach → grab)
+- **Bump-and-grab pickup** (drive to contact, block vanishes from camera = contact, backup and grab)
+- Color-matched delivery (block → matching AprilTag basket: 578=Blue, 579=Yellow, 580=Red)
 - Visual servoing with target lock
 
 ### ✅ Line Following — Working
@@ -69,14 +70,12 @@ python3 web/web_control.py
 - Battery monitoring
 
 ### 🔬 Beta (Working, Still Tuning)
-- Autonomous pickup (E5 — may need multiple attempts)
-- Line following (E6 — speed varies with battery voltage)
+- Autonomous pickup from distance (E5 — ~50% success; pre-positioned = 100%)
+- Line following speed (E6 — varies with battery voltage)
 
 ### ⚠️ In Progress
 - E7: Full competition cycle (chain all skills into one routine)
-- Delivery sequence (navigate to zone, release block)
-- Workshop facilitator guide
-- Competition scoring system
+- Competition scoring system (automated)
 
 ## Workshop Skills
 
