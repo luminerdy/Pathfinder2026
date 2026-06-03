@@ -32,8 +32,7 @@ import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..'))
 
-from lib.board import get_board
-from lib.sonar import Sonar
+from robot import Robot
 import pupil_apriltags as apriltag
 
 # ============================================================
@@ -55,24 +54,6 @@ TIMEOUT = 60                # Max seconds to navigate
 # ============================================================
 # CORE FUNCTIONS
 # ============================================================
-
-def stop(board):
-    board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-
-def strafe(board, direction, duration):
-    """Strafe sideways. direction: 1=right, -1=left."""
-    d = direction
-    # Mecanum strafe: FL+RR same direction, FR+RL opposite
-    board.set_motor_duty([(1, STRAFE_POWER * d), (2, -STRAFE_POWER * d),
-                          (3, -STRAFE_POWER * d), (4, STRAFE_POWER * d)])
-    time.sleep(duration)
-    stop(board)
-
-def drive_forward(board, duration=0.2):
-    """Drive straight forward."""
-    board.set_motor_duty([(1, DRIVE_POWER), (2, DRIVE_POWER),
-                          (3, DRIVE_POWER), (4, DRIVE_POWER)])
-    time.sleep(duration)
 
 def detect_tags(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -100,7 +81,7 @@ def find_tag(tags, tag_id):
 # MAIN NAVIGATION LOOP
 # ============================================================
 
-def navigate(board, camera, sonar, tag_id):
+def navigate(robot, tag_id):
     """
     Navigate to a specific AprilTag, avoiding obstacles with sonar.
 
@@ -112,7 +93,7 @@ def navigate(board, camera, sonar, tag_id):
     """
     FRAME_CENTER = 320
     start = time.time()
-    strafe_dir = STRAFE_DIRECTION  # Can alternate if stuck
+    strafe_dir = STRAFE_DIRECTION
 
     print("Navigating to Tag %d..." % tag_id)
 
@@ -121,11 +102,11 @@ def navigate(board, camera, sonar, tag_id):
             print("  TIMEOUT")
             return False
 
-        stop(board)
+        robot.stop()
         time.sleep(0.05)
 
         # --- CHECK SONAR: Obstacle ahead? ---
-        dist = sonar.getDistance()  # mm
+        dist = robot.sonar.get_distance()  # mm
         if dist and dist < OBSTACLE_DISTANCE:
             # Obstacle! Strafe around it
             print("  Cycle %d: OBSTACLE at %dmm — strafing %s" % (
@@ -134,23 +115,28 @@ def navigate(board, camera, sonar, tag_id):
             # Keep strafing until obstacle clears
             strafe_cycles = 0
             while dist and dist < OBSTACLE_CLEAR and strafe_cycles < 20:
-                strafe(board, strafe_dir, STRAFE_TIME)
+                if strafe_dir > 0:
+                    robot.strafe_right(STRAFE_POWER)
+                else:
+                    robot.strafe_left(STRAFE_POWER)
+                time.sleep(STRAFE_TIME)
+                robot.stop()
                 time.sleep(0.1)
-                dist = sonar.getDistance()
+                dist = robot.sonar.get_distance()
                 strafe_cycles += 1
 
             print("    Cleared after %d strafes (sonar=%s)" % (
                 strafe_cycles, "%dmm" % dist if dist else "?"))
 
             # Drive forward a bit to pass the obstacle
-            drive_forward(board, 0.5)
-            stop(board)
+            robot.forward(DRIVE_POWER)
+            time.sleep(0.5)
+            robot.stop()
             continue
 
         # --- CHECK CAMERA: Where's the tag? ---
-        for _ in range(2): camera.read()
-        ret, frame = camera.read()
-        if not ret:
+        frame = robot.camera.get_frame()
+        if frame is None:
             continue
 
         tags = detect_tags(frame)
@@ -158,10 +144,9 @@ def navigate(board, camera, sonar, tag_id):
 
         if tag is None:
             # Tag not visible — rotate to search
-            board.set_motor_duty([(1, ROTATION_POWER), (2, -ROTATION_POWER),
-                                  (3, ROTATION_POWER), (4, -ROTATION_POWER)])
+            robot.rotate_right(ROTATION_POWER)
             time.sleep(0.15)
-            stop(board)
+            robot.stop()
             time.sleep(0.15)
             continue
 
@@ -177,24 +162,26 @@ def navigate(board, camera, sonar, tag_id):
 
         # --- ARRIVED? ---
         if area >= TARGET_TAG_AREA and abs(offset) < CENTER_TOL:
-            stop(board)
+            robot.stop()
             print("  ARRIVED at Tag %d! (area=%.0f)" % (tag_id, area))
             return True
 
         # --- STEER toward tag ---
         if abs(offset) > CENTER_TOL:
-            d = 1 if offset > 0 else -1
+            if offset > 0:
+                robot.rotate_right(ROTATION_POWER)
+            else:
+                robot.rotate_left(ROTATION_POWER)
             rot_time = min(0.10, abs(offset) / 2000.0)
             rot_time = max(0.04, rot_time)
-            board.set_motor_duty([(1, ROTATION_POWER * d), (2, -ROTATION_POWER * d),
-                                  (3, ROTATION_POWER * d), (4, -ROTATION_POWER * d)])
             time.sleep(rot_time)
-            stop(board)
+            robot.stop()
         else:
             # --- DRIVE toward tag ---
-            drive_forward(board, 0.2)
+            robot.forward(DRIVE_POWER)
+            time.sleep(0.2)
 
-    stop(board)
+    robot.stop()
     return False
 
 
@@ -212,30 +199,18 @@ def main():
     print("NAVIGATE TO TAG %d (with obstacle avoidance)" % target_tag)
     print("=" * 50)
 
-    board = get_board()
-    sonar = Sonar()
+    with Robot() as robot:
+        robot.arm.camera_forward()
 
-    # Camera forward
-    board.set_servo_position(800, [(1, 2500), (3, 590), (4, 2450), (5, 700), (6, 1500)])
-    time.sleep(1)
-
-    camera = cv2.VideoCapture(0)
-    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-    time.sleep(1.5)
-
-    try:
-        reached = navigate(board, camera, sonar, target_tag)
-        print()
-        if reached:
-            print("SUCCESS — arrived at Tag %d!" % target_tag)
-        else:
-            print("FAILED — did not reach Tag %d" % target_tag)
-    except KeyboardInterrupt:
-        print("\nStopped")
-    finally:
-        stop(board)
-        camera.release()
+        try:
+            reached = navigate(robot, target_tag)
+            print()
+            if reached:
+                print("SUCCESS — arrived at Tag %d!" % target_tag)
+            else:
+                print("FAILED — did not reach Tag %d" % target_tag)
+        except KeyboardInterrupt:
+            print("\nStopped")
 
 if __name__ == '__main__':
     main()

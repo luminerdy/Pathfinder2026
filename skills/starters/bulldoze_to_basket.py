@@ -29,7 +29,7 @@ import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..'))
 
-from lib.board import get_board
+from robot import Robot
 import pupil_apriltags as apriltag
 
 # ============================================================
@@ -46,23 +46,19 @@ ROTATION_POWER = 35     # Turn speed
 # DON'T CHANGE BELOW (unless you know what you're doing)
 # ============================================================
 
-def stop(board):
-    board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-
 def detect_tags(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     det = apriltag.Detector(families='tag36h11')
     return det.detect(gray)
 
-def find_and_face_tag(board, camera, tag_id):
+def find_and_face_tag(robot, tag_id):
     """Rotate until we see the target tag and it's roughly centered."""
     CENTER = 320
     TOLERANCE = 100
 
     for step in range(24):
-        for _ in range(2): camera.read()
-        ret, frame = camera.read()
-        if not ret:
+        frame = robot.camera.get_frame()
+        if frame is None:
             continue
 
         tags = detect_tags(frame)
@@ -73,39 +69,37 @@ def find_and_face_tag(board, camera, tag_id):
                     print("  Facing tag %d" % tag_id)
                     return True
                 # Rotate toward tag
-                d = 1 if offset > 0 else -1
-                board.set_motor_duty([(1, ROTATION_POWER*d), (2, -ROTATION_POWER*d),
-                                      (3, ROTATION_POWER*d), (4, -ROTATION_POWER*d)])
+                if offset > 0:
+                    robot.rotate_right(ROTATION_POWER)
+                else:
+                    robot.rotate_left(ROTATION_POWER)
                 time.sleep(0.08)
-                stop(board)
+                robot.stop()
                 time.sleep(0.2)
                 break
         else:
             # Tag not visible, blind rotate
-            board.set_motor_duty([(1, ROTATION_POWER), (2, -ROTATION_POWER),
-                                  (3, ROTATION_POWER), (4, -ROTATION_POWER)])
+            robot.rotate_right(ROTATION_POWER)
             time.sleep(0.2)
-            stop(board)
+            robot.stop()
             time.sleep(0.2)
 
     print("  Could not find tag %d" % tag_id)
     return False
 
-def bulldoze(board):
+def bulldoze(robot):
     """Drive forward for DRIVE_TIME seconds, pushing everything in the way."""
     print("  BULLDOZE! (%.1fs at power %d)" % (DRIVE_TIME, DRIVE_POWER))
-    board.set_motor_duty([(1, DRIVE_POWER), (2, DRIVE_POWER),
-                          (3, DRIVE_POWER), (4, DRIVE_POWER)])
+    robot.forward(DRIVE_POWER)
     time.sleep(DRIVE_TIME)
-    stop(board)
+    robot.stop()
 
-def backup(board):
+def backup(robot):
     """Back up to reset for next push."""
     print("  Backing up...")
-    board.set_motor_duty([(1, -DRIVE_POWER), (2, -DRIVE_POWER),
-                          (3, -DRIVE_POWER), (4, -DRIVE_POWER)])
+    robot.backward(DRIVE_POWER)
     time.sleep(2.0)
-    stop(board)
+    robot.stop()
 
 
 # ============================================================
@@ -118,37 +112,26 @@ def main():
     print("Target: Tag %d" % target_tag)
     print("=" * 50)
 
-    board = get_board()
+    with Robot() as robot:
+        robot.arm.camera_forward()
 
-    # Camera forward
-    board.set_servo_position(800, [(1, 2500), (3, 590), (4, 2450), (5, 700), (6, 1500)])
-    time.sleep(1)
+        try:
+            for push in range(NUM_PUSHES):
+                print("\nPush %d/%d:" % (push + 1, NUM_PUSHES))
 
-    camera = cv2.VideoCapture(0)
-    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-    time.sleep(1.5)
+                # Face the basket
+                if find_and_face_tag(robot, target_tag):
+                    # Charge!
+                    bulldoze(robot)
+                    # Back up for next run
+                    backup(robot)
+                else:
+                    print("  Skipping — can't find basket")
 
-    try:
-        for push in range(NUM_PUSHES):
-            print("\nPush %d/%d:" % (push + 1, NUM_PUSHES))
+            print("\nDone! Check if any blocks made it into the basket.")
 
-            # Face the basket
-            if find_and_face_tag(board, camera, target_tag):
-                # Charge!
-                bulldoze(board)
-                # Back up for next run
-                backup(board)
-            else:
-                print("  Skipping — can't find basket")
-
-        print("\nDone! Check if any blocks made it into the basket.")
-
-    except KeyboardInterrupt:
-        print("\nStopped")
-    finally:
-        stop(board)
-        camera.release()
+        except KeyboardInterrupt:
+            print("\nStopped")
 
 if __name__ == '__main__':
     main()
