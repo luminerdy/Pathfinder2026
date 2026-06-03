@@ -2,6 +2,8 @@
 
 **Purpose:** Create the SD card image for the Raspberry Pi 500 (team control hub)
 
+**OS:** Raspberry Pi OS (Debian 13.5 Trixie, 64-bit) — tested on Pi 500, June 2026
+
 The Pi 500 is your **command center** — you'll use it to write code, SSH into the robot, monitor camera feeds, and run all workshop scripts. The robot runs headless; you control everything from here.
 
 ---

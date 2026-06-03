@@ -7,7 +7,7 @@
 
 > **OS Note:** As of April 2026, the latest Raspberry Pi OS ships with **Debian 13 (Trixie)**.  
 > Previous docs referenced Bookworm (Debian 12). Steps are the same; version references updated below.  
-> Tested on: Raspberry Pi 4 Model B, Debian 13.4 Trixie 64-bit, kernel 6.12.75, Python 3.13.5
+> Tested on: Raspberry Pi 4 Model B, Debian 13.5 Trixie 64-bit, kernel 6.12.75, Python 3.13.5
 
 ---
 
