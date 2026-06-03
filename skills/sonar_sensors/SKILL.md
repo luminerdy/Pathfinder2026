@@ -7,6 +7,8 @@
 
 ---
 
+> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`Sonar()`, `board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `Robot` class which wraps all of this — same concepts, cleaner code.
+
 ## 📘 Overview
 
 ### What This Skill Does

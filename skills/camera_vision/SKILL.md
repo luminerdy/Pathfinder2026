@@ -7,6 +7,8 @@
 
 ---
 
+> **Note — Raw API for learning:** The code examples in this guide use `cv2.VideoCapture()` directly so you can see exactly how the camera works under the hood. Your **starter templates** use `robot.camera.get_frame()` which wraps all of this — same concepts, cleaner code.
+
 ## 📘 Overview
 
 ### What This Skill Does

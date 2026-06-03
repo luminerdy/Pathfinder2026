@@ -7,6 +7,8 @@
 
 ---
 
+> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `Robot` class which wraps all of this — same concepts, cleaner code.
+
 ## Overview
 
 Drive your robot with a Logitech F710 wireless gamepad. Tank-style stick control with mecanum strafing, trigger-based speed control, bumper turns, and D-pad arm actions.
