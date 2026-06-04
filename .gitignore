@@ -44,7 +44,7 @@ models/yolo/*.pt
 
 # Camera calibration data
 *.npz
-calibration/
+/calibration/
 
 # Temporary files
 *.tmp
