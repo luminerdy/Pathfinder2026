@@ -55,8 +55,8 @@ class StrafeNavigator:
     MAX_SPEED = 35
     MIN_SPEED = 28
 
-    # Target distance
-    TARGET_DISTANCE = 0.55    # meters
+    # Target distance — 0.75m keeps tag in frame (drops out below ~0.67m due to camera angle)
+    TARGET_DISTANCE = 0.75    # meters
 
     # Sonar safety
     SONAR_STOP = 15      # cm
@@ -473,7 +473,7 @@ class StrafeNavigator:
 
             if result['reason'] == 'search_timeout':
                 if callback:
-                    callback(None, 0, 0, 'NO MORE TAGS — done (%d visited)' % len(visited))
+                    callback(None, 0, 0, 'NO MORE TAGS - done (%d visited)' % len(visited))
                 break
 
             if result['tag_id'] is not None:
