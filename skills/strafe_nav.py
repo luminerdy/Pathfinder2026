@@ -48,7 +48,7 @@ class StrafeNavigator:
     Kz = 100        # Forward gain
 
     # Deadbands
-    CENTER_TOLERANCE = 0.03   # meters
+    CENTER_TOLERANCE = 0.10   # meters (~6 deg at 1m — drive straight inside this)
     DIST_TOLERANCE = 0.05     # meters
 
     # Speed limits (motor duty)
@@ -396,7 +396,7 @@ class StrafeNavigator:
                 self._stop()
                 continue
             lost_since = None
-            if abs(angle) < 15:
+            if abs(angle) < 10:
                 self._stop()
                 return
             rot = self.MIN_SPEED if angle > 0 else -self.MIN_SPEED
