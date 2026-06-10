@@ -175,7 +175,7 @@ class StrafeNavigator:
         magnitude = min(max(abs(speed), self.MIN_SPEED), self.MAX_SPEED)
         return sign * magnitude
 
-    def _detect_tags(self, frame, target_id=None):
+    def _detect_tags(self, frame, target_id=None, exclude_ids=None):
         """Detect AprilTags and return closest or specific tag with pose."""
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.resize(gray, PROCESS_SIZE, interpolation=cv2.INTER_NEAREST)
@@ -191,6 +191,11 @@ class StrafeNavigator:
 
         if target_id is not None:
             tags = [t for t in tags if t.tag_id == target_id]
+            if not tags:
+                return None, 0, 0, 0, 0, 0
+
+        if exclude_ids:
+            tags = [t for t in tags if t.tag_id not in exclude_ids]
             if not tags:
                 return None, 0, 0, 0, 0, 0
 
@@ -362,8 +367,8 @@ class StrafeNavigator:
             self._stop()
             raise
 
-    def search_and_navigate(self, target_id=None, search_timeout=15,
-                            nav_timeout=30, callback=None):
+    def search_and_navigate(self, target_id=None, exclude_ids=None,
+                            search_timeout=15, nav_timeout=30, callback=None):
         """Search for a tag by rotating, then navigate to it."""
         self._open_camera()
 
@@ -382,7 +387,7 @@ class StrafeNavigator:
             if frame is None:
                 continue
 
-            tag_id, x, y, z, dist, angle = self._detect_tags(frame, target_id)
+            tag_id, x, y, z, dist, angle = self._detect_tags(frame, target_id, exclude_ids)
 
             if tag_id is not None:
                 self._stop()
@@ -433,6 +438,56 @@ class StrafeNavigator:
                 callback(tag_id, result['final_distance'],
                          result['final_angle'], 'DONE: %s' % status)
             time.sleep(0.3)
+        return results
+
+    def discover_tour(self, max_tags=10, search_timeout=15,
+                      nav_timeout=30, callback=None):
+        """
+        Discover and visit tags in sequence without knowing IDs in advance.
+
+        Rotates to find any unvisited tag, drives to it, then repeats until
+        no new tags are found or max_tags is reached.
+
+        Args:
+            max_tags: Stop after visiting this many tags
+            search_timeout: Seconds to rotate looking for a new tag
+            nav_timeout: Seconds to navigate to each tag
+            callback: Optional function(tag_id, dist, angle, action)
+
+        Returns:
+            list of result dicts (one per tag visited)
+        """
+        visited = set()
+        results = []
+
+        for i in range(max_tags):
+            if callback:
+                callback(None, 0, 0, 'SEARCHING (visited: %s)' % sorted(visited))
+
+            result = self.search_and_navigate(
+                exclude_ids=visited,
+                search_timeout=search_timeout,
+                nav_timeout=nav_timeout,
+                callback=callback
+            )
+
+            if result['reason'] == 'search_timeout':
+                if callback:
+                    callback(None, 0, 0, 'NO MORE TAGS — done (%d visited)' % len(visited))
+                break
+
+            if result['tag_id'] is not None:
+                visited.add(result['tag_id'])
+
+            results.append(result)
+
+            if callback:
+                status = 'OK' if result['success'] else result['reason']
+                callback(result['tag_id'], result['final_distance'],
+                         result['final_angle'], 'DONE: %s (%d total)' % (status, len(visited)))
+
+            time.sleep(0.5)
+
         return results
 
     def cleanup(self):
