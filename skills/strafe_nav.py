@@ -28,6 +28,7 @@ import time
 
 from pupil_apriltags import Detector
 from lib.board import get_board, PLATFORM
+from lib.camera import PROCESS_SIZE
 
 
 class StrafeNavigator:
@@ -38,9 +39,9 @@ class StrafeNavigator:
     Does: strafe to center WHILE driving forward (smooth, fast)
     """
 
-    # Camera parameters (estimated, TODO: calibrate properly)
-    CAMERA_PARAMS = [500, 500, 320, 240]  # fx, fy, cx, cy
-    TAG_SIZE = 0.254  # meters (10-inch tags)
+    # Camera parameters at PROCESS_SIZE (320x240) — scaled from 640x480 defaults
+    CAMERA_PARAMS = [250, 250, 160, 120]  # fx, fy, cx, cy
+    TAG_SIZE = 0.165  # meters (16.5cm tags)
 
     # Proportional control gains
     Kx = 120        # Lateral gain
@@ -103,9 +104,9 @@ class StrafeNavigator:
         else:
             self._camera_obj = None
 
-        # Use robot's camera params if calibrated
-        if self._camera_obj and hasattr(self._camera_obj, 'camera_params'):
-            self.CAMERA_PARAMS = list(self._camera_obj.camera_params)
+        # Use robot's camera params scaled to PROCESS_SIZE
+        if self._camera_obj and hasattr(self._camera_obj, 'process_params'):
+            self.CAMERA_PARAMS = list(self._camera_obj.process_params)
 
         self.detector = Detector(families='tag36h11')
         self._last_tag_time = 0
@@ -177,6 +178,7 @@ class StrafeNavigator:
     def _detect_tags(self, frame, target_id=None):
         """Detect AprilTags and return closest or specific tag with pose."""
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        gray = cv2.resize(gray, PROCESS_SIZE, interpolation=cv2.INTER_NEAREST)
         tags = self.detector.detect(
             gray,
             estimate_tag_pose=True,

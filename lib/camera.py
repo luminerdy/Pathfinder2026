@@ -22,6 +22,10 @@ DEFAULT_FY = 500
 DEFAULT_CX = 320
 DEFAULT_CY = 240
 
+# Resize to this before AprilTag detection and color detection.
+# Capture stays at 640x480; scale camera_params by 0.5 when using this size.
+PROCESS_SIZE = (320, 240)
+
 
 class Camera:
     """
@@ -93,8 +97,15 @@ class Camera:
     
     @property
     def camera_params(self):
-        """Return (fx, fy, cx, cy) tuple for AprilTag pose estimation."""
+        """Return (fx, fy, cx, cy) at capture resolution (640x480)."""
         return (self.fx, self.fy, self.cx, self.cy)
+
+    @property
+    def process_params(self):
+        """Return (fx, fy, cx, cy) scaled for PROCESS_SIZE (320x240)."""
+        sx = PROCESS_SIZE[0] / self.width
+        sy = PROCESS_SIZE[1] / self.height
+        return (self.fx * sx, self.fy * sy, self.cx * sx, self.cy * sy)
     
     def open(self):
         """Open the camera."""
