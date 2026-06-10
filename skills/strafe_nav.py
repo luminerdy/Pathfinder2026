@@ -55,8 +55,8 @@ class StrafeNavigator:
     MAX_SPEED = 35
     MIN_SPEED = 28
 
-    # Target distance — 0.75m keeps tag in frame (drops out below ~0.67m due to camera angle)
-    TARGET_DISTANCE = 0.75    # meters
+    # Target distance — tag drops out of frame below ~0.85m (camera angle); stay above it
+    TARGET_DISTANCE = 0.90    # meters
 
     # Sonar safety (field max = 6ft - 7.5in robot = 163.8cm)
     SONAR_STOP = 15      # cm
@@ -445,7 +445,7 @@ class StrafeNavigator:
         return results
 
     def discover_tour(self, max_tags=10, search_timeout=15, nav_timeout=30,
-                      backup_secs=2.0, backup_power=35, callback=None):
+                      backup_secs=2.0, backup_power=40, callback=None):
         """
         Discover and visit tags in sequence without knowing IDs in advance.
 
