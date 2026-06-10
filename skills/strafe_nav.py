@@ -52,8 +52,8 @@ class StrafeNavigator:
     DIST_TOLERANCE = 0.05     # meters
 
     # Speed limits (motor duty)
-    MAX_SPEED = 35
-    MIN_SPEED = 28
+    MAX_SPEED = 40
+    MIN_SPEED = 35
 
     # Target distance — tag drops out of frame below ~0.85m (camera angle); stay above it
     TARGET_DISTANCE = 0.90    # meters
@@ -321,7 +321,8 @@ class StrafeNavigator:
                         (1, rot_speed), (2, -rot_speed),
                         (3, rot_speed), (4, -rot_speed)
                     ])
-                    time.sleep(0.1)
+                    time.sleep(0.08)
+                    self._stop()
                     continue
 
                 strafe = error_x * self.Kx if abs(error_x) > self.CENTER_TOLERANCE else 0
@@ -403,9 +404,9 @@ class StrafeNavigator:
                 )
 
             self.board.set_motor_duty([(1, 40), (2, -40), (3, 40), (4, -40)])
-            time.sleep(0.15)
+            time.sleep(0.08)
             self._stop()
-            time.sleep(0.1)
+            time.sleep(0.12)
 
         self._stop()
         return {
