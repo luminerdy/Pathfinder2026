@@ -58,10 +58,11 @@ class StrafeNavigator:
     # Target distance — 0.75m keeps tag in frame (drops out below ~0.67m due to camera angle)
     TARGET_DISTANCE = 0.75    # meters
 
-    # Sonar safety
+    # Sonar safety (field max = 6ft - 7.5in robot = 163.8cm)
     SONAR_STOP = 15      # cm
     SONAR_SLOW = 30      # cm
     SONAR_BACKUP = 50    # cm
+    SONAR_FIELD_MAX = 164  # cm — robot touching opposite wall
 
     # Tag loss timeout
     TAG_TIMEOUT = 1.5    # seconds
