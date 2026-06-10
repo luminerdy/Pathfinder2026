@@ -419,7 +419,10 @@ class StrafeNavigator:
             self._stop()
             time.sleep(0.3)
 
+        # Alternate rotation direction each half so no tag gets skipped
         start = time.time()
+        clockwise = True
+        half = search_timeout / 2.0
         while time.time() - start < search_timeout:
             frame = self._get_frame()
             if frame is None:
@@ -437,7 +440,11 @@ class StrafeNavigator:
                     target_id=tag_id, timeout=nav_timeout, callback=callback
                 )
 
-            self.board.set_motor_duty([(1, 40), (2, -40), (3, 40), (4, -40)])
+            if time.time() - start > half and clockwise:
+                clockwise = False  # reverse direction for second half
+
+            p = 40 if clockwise else -40
+            self.board.set_motor_duty([(1, p), (2, -p), (3, p), (4, -p)])
             time.sleep(0.08)
             self._stop()
             time.sleep(0.12)
