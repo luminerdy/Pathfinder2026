@@ -372,9 +372,42 @@ class StrafeNavigator:
             self._stop()
             raise
 
+    def _face_tag(self, target_id, face_timeout=4.0):
+        """
+        Rotate to face a tag until angle is within ±15 degrees.
+        Called after a tag is found but before navigate_to_tag,
+        so navigation starts with the tag roughly centered in frame.
+        """
+        start = time.time()
+        lost_since = None
+        while time.time() - start < face_timeout:
+            frame = self._get_frame()
+            if frame is None:
+                continue
+            tag_id, x, y, z, dist, angle = self._detect_tags(frame, target_id)
+            if tag_id is None:
+                if lost_since is None:
+                    lost_since = time.time()
+                elif time.time() - lost_since > 1.0:
+                    break  # lost tag for >1s — give up, let navigate_to_tag handle it
+                rot = self.MIN_SPEED if (lost_since is None or angle >= 0) else -self.MIN_SPEED
+                self.board.set_motor_duty([(1, rot), (2, -rot), (3, rot), (4, -rot)])
+                time.sleep(0.08)
+                self._stop()
+                continue
+            lost_since = None
+            if abs(angle) < 15:
+                self._stop()
+                return
+            rot = self.MIN_SPEED if angle > 0 else -self.MIN_SPEED
+            self.board.set_motor_duty([(1, rot), (2, -rot), (3, rot), (4, -rot)])
+            time.sleep(0.08)
+            self._stop()
+        self._stop()
+
     def search_and_navigate(self, target_id=None, exclude_ids=None,
                             search_timeout=15, nav_timeout=30, callback=None):
-        """Search for a tag by rotating, then navigate to it."""
+        """Search for a tag by rotating, then face it and navigate to it."""
         self._open_camera()
 
         sonar_dist = self._get_sonar_distance()
@@ -399,6 +432,7 @@ class StrafeNavigator:
                 time.sleep(0.2)
                 if callback:
                     callback(tag_id, dist, angle, 'FOUND at %.2fm' % dist)
+                self._face_tag(tag_id)
                 return self.navigate_to_tag(
                     target_id=tag_id, timeout=nav_timeout, callback=callback
                 )
