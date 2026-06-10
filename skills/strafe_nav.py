@@ -67,8 +67,8 @@ class StrafeNavigator:
     # Tag loss timeout
     TAG_TIMEOUT = 1.5    # seconds
 
-    # Angle limits for strafe
-    MAX_STRAFE_ANGLE = 20  # degrees
+    # Angle limit — beyond this, rotate first before strafing
+    MAX_STRAFE_ANGLE = 30  # degrees
 
     def __init__(self, robot=None):
         """
