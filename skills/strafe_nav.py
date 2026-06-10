@@ -223,11 +223,14 @@ class StrafeNavigator:
         return best.tag_id, x, y, z, dist, angle
 
     def check_battery(self, min_voltage=None):
-        """Check battery. Returns (voltage, ok)."""
+        """Check battery. Returns (voltage, ok). Retries once on bad read."""
         if self._robot and hasattr(self._robot, 'battery'):
             v = self._robot.battery
             if v is None:
-                return 0, False
+                time.sleep(0.1)
+                v = self._robot.battery
+            if v is None:
+                return 0, True  # can't read — don't block navigation
             if min_voltage is None:
                 min_voltage = self._robot.battery_min
             return v, v >= min_voltage
@@ -236,7 +239,7 @@ class StrafeNavigator:
             min_voltage = 7.0 if PLATFORM == 'pi4' else 8.1
         mv = self.board.get_battery()
         if not mv:
-            return 0, False
+            return 0, True  # can't read — don't block navigation
         v = mv / 1000.0
         return v, v >= min_voltage
 
