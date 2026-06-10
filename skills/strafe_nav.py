@@ -440,18 +440,21 @@ class StrafeNavigator:
             time.sleep(0.3)
         return results
 
-    def discover_tour(self, max_tags=10, search_timeout=15,
-                      nav_timeout=30, callback=None):
+    def discover_tour(self, max_tags=10, search_timeout=15, nav_timeout=30,
+                      backup_secs=2.0, backup_power=35, callback=None):
         """
         Discover and visit tags in sequence without knowing IDs in advance.
 
-        Rotates to find any unvisited tag, drives to it, then repeats until
-        no new tags are found or max_tags is reached.
+        Rotates to find any unvisited tag, drives to it, backs up toward
+        center, then repeats until no new tags are found or max_tags reached.
 
         Args:
             max_tags: Stop after visiting this many tags
             search_timeout: Seconds to rotate looking for a new tag
             nav_timeout: Seconds to navigate to each tag
+            backup_secs: Seconds to reverse after each tag visit (moves
+                         away from corner wall so other tags become visible)
+            backup_power: Motor power for backup move
             callback: Optional function(tag_id, dist, angle, action)
 
         Returns:
@@ -486,7 +489,15 @@ class StrafeNavigator:
                 callback(result['tag_id'], result['final_distance'],
                          result['final_angle'], 'DONE: %s (%d total)' % (status, len(visited)))
 
-            time.sleep(0.5)
+            # Back away from corner so other tags are visible during next search
+            if backup_secs > 0:
+                if callback:
+                    callback(result['tag_id'], 0, 0, 'BACKING UP %.1fs' % backup_secs)
+                p = backup_power
+                self.board.set_motor_duty([(1, -p), (2, -p), (3, -p), (4, -p)])
+                time.sleep(backup_secs)
+                self._stop()
+                time.sleep(0.3)
 
         return results
 
