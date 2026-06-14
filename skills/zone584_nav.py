@@ -277,7 +277,7 @@ class Zone584Navigator:
                     curr_angle = self._recover_tag(curr_angle)
                     if callback:
                         callback(TAG_ID, None, curr_angle,
-                                 'AT584 lost at tick %d — recovering' % tick)
+                                 'AT584 lost at tick %d - recovering' % tick)
 
         self._stop()
         return curr_angle  # timed out — return best known angle
@@ -343,7 +343,7 @@ class Zone584Navigator:
         if last_angle is None:
             # Rotate to search — AT584 is top-right corner, try CW first
             if callback:
-                callback(TAG_ID, None, None, 'AT584 not visible — rotating to search')
+                callback(TAG_ID, None, None, 'AT584 not visible - rotating to search')
             last_angle, last_dist = self._search_for_tag(search_timeout=10, callback=callback)
 
         if last_angle is None:
@@ -376,7 +376,7 @@ class Zone584Navigator:
                 self._stop()
                 if callback:
                     callback(TAG_ID, last_dist, last_angle,
-                             'BARRIER %.1fcm — probing for gap' % sonar)
+                             'BARRIER %.1fcm - probing for gap' % sonar)
 
                 direction  = self._probe_gap() or 'left'
                 if callback:
@@ -386,7 +386,7 @@ class Zone584Navigator:
                 last_angle = self._strafe_to_gap(direction, last_angle, callback)
 
                 if callback:
-                    callback(TAG_ID, last_dist, last_angle, 'GAP cleared — resuming forward')
+                    callback(TAG_ID, last_dist, last_angle, 'GAP cleared - resuming forward')
 
             else:
                 # ── Path clear: drive forward one pulse ──────────────────
