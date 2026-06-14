@@ -30,11 +30,12 @@ from skills.zone584_nav import Zone584Navigator
 
 app = Flask(__name__)
 
-robot       = None
-nav_running = False
-nav_log     = collections.deque(maxlen=200)
-nav_log_lock = threading.Lock()
-_log_seq    = 0
+robot         = None
+nav_running   = False
+nav_stop_event = threading.Event()
+nav_log       = collections.deque(maxlen=200)
+nav_log_lock  = threading.Lock()
+_log_seq      = 0
 
 DRIVE_POWER   = 40
 CAMERA_PARAMS = [525, 533, 325, 116]   # fx, fy, cx, cy
@@ -58,10 +59,11 @@ def _log(tag_id, dist, angle, msg):
 def _run_nav():
     global nav_running
     nav_running = True
+    nav_stop_event.clear()
     _log(None, None, None, '--- Zone584Navigator started ---')
     try:
         nav    = Zone584Navigator(robot)
-        result = nav.navigate(timeout=90, callback=_log)
+        result = nav.navigate(timeout=90, callback=_log, stop_event=nav_stop_event)
         status = 'SUCCESS' if result['success'] else 'FAILED'
         _log(584, result.get('final_distance'), result.get('final_angle'),
              'DONE: %s / %s' % (status, result['reason']))
@@ -182,7 +184,8 @@ def nav_start():
 
 @app.route('/nav/stop', methods=['POST'])
 def nav_stop():
-    robot.stop()
+    nav_stop_event.set()   # signal nav thread to exit on next iteration
+    robot.stop()           # cut motors immediately
     return jsonify(ok=True)
 
 

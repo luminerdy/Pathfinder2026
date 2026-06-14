@@ -32,19 +32,20 @@ from pupil_apriltags import Detector
 
 # ── TUNING CONSTANTS ────────────────────────────────────────────────────────
 TAG_ID           = 584
-BARRIER_STOP_CM  = 8      # ~3 inches — stop forward when sonar reads this
+BARRIER_STOP_CM  = 10     # stop forward when sonar reads this (10cm at higher speed)
 GAP_CLEAR_CM     = 25     # sonar must exceed this to confirm gap is open
-TARGET_DIST_M    = 0.90   # arrive at AT584 at this distance (matches StrafeNavigator)
+TARGET_DIST_M    = 0.90   # arrive at AT584 at this distance
 
 HEADING_TOL_DEG  = 8      # don't rotate if angle within this many degrees
-MAX_STRAFE_TICKS = 60     # abort strafe if gap not found after this many pulses (~6s)
-STRAFE_PULSE_S   = 0.10   # seconds per strafe tick
+MAX_STRAFE_TICKS = 80     # abort strafe if gap not found after this many pulses
+STRAFE_PULSE_S   = 0.08   # seconds per strafe tick
 HEADING_CHECK_N  = 3      # apply heading correction every N strafe ticks
 TAG_ACQUIRE_S    = 1.0    # seconds to try acquiring AT584 on entry
+HEADING_CHECK_EVERY = 4   # check/correct heading every N forward iterations
 
-FORWARD_POWER    = 40     # matches StrafeNavigator tuned value
-STRAFE_POWER     = 38
-ROTATE_POWER     = 35
+FORWARD_POWER    = 55     # increased from 40 — fresh batteries at 8.17V
+STRAFE_POWER     = 50
+ROTATE_POWER     = 40
 
 
 class Zone584Navigator:
@@ -243,31 +244,34 @@ class Zone584Navigator:
 
     # ── STRAFE TO GAP ───────────────────────────────────────────────────────
 
-    def _strafe_to_gap(self, direction, last_angle, callback=None):
+    def _strafe_to_gap(self, direction, last_angle, callback=None, stop_event=None):
         """
         Strafe in direction until front sonar clears GAP_CLEAR_CM.
-        Applies heading correction every HEADING_CHECK_N ticks so the
-        robot stays pointed at AT584 while moving sideways.
+        Applies heading correction every HEADING_CHECK_N ticks.
+        Respects stop_event for emergency stop.
 
-        Returns last known angle when gap is found (or MAX_STRAFE_TICKS hit).
+        Returns last known angle when gap is found (or aborted).
         """
         dir_val    = -1 if direction == 'left' else +1
         curr_angle = last_angle
         tick       = 0
 
         while tick < MAX_STRAFE_TICKS:
+            if stop_event and stop_event.is_set():
+                self._stop()
+                return curr_angle
+
             sonar = self._sonar_cm()
             if sonar and sonar > GAP_CLEAR_CM:
                 self._stop()
-                return curr_angle  # gap aligned — resume forward
+                return curr_angle
 
             self._strafe(dir_val)
             time.sleep(STRAFE_PULSE_S)
             self._stop()
-            time.sleep(0.03)
+            time.sleep(0.02)
             tick += 1
 
-            # Periodic heading correction while strafing
             if tick % HEADING_CHECK_N == 0:
                 angle, _ = self._detect()
                 if angle is not None:
@@ -280,7 +284,7 @@ class Zone584Navigator:
                                  'AT584 lost at tick %d - recovering' % tick)
 
         self._stop()
-        return curr_angle  # timed out — return best known angle
+        return curr_angle
 
     # ── TAG SEARCH ──────────────────────────────────────────────────────────
 
@@ -315,24 +319,29 @@ class Zone584Navigator:
 
     # ── MAIN NAVIGATE ───────────────────────────────────────────────────────
 
-    def navigate(self, timeout=60, callback=None):
+    def navigate(self, timeout=60, callback=None, stop_event=None):
         """
         Drive through Zone 584 barrier slalom and arrive at AT584.
 
         Args:
-            timeout:  Max seconds before giving up
-            callback: Optional function(tag_id, dist, angle, message)
+            timeout:    Max seconds before giving up
+            callback:   Optional function(tag_id, dist, angle, message)
+            stop_event: threading.Event — set it to abort immediately
 
         Returns:
             dict: success, final_distance, final_angle, reason
         """
+        def stopped():
+            return stop_event is not None and stop_event.is_set()
+
         start      = time.time()
         last_angle = None
         last_dist  = None
+        iteration  = 0
 
         # ── Phase 1: Acquire AT584 — quick look, then rotation search ────
         deadline = time.time() + TAG_ACQUIRE_S
-        while time.time() < deadline:
+        while time.time() < deadline and not stopped():
             angle, dist = self._detect()
             if angle is not None:
                 last_angle = angle
@@ -340,72 +349,85 @@ class Zone584Navigator:
                 break
             time.sleep(0.03)
 
-        if last_angle is None:
-            # Rotate to search — AT584 is top-right corner, try CW first
+        if last_angle is None and not stopped():
             if callback:
                 callback(TAG_ID, None, None, 'AT584 not visible - rotating to search')
             last_angle, last_dist = self._search_for_tag(search_timeout=10, callback=callback)
 
-        if last_angle is None:
-            return {'success': False, 'reason': 'at584_not_visible_on_entry',
+        if last_angle is None or stopped():
+            self._stop()
+            reason = 'stopped' if stopped() else 'at584_not_visible_on_entry'
+            return {'success': False, 'reason': reason,
                     'final_distance': 0, 'final_angle': 0}
 
         if callback:
             callback(TAG_ID, last_dist, last_angle,
-                     'ENTRY: AT584 acquired at %.2fm, %+.1fdeg' % (last_dist, last_angle))
+                     'ENTRY: AT584 at %.2fm, %+.1fdeg' % (last_dist, last_angle))
 
-        # ── Phase 2: Barrier slalom loop ─────────────────────────────────
-        while time.time() - start < timeout:
+        # ── Phase 2: Continuous forward drive with sonar gating ──────────
+        #
+        # Drive forward continuously — don't stop between sonar reads.
+        # Only stop when: barrier detected, heading correction needed, arrived.
+        # This is ~3x faster than the previous pulse-stop-pulse approach.
 
-            # Check arrival
-            if last_dist and last_dist <= TARGET_DIST_M:
-                self._stop()
-                if callback:
-                    callback(TAG_ID, last_dist, last_angle,
-                             'REACHED AT584 at %.2fm' % last_dist)
-                return {'success': True, 'reason': 'reached',
-                        'final_distance': last_dist, 'final_angle': last_angle}
+        self._forward()   # start moving immediately
 
-            # Correct heading before each forward pulse
-            last_angle = self._apply_heading_correction(last_angle)
+        while time.time() - start < timeout and not stopped():
+            iteration += 1
+
+            # E-stop check first
+            if stopped():
+                break
 
             sonar = self._sonar_cm()
 
+            # ── Barrier: stop and strafe through gap ─────────────────────
             if sonar and sonar < BARRIER_STOP_CM:
-                # ── Barrier detected: find and strafe through gap ────────
                 self._stop()
                 if callback:
                     callback(TAG_ID, last_dist, last_angle,
-                             'BARRIER %.1fcm - probing for gap' % sonar)
+                             'BARRIER %.1fcm - probing gap' % sonar)
 
                 direction  = self._probe_gap() or 'left'
+                last_angle = self._strafe_to_gap(direction, last_angle, callback,
+                                                 stop_event=stop_event)
+                if stopped():
+                    break
+
                 if callback:
-                    callback(TAG_ID, last_dist, last_angle,
-                             'PROBED: gap is %s' % direction)
+                    callback(TAG_ID, last_dist, last_angle, 'GAP cleared - resuming')
+                self._forward()   # resume immediately after gap
+                continue
 
-                last_angle = self._strafe_to_gap(direction, last_angle, callback)
+            # ── Periodic heading correction (every N iterations) ──────────
+            if iteration % HEADING_CHECK_EVERY == 0:
+                angle, dist = self._detect()
+                if angle is not None:
+                    last_angle = angle
+                    last_dist  = dist
+                else:
+                    last_angle = self._recover_tag(last_angle)
 
-                if callback:
-                    callback(TAG_ID, last_dist, last_angle, 'GAP cleared - resuming forward')
+                # Check arrival
+                if last_dist and last_dist <= TARGET_DIST_M:
+                    self._stop()
+                    if callback:
+                        callback(TAG_ID, last_dist, last_angle,
+                                 'REACHED AT584 at %.2fm' % last_dist)
+                    return {'success': True, 'reason': 'reached',
+                            'final_distance': last_dist, 'final_angle': last_angle}
 
-            else:
-                # ── Path clear: drive forward one pulse ──────────────────
-                self._forward()
-                time.sleep(0.05)
-                self._stop()
+                # Correct heading — briefly stop, rotate, resume
+                if last_angle is not None and abs(last_angle) > HEADING_TOL_DEG:
+                    self._stop()
+                    last_angle = self._apply_heading_correction(last_angle)
+                    self._forward()
 
-            # Update tag reading after each action
-            angle, dist = self._detect()
-            if angle is not None:
-                last_angle = angle
-                last_dist  = dist
-            else:
-                last_angle = self._recover_tag(last_angle)
-
-            time.sleep(0.02)
+            time.sleep(0.03)
 
         self._stop()
-        return {'success': False, 'reason': 'timeout',
+        reason = 'stopped' if stopped() else 'timeout'
+        return {'success': False, 'reason': reason,
                 'final_distance': last_dist, 'final_angle': last_angle}
 
 
