@@ -169,14 +169,17 @@ if __name__ == '__main__':
 
     robot = Robot(enable_camera=True)
 
-    # Camera defaults to manual exposure mode via OpenCV init.
-    # Switch back to aperture-priority auto so it handles outdoor lighting.
+    # Set manual exposure=5 — empirically tested for outdoor field lighting.
+    # Auto-exposure (value=3) settles at ~60 which is still too bright.
+    # exp=5 -> brightness ~144, exp=10 -> ~186. 5 is the sweet spot.
     subprocess.run(
-        ['v4l2-ctl', '-d', '/dev/video0', '--set-ctrl=auto_exposure=3'],
+        ['v4l2-ctl', '-d', '/dev/video0',
+         '--set-ctrl=auto_exposure=1',
+         '--set-ctrl=exposure_time_absolute=5'],
         capture_output=True
     )
-    time.sleep(2.0)   # let AGC settle before first frame
-    print('Camera: auto-exposure enabled')
+    time.sleep(1.0)
+    print('Camera: manual exposure=5 (outdoor field setting)')
 
     print('Arm -> camera_forward...')
     robot.arm.camera_forward()
