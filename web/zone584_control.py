@@ -165,9 +165,9 @@ def drive():
     return jsonify(ok=True)
 
 
-@app.route('/arm/camera_forward', methods=['POST'])
-def arm_camera_forward():
-    robot.arm.camera_forward()
+@app.route('/arm/look_forward', methods=['POST'])
+def arm_look_forward():
+    robot.arm.look_forward()
     return jsonify(ok=True)
 
 
@@ -234,8 +234,8 @@ if __name__ == '__main__':
     time.sleep(1.0)
     print('Camera: manual exposure=5 (outdoor field setting)')
 
-    print('Arm -> camera_forward...')
-    robot.arm.camera_forward()
+    print('Arm -> look_forward (clears sonar FOV)...')
+    robot.arm.look_forward()
     time.sleep(1.0)
 
     v = robot.battery

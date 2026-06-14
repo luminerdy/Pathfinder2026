@@ -32,8 +32,8 @@ from pupil_apriltags import Detector
 
 # ── TUNING CONSTANTS ────────────────────────────────────────────────────────
 TAG_ID           = 584
-BARRIER_STOP_CM  = 10     # stop forward when sonar reads this (10cm at higher speed)
-GAP_CLEAR_CM     = 25     # sonar must exceed this to confirm gap is open
+BARRIER_STOP_CM  = 20     # stop forward when sonar reads this (20cm = ~8 inches)
+GAP_CLEAR_CM     = 60     # sonar must exceed this to confirm gap is open (~24 inches)
 TARGET_DIST_M    = 0.90   # arrive at AT584 at this distance
 
 HEADING_TOL_DEG  = 8      # don't rotate if angle within this many degrees
@@ -85,7 +85,7 @@ class Zone584Navigator:
         d = self.sonar.get_distance()
         if d is None:
             return None
-        return d / 10.0 if d > 100 else d  # handle mm vs cm
+        return d / 10.0  # sonar always returns mm
 
     def _stop(self):
         self._robot.stop()
@@ -333,6 +333,11 @@ class Zone584Navigator:
         """
         def stopped():
             return stop_event is not None and stop_event.is_set()
+
+        # Clear sonar FOV — camera_forward arm position physically blocks sonar beam
+        if hasattr(self._robot, 'arm'):
+            self._robot.arm.look_forward()
+            time.sleep(1.0)
 
         start      = time.time()
         last_angle = None

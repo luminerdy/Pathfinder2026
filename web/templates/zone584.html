@@ -179,7 +179,7 @@ h1 {
         <!-- Arm -->
         <div class="card">
             <div class="card-title">Arm Position</div>
-            <button class="btn btn-arm" onclick="armForward()">Camera Forward</button>
+            <button class="btn btn-arm" onclick="armLookForward()">Look Forward (Sonar Clear)</button>
         </div>
 
         <!-- Zone 584 Nav -->
@@ -263,8 +263,8 @@ document.addEventListener('keyup', e => {
 
 // ── Arm ─────────────────────────────────────────────────────────────────────
 
-function armForward() {
-    fetch('/arm/camera_forward', {method: 'POST'});
+function armLookForward() {
+    fetch('/arm/look_forward', {method: 'POST'});
 }
 
 // ── Zone 584 Nav ─────────────────────────────────────────────────────────────
