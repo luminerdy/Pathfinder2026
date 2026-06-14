@@ -282,6 +282,37 @@ class Zone584Navigator:
         self._stop()
         return curr_angle  # timed out — return best known angle
 
+    # ── TAG SEARCH ──────────────────────────────────────────────────────────
+
+    def _search_for_tag(self, search_timeout=10, callback=None):
+        """
+        Rotate to find AT584. Tries CW for first half, CCW for second half
+        so the tag isn't skipped if it starts just behind the camera.
+
+        Returns (angle, dist) if found, or (None, None) on timeout.
+        """
+        start     = time.time()
+        clockwise = True
+        half      = search_timeout / 2.0
+
+        while time.time() - start < search_timeout:
+            angle, dist = self._detect()
+            if angle is not None:
+                self._stop()
+                return angle, dist
+
+            if time.time() - start > half and clockwise:
+                clockwise = False
+
+            p = ROTATE_POWER if clockwise else -ROTATE_POWER
+            self.board.set_motor_duty([(1, p), (2, -p), (3, p), (4, -p)])
+            time.sleep(0.08)
+            self._stop()
+            time.sleep(0.05)
+
+        self._stop()
+        return None, None
+
     # ── MAIN NAVIGATE ───────────────────────────────────────────────────────
 
     def navigate(self, timeout=60, callback=None):
@@ -299,7 +330,7 @@ class Zone584Navigator:
         last_angle = None
         last_dist  = None
 
-        # ── Phase 1: Acquire AT584 on zone entry ────────────────────────
+        # ── Phase 1: Acquire AT584 — quick look, then rotation search ────
         deadline = time.time() + TAG_ACQUIRE_S
         while time.time() < deadline:
             angle, dist = self._detect()
@@ -308,6 +339,12 @@ class Zone584Navigator:
                 last_dist  = dist
                 break
             time.sleep(0.03)
+
+        if last_angle is None:
+            # Rotate to search — AT584 is top-right corner, try CW first
+            if callback:
+                callback(TAG_ID, None, None, 'AT584 not visible — rotating to search')
+            last_angle, last_dist = self._search_for_tag(search_timeout=10, callback=callback)
 
         if last_angle is None:
             return {'success': False, 'reason': 'at584_not_visible_on_entry',
