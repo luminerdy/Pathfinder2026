@@ -15,8 +15,8 @@ import os
 import time
 import threading
 import collections
+import subprocess
 import cv2
-import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
@@ -73,37 +73,6 @@ def index():
     return render_template('zone584.html')
 
 
-TARGET_BRIGHTNESS = 120   # target mean brightness for display stream
-_clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
-
-
-def _fix_exposure(frame):
-    """
-    Software brightness correction for overexposed outdoor conditions.
-    Scales the frame so the mean brightness lands near TARGET_BRIGHTNESS.
-    Uses CLAHE on the luminance channel to restore local contrast.
-    """
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    mean = gray.mean()
-    if mean < 10:
-        return frame   # too dark — don't touch it
-
-    # Scale factor to hit target brightness
-    alpha = TARGET_BRIGHTNESS / mean
-    alpha = max(0.15, min(alpha, 1.0))   # clamp: never brighten, max darken to 15%
-
-    if alpha >= 0.95:
-        return frame   # already OK
-
-    # Apply uniform scale then CLAHE to restore local contrast
-    corrected = cv2.convertScaleAbs(frame, alpha=alpha, beta=0)
-    lab = cv2.cvtColor(corrected, cv2.COLOR_BGR2LAB)
-    l, a, b = cv2.split(lab)
-    l = _clahe.apply(l)
-    lab = cv2.merge([l, a, b])
-    return cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
-
-
 # Live MJPEG stream
 def _gen_frames():
     while True:
@@ -111,14 +80,6 @@ def _gen_frames():
         if frame is None:
             time.sleep(0.04)
             continue
-
-        # Correct overexposure for display
-        frame = _fix_exposure(frame)
-
-        # Overlay: brightness reading (helps diagnose lighting)
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        cv2.putText(frame, 'lum:%d' % int(gray.mean()), (10, 460),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (180, 180, 180), 1)
 
         # Overlay: nav status
         if nav_running:
@@ -207,6 +168,16 @@ if __name__ == '__main__':
     print('=' * 55)
 
     robot = Robot(enable_camera=True)
+
+    # Camera defaults to manual exposure mode via OpenCV init.
+    # Switch back to aperture-priority auto so it handles outdoor lighting.
+    subprocess.run(
+        ['v4l2-ctl', '-d', '/dev/video0', '--set-ctrl=auto_exposure=3'],
+        capture_output=True
+    )
+    time.sleep(2.0)   # let AGC settle before first frame
+    print('Camera: auto-exposure enabled')
+
     print('Arm -> camera_forward...')
     robot.arm.camera_forward()
     time.sleep(1.0)
