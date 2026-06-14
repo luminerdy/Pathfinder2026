@@ -122,6 +122,13 @@ class Zone584Navigator:
             return None, None
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        # CLAHE: recovers local contrast in bright outdoor conditions where
+        # the raw frame is overexposed (mean brightness > ~200/255)
+        if gray.mean() > 160:
+            clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
+            gray  = clahe.apply(gray)
+
         tags = self.detector.detect(
             gray,
             estimate_tag_pose=True,
