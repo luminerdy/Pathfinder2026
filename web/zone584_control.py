@@ -13,10 +13,12 @@ Open in browser: http://10.10.10.142:5000
 import sys
 import os
 import time
+import math
 import threading
 import collections
 import subprocess
 import cv2
+from pupil_apriltags import Detector
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
@@ -28,13 +30,17 @@ from skills.zone584_nav import Zone584Navigator
 
 app = Flask(__name__)
 
-robot = None    # initialized in main block so we don't init hardware on import
-nav_running   = False
-nav_log       = collections.deque(maxlen=200)
-nav_log_lock  = threading.Lock()
-_log_seq      = 0   # monotonic counter so client can detect new lines cheaply
+robot       = None
+nav_running = False
+nav_log     = collections.deque(maxlen=200)
+nav_log_lock = threading.Lock()
+_log_seq    = 0
 
-DRIVE_POWER = 40
+DRIVE_POWER   = 40
+CAMERA_PARAMS = [525, 533, 325, 116]   # fx, fy, cx, cy
+TAG_SIZE      = 0.165                  # meters
+
+_detector = Detector(families='tag36h11')
 
 
 # ── Nav thread ──────────────────────────────────────────────────────────────
@@ -73,6 +79,23 @@ def index():
     return render_template('zone584.html')
 
 
+def _detect_tags(frame):
+    """Run AprilTag detection and return list of (tag_id, dist_m, angle_deg, corners)."""
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    tags = _detector.detect(gray, estimate_tag_pose=True,
+                             camera_params=CAMERA_PARAMS, tag_size=TAG_SIZE)
+    results = []
+    for t in tags:
+        if t.pose_t is None:
+            continue
+        x     = float(t.pose_t[0][0])
+        z     = float(t.pose_t[2][0])
+        dist  = math.sqrt(x * x + z * z)
+        angle = math.degrees(math.atan2(x, z))
+        results.append((t.tag_id, dist, angle, t.corners))
+    return results
+
+
 # Live MJPEG stream
 def _gen_frames():
     while True:
@@ -80,6 +103,23 @@ def _gen_frames():
         if frame is None:
             time.sleep(0.04)
             continue
+
+        # AprilTag detection overlay
+        try:
+            for tag_id, dist, angle, corners in _detect_tags(frame):
+                pts = corners.astype(int)
+                # Draw tag border
+                color = (0, 255, 0) if tag_id == 584 else (0, 200, 255)
+                for i in range(4):
+                    cv2.line(frame, tuple(pts[i]), tuple(pts[(i+1)%4]), color, 2)
+                # Label: ID + distance
+                cx = int(pts[:, 0].mean())
+                cy = int(pts[:, 1].mean())
+                label = 'AT%d  %.2fm' % (tag_id, dist)
+                cv2.putText(frame, label, (cx - 40, cy),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+        except Exception:
+            pass
 
         # Overlay: nav status
         if nav_running:
@@ -158,6 +198,16 @@ def nav_log_route():
 def battery():
     v = robot.battery
     return jsonify(voltage=v, ok=robot.battery_ok)
+
+
+@app.route('/detect')
+def detect():
+    frame = robot.camera.get_raw_frame()
+    if frame is None:
+        return jsonify(tags=[])
+    tags = [{'id': tid, 'dist': round(d, 3), 'angle': round(a, 1)}
+            for tid, d, a, _ in _detect_tags(frame)]
+    return jsonify(tags=tags)
 
 
 # ── Main ─────────────────────────────────────────────────────────────────────
