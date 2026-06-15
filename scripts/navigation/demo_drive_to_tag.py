@@ -29,7 +29,7 @@ DRIVE_SPEED_SLOW = 20
 SONAR_STOP = 18
 
 CAMERA_PARAMS = [500, 500, 320, 240]
-TAG_SIZE = 0.254
+TAG_SIZE = 0.165  # meters (16.5cm tags)
 
 # Initialize
 board = BoardController()

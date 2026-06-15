@@ -30,7 +30,7 @@ print()
 
 # Config
 CAMERA_PARAMS = [500, 500, 320, 240]
-TAG_SIZE = 0.254
+TAG_SIZE = 0.165  # meters (16.5cm tags)
 
 # Test configurations: (power, duration)
 # Focus on threshold range (24-30) with multiple durations

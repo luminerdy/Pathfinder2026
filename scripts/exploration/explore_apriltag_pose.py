@@ -28,8 +28,7 @@ CAMERA_PARAMS = {
     'cy': 240,  # Principal point y (image center)
 }
 
-# Tag size in meters (10 inches = 0.254 meters)
-TAG_SIZE = 0.254
+TAG_SIZE = 0.165  # meters (16.5cm tags)
 
 # Initialize
 camera = cv2.VideoCapture(0)

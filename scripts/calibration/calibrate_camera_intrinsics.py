@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Camera Intrinsic Calibration — headless, runs over SSH.
+Camera Intrinsic Calibration - headless, runs over SSH.
 
 Hold a printed checkerboard in front of the camera at different angles,
 distances, and positions. Script auto-captures when it detects the board,
@@ -8,7 +8,7 @@ then saves a .npz that camera.py and Robot() can load directly.
 
 Print a checkerboard pattern:
   https://calib.io  →  Checkerboard  →  Rows: 7, Cols: 10
-  (inner corners: 6 rows x 9 cols — matches BOARD_H/BOARD_W below)
+  (inner corners: 6 rows x 9 cols - matches BOARD_H/BOARD_W below)
   Any square size works; 30mm squares on letter/A4 paper is ideal.
 
 Usage:
@@ -103,14 +103,14 @@ def main():
 
             if not found:
                 if frame_idx % 60 == 0:
-                    print("  Searching for checkerboard — hold it steady and fully in frame...")
+                    print("  Searching for checkerboard - hold it steady and fully in frame...")
                 continue
 
             cooldown_remaining = COOLDOWN_SEC - (now - last_capture_time)
 
             if cooldown_remaining > 0:
                 if frame_idx % 30 == 0:
-                    print(f"  Board detected — capturing in {cooldown_remaining:.1f}s — reposition now")
+                    print(f"  Board detected - capturing in {cooldown_remaining:.1f}s - reposition now")
                 continue
 
             # Auto-capture
@@ -130,7 +130,7 @@ def main():
     cap.release()
 
     if captures < 10:
-        print(f"\nOnly {captures} captures collected — need at least 10.")
+        print(f"\nOnly {captures} captures collected - need at least 10.")
         print("Re-run and vary the board angle more.")
         sys.exit(1)
 
@@ -140,7 +140,7 @@ def main():
         obj_points, img_points, (IMG_W, IMG_H), None, None
     )
 
-    # Mean reprojection error — lower is better; < 0.5px is good
+    # Mean reprojection error - lower is better; < 0.5px is good
     total_error = 0.0
     for i in range(len(obj_points)):
         projected, _ = cv2.projectPoints(obj_points[i], rvecs[i], tvecs[i], mtx, dist)

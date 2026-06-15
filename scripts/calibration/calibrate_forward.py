@@ -26,7 +26,7 @@ print()
 
 # Config
 CAMERA_PARAMS = [500, 500, 320, 240]
-TAG_SIZE = 0.254
+TAG_SIZE = 0.165  # meters (16.5cm tags)
 
 # Test configurations: (power, duration)
 TESTS = [

@@ -4,6 +4,48 @@ Ongoing record of daily work, discussions, and accomplishments. Newest entries a
 
 ---
 
+## 2026-06-14
+
+### Zone 584 Field — Barrier Slalom Navigator
+
+Built full end-to-end capability for navigating the "Zone 584" field challenge: robot must slalom through cardboard box barriers to reach AprilTag 584 in the top-right corner.
+
+**New skill: `skills/zone584_nav.py` — `Zone584Navigator`**
+- Locks heading to AT584 via AprilTag angle correction
+- Drives forward, stops when sonar reads < BARRIER_STOP_CM
+- Probes left/right for a gap, strafes through using mecanum wheels
+- Applies heading correction every N ticks; recovers heading via micro-rotate sweep if AT584 lost mid-strafe
+- Repeats until AT584 reached at TARGET_DIST_M (0.90m)
+- Field notes embedded in docstring: Hoikwo 12x4x3 boxes are sonar-visible; gap ≈ 12 inches
+
+**New webapp: `web/zone584_control.py` + `web/templates/zone584.html`**
+- HTTP control panel: Start/Stop navigation, arm position controls (look_forward, camera_forward, ready, drop)
+- Live camera stream with AprilTag overlay (added `/detect` endpoint)
+- E-stop button
+
+**Camera fixes (outdoor field adaptation):**
+- Fixed overexposure — software brightness correction + CLAHE
+- Fixed startup: camera now initializes in auto-exposure mode, then switches to manual if needed
+- Set manual exposure=5 for outdoor field; tested, brightness ≈ 144 avg
+
+**Bug fixes:**
+- `UnicodeEncodeError` on robot terminal — encoded output as latin-1
+- Added rotation search at entry when AT584 not visible on startup
+- **Sonar unit bug (critical):** `_sonar_cm()` only divided by 10 when `d > 100`, leaving small readings (e.g., 47mm arm reading) unconverted — robot never stopped for barriers. Fixed: always divide raw mm by 10.
+- Arm in `camera_forward` position physically blocks sonar beam at ≈47mm — fixed by switching arm to `look_forward` at `navigate()` entry and webapp startup
+- Renamed `/arm/camera_forward` route to `/arm/look_forward`
+- Raised BARRIER_STOP_CM 10→20cm, GAP_CLEAR_CM 25→60cm now that units are correct
+- Speed + e-stop fixes in nav loop
+
+**Tuned constants (zone584_nav.py):**
+- `BARRIER_STOP_CM = 20` (~8 inches)
+- `GAP_CLEAR_CM = 60` (~24 inches)
+- `TARGET_DIST_M = 0.90`
+- `HEADING_TOL_DEG = 8`
+- `MAX_STRAFE_TICKS = 80`
+
+---
+
 ## 2026-05-15
 
 ### Agent Doc
