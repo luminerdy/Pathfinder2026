@@ -1,20 +1,68 @@
 # Robot Assembly
 
-Robot Assembly gets each team from parts to a verified robot.
+Robot Assembly is the first workshop phase. The goal is to turn a kit into a robot that is mechanically built, powered, connected, and safe to test.
 
-## Goal
+## What This Phase Covers
 
-At the end of this phase, the team should have a robot that can power on, connect to the Pi 500, report battery voltage, move safely, see through the camera, and move the arm.
+1. Physical robot assembly
+2. Pi 500 control hub setup
+3. Robot Pi setup
+4. First SSH connection
+5. Hardware verification
 
-## Build Checklist
+## Physical Assembly
 
-- Assemble the robot chassis.
-- Install the mecanum wheels in the correct orientation.
-- Attach the robotic arm and gripper.
-- Mount the camera where it can see the floor and course targets.
-- Connect sonar and RGB module.
+Use the kit parts and event instructions to build the robot before running code.
+
+### Chassis
+
+- Assemble the lower chassis.
+- Mount the motor brackets.
+- Route motor wires so they cannot touch the wheels.
+- Keep access to the battery compartment.
+
+### Mecanum Wheels
+
+- Install all four mecanum wheels.
+- Confirm the roller directions are mirrored correctly from left to right.
+- Spin each wheel by hand and check for rubbing.
+- Make sure wheel screws are tight before powered driving.
+
+### Arm And Gripper
+
+- Attach the arm base to the robot.
+- Attach shoulder, elbow, wrist, and gripper assemblies.
+- Move the arm gently by hand before powering servos.
+- Check that the gripper can open and close without hitting the chassis.
+
+### Camera
+
+- Mount the camera where it can see the floor in front of the robot.
+- Keep the cable away from the wheels and arm.
+- Leave enough slack for small bumps, but not enough to snag.
+
+### Sonar
+
+- Mount sonar facing forward.
+- Keep it level.
+- Make sure the sensor is not blocked by the arm, camera, or team-built storage.
+
+### Batteries
+
 - Install charged 18650 batteries.
-- Label the robot and Pi 500 for the team.
+- Keep one spare charged pair per team if possible.
+- Do not start driving until the battery check passes.
+
+## Event Modifications
+
+Teams may add storage or guides for blocks, but changes should not block:
+
+- Camera view
+- Sonar view
+- Wheel movement
+- Arm movement
+- Battery access
+- Power switch access
 
 ## Pi 500 Setup
 
@@ -27,12 +75,34 @@ Relevant setup docs:
 
 ## Robot Pi Setup
 
-The Robot Pi runs headless on the robot.
+The Robot Pi runs the code on the robot.
 
 Relevant setup docs:
 
 - [Robot Pi OS Build](../setup/A1_ROBOT_PI_OS_BUILD.md)
 - [Connect and Test](../setup/C2_CONNECT_AND_TEST.md)
+
+## Where The Robot Code Lives
+
+On the robot:
+
+```bash
+/home/robot/pathfinder
+```
+
+From the Pi 500:
+
+```bash
+ssh robot@<ROBOT_IP>
+cd /home/robot/pathfinder
+```
+
+Useful folders:
+
+- `skills/` - workshop demos
+- `scripts/tools/` - checks and utilities
+- `web/` - browser control interface
+- `lib/` - shared robot control code
 
 ## First Connection
 
@@ -59,9 +129,12 @@ python3 skills/mecanum_drive/run_demo.py
 
 The team is ready for Capabilities Exploration when:
 
+- Robot is physically assembled.
+- Wheels spin freely.
+- Arm and gripper move without binding.
+- Camera and sonar are mounted.
 - Battery voltage is safe.
 - SSH works from the Pi 500.
 - Camera test passes.
-- Arm demo runs without binding.
 - Drive demo runs safely.
 - Team understands how to stop the robot.

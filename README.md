@@ -2,107 +2,142 @@
 
 **Summer 2026 Pathfinder robotics event**
 
-Pathfinder2026 is an event-focused robotics workshop built around the Pathfinder robot kit, Raspberry Pi 500 control hub, mecanum drive, robotic arm, camera vision, sonar, AprilTags, and a final course challenge.
+Pathfinder2026 is the event repo for the 2026 Pathfinder robot workshop. It is meant to be easy for humans first: participants, facilitators, setup helpers, and whoever is editing the course.
 
-This repo keeps the workshop flow from PathfinderBot and uses the updated PathfinderV2 software as the robot code foundation.
+The workshop flow follows the original PathfinderBot event shape:
+
+1. Robot Assembly
+2. Capabilities Exploration
+3. Course Challenge
+
+The robot software underneath comes from PathfinderV2.
+
+## Start Here
+
+If you are new to this repo, use this order:
+
+1. [START_HERE.md](START_HERE.md) - event-day guide
+2. [Robot Assembly](docs/workshop/ROBOT_ASSEMBLY.md) - build the robot and verify it works
+3. [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md) - run the robot demos
+4. [Course Challenge](docs/workshop/COURSE_CHALLENGE.md) - combine skills on the field
+
+## Where Is The Robot Code?
+
+On the robot, the code should live here:
+
+```bash
+/home/robot/pathfinder
+```
+
+You usually reach it from the Pi 500:
+
+```bash
+ssh robot@<ROBOT_IP>
+cd /home/robot/pathfinder
+```
+
+In this repo, the robot code is organized like this:
+
+| Folder/File | What It Is For |
+|-------------|----------------|
+| `skills/` | Main workshop demos. Start here when testing robot capabilities. |
+| `scripts/tools/` | Useful utilities like battery checks, camera checks, and web helpers. |
+| `scripts/testing/` | Hardware and field test scripts. |
+| `lib/` | Shared robot control code used by the demos. |
+| `web/` | Browser-based robot control interface. |
+| `config.yaml` | Shared robot configuration. |
+| `sdk/` | Lower-level vendor communication layer used by the robot code. |
+
+Most participants should run scripts from `skills/`. Most code changes should also start there.
+
+## Where Are The Documents?
+
+| Folder/File | What It Is For |
+|-------------|----------------|
+| `README.md` | Repo overview and orientation. |
+| `START_HERE.md` | Event-day participant path. |
+| `docs/workshop/` | Human-facing workshop phases. |
+| `docs/setup/` | Pre-event Pi 500, Robot Pi, SD card, and connection setup. |
+| `docs/calibration/` | Calibration and tuning notes. |
+| `docs/archive/` | Historical development notes from PathfinderV2. |
+
+## What Should I Work On?
+
+If you are preparing the event:
+
+- Use `docs/setup/` for SD cards, Pi setup, and connection testing.
+- Use `docs/workshop/ROBOT_ASSEMBLY.md` to tighten the assembly flow.
+- Use `docs/workshop/CAPABILITIES_EXPLORATION.md` to choose which demos participants run.
+- Use `docs/workshop/COURSE_CHALLENGE.md` to capture the course design in your head.
+
+If you are testing robot behavior:
+
+- Start with `skills/mecanum_drive/`
+- Then `skills/sonar_sensors/`
+- Then `skills/robotic_arm/`
+- Then `skills/camera_vision/`
+- Then `skills/apriltag_navigation/`, `skills/block_detection/`, `skills/visual_servoing/`, `skills/autonomous_pickup/`, and `skills/line_following/`
+
+If you are running the web controls:
+
+```bash
+ssh robot@<ROBOT_IP>
+cd /home/robot/pathfinder
+python3 web/web_control.py
+```
+
+Then open this from the Pi 500 browser:
+
+```text
+http://<robot-ip>:8080
+```
 
 ## Workshop Phases
 
 ### 1. Robot Assembly
 
-Teams build and prepare the robot:
+Teams build the robot, prepare the Pi 500, connect to the Robot Pi, and verify the robot can safely move.
 
-- Assemble the robot chassis, mecanum wheels, arm, gripper, camera, and sonar.
-- Prepare the Raspberry Pi 500 control hub.
-- Prepare the Robot Pi image.
-- Connect the Pi 500 to the robot over WiFi/SSH.
-- Verify battery, motors, arm, camera, and sonar before driving.
-
-Start here: [Robot Assembly](docs/workshop/ROBOT_ASSEMBLY.md)
+Guide: [Robot Assembly](docs/workshop/ROBOT_ASSEMBLY.md)
 
 ### 2. Capabilities Exploration
 
-Teams learn what the robot can do by running short, focused demos:
+Teams run focused demos to learn the robot:
 
-- Mecanum drive
-- Sonar sensing
-- Robotic arm movement
-- Camera vision
-- AprilTag navigation
+- Drive
+- Sonar
+- Arm
+- Camera
+- AprilTags
 - Block detection
 - Visual servoing
-- Autonomous pickup
+- Pickup
 - Line following
 - Web/manual control
 
-Start here: [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md)
+Guide: [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md)
 
 ### 3. Course Challenge
 
-Teams combine the capabilities into a course run:
+Teams combine capabilities on the field:
 
-- Navigate using AprilTags and/or line following.
-- Avoid obstacles.
-- Find and collect colored blocks.
-- Use the arm or robot-mounted storage to carry blocks.
-- Deliver blocks to the target area.
-- Tune strategy for reliability, speed, and battery life.
+- Navigate the course
+- Avoid obstacles
+- Detect blocks
+- Pick up, push, store, or deliver blocks
+- Tune strategy for reliability and speed
 
-Start here: [Course Challenge](docs/workshop/COURSE_CHALLENGE.md)
+Guide: [Course Challenge](docs/workshop/COURSE_CHALLENGE.md)
 
-## Quick Start
+## Setup Links
 
-If you are at the event, open [START_HERE.md](START_HERE.md).
-
-If you are setting up hardware before the event, use:
+For pre-event setup:
 
 - [Pi 500 OS Build](docs/setup/A1_PI500_OS_BUILD.md)
 - [Robot Pi OS Build](docs/setup/A1_ROBOT_PI_OS_BUILD.md)
 - [Pi 500 Setup](docs/setup/C1_PI500_SETUP.md)
 - [Connect and Test](docs/setup/C2_CONNECT_AND_TEST.md)
-
-Already connected to the robot?
-
-```bash
-ssh robot@<ROBOT_IP>
-cd /home/robot/pathfinder
-python3 scripts/tools/check_battery.py
-python3 web/web_control.py
-```
-
-Then open `http://<robot-ip>:8080` from the Pi 500.
-
-## Repository Layout
-
-```text
-Pathfinder2026/
-├── START_HERE.md
-├── docs/
-│   ├── workshop/       # Event phase guides
-│   ├── setup/          # OS, Pi 500, Robot Pi, and connection setup
-│   ├── calibration/    # Calibration notes
-│   └── archive/        # Historical development notes
-├── skills/             # Workshop capability demos
-├── scripts/            # Calibration, testing, and utility scripts
-├── lib/                # Robot control libraries
-├── sdk/                # Vendor board communication layer
-├── web/                # Browser-based robot control
-└── LICENSE
-```
-
-## Software Foundation
-
-Pathfinder2026 is based on PathfinderV2 and includes the newer robot software stack:
-
-- Pi 500 control hub plus headless Robot Pi
-- Platform auto-detection
-- Mecanum movement helpers
-- AprilTag navigation
-- HSV block detection
-- Visual servoing
-- Autonomous pickup experiments
-- Line following
-- Web control interface
+- [Bill of Materials](docs/setup/BILL_OF_MATERIALS.md)
 
 ## License
 
