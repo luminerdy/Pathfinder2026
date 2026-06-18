@@ -56,7 +56,7 @@ Most participants should run scripts from `skills/`. Most code changes should al
 |-------------|----------------|
 | `README.md` | Repo overview and orientation. |
 | `START_HERE.md` | Event-day participant path. |
-| `CONTRIBUTING.md` | Repo file rules, including no emojis in committed files. |
+| `CONTRIBUTING.md` | GitHub repo file rules, including no emojis in committed files. |
 | `docs/workshop/` | Human-facing workshop phases. |
 | `docs/setup/` | Pre-event Pi 500, Robot Pi, SD card, and connection setup. |
 | `docs/calibration/` | Calibration and tuning notes. |

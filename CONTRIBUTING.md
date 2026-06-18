@@ -1,10 +1,10 @@
 # Contributing
 
-Pathfinder2026 is an event repo, so files should be easy to read in GitLab, GitHub, terminals, printed handouts, and plain text editors.
+Pathfinder2026 is an event repo, so files should be easy to read in GitHub, terminals, printed handouts, and plain text editors.
 
 ## Repository File Rules
 
-- Do not add emojis to repository files.
+- Do not add emojis to GitHub repository files.
 - Use plain text labels instead of emoji status markers.
 - Prefer `[OK]`, `[WARN]`, `[ERROR]`, `[TODO]`, and `[DONE]` in scripts, docs, logs, and examples.
 - Keep participant-facing docs simple, direct, and easy to scan.
