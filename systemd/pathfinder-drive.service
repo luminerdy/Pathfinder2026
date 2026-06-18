@@ -1,5 +1,5 @@
 [Unit]
-Description=PathfinderV2 Web Drive Interface
+Description=Pathfinder2026 Web Drive Interface
 After=pathfinder-startup.service network.target
 Requires=pathfinder-startup.service
 

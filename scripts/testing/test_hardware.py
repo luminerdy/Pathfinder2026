@@ -146,7 +146,7 @@ def test_camera():
 
 
 def main():
-    print("PathfinderV2 Hardware Test Suite")
+    print("Pathfinder2026 Hardware Test Suite")
     print("Platform: %s" % PLATFORM)
     print()
 

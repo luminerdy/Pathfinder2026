@@ -112,7 +112,7 @@ def status():
 
 if __name__ == '__main__':
     print("=" * 60)
-    print("PathfinderV2 Web Control")
+    print("Pathfinder2026 Web Control")
     print("=" * 60)
     print("\nStarting web server...")
     print("Open browser to: http://<ROBOT_IP>:5000")

@@ -40,7 +40,7 @@ Arm: Tucked up              Arm: Looking down
 - **Recycling plants:** Sort materials by color/type
 - **Agriculture:** Fruit picking robots
 - **Manufacturing:** Part sorting and assembly
-- **Competition robotics:** FIRST Tech Challenge game piece scoring
+- **Challenge robotics:** FIRST Tech Challenge-style game piece handling
 
 ### Why This Is Hard
 

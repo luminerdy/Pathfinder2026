@@ -1,4 +1,4 @@
-# PathfinderV2 — Dev Log
+# Pathfinder2026 — Dev Log
 
 Ongoing record of daily work, discussions, and accomplishments. Newest entries at top.
 
@@ -99,5 +99,5 @@ See git log for detailed history. Key milestones:
 - **Day 9** — Board auto-detect fix: "must be ALL or NOTHING" — 37-file change
 - **Day 16** — Major architecture refactor: single `Robot` class owns all hardware; all skills accept Robot instance
 - **Proven** — 8/8 AprilTag tour at 7.86V; bump-and-grab insight: camera on arm, block vanishing = contact signal
-- **Decommissioned PathfinderV2 Pi 5** — 25W draw too high for batteries; switched to Pi 4 (15W)
+- **Decommissioned Pathfinder2026 Pi 5** — 25W draw too high for batteries; switched to Pi 4 (15W)
 - **Workshop docs complete** — competition rules, facilitator guide, BOM, field layout, scoring, SD card guide, Pi 500 setup, OpenClaw setup, VSCode Remote SSH setup

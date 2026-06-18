@@ -1,6 +1,6 @@
-# Getting Started with PathfinderV2
+# Getting Started with Pathfinder2026
 
-Welcome! This guide walks you through PathfinderV2 from first power-on to autonomous competition.
+Welcome! This guide walks you through Pathfinder2026 from first power-on to the core workshop robotics skills.
 
 **Time needed:** 2-3 hours for the full path (or 15 minutes per skill if you pick and choose)
 
@@ -8,7 +8,7 @@ Welcome! This guide walks you through PathfinderV2 from first power-on to autono
 
 ## How It Works: Two Devices
 
-PathfinderV2 uses a **two-device architecture:**
+Pathfinder2026 uses a **two-device architecture:**
 
 ```
 ┌──────────────────┐     WiFi/SSH      ┌──────────────────┐
@@ -258,12 +258,12 @@ Robot follows a lime green tape line through straights and curves, stopping when
 
 ## What's Next?
 
-After completing the skills, you're ready for competition:
+After completing the skills, you are ready to adapt the robot for your workshop challenge:
 
-1. **Combine skills** — Navigate to area, find block, pick it up, follow line to scoring zone
+1. **Combine skills** — Navigate to an area, find a block, pick it up, and follow a line
 2. **Tune parameters** — Edit `config.yaml` files to optimize for your field
-3. **Build strategies** — Which blocks score most? Shortest path? Battery management?
-4. **Compete!** — Full autonomous scoring cycle
+3. **Build strategies** — Shortest path, battery management, reliable pickup, and recovery behavior
+4. **Prepare for a future challenge phase** — Rules and scoring can be added later
 
 ---
 
@@ -326,4 +326,4 @@ Every SKILL.md has the same structure:
 
 ---
 
-*Built for learning. Start anywhere, go as deep as you want.* 🤖
+*Built for learning. Start anywhere, go as deep as you want.*

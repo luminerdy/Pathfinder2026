@@ -1,4 +1,4 @@
-# PathfinderV2 Implementation Checklist
+# Pathfinder2026 Implementation Checklist
 
 Based on Hiwonder system analysis. Priority order.
 
@@ -155,7 +155,7 @@ Based on Hiwonder system analysis. Priority order.
 
 ## Comparison Matrix
 
-| Feature | Hiwonder | PathfinderV2 | Status |
+| Feature | Hiwonder | Pathfinder2026 | Status |
 |---------|----------|--------------|--------|
 | Motor control | ✅ | ❌ Blocked by UART | Fix pending |
 | Servo control | ✅ | ❌ Same issue | Fix pending |

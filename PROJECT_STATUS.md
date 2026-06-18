@@ -1,7 +1,7 @@
-# PathfinderV2 - Project Status
+# Pathfinder2026 - Project Status
 
-**Last Updated:** March 29, 2026 (Day 12)
-**Status:** 🔧 In Development — Competition cycle proven, color-matched delivery working, Pi 500 integrated
+**Last Updated:** June 18, 2026
+**Status:** Workshop baseline in development — Pathfinder2026 software imported, challenge materials deferred
 
 ---
 
@@ -45,20 +45,19 @@
 - Distance estimation from known block size
 - HSV ranges may need tuning per lighting environment
 
-### Competition Routine ⚠️
-- Full cycle proven: grab → line follow → gentle place on scoring zone ✅
-- Color-matched delivery: block → matching colored basket via AprilTag ✅
+### Workshop Integration ⚠️
+- Block pickup and line following are available as separate skills
 - Autonomous approach still inconsistent (~50% from distance)
 - Pre-positioned pickup reliable (100%)
+- Challenge routine, rules, and scoring are intentionally deferred
 
 ---
 
 ## What's Not Done
 
 - Reliable autonomous block approach from any distance
-- Competition scoring system (automated)
-- Gamepad control (Logitech F710)
 - Workshop facilitator guide (curriculum wrapper)
+- Gamepad control (Logitech F710)
 - Multi-robot support
 
 ---
@@ -76,7 +75,7 @@
 
 **Key finding:** Pi 5 requires 5V/5A (25W), 67% more than Pi 4. The voltage regulator struggles under combined Pi + motor load at <8.2V.
 
-**Decision (Day 9):** Pi 4 is the competition platform. Works reliably at 7.0V+ with no throttling. Same code runs on both via `lib/board.py` auto-detection.
+**Decision (Day 9):** Pi 4 is the robot platform. Works reliably at 7.0V+ with no throttling. Same code runs on both via `lib/board.py` auto-detection.
 
 **Runtime:** 30-45 minutes per charge
 
@@ -114,14 +113,14 @@
 | 8 | Mar 25 | Block approach development |
 | 9 | Mar 26 | Pi 4 driver, platform auto-detect, power pivot |
 | 10 | Mar 27 | Mission control, 9 workshop skills, line following |
-| 11 | Mar 28 | First competition score, bump-grab, gentle place |
+| 11 | Mar 28 | Bump-grab, line follow, gentle place |
 | 12 | Mar 29 | Color-matched basket delivery, Pi 500 integration |
 
 **130+ commits** across 12 days.
 
 ---
 
-## Critical Path to Competition-Ready
+## Workshop Integration Path
 
 1. ✅ Navigate reliably (100% tag tour)
 2. ✅ Drive to block (visual servoing with target lock)

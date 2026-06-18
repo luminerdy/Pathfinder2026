@@ -1,6 +1,6 @@
-# PathfinderV2 - Connect and Test
+# Pathfinder2026 - Connect and Test
 
-Quick setup and testing guide for PathfinderV2 robots.
+Quick setup and testing guide for Pathfinder2026 robots.
 
 ---
 

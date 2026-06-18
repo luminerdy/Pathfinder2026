@@ -1,5 +1,5 @@
 # Pi 4 Robot Setup Guide
-## PathfinderV2 — Fresh Robot Configuration
+## Pathfinder2026 — Fresh Robot Configuration
 
 **Last Updated:** March 25, 2026  
 **Tested On:** Raspberry Pi 4 Model B Rev 1.5  
@@ -32,7 +32,7 @@ Add at the end (under `[all]`):
 ```
 enable_uart=1
 
-# PathfinderV2: Free ttyAMA0 for motor board (1Mbaud)
+# Pathfinder2026: Free ttyAMA0 for motor board (1Mbaud)
 dtoverlay=disable-bt
 ```
 
@@ -113,7 +113,7 @@ python3 -c "import smbus2; print('SMBus2: OK')"
 ```bash
 mkdir -p /home/robot/code
 cd /home/robot/code
-git clone https://github.com/luminerdy/PathfinderV2.git pathfinder
+git clone https://github.com/luminerdy/Pathfinder2026.git pathfinder
 ```
 
 ### Verify Clone
@@ -269,7 +269,7 @@ sudo nano /etc/systemd/system/pathfinder-startup.service
 
 ```ini
 [Unit]
-Description=PathfinderV2 Robot Startup Sequence
+Description=Pathfinder2026 Robot Startup Sequence
 After=network.target
 
 [Service]
@@ -341,7 +341,7 @@ sudo systemctl start pathfinder-startup.service
 - [ ] Reboot
 - [ ] Verify `/dev/ttyAMA0` exists
 - [ ] Install Python packages (opencv, apriltags, flask, etc.)
-- [ ] Clone PathfinderV2 repo
+- [ ] Clone Pathfinder2026 repo
 - [ ] Verify all imports
 - [ ] Test battery reading
 - [ ] Test buzzer

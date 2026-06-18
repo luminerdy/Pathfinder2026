@@ -107,7 +107,7 @@ Triggers override sticks when pressed. Great for smooth, controlled approach.
 
 ⚠️ These are full sequences (2-4 seconds each). Motors stop automatically during arm movement. Keep people clear of the arm!
 
-**Competition workflow:**
+**Workshop challenge workflow:**
 1. Drive to block → **D-pad Up** (grab it)
 2. Block in gripper → **D-pad Down** (drop into rear bin)
 3. Repeat until bin is full

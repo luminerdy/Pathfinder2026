@@ -11,7 +11,7 @@ For complete setup instructions, see:
 # Clone repository
 mkdir -p /home/robot/pathfinder
 cd /home/robot/pathfinder
-git clone https://github.com/luminerdy/PathfinderV2.git .
+git clone https://github.com/luminerdy/Pathfinder2026.git .
 
 # Install Python packages
 pip3 install --break-system-packages \

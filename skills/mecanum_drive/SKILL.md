@@ -29,7 +29,7 @@ Mecanum drive gives your robot **omnidirectional movement** - it can move forwar
 - **Airports:** Baggage handling systems move in any direction
 - **Hospitals:** Mobile robots deliver supplies through narrow hallways
 
-**In Competition:**
+**In Workshop Challenges:**
 - **FIRST Robotics:** Holonomic drive dominates field positioning
 - **RoboCup:** Soccer robots strafe while facing the ball
 - **Battlebot-style:** Quick directional changes for offense/defense
@@ -491,7 +491,7 @@ def drive_field_centric(field_vx, field_vy, omega, robot_heading):
     return robot_vx, robot_vy, omega
 ```
 
-**Use case:** Competition robots maintain field awareness (always know "forward" even when spinning).
+**Use case:** Challenge robots maintain field awareness (always know "forward" even when spinning).
 
 ### Research Topics
 

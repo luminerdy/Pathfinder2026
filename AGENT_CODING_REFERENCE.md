@@ -1,4 +1,4 @@
-# PathfinderV2 — Agent Coding Reference
+# Pathfinder2026 — Agent Coding Reference
 
 > Read this before writing any robot code. Use documented values — do not guess at method names, parameters, or tuned constants.
 

@@ -354,11 +354,11 @@ Slow (speed=15):
   + Handles tight curves
   + More time to process
   - Boring to watch
-  - Slow competition time
+  - Slow challenge time
 
 Fast (speed=40):
   + Exciting to watch
-  + Fast competition time
+  + Fast challenge time
   - Overshoots curves
   - May lose line
   - Needs higher Kp (more aggressive)

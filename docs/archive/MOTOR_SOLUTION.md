@@ -1,7 +1,7 @@
 # Motor Solution - Found!
 
 ## Problem
-Motors don't work on our PathfinderV2 code, but work on Hiwonder image.
+Motors don't work on our Pathfinder2026 code, but work on Hiwonder image.
 
 ## Root Cause
 **Missing UART0 configuration** in `/boot/firmware/config.txt`

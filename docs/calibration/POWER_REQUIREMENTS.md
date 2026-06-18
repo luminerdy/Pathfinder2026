@@ -1,7 +1,7 @@
 > **Note:** Calibration data from Pi 5 (Day 7). Pi 4 values may differ.
 
 # Power Requirements Summary
-## PathfinderV2 with Raspberry Pi 5
+## Pathfinder2026 with Raspberry Pi 5
 
 **Last Updated:** March 24, 2026  
 **Platform:** MasterPi with Raspberry Pi 5 8GB

@@ -14,7 +14,7 @@ OpenClaw is an AI agent that runs on your Pi 500 and connects to your robot over
 - Run scripts and see the output
 - Debug errors ("why does my robot drift right?")
 - Write new scripts ("make a block pickup routine")
-- Analyze competition rules and suggest strategy
+- Analyze workshop challenge goals and suggest a testing strategy
 - Monitor battery and robot status
 
 Think of it as a **team member who knows Python, robotics, and never gets tired.**
@@ -114,9 +114,9 @@ OpenClaw is now running! Connect via Telegram, Discord, or the web interface (as
 **During coding:**
 > "Write a Python script that finds blue blocks and drives to them"
 
-**During competition:**
+**During workshop challenges:**
 > "My robot keeps missing the block — look at bump_grab.py and suggest fixes"
-> "Analyze the scoring rules — what should we prioritize in 10 minutes?"
+> "Analyze this challenge goal — what should we test first?"
 
 **Debugging:**
 > "SSH into my robot and check the battery"

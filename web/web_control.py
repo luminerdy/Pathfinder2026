@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Web Control Interface for PathfinderV2
+Web Control Interface for Pathfinder2026
 
 Provides:
 - Live video stream
@@ -243,7 +243,7 @@ except FileNotFoundError:
 
 if __name__ == '__main__':
     print("="*70)
-    print("PathfinderV2 Web Control")
+    print("Pathfinder2026 Web Control")
     print("="*70)
     print()
     

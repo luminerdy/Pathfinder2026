@@ -1,5 +1,5 @@
 [Unit]
-Description=PathfinderV2 Servo Control Interface
+Description=Pathfinder2026 Servo Control Interface
 After=pathfinder-startup.service network.target
 Requires=pathfinder-startup.service
 

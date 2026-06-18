@@ -1,15 +1,15 @@
-# PathfinderV2
+# Pathfinder2026
 
-**Status: 🔧 IN DEVELOPMENT**  
-**Latest Update:** June 2, 2026
+**Status: Workshop baseline in development**
+**Latest Update:** June 18, 2026
 
-A two-device robotics platform: **Raspberry Pi 500** as the control hub, **Raspberry Pi 4** as the mobile competition robot. Built for STEM workshops with mecanum drive, robotic arm, and computer vision.
+Pathfinder2026 is the summer 2026 update of the Pathfinder robotics workshop. It keeps the hands-on workshop flow from PathfinderBot and starts from the newer PathfinderV2 software stack for mecanum drive, robotic arm control, computer vision, AprilTags, line following, and web control.
 
-Built for STEM workshops, hands-on robotics learning, and autonomous competition scenarios.
+Challenge materials are intentionally left out of this baseline and will be added later as a separate phase.
 
 ## How It Works
 
-PathfinderV2 uses two devices:
+Pathfinder2026 uses two devices:
 
 | Device | Role | What It Does |
 |--------|------|-------------|
@@ -36,7 +36,7 @@ python3 web/web_control.py
 # Open browser on Pi 500: http://<robot-ip>:8080
 ```
 
-**New to PathfinderV2?** Start with the [Getting Started Guide](START_HERE.md).
+**New to Pathfinder2026?** Start with the [Getting Started Guide](START_HERE.md).
 
 ## What Works Today
 
@@ -73,13 +73,12 @@ python3 web/web_control.py
 - Autonomous pickup from distance (E5 — ~50% success; pre-positioned = 100%)
 - Line following speed (E6 — varies with battery voltage)
 
-### ⚠️ In Progress
-- E7: Full competition cycle (chain all skills into one routine)
-- Competition scoring system (automated)
+### Future Phase
+- Workshop challenge flow, rules, and scoring will be built later.
 
 ## Workshop Skills
 
-PathfinderV2 includes **9 complete workshop skills**, each with:
+Pathfinder2026 includes **9 workshop skills**, each with:
 - **SKILL.md** — 4 sections (Overview, Quick Start, Implementation, Deep Dive)
 - **run_demo.py** — Executable demonstration
 - **config.yaml** — Tunable parameters
@@ -111,7 +110,7 @@ PathfinderV2 includes **9 complete workshop skills**, each with:
 ## Architecture
 
 ```
-PathfinderV2/
+Pathfinder2026/
 ├── lib/                   # Core libraries
 │   ├── board.py           # Platform auto-detect (Pi 4 I2C / Pi 5 serial)
 │   ├── board_pi4.py       # Pi 4 I2C driver
@@ -202,10 +201,10 @@ See [Battery Safety](BATTERY_SAFETY.md) for details.
 ## Workshop Context
 
 **2024:** [AutonomousEdgeRobotics](https://github.com/stemoutreach/AutonomousEdgeRobotics) — Intro workshop (assembly, Python, OpenCV)  
-**2025:** PathfinderBot V1 — Team competition (navigation, challenges)  
-**2026:** PathfinderV2 — Full autonomous competition (detect, grab, score, line follow)
+**2025:** PathfinderBot V1 — Team navigation challenges
+**2026:** Pathfinder2026 — Updated workshop baseline using the PathfinderV2 software architecture
 
-**Target event:** 6-hour workshop + competition (July 28-29, 2026)  
+**Target event:** Summer 2026 Pathfinder workshop
 **Audience:** Mixed — students and professional engineers  
 
 ## Development Timeline
@@ -216,19 +215,19 @@ See [Battery Safety](BATTERY_SAFETY.md) for details.
 | 1-2 | Hardware bring-up, motor debugging (UART config fix) |
 | 3-4 | Servo protocol, first autonomous navigation |
 | 5-6 | Pose estimation, 8-tag field, 100% tour success |
-| 7-8 | Web control, block detection, competition design |
+| 7-8 | Web control and block detection |
 | 9 | Pi 4 driver, platform auto-detect, power pivot |
 | 10 | Mission control architecture, 9 workshop skills, line following |
-| 11 | First competition score! Bump-grab, line follow, gentle place |
+| 11 | Bump-grab, line follow, gentle place |
 | 12 | Color-matched basket delivery, Pi 500 integration |
 
 ## Credits
 
-- **PathfinderV2:** Scotty (2026)
+- **Pathfinder2026:** Based on PathfinderV2 by Scotty (2026)
 - **Previous workshops:** STEM Outreach Initiative (2024-2025)
 - **AprilTag:** MIT
 - **Development partner:** OpenClaw + Claude
 
 ## License
 
-MIT License — Built for education and experimentation.
+MIT License. See [LICENSE](LICENSE).

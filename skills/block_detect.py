@@ -42,7 +42,7 @@ class BlockDetection:
 
 # HSV color ranges tuned for indoor lighting on neutral floor
 # These work best with saturated colored blocks on a gray/neutral surface
-# Competition colors: Red, Blue, Yellow
+# Workshop challenge colors: Red, Blue, Yellow
 # Chosen for maximum HSV separation and reliable detection
 # Red: H=0-10 + 160-180, Blue: H=100-130, Yellow: H=20-40
 COLOR_RANGES = {

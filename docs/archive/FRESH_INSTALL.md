@@ -1,6 +1,6 @@
 # Fresh Robot OS Installation Guide
 
-Complete setup instructions for PathfinderV2 on a fresh Raspberry Pi OS installation.
+Complete setup instructions for Pathfinder2026 on a fresh Raspberry Pi OS installation.
 
 ## Prerequisites
 
@@ -68,7 +68,7 @@ sudo nano /boot/firmware/config.txt
 Add these lines at the end:
 
 ```ini
-# PathfinderV2 - Enable hardware interfaces
+# Pathfinder2026 - Enable hardware interfaces
 dtparam=i2c_arm=on          # For I2C sensors (sonar)
 dtparam=uart0=on            # For motor controller (REQUIRED!)
 usb_max_current_enable=1    # USB power delivery
@@ -101,14 +101,14 @@ sudo usermod -a -G dialout,i2c,gpio,spi $USER
 # Log out and back in for groups to take effect
 ```
 
-### 5. Install PathfinderV2
+### 5. Install Pathfinder2026
 
 **Clone repository:**
 ```bash
 cd ~
 mkdir -p code
 cd code
-git clone https://github.com/luminerdy/PathfinderV2.git pathfinder
+git clone https://github.com/luminerdy/Pathfinder2026.git pathfinder
 cd pathfinder
 ```
 
@@ -135,7 +135,7 @@ python3 check_battery.py
 
 Expected output:
 ```
-PathfinderV2 Battery Check
+Pathfinder2026 Battery Check
 ----------------------------------------
 Battery: 8.XX V
 Status:  GREEN EXCELLENT
@@ -319,7 +319,7 @@ Run calibration to adjust these values for your specific robot.
 
 1. **Calibrate servos** (if needed) - see [TESTING.md](../TESTING.md)
 2. **Test all demos** - verify full functionality
-3. **Workshop deployment** - PathfinderV2 is ready!
+3. **Workshop deployment** - Pathfinder2026 is ready!
 
 **For development:**
 - Explore API in `capabilities/` directory
@@ -337,7 +337,7 @@ Run calibration to adjust these values for your specific robot.
 ## Support
 
 **Issues or questions:**
-- GitHub: https://github.com/luminerdy/PathfinderV2/issues
+- GitHub: https://github.com/luminerdy/Pathfinder2026/issues
 - Check existing docs in `/docs` directory
 - Review [HIWONDER_SYSTEM_REFERENCE.md](reference/HIWONDER_SYSTEM_REFERENCE.md) for Hiwonder compatibility
 

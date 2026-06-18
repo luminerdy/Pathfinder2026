@@ -186,7 +186,7 @@ From documentation analysis:
 4. Check system logs: journalctl -b -1 (previous boot)
 ```
 
-## For PathfinderV2
+## For Pathfinder2026
 
 **Add safety checks:**
 ```python
@@ -212,7 +212,7 @@ class Robot:
 - [ ] Check current battery voltage on robot
 - [ ] Test KEY2 button (is it working? stuck?)
 - [ ] Run voltage monitoring during motor test
-- [ ] Add battery check to PathfinderV2
+- [ ] Add battery check to Pathfinder2026
 - [ ] Document minimum voltage requirement
 - [ ] Create pre-flight check script
 

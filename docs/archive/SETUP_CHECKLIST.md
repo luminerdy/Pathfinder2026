@@ -1,4 +1,4 @@
-# PathfinderV2 Setup Checklist
+# Pathfinder2026 Setup Checklist
 
 Quick reference checklist for setting up a new robot.
 
@@ -59,12 +59,12 @@ Quick reference checklist for setting up a new robot.
 - [ ] ls -la /dev/i2c-1    # Should show device
 ```
 
-## Install PathfinderV2
+## Install Pathfinder2026
 
 ```bash
 # Clone repo
 - [ ] cd ~ && mkdir -p code && cd code
-- [ ] git clone https://github.com/luminerdy/PathfinderV2.git pathfinder
+- [ ] git clone https://github.com/luminerdy/Pathfinder2026.git pathfinder
 - [ ] cd pathfinder
 
 # Install dependencies

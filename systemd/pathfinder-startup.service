@@ -1,5 +1,5 @@
 [Unit]
-Description=PathfinderV2 Robot Startup Sequence
+Description=Pathfinder2026 Robot Startup Sequence
 After=network.target
 Wants=network.target
 

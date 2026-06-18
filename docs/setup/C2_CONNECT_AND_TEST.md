@@ -155,7 +155,7 @@ ssh robot@10.10.10.142
 **Pi 500 → Robot:**
 ```bash
 # From Pi 500 terminal (NOT SSH'd into robot)
-scp ~/PathfinderV2/my_script.py robot@10.10.10.142:/home/robot/pathfinder/skills/
+scp ~/Pathfinder2026/my_script.py robot@10.10.10.142:/home/robot/pathfinder/skills/
 ```
 
 **Robot → Pi 500:**
@@ -177,9 +177,9 @@ scp robot@10.10.10.142:/home/robot/pathfinder/test_frame.jpg ~/
 **Option B: Edit on Pi 500, copy to robot**
 ```bash
 # On Pi 500
-nano ~/PathfinderV2/skills/my_script.py
+nano ~/Pathfinder2026/skills/my_script.py
 # Then copy
-scp ~/PathfinderV2/skills/my_script.py robot@<ROBOT_IP>:/home/robot/pathfinder/skills/
+scp ~/Pathfinder2026/skills/my_script.py robot@<ROBOT_IP>:/home/robot/pathfinder/skills/
 ```
 
 **Option C: Edit directly on robot via SSH terminal**

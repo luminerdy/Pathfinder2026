@@ -79,7 +79,7 @@ VS Code gives you a real code editor with syntax highlighting, file browser, and
 ## Step 6: Verify Workshop Repo
 
 ```bash
-cd ~/PathfinderV2
+cd ~/Pathfinder2026
 ls skills/
 ```
 
@@ -88,7 +88,7 @@ You should see folders like `mecanum_drive/`, `sonar_sensors/`, `camera_vision/`
 If the repo isn't there:
 ```bash
 cd ~
-git clone https://github.com/luminerdy/PathfinderV2.git
+git clone https://github.com/luminerdy/Pathfinder2026.git
 ```
 
 ---

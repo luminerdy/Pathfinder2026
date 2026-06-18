@@ -234,7 +234,7 @@ apriltag_navigation:
 **Beginner:**
 - Change `target_tag_id` to navigate to different tags
 - Adjust `target_distance` (closer or farther approach)
-- Tune `max_speed` (slower for testing, faster for competition)
+- Tune `max_speed` (slower for testing, faster for workshop challenges)
 
 **Intermediate:**
 - Add multi-tag tour (visit tags in sequence)

@@ -252,7 +252,7 @@ Restarted masterpi.service
 - Apply UART config on robot Pi
 - Charge battery
 - Test and confirm motors work
-- **PathfinderV2 fully operational!**
+- **Pathfinder2026 fully operational!**
 
 ## Statistics
 

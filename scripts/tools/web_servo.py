@@ -94,7 +94,7 @@ def preset(name):
 
 if __name__ == '__main__':
     print("=" * 60)
-    print("PathfinderV2 Servo Control")
+    print("Pathfinder2026 Servo Control")
     print("=" * 60)
     print("\nStarting web server...")
     print("Open browser to: http://<ROBOT_IP>:5001")

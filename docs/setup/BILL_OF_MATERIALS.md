@@ -3,7 +3,7 @@
 **Last Updated:** April 25, 2026  
 **Purpose:** Materials for one team’s robot and Pi 500 setup
 
-Robot/Pi 500 setup lives here. Competition field materials live in [../competition/BILL_OF_MATERIALS.md](../competition/BILL_OF_MATERIALS.md).
+Robot/Pi 500 setup lives here. Workshop challenge field materials will be added later.
 
 ---
 

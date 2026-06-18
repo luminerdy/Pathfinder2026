@@ -1,6 +1,6 @@
 # A1 â Robot Pi OS Build Steps
 
-**Purpose:** Create an SD card image for a PathfinderV2 competition robot.  
+**Purpose:** Create an SD card image for a Pathfinder2026 workshop robot.
 **Platform:** Raspberry Pi 4 (4GB+)  
 **OS:** Raspberry Pi OS (Debian 13 Trixie, 64-bit) â see note below  
 **Time:** ~30 minutes
@@ -13,7 +13,7 @@
 
 ## Overview
 
-After completing these steps you will have an SD card that can be cloned for all competition robots. Each robot gets an identical image â only WiFi credentials and hostname change per robot.
+After completing these steps you will have an SD card that can be cloned for all workshop robots. Each robot gets an identical image â only WiFi credentials and hostname change per robot.
 
 **Materials:** see [BILL_OF_MATERIALS.md](BILL_OF_MATERIALS.md) in this folder for the robot/setup BOM.
 
@@ -27,7 +27,7 @@ After completing these steps you will have an SD card that can be cloned for all
 
 ### Flash Settings
 - **OS:** Raspberry Pi OS (64-bit) â latest (Trixie / Debian 13)
-  - Lite (no desktop) is recommended for competition robots
+  - Lite (no desktop) is recommended for robot-only images
   - Desktop is fine if students will use VNC
 - **Storage:** Select your SD card (16GB minimum, 32GB recommended)
 
@@ -101,7 +101,7 @@ Find the `[all]` section and ensure these lines are present:
 [all]
 enable_uart=1
 
-# PathfinderV2: Free ttyAMA0 for motor board (1Mbaud)
+# Pathfinder2026: Free ttyAMA0 for motor board (1Mbaud)
 dtoverlay=disable-bt
 ```
 
@@ -222,13 +222,13 @@ code --version
 
 ---
 
-## Step 7: Install PathfinderV2
+## Step 7: Install Pathfinder2026
 
 ### Clone Repository
 ```bash
 mkdir -p /home/robot/pathfinder
 cd /home/robot/pathfinder
-git clone https://github.com/luminerdy/PathfinderV2.git .
+git clone https://github.com/luminerdy/Pathfinder2026.git .
 ```
 
 ### Verify Clone
@@ -372,7 +372,7 @@ from lib.board import get_board, PLATFORM
 from hardware.sonar import Sonar
 import cv2, time
 
-print('PathfinderV2 Hardware Test')
+print('Pathfinder2026 Hardware Test')
 print('Platform:', PLATFORM)
 print()
 
@@ -478,10 +478,10 @@ Once one SD card is fully set up and tested, clone it for all robots:
 ### On Linux/Mac
 ```bash
 # Read from SD card
-sudo dd if=/dev/sdX of=pathfinderv2.img bs=4M status=progress
+sudo dd if=/dev/sdX of=Pathfinder2026.img bs=4M status=progress
 
 # Write to new SD card
-sudo dd if=pathfinderv2.img of=/dev/sdY bs=4M status=progress
+sudo dd if=Pathfinder2026.img of=/dev/sdY bs=4M status=progress
 ```
 
 ### On Windows
@@ -518,7 +518,7 @@ sudo nmcli dev wifi connect "SSID" password "PASSWORD"
 | NumPy | 2.2.4 | Math operations |
 | Visual Studio Code | 1.119+ | Code editor |
 | Python extension (ms-python) | 2026.4+ | Python language support in VS Code |
-| PathfinderV2 | Latest | Robot framework |
+| Pathfinder2026 | Latest | Robot framework |
 
 ## Quick Reference: Hardware Interfaces
 

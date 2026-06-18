@@ -19,7 +19,7 @@ Tip: Mount the checkerboard flat on a clipboard or book so it stays rigid.
 Run on the robot (SSH or VSCode Remote):
 
 ```bash
-cd PathfinderV2
+cd Pathfinder2026
 python3 scripts/calibration/calibrate_camera_intrinsics.py
 ```
 

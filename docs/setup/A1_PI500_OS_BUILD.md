@@ -77,8 +77,8 @@ pip3 install pupil-apriltags numpy --break-system-packages
 
 # Clone the workshop repository
 cd ~
-git clone https://github.com/luminerdy/PathfinderV2.git
-cd PathfinderV2
+git clone https://github.com/luminerdy/Pathfinder2026.git
+cd Pathfinder2026
 ```
 
 ## Step 5: Note Your IP Address
@@ -135,7 +135,7 @@ After setup, your Pi 500 has:
 | Python 3 + OpenCV | Run and edit workshop scripts |
 | SSH client | Connect to robot remotely |
 | Visual Studio Code + Remote SSH | Write and run robot code directly on the robot |
-| PathfinderV2 repo | All workshop skills, guides, and code |
+| Pathfinder2026 repo | All workshop skills, guides, and code |
 | Terminal | Command line for SSH, git, python |
 
 ## What's NOT on the Pi 500

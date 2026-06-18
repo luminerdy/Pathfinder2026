@@ -1,4 +1,4 @@
-# PathfinderV2 TODO List
+# Pathfinder2026 TODO List
 
 **Prioritized tasks and enhancements**
 

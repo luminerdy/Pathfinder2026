@@ -347,9 +347,9 @@ board.set_motor_duty([[1, 0]])
 
 **Result:** Motor 1 ran for 2 seconds ✅
 
-## Key Differences from Our PathfinderV2
+## Key Differences from Our Pathfinder2026
 
-| Aspect | Hiwonder | PathfinderV2 |
+| Aspect | Hiwonder | Pathfinder2026 |
 |--------|----------|--------------|
 | UART device | /dev/ttyAMA0 | /dev/ttyAMA10 (before fix) |
 | Boot config | dtparam=uart0=on ✅ | Missing ❌ |
@@ -374,7 +374,7 @@ board.set_motor_duty([[1, 0]])
 9. **GPIO buttons** - Hardware testing via physical button
 10. **JSON-RPC for remote control** - Web/app can control robot
 
-## Next Steps for PathfinderV2
+## Next Steps for Pathfinder2026
 
 **Critical:**
 - [ ] Add `dtparam=uart0=on` to boot config
@@ -412,4 +412,4 @@ python3 board_demo/hardware_test.py
 
 **Document generated:** 2026-03-20  
 **Source system:** 10.10.10.137 (Hiwonder factory image)  
-**Purpose:** Reference for PathfinderV2 development
+**Purpose:** Reference for Pathfinder2026 development

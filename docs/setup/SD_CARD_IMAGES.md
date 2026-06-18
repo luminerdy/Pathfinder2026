@@ -53,20 +53,18 @@ Two images needed per team: one for the Pi 500 (control hub), one for the Robot 
 3. **Clone workshop repo:**
    ```bash
    cd ~
-   git clone https://github.com/luminerdy/PathfinderV2.git
+   git clone https://github.com/luminerdy/Pathfinder2026.git
    ```
 
 4. **Add workshop files to desktop:**
    ```bash
    # Quick-access links on desktop
-   ln -s ~/PathfinderV2/START_HERE.md ~/Desktop/START_HERE.md
-   ln -s ~/PathfinderV2/docs/competition/QUICK_REFERENCE.md ~/Desktop/QUICK_REFERENCE.md
-   ln -s ~/PathfinderV2/docs/competition/COMPETITION_RULES.md ~/Desktop/COMPETITION_RULES.md
+   ln -s ~/Pathfinder2026/START_HERE.md ~/Desktop/START_HERE.md
    ```
 
 5. **Test:**
    ```bash
-   cd ~/PathfinderV2
+   cd ~/Pathfinder2026
    python3 -c "import cv2; import pupil_apriltags; import pygame; print('All dependencies OK')"
    ```
 
@@ -89,8 +87,8 @@ Two images needed per team: one for the Pi 500 (control hub), one for the Robot 
 | VS Code + Remote SSH | Edit robot code with full IDE |
 | SSH + sshpass | Connect to robot |
 | pupil-apriltags | AprilTag detection (for testing) |
-| PathfinderV2 repo | All skills, docs, competition rules |
-| Desktop shortcuts | START_HERE, Quick Reference, Rules |
+| Pathfinder2026 repo | All workshop skills and docs |
+| Desktop shortcuts | START_HERE |
 
 ---
 
@@ -130,7 +128,7 @@ Two images needed per team: one for the Pi 500 (control hub), one for the Robot 
 4. **Clone and setup robot code:**
    ```bash
    cd ~
-   git clone https://github.com/luminerdy/PathfinderV2.git pathfinder
+   git clone https://github.com/luminerdy/Pathfinder2026.git pathfinder
    ```
 
 5. **Install startup service:**
@@ -163,7 +161,7 @@ Two images needed per team: one for the Pi 500 (control hub), one for the Robot 
 | VS Code + Python extension | Local editing (via VNC) |
 | I2C + smbus2 | Motor/servo communication |
 | pupil-apriltags | Navigation |
-| PathfinderV2 code | All skills + scripts |
+| Pathfinder2026 code | All skills + scripts |
 | Startup service | Auto-init on boot (beep when ready) |
 
 ---
@@ -193,7 +191,7 @@ Before teams arrive:
 - [ ] SSH from each Pi 500 to its paired robot verified
 - [ ] Batteries charged (2 sets per robot minimum)
 - [ ] Spare SD cards available (things happen)
-- [ ] Competition field set up (tags, baskets, blocks, barriers, tape)
+- [ ] Workshop practice field set up (tags, blocks, line tape, barriers as needed)
 
 ---
 
@@ -211,4 +209,4 @@ Before teams arrive:
 - `sudo systemctl enable ssh && sudo systemctl start ssh`
 
 **Robot code missing:**
-- `cd ~ && git clone https://github.com/luminerdy/PathfinderV2.git pathfinder`
+- `cd ~ && git clone https://github.com/luminerdy/Pathfinder2026.git pathfinder`

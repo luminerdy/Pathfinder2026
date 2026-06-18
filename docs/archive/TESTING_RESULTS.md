@@ -102,7 +102,7 @@ board.pwm_servo_set_position(0.5, [[5, 2000]]) # ✅ Gripper closed!
 - Battery: 2x 18650 @ 8.21V
 
 **Software:**
-- PathfinderV2 framework
+- Pathfinder2026 framework
 - SDK embedded in lib/
 - All dependencies installed
 

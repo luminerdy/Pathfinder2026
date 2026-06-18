@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Quick battery voltage check for PathfinderV2 robot.
+Quick battery voltage check for Pathfinder2026 robot.
 
 Usage:
     python3 check_battery.py           # Display voltage
@@ -62,6 +62,6 @@ def check_battery(strict=False, minimum_voltage=7.5):
 
 if __name__ == "__main__":
     strict_mode = "--strict" in sys.argv
-    print("PathfinderV2 Battery Check")
+    print("Pathfinder2026 Battery Check")
     print("-" * 40)
     voltage = check_battery(strict=strict_mode)

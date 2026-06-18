@@ -1,10 +1,10 @@
 #!/bin/bash
-# Install PathfinderV2 systemd services for auto-start on boot
+# Install Pathfinder2026 systemd services for auto-start on boot
 
 set -e
 
 echo "=================================================="
-echo "PathfinderV2 Auto-Start Installation"
+echo "Pathfinder2026 Auto-Start Installation"
 echo "=================================================="
 echo ""
 
