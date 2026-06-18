@@ -184,7 +184,7 @@ EOF
 
 ## Typical Values
 
-**Based on MasterPi-style robots:**
+**Based on mecanum robot kits:**
 
 | Movement | Minimum | Maximum | Notes |
 |----------|---------|---------|-------|

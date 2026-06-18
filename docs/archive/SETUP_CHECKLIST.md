@@ -6,7 +6,7 @@ Quick reference checklist for setting up a new robot.
 
 - [ ] Raspberry Pi 5 (4GB or 8GB)
 - [ ] MicroSD card (32GB+) with fresh Pi OS
-- [ ] MasterPi expansion board
+- [ ] robot expansion board
 - [ ] 2x 18650 batteries (charged > 7.5V)
 - [ ] Battery charger
 - [ ] USB camera (optional)
@@ -17,7 +17,7 @@ Quick reference checklist for setting up a new robot.
 
 - [ ] Flash Raspberry Pi OS (64-bit, Bookworm or newer)
 - [ ] Enable SSH in imager settings
-- [ ] Set hostname (e.g., `masterpi`)
+- [ ] Set hostname (e.g., `Pathfinder robot`)
 - [ ] Configure WiFi (if needed)
 - [ ] Insert SD card and boot Pi
 

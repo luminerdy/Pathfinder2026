@@ -1,7 +1,7 @@
 """
 Board Controller for Pi 4 — I2C Protocol
 
-The Pi 4 MasterPi board communicates via I2C (bus 1, address 0x7A).
+The Pi 4 robot control board communicates via I2C (bus 1, address 0x7A).
 This is a clean rewrite of the vendor Board.py module.
 
 Protocol (reverse-engineered from vendor code):
@@ -22,7 +22,7 @@ Servo indexing: 1-based (servo 1-6)
   Supports deviation correction from Deviation.yaml
 
 Created: March 26, 2026
-Reverse-engineered from /home/pi/MasterPi/HiwonderSDK/Board.py
+Reverse-engineered from the vendor Board.py module.
 """
 
 import time
@@ -72,7 +72,7 @@ def _load_deviations():
 
 class BoardController:
     """
-    I2C board controller for Pi 4 MasterPi platform.
+    I2C board controller for Pi 4 robot platform.
     
     Same API as lib/board_protocol.py (Pi 5) so all skills
     work unchanged on either platform.

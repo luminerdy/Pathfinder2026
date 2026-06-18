@@ -68,7 +68,7 @@ Fully charged: 8.4V
 ### System Analysis Completed
 
 **Services discovered:**
-- `masterpi.service` - Main robot control (`/home/pi/MasterPi/MasterPi.py`)
+- `Pathfinder robot.service` - Main robot control (`/home/pi/vendor_robot/vendor_robot.py`)
 - `hw_button_scan.service` - GPIO button handler (KEY1=self-test, KEY2=shutdown)
 - `hw_wifi.service` - WiFi AP/STA management
 - `hw_remote.service` - Remote control
@@ -87,7 +87,7 @@ Fully charged: 8.4V
 - Video/camera settings
 
 **Code structure documented:**
-- Initialization sequence in `MasterPi.py`
+- Initialization sequence in `vendor_robot.py`
 - `board = Board()` created at module level
 - `board.enable_reception()` called **twice** (not sure why)
 - `set_board()` function distributes references
@@ -106,10 +106,10 @@ board.set_motor_duty([[1, 60]])  # ✅ WORKED!
 
 **Battery voltage check:**
 ```
-Stopped masterpi.service
+Stopped Pathfinder robot.service
 Checked voltage: 6.87V
 Status: 🔴 CRITICAL - Too low for motor operation
-Restarted masterpi.service
+Restarted Pathfinder robot.service
 ```
 
 **Attempted servo test:**

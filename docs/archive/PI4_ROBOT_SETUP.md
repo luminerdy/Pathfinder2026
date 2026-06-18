@@ -10,7 +10,7 @@
 ## Prerequisites
 
 - Raspberry Pi 4 (4GB+ recommended)
-- MasterPi robot platform assembled
+- Pathfinder robot platform assembled
 - SD card with Raspberry Pi OS flashed (64-bit)
 - WiFi network configured
 - SSH enabled

@@ -74,7 +74,7 @@ if volt:
         print("✓ Battery OK")
 ```
 
-**Note:** Can't run this while MasterPi.py service is running (serial port conflict).
+**Note:** Can't run this while vendor_robot.py service is running (serial port conflict).
 
 ### Check Button State
 ```python
@@ -96,7 +96,7 @@ for i in range(10):
 
 ### Monitor Voltage During Motor Test
 Need to:
-1. Stop masterpi.service temporarily
+1. Stop Pathfinder robot.service temporarily
 2. Run custom script that logs voltage + motor state
 3. Detect voltage sag
 

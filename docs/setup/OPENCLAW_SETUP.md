@@ -106,7 +106,7 @@ OpenClaw is now running! Connect via Telegram, Discord, or the web interface (as
 ## What Can OpenClaw Do For You?
 
 **During assembly:**
-> "Explain what each servo does on the MasterPi arm"
+> "Explain what each servo does on the robot arm"
 
 **During exploration:**
 > "Run the mecanum drive demo and tell me what happened"

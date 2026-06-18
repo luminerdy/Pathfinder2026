@@ -40,9 +40,9 @@ board.set_motor_duty([[1, 0]])
 
 ### Services Running
 
-**MasterPi Service (`/etc/systemd/system/masterpi.service`):**
+**Pathfinder robot Service (`/etc/systemd/system/Pathfinder robot.service`):**
 ```
-ExecStart=/home/pi/MasterPi/MasterPi.py
+ExecStart=/home/pi/vendor_robot/vendor_robot.py
 ```
 
 Runs on boot, creates persistent Board instance:
@@ -128,7 +128,7 @@ print('Done')
 - This is why their code "just works"
 - This is why `/dev/ttyAMA0` exists on their system
 
-## Optional: Run MasterPi.py as Service
+## Optional: Run vendor_robot.py as Service
 
 If you want the robot to auto-start like the Hiwonder image:
 

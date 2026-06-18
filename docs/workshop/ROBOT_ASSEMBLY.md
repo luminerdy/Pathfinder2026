@@ -8,7 +8,7 @@ At the end of this phase, the team should have a robot that can power on, connec
 
 ## Build Checklist
 
-- Assemble the MasterPi chassis.
+- Assemble the robot chassis.
 - Install the mecanum wheels in the correct orientation.
 - Attach the robotic arm and gripper.
 - Mount the camera where it can see the floor and course targets.

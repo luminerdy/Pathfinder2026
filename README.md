@@ -2,7 +2,7 @@
 
 **Summer 2026 Pathfinder robotics event**
 
-Pathfinder2026 is an event-focused robotics workshop built around the Hiwonder MasterPi robot, Raspberry Pi 500 control hub, mecanum drive, robotic arm, camera vision, sonar, AprilTags, and a final course challenge.
+Pathfinder2026 is an event-focused robotics workshop built around the Pathfinder robot kit, Raspberry Pi 500 control hub, mecanum drive, robotic arm, camera vision, sonar, AprilTags, and a final course challenge.
 
 This repo keeps the workshop flow from PathfinderBot and uses the updated PathfinderV2 software as the robot code foundation.
 
@@ -12,7 +12,7 @@ This repo keeps the workshop flow from PathfinderBot and uses the updated Pathfi
 
 Teams build and prepare the robot:
 
-- Assemble the MasterPi chassis, mecanum wheels, arm, gripper, camera, and sonar.
+- Assemble the robot chassis, mecanum wheels, arm, gripper, camera, and sonar.
 - Prepare the Raspberry Pi 500 control hub.
 - Prepare the Robot Pi image.
 - Connect the Pi 500 to the robot over WiFi/SSH.

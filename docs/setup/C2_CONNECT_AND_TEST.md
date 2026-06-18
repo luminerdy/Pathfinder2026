@@ -52,7 +52,7 @@ ssh robot@10.10.10.142
 
 **Success looks like:**
 ```
-robot@MasterPi4:~ $
+robot@RobotPi4:~ $
 ```
 
 You're now ON the robot. Every command you type runs on the robot.

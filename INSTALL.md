@@ -25,7 +25,7 @@ python3 -c "from lib.board import get_board, PLATFORM; print('Platform:', PLATFO
 
 - Raspberry Pi 4 (4GB+) — competition platform
 - Raspberry Pi 5 (8GB) — development only (power issues with motors)
-- MasterPi robot platform
+- Pathfinder robot platform
 - 2x 18650 batteries (>7.0V for Pi 4, >8.2V for Pi 5)
 - USB camera
 - AprilTags (tag36h11, 10 inch, IDs 578-585)

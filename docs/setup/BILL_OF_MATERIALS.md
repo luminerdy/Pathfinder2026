@@ -11,7 +11,7 @@ Robot/Pi 500 setup lives here. Workshop challenge field materials will be added 
 
 | Item | Qty | Notes |
 |------|-----|-------|
-| Hiwonder MasterPi robot kit | 1 | Chassis, mecanum wheels, arm, servos, camera |
+| Pathfinder robot kit | 1 | Chassis, mecanum wheels, arm, servos, camera |
 | Raspberry Pi 4 (4GB) | 1 | Robot brain |
 | microSD card — robot (32GB+) | 1 | Pre-imaged with robot OS |
 | 18650 batteries (pair) | 2 sets | 1 in robot + 1 spare |

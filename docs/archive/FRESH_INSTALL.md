@@ -7,7 +7,7 @@ Complete setup instructions for Pathfinder2026 on a fresh Raspberry Pi OS instal
 **Hardware:**
 - Raspberry Pi 5 (8GB recommended, 4GB minimum)
 - MicroSD card (32GB+ recommended)
-- MasterPi expansion board (or compatible motor controller)
+- robot expansion board (or compatible motor controller)
 - 2x 18650 batteries (high-discharge, 20A+ rating)
 - USB camera (optional, for vision)
 - I2C ultrasonic sensor (optional)
@@ -29,7 +29,7 @@ Complete setup instructions for Pathfinder2026 on a fresh Raspberry Pi OS instal
 3. Choose: "Raspberry Pi OS (64-bit)" (Bookworm or Trixie)
 4. Select your microSD card
 5. Click gear icon → Configure:
-   - Set hostname: `masterpi` (or your choice)
+   - Set hostname: `Pathfinder robot` (or your choice)
    - Enable SSH
    - Set username/password
    - Configure WiFi (optional)
@@ -41,7 +41,7 @@ Complete setup instructions for Pathfinder2026 on a fresh Raspberry Pi OS instal
 **First boot:**
 ```bash
 # SSH into Pi (or use monitor/keyboard)
-ssh pi@masterpi.local
+ssh pi@Pathfinder robot.local
 
 # Update system
 sudo apt update

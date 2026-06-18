@@ -1,6 +1,6 @@
 # Testing Log - Library and Bug Tracking
 
-Live testing results on actual hardware (Pi 5, MasterPi robot).
+Live testing results on actual hardware (Pi 5, Pathfinder robot robot).
 
 ## Date: 2026-03-19
 

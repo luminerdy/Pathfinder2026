@@ -1,4 +1,4 @@
-# Hiwonder MasterPi System Reference
+# vendor robot System Reference
 
 Complete documentation of the Hiwonder factory image (10.10.10.137).
 
@@ -63,14 +63,14 @@ console=serial0,115200 console=tty1 root=PARTUUID=2074da14-02 rootfstype=ext4 fs
 
 ### Core Robot Services
 
-**masterpi.service**
+**Pathfinder robot.service**
 ```ini
 [Service]
 Type=simple
 User=pi
 Restart=always
 RestartSec=5
-ExecStart=/home/pi/MasterPi/MasterPi.py
+ExecStart=/home/pi/vendor_robot/vendor_robot.py
 ```
 Runs main robot control loop, RPC server, camera streaming.
 
@@ -117,8 +117,8 @@ ultralytics==8.1.2
 ## Directory Structure
 
 ```
-/home/pi/MasterPi/
-├── MasterPi.py              # Main entry point
+/home/pi/vendor_robot/
+├── vendor_robot.py              # Main entry point
 ├── rpc_server.py            # JSON-RPC server for remote control
 ├── mjpg_server.py           # MJPEG camera streaming
 ├── Camera.py                # Camera wrapper
@@ -140,7 +140,7 @@ ultralytics==8.1.2
 │   ├── remote_control.py
 │   ├── running.py
 │   └── visual_patrol.py
-├── masterpi_sdk/
+├── Pathfinder robot_sdk/
 │   ├── common_sdk/common/
 │   │   ├── ros_robot_controller_sdk.py
 │   │   ├── mecanum.py
@@ -151,7 +151,7 @@ ultralytics==8.1.2
 │       └── arm_move_ik.py
 ├── mecanum_control/         # Mecanum drive control
 ├── CameraCalibration/       # Camera calibration tools
-└── masterpi_pc_software/    # PC control software
+└── Pathfinder robot_pc_software/    # PC control software
 
 /home/pi/hiwonder-toolbox/
 ├── hw_button_scan.py        # GPIO button handler
@@ -162,7 +162,7 @@ ultralytics==8.1.2
 └── *.service                # Systemd unit files
 ```
 
-## MasterPi.py Initialization Sequence
+## vendor_robot.py Initialization Sequence
 
 ```python
 # 1. Create global instances
@@ -227,7 +227,7 @@ def set_board():
 ## GPIO Button Handler
 
 **KEY1 (GPIO 13):**
-- Short press: Runs `/home/pi/MasterPi/board_demo/hardware_test.py`
+- Short press: Runs `/home/pi/vendor_robot/board_demo/hardware_test.py`
 - Long press (3 sec): Resets WiFi config
 
 **KEY2 (GPIO 23):**
@@ -240,7 +240,7 @@ key1 = chip.get_line(13)  # KEY1
 key2 = chip.get_line(23)  # KEY2
 
 # On KEY1 short press:
-os.system("python3 /home/pi/MasterPi/board_demo/hardware_test.py")
+os.system("python3 /home/pi/vendor_robot/board_demo/hardware_test.py")
 ```
 
 ## Servo Calibration
@@ -397,14 +397,14 @@ ssh pi@10.10.10.137
 # password: Fvdw4fs5
 
 # Check services
-systemctl status masterpi.service
+systemctl status Pathfinder robot.service
 systemctl status hw_button_scan.service
 
 # View logs
-journalctl -u masterpi.service -f
+journalctl -u Pathfinder robot.service -f
 
 # Manual test
-cd /home/pi/MasterPi
+cd /home/pi/vendor_robot
 python3 board_demo/hardware_test.py
 ```
 
