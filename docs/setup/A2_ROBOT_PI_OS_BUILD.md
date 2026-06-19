@@ -47,6 +47,7 @@ Click **Write** and wait for completion.
 
 > **Locale tip:** If you set locale to `en_US` during imaging but see locale warnings over SSH, the locale may not be fully generated. Fix with:
 > ```bash
+> sudo sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 > sudo locale-gen en_US.UTF-8
 > sudo update-locale LANG=en_US.UTF-8
 > ```
@@ -596,7 +597,12 @@ sudo reboot
 
 ### Locale warnings over SSH
 - Harmless but can cause `perl` warnings in apt output
-- Fix: `sudo locale-gen en_US.UTF-8 && sudo update-locale LANG=en_US.UTF-8`
+- Fix:
+  ```bash
+  sudo sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+  sudo locale-gen en_US.UTF-8
+  sudo update-locale LANG=en_US.UTF-8
+  ```
 - Then re-login
 
 ### WiFi config on Trixie
