@@ -209,6 +209,8 @@ pip3 install --break-system-packages \
 
 **Note:** `--break-system-packages` is required on Trixie/Bookworm (PEP 668). `numpy` and `flask` may already be present; pip will skip them if current.
 
+If pip warns that `flask` was installed in `/home/robot/.local/bin` and that directory is not on `PATH`, that is OK for Pathfinder. The workshop code imports Flask from Python; it does not need to run the `flask` command directly. If pip reports a `types-flask-migrate` dependency conflict, ignore it unless the import checks below fail. Pathfinder does not use Flask-Migrate.
+
 ### Verify Installation
 ```bash
 python3 -c "import cv2; print(f'OpenCV: {cv2.__version__}')"
@@ -597,6 +599,12 @@ sudo reboot
   sudo update-locale LANG=en_US.UTF-8
   ```
 - Then re-login
+
+### Pip warning about Flask path or types-flask-migrate
+- `WARNING: The script flask is installed in '/home/robot/.local/bin' which is not on PATH` is OK for this workshop.
+- `types-flask-migrate requires Flask-SQLAlchemy` is also OK unless the import checks fail.
+- Verify with: `python3 -c "import flask; print('Flask: OK')"`
+- Do not install extra Flask database packages just for this warning.
 
 ### WiFi config on Trixie
 - Debian 13 uses NetworkManager, not wpa_supplicant
