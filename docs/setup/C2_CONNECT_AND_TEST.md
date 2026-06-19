@@ -35,17 +35,17 @@ This is the critical step — once connected, you control the robot entirely fro
 
 ## Step 1: Find the Robot's IP
 
-Ask your facilitator, or check the robot's display. Example: `10.10.10.142`
+Ask your facilitator, or check the robot's display. Example: `<ROBOT_IP>`
 
 ## Step 2: SSH Connection
 
 Open a terminal on your Pi 500:
 
 ```bash
-ssh robot@10.10.10.142
+ssh robot@<ROBOT_IP>
 ```
 
-- Replace `10.10.10.142` with your robot's actual IP
+- Replace `<ROBOT_IP>` with your robot's actual IP
 - Username: `robot`
 - Password: (provided by facilitator)
 - Type `yes` if asked about fingerprint
@@ -119,7 +119,7 @@ Should report `Camera: 640x480` and save a test image.
 **View the camera feed in a browser:**
 From your Pi 500's browser, open:
 ```
-http://10.10.10.142:8080
+http://<ROBOT_IP>:8080
 ```
 (Replace with your robot's IP)
 
@@ -147,7 +147,7 @@ You'll often want multiple SSH sessions:
 
 Open a new terminal tab on your Pi 500 (Ctrl+Shift+T) and SSH again:
 ```bash
-ssh robot@10.10.10.142
+ssh robot@<ROBOT_IP>
 ```
 
 ## Copying Files
@@ -155,13 +155,13 @@ ssh robot@10.10.10.142
 **Pi 500 → Robot:**
 ```bash
 # From Pi 500 terminal (NOT SSH'd into robot)
-scp ~/Pathfinder2026/my_script.py robot@10.10.10.142:/home/robot/pathfinder/skills/
+scp ~/Pathfinder2026/my_script.py robot@<ROBOT_IP>:/home/robot/pathfinder/skills/
 ```
 
 **Robot → Pi 500:**
 ```bash
 # From Pi 500 terminal
-scp robot@10.10.10.142:/home/robot/pathfinder/test_frame.jpg ~/
+scp robot@<ROBOT_IP>:/home/robot/pathfinder/test_frame.jpg ~/
 ```
 
 ## Editing Code
@@ -195,7 +195,7 @@ nano /home/robot/pathfinder/skills/my_script.py
 **"Connection refused":**
 - Is the robot powered on?
 - Are both devices on the same WiFi?
-- Check robot IP: `ping 10.10.10.142`
+- Check robot IP: `ping <ROBOT_IP>`
 
 **"Permission denied":**
 - Wrong password? Ask facilitator

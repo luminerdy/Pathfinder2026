@@ -26,7 +26,7 @@ The Pi 500 is your **command center** — you'll use it to write code, SSH into 
 4. Choose OS: **Raspberry Pi OS (64-bit)** — Desktop version
 5. Choose Storage: Select your microSD card
 6. Click the **gear icon** (⚙️) for advanced settings:
-   - Set hostname: `pi500-teamX` (replace X with team number)
+   - Set device name / hostname: any event label you prefer
    - Enable SSH (password authentication)
    - Set username: `robot`
    - Set password: (your choice, document it!)
@@ -46,10 +46,6 @@ The Pi 500 is your **command center** — you'll use it to write code, SSH into 
 Open a terminal (Ctrl+Alt+T) and verify:
 
 ```bash
-# Check hostname
-hostname
-# Should show: pi500-teamX
-
 # Check WiFi
 ping -c 3 google.com
 # Should succeed
@@ -88,7 +84,7 @@ hostname -I
 # Example: 10.10.10.141
 ```
 
-Write this down — other teams don't need it, but you'll use it for troubleshooting.
+Write this down for troubleshooting. The robot IP address is the important address for event connections.
 
 ## Step 6: Install Visual Studio Code
 
@@ -114,14 +110,14 @@ VSCode Remote SSH lets you write and run robot code directly on the robot from t
 
 **Connect to your robot:**
 1. Press `F1` → type `Remote-SSH: Connect to Host` → select it
-2. Enter: `robot@pathfinder-01.local` (use your robot's hostname)
+2. Enter: `robot@<ROBOT_IP>` using the IP address assigned to your team's robot
 3. Enter the robot password when prompted
 4. VSCode installs its server component on the robot automatically (first time only, ~1 minute)
 5. Select **Open Folder** → navigate to `/home/robot/pathfinder`
 
 You can now edit, run, and debug robot code directly from the Pi 500.
 
-> **Robot hostname:** Each team's robot is `robot@pathfinder-XX.local` where XX is the team number. If `.local` doesn't resolve, use the robot's IP address instead (see Step 5).
+> **Robot IP:** The event will use IP addresses for robot connections. Get your team's robot IP address from the facilitator or the event IP assignment sheet.
 
 ---
 
@@ -154,7 +150,7 @@ For workshops, the facilitator can pre-image all SD cards to save time:
 
 1. Build one Pi 500 image following steps above
 2. Use Raspberry Pi Imager to clone the SD card
-3. Change hostname on each clone (`pi500-team1`, `pi500-team2`, etc.)
+3. Update each clone's device label if needed and record the assigned IP address
 4. Pre-connect to workshop WiFi
 
 This skips 15-20 minutes of setup per team.

@@ -7,7 +7,7 @@ Usage (on robot):
     cd ~/pathfinder
     PYTHONPATH=/home/robot/pathfinder python3 web/zone584_control.py
 
-Open in browser: http://10.10.10.142:5000
+Open in browser: http://<ROBOT_IP>:5000
 """
 
 import sys
@@ -241,7 +241,7 @@ if __name__ == '__main__':
     v = robot.battery
     print('Battery: %.2fV' % v if v else 'Battery: unknown')
     print()
-    print('Open in browser: http://10.10.10.142:5000')
+    print('Open in browser: http://<ROBOT_IP>:5000')
     print('Controls: WASD / arrow keys, Q/E to strafe')
     print('Ctrl-C to quit')
     print()

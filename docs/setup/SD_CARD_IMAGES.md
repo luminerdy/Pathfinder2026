@@ -29,10 +29,10 @@ Two images needed per team: one for the Pi 500 (control hub), one for the Robot 
    - Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
    - Choose OS: **Raspberry Pi OS (64-bit) Desktop**
    - Advanced settings (gear icon):
-     - Hostname: `pi500-template`
+     - Device name / hostname: any event label you prefer; event connections use IP addresses
      - Enable SSH (password auth)
      - Username: `robot`
-     - Password: `R4spb3rry` (or your workshop standard)
+     - Password: choose your own workshop password
      - WiFi: Your workshop network SSID + password
      - Timezone: Your timezone
    - Write to SD card
@@ -72,11 +72,11 @@ Two images needed per team: one for the Pi 500 (control hub), one for the Robot 
    - Shut down Pi 500
    - Remove SD card
    - Use Raspberry Pi Imager or `dd` to clone the card
-   - For each clone, boot and change hostname:
+   - For each clone, boot and record its assigned IP address:
      ```bash
-     sudo hostnamectl set-hostname pi500-team1
-     # Repeat with team2, team3, etc.
+     hostname -I
      ```
+   - Optionally update the device label if needed.
 
 ### What's on the Pi 500 Image
 
@@ -102,10 +102,10 @@ Detailed build guide: [A2_ROBOT_PI_OS_BUILD.md](A2_ROBOT_PI_OS_BUILD.md)
    - Raspberry Pi Imager
    - Choose OS: **Raspberry Pi OS (64-bit) Desktop**
    - Advanced settings:
-     - Hostname: `robot-template`
+     - Device name / hostname: any event label you prefer; event connections use IP addresses
      - Enable SSH
      - Username: `robot`
-     - Password: `R4spb3rry` (same as Pi 500 for simplicity)
+     - Password: choose your own workshop password
      - WiFi: Workshop network
      - Timezone: Your timezone
    - Write to SD card
@@ -149,10 +149,11 @@ Detailed build guide: [A2_ROBOT_PI_OS_BUILD.md](A2_ROBOT_PI_OS_BUILD.md)
 
 7. **Clone for each team:**
    - Same process as Pi 500
-   - Change hostname per team:
+   - Record the assigned robot IP address:
      ```bash
-     sudo hostnamectl set-hostname robot-team1
+     hostname -I
      ```
+   - Optionally update the device label if needed.
 
 ### What's on the Robot Image
 
@@ -168,18 +169,18 @@ Detailed build guide: [A2_ROBOT_PI_OS_BUILD.md](A2_ROBOT_PI_OS_BUILD.md)
 
 ---
 
-## Naming Convention
+## IP Assignment Convention
 
-| House | Team | Pi 500 Hostname | Robot Hostname |
-|-------|------|----------------|----------------|
-| 1 | 1 | pi500-h1t1 | robot-h1t1 |
-| 1 | 2 | pi500-h1t2 | robot-h1t2 |
+Use IP addresses for event connections. Keep an assignment sheet like this:
+
+| House | Team | Pi 500 IP | Robot IP |
+|-------|------|-----------|----------|
+| 1 | 1 | 10.1.1.11 | 10.1.1.101 |
+| 1 | 2 | 10.1.1.12 | 10.1.1.102 |
 | ... | ... | ... | ... |
-| 7 | 49 | pi500-h7t7 | robot-h7t7 |
+| 7 | 49 | 10.7.1.17 | 10.7.1.107 |
 
-**Naming:** `h1t1` = House 1, Team 1. Each house has its own WiFi network or VLAN to avoid cross-house interference.
-
-**Static IPs recommended** — each house gets its own subnet (e.g., House 1 = 10.1.x.x, House 2 = 10.2.x.x).
+**Static IPs recommended** - each house gets its own subnet (for example, House 1 = 10.1.x.x, House 2 = 10.2.x.x). Participants should connect with `ssh robot@<ROBOT_IP>`.
 
 ---
 

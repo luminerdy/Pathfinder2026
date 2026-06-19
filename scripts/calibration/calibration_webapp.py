@@ -6,7 +6,7 @@ Run on the robot:
     python3 scripts/calibration/calibration_webapp.py
 
 Then open in any browser:
-    http://10.10.10.142:5000
+    http://<ROBOT_IP>:5000
 
 Captured images → calibration_captures/
 Calibration output → lib/camera_calibration.npz
@@ -341,5 +341,5 @@ def calibrate():
 if __name__ == '__main__':
     CAPTURES_DIR.mkdir(parents=True, exist_ok=True)
     threading.Thread(target=_camera_worker, daemon=True).start()
-    print('\n  Open in browser -> http://10.10.10.142:5000\n')
+    print('\n  Open in browser -> http://<ROBOT_IP>:5000\n')
     app.run(host='0.0.0.0', port=5000, threaded=True)

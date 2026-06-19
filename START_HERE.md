@@ -59,7 +59,7 @@ Manual control is available from the web interface:
 python3 web/web_control.py
 ```
 
-Open `http://<robot-ip>:8080` from the Pi 500.
+Open `http://<ROBOT_IP>:8080` from the Pi 500.
 
 ## Phase 3: Course Challenge
 

@@ -249,7 +249,7 @@ cd /home/robot/code/pathfinder/web
 python3 web_control.py
 ```
 
-Open in browser: `http://<robot-ip>:8080`
+Open in browser: `http://<ROBOT_IP>:8080`
 
 **Verify:**
 - [ ] Live video feed visible

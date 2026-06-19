@@ -10,7 +10,7 @@
 ```bash
 cd /home/robot/pathfinder/web
 python3 app.py
-# Open browser: http://10.10.10.142:5000/servo
+# Open browser: http://<ROBOT_IP>:5000/servo
 ```
 Move sliders, see arm respond!
 

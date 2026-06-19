@@ -84,7 +84,7 @@ python3 app.py
 
 **Open in browser:**
 ```
-http://10.10.10.142:5000/servo
+http://<ROBOT_IP>:5000/servo
 ```
 
 **What you'll see:**

@@ -90,7 +90,7 @@ python3 web/web_control.py
 Then open this from the Pi 500 browser:
 
 ```text
-http://<robot-ip>:8080
+http://<ROBOT_IP>:8080
 ```
 
 ## Workshop Phases

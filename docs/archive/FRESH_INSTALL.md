@@ -41,7 +41,7 @@ Complete setup instructions for Pathfinder2026 on a fresh Raspberry Pi OS instal
 **First boot:**
 ```bash
 # SSH into Pi (or use monitor/keyboard)
-ssh pi@Pathfinder robot.local
+ssh robot@<ROBOT_IP>
 
 # Update system
 sudo apt update

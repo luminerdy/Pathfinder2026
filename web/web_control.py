@@ -11,7 +11,7 @@ Provides:
 
 Usage:
     python3 web_control.py
-    Then open: http://10.10.10.134:8080
+    Then open: http://<ROBOT_IP>:8080
 """
 
 from flask import Flask, render_template, Response, jsonify, request
@@ -276,7 +276,7 @@ if __name__ == '__main__':
     
     print()
     print("Starting web server...")
-    print("Open in browser: http://10.10.10.134:8080")
+    print("Open in browser: http://<ROBOT_IP>:8080")
     print()
     print("Controls:")
     print("  WASD or Arrow keys - Drive")

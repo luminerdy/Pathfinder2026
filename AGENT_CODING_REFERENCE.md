@@ -8,7 +8,7 @@
 
 ```json
 {
-  "buddy1":  {"ip": "10.10.10.142", "platform": "Pi 4 4GB", "os": "Raspberry Pi OS Bookworm", "ssh": "ssh robot@10.10.10.142", "role": "primary competition robot"},
+  "buddy1":  {"ip": "<ROBOT_IP>", "platform": "Pi 4 4GB", "os": "Raspberry Pi OS Bookworm", "ssh": "ssh robot@<ROBOT_IP>", "role": "primary competition robot"},
   "buddy2":  {"ip": "10.10.10.127", "platform": "Pi 4", "os": "Debian 13.4 Trixie, Python 3.13.5", "role": "secondary robot"},
   "Pi500MC": {"ip": "10.10.10.141", "platform": "Pi 500", "os": "Raspberry Pi OS", "role": "mission control, stationary, wall power"}
 }

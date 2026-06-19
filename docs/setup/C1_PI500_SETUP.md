@@ -98,18 +98,18 @@ git clone https://github.com/luminerdy/Pathfinder2026.git
 | Action | How |
 |--------|-----|
 | Open terminal | Ctrl+Alt+T |
-| SSH to robot | `ssh robot@<robot-ip>` |
-| Copy file to robot | `scp file.py robot@<robot-ip>:/home/robot/pathfinder/` |
-| View robot camera | Open browser: `http://<robot-ip>:8080` |
+| SSH to robot | `ssh robot@<ROBOT_IP>` |
+| Copy file to robot | `scp file.py robot@<ROBOT_IP>:/home/robot/pathfinder/` |
+| View robot camera | Open browser: `http://<ROBOT_IP>:8080` |
 | Edit code | `nano filename.py` or use Thonny (GUI editor) |
 | Run Python | `python3 script.py` |
 | Stop a running script | Ctrl+C |
 
 ---
 
-## Important: Do NOT Change the Hostname
+## Important: Use the Assigned IP Address
 
-Your Pi 500 hostname identifies your team. The facilitator set it during imaging. Changing it can cause network conflicts.
+The event uses assigned IP addresses for robot connections. Get your team's robot IP address from the facilitator or the event IP assignment sheet.
 
 ---
 

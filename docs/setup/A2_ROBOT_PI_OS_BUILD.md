@@ -14,7 +14,7 @@
 
 ## Overview
 
-After completing these steps you will have an SD card that can be cloned for all workshop robots. Each robot gets an identical image â only WiFi credentials and hostname change per robot.
+After completing these steps you will have an SD card that can be cloned for all workshop robots. Each robot gets an identical image; WiFi credentials and assigned IP address are recorded per robot.
 
 **Materials:** see [BILL_OF_MATERIALS.md](BILL_OF_MATERIALS.md) in this folder for the robot/setup BOM.
 
@@ -33,7 +33,7 @@ After completing these steps you will have an SD card that can be cloned for all
 - **Storage:** Select your SD card (16GB minimum, 32GB recommended)
 
 ### Pre-Configure in Imager (gear icon / Ctrl+Shift+X)
-- **Hostname:** `pathfinder` (change per robot later: pathfinder-01, pathfinder-02, etc.)
+- **Device name / hostname:** any event label you prefer; use IP addresses for all event connections
 - **Enable SSH:** Yes (password authentication)
 - **Username:** `robot`
 - **Password:** choose your own workshop password
@@ -58,17 +58,16 @@ Click **Write** and wait for completion.
 1. Insert SD card into Pi 4
 2. Power on
 3. Wait ~60 seconds for first boot (filesystem expands)
-4. Find the Pi on your network:
+4. Find the Pi's IP address on your network:
    ```bash
-   # From another computer on the same network
-   ping pathfinder.local
-   # Or check your router's DHCP client list
+   # On the robot, if you have a monitor attached
+   hostname -I
+
+   # Or check your router / DHCP client list
    ```
-5. SSH in:
+5. SSH in using the robot IP address:
    ```bash
-   ssh robot@pathfinder.local
-   # Or use the IP address
-   ssh robot@<IP_ADDRESS>
+   ssh robot@<ROBOT_IP>
    ```
 
 > **Remote development:** With SSH enabled here, the Pi 500 can connect to this robot using VSCode Remote SSH. See [A1_PI500_OS_BUILD.md](A1_PI500_OS_BUILD.md) for Pi 500 configuration.
@@ -507,10 +506,9 @@ sudo dd if=Pathfinder2026.img of=/dev/sdY bs=4M status=progress
 Use **Win32 Disk Imager** or **balenaEtcher** to read/write the image.
 
 ### Per-Robot Changes After Cloning
-Each robot needs a unique hostname:
-```bash
-sudo hostnamectl set-hostname pathfinder-01  # Change number per robot
-```
+Each robot needs an assigned IP address recorded on the event IP sheet. If static IPs are used, configure the assigned IP before the event.
+
+Optional: set a unique device label for local identification, but do not use it for event connections.
 
 WiFi credentials should already be set from Step 1. If different networks are needed:
 ```bash
