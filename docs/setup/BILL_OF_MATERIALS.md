@@ -50,6 +50,6 @@ Robot/Pi 500 setup lives here. Workshop challenge field materials will be added 
 ## Quick Links
 
 - [Pi 500 OS build](A1_PI500_OS_BUILD.md)
-- [Robot Pi OS build](A1_ROBOT_PI_OS_BUILD.md)
+- [Robot Pi OS build](A2_ROBOT_PI_OS_BUILD.md)
 - [Pi 500 setup](C1_PI500_SETUP.md)
 - [Connect and test](C2_CONNECT_AND_TEST.md)

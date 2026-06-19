@@ -94,6 +94,8 @@ Two images needed per team: one for the Pi 500 (control hub), one for the Robot 
 
 ## Image 2: Robot Pi (Pi 4)
 
+Detailed build guide: [A2_ROBOT_PI_OS_BUILD.md](A2_ROBOT_PI_OS_BUILD.md)
+
 ### Build Steps
 
 1. **Image base OS:**

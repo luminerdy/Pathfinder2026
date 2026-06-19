@@ -135,7 +135,7 @@ Guide: [Course Challenge](docs/workshop/COURSE_CHALLENGE.md)
 For pre-event setup:
 
 - [Pi 500 OS Build](docs/setup/A1_PI500_OS_BUILD.md)
-- [Robot Pi OS Build](docs/setup/A1_ROBOT_PI_OS_BUILD.md)
+- [Robot Pi OS Build](docs/setup/A2_ROBOT_PI_OS_BUILD.md)
 - [Pi 500 Setup](docs/setup/C1_PI500_SETUP.md)
 - [Connect and Test](docs/setup/C2_CONNECT_AND_TEST.md)
 - [Bill of Materials](docs/setup/BILL_OF_MATERIALS.md)

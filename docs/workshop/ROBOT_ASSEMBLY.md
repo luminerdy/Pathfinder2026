@@ -79,7 +79,7 @@ The Robot Pi runs the code on the robot.
 
 Relevant setup docs:
 
-- [Robot Pi OS Build](../setup/A1_ROBOT_PI_OS_BUILD.md)
+- [Robot Pi OS Build](../setup/A2_ROBOT_PI_OS_BUILD.md)
 - [Connect and Test](../setup/C2_CONNECT_AND_TEST.md)
 
 ## Where The Robot Code Lives
