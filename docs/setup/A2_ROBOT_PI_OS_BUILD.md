@@ -36,7 +36,7 @@ After completing these steps you will have an SD card that can be cloned for all
 - **Hostname:** `pathfinder` (change per robot later: pathfinder-01, pathfinder-02, etc.)
 - **Enable SSH:** Yes (password authentication)
 - **Username:** `robot`
-- **Password:** `R4spb3rry` (or your workshop standard)
+- **Password:** choose your own workshop password
 - **WiFi:** Configure your workshop network SSID and password
 - **Locale:** Set timezone and keyboard layout
 
