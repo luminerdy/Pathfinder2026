@@ -3,11 +3,12 @@
 **Purpose:** Create an SD card image for a Pathfinder2026 workshop robot.
 **Platform:** Raspberry Pi 4 (4GB+)  
 **OS:** Raspberry Pi OS (Debian 13 Trixie, 64-bit)  
-**Current Pi OS Released:** 2026-04-21  
-**Last tested:** 2026-04-21  
+**Raspberry Pi Imager:** 2.0.0
+**Current Pi OS Released:** 2026-06-18
+**Last tested:** 2026-06-18
 **Time:** ~30 minutes
 
-> **OS Note:** Use the Raspberry Pi OS 64-bit release dated **2026-04-21**. This guide was last tested on **2026-04-21**.
+> **OS Note:** Use the Raspberry Pi OS 64-bit release dated **2026-06-18**. This guide was last tested on **2026-06-18**.
 
 ---
 
@@ -23,10 +24,10 @@ After completing these steps you will have an SD card that can be cloned for all
 
 ### Download
 - Go to https://www.raspberrypi.com/software/
-- Download **Raspberry Pi Imager**
+- Download **Raspberry Pi Imager 2.0.0**
 
 ### Flash Settings
-- **OS:** Raspberry Pi OS (64-bit), released 2026-04-21
+- **OS:** Raspberry Pi OS (64-bit), released 2026-06-18
   - Lite (no desktop) is recommended for robot-only images
   - Desktop is fine if students will use VNC
 - **Storage:** Select your SD card (16GB minimum, 32GB recommended)
@@ -35,9 +36,11 @@ After completing these steps you will have an SD card that can be cloned for all
 - **Hostname:** `pathfinder` (change per robot later: pathfinder-01, pathfinder-02, etc.)
 - **Enable SSH:** Yes (password authentication)
 - **Username:** `robot`
-- **Password:** (choose a standard password for all robots)
+- **Password:** `R4spb3rry` (or your workshop standard)
 - **WiFi:** Configure your workshop network SSID and password
 - **Locale:** Set timezone and keyboard layout
+
+> **Event account note:** Event notes may refer to the user name as "Robot"; keep the Linux account lowercase as `robot` so paths and commands match `/home/robot/pathfinder`.
 
 ### Flash
 Click **Write** and wait for completion.
@@ -81,7 +84,23 @@ sudo apt-get upgrade -y
 
 ---
 
-## Step 4: Enable Hardware Interfaces
+## Step 4: Enable Interfaces
+
+Enable SSH, VNC, I2C, and the UART configuration needed by the robot control board.
+
+### Confirm SSH
+
+SSH should already be enabled from Raspberry Pi Imager. If needed, enable it manually:
+
+```bash
+sudo raspi-config nonint do_ssh 0
+```
+
+### Enable VNC
+
+```bash
+sudo raspi-config nonint do_vnc 0
+```
 
 ### Enable I2C (for motor board and sonar)
 ```bash
@@ -589,6 +608,6 @@ sudo reboot
 ---
 
 *Created: March 26, 2026*  
-*Updated: April 21, 2026 - aligned to Raspberry Pi OS release 2026-04-21*  
-*Last tested: April 21, 2026*  
+*Updated: June 18, 2026 - aligned to Raspberry Pi OS release 2026-06-18 and Raspberry Pi Imager 2.0.0*
+*Last tested: June 18, 2026*
 *Tested on: Raspberry Pi 4 Model B, Debian 13 Trixie 64-bit, Python 3.13.x*
