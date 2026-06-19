@@ -226,11 +226,11 @@ All should print without errors.
 
 ---
 
-## Step 6: VS Code Remote SSH Note
+## Step 6: VS Code Remote SSH Support
 
-Do not install the full VS Code desktop app on the robot for the event workflow. Install VS Code on the Pi 500, then use Remote SSH to edit `/home/robot/pathfinder` on the robot.
+The robot must support VS Code Remote SSH connections from the Pi 500. It does this through SSH plus a small VS Code server component that Remote SSH installs automatically.
 
-The first Remote SSH connection from the Pi 500 installs the VS Code server component on the robot automatically.
+Do not install the full VS Code desktop app with `sudo apt-get install -y code` on the robot for the event workflow. Install VS Code on the Pi 500, then connect to `robot@<ROBOT_IP>` with Remote SSH. The first connection installs the VS Code server component on the robot automatically.
 
 ---
 
