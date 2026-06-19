@@ -107,8 +107,8 @@ sudo raspi-config nonint do_vnc 0
 sudo raspi-config nonint do_i2c 0
 ```
 
-### Enable UART and Disable Bluetooth
-The motor board communicates via UART at 1,000,000 baud. On Pi 4, Bluetooth uses the good UART (ttyAMA0) by default. We need to swap it.
+### Enable UART
+The motor board communicates via UART at 1,000,000 baud. On Pi 4, Bluetooth uses the good UART (`ttyAMA0`) by default. Enable UART and add the Bluetooth overlay so `ttyAMA0` is available for the motor board.
 
 Open the boot config file:
 
@@ -131,6 +131,7 @@ Save and exit nano:
 2. Press `Enter` to confirm the file name.
 3. Press `Ctrl+X` to exit nano.
 
+### Disable Bluetooth Services
 After you are back at the command line, disable the Bluetooth services:
 
 ```bash
