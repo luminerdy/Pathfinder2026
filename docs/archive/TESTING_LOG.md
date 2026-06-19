@@ -12,58 +12,58 @@ Live testing results on actual hardware (Pi 5, Pathfinder robot robot).
 ### Python Libraries Found Missing
 
 #### 1. opencv-python (cv2)
-**Error:** `ModuleNotFoundError: No module named 'cv2'`  
-**Location:** `sdk/kinematics/transform.py`  
-**Solution:** 
+**Error:** `ModuleNotFoundError: No module named 'cv2'`
+**Location:** `sdk/kinematics/transform.py`
+**Solution:**
 ```bash
 pip3 install opencv-python --break-system-packages
 ```
 **Status:** ✅ Installed and working
 
 #### 2. matplotlib
-**Error:** `ModuleNotFoundError: No module named 'matplotlib'`  
-**Location:** `sdk/kinematics/arm_move_ik.py`  
-**Solution:** Commented out - not actually needed for robot operation  
+**Error:** `ModuleNotFoundError: No module named 'matplotlib'`
+**Location:** `sdk/kinematics/arm_move_ik.py`
+**Solution:** Commented out - not actually needed for robot operation
 **Status:** ✅ Fixed by commenting imports
 
 #### 3. mpl_toolkits (matplotlib 3D)
-**Error:** Would have occurred after matplotlib  
-**Location:** `sdk/kinematics/arm_move_ik.py`  
-**Solution:** Commented out - not needed  
+**Error:** Would have occurred after matplotlib
+**Location:** `sdk/kinematics/arm_move_ik.py`
+**Solution:** Commented out - not needed
 **Status:** ✅ Fixed by commenting imports
 
 ### Code Bugs Found
 
 #### 1. Missing Path import
-**Error:** `NameError: name 'Path' is not defined`  
-**Location:** `hardware/board.py`  
-**Issue:** `from pathlib import Path` came after using `Path()`  
+**Error:** `NameError: name 'Path' is not defined`
+**Location:** `hardware/board.py`
+**Issue:** `from pathlib import Path` came after using `Path()`
 **Status:** ✅ Fixed - moved import to top
 
 #### 2. SDK creating Board at module import
-**Error:** Serial port error during import  
-**Location:** `sdk/common/mecanum.py`  
-**Issue:** `board = Board()` executed at module load time  
-**Solution:** Changed to `board = None`  
+**Error:** Serial port error during import
+**Location:** `sdk/common/mecanum.py`
+**Issue:** `board = Board()` executed at module load time
+**Solution:** Changed to `board = None`
 **Status:** ✅ Fixed
 
 #### 3. Missing Tuple import
-**Error:** `NameError: name 'Tuple' is not defined`  
-**Location:** `hardware/sonar.py`  
-**Issue:** Used `Tuple` in type hints without importing  
+**Error:** `NameError: name 'Tuple' is not defined`
+**Location:** `hardware/sonar.py`
+**Issue:** Used `Tuple` in type hints without importing
 **Status:** ✅ Fixed - added to imports
 
 #### 4. Unicode characters in output
-**Error:** `UnicodeEncodeError: 'latin-1' codec can't encode character '\u2713'`  
-**Location:** `start_robot.py` and other scripts  
-**Issue:** Checkmark characters (✓✗) don't work in some terminals  
+**Error:** `UnicodeEncodeError: 'latin-1' codec can't encode character '\u2713'`
+**Location:** `start_robot.py` and other scripts
+**Issue:** Checkmark characters (✓✗) don't work in some terminals
 **Status:** ⏳ To be fixed
 
 #### 5. RGB LED method name
-**Error:** `AttributeError: 'Board' object has no attribute 'set_colorful_leds'`  
-**Location:** `hardware/board.py` line 122  
-**Issue:** Method name doesn't match actual SDK (should be `set_rgb`)  
-**Solution:** Changed to `board.set_rgb([(1, r, g, b), (2, r, g, b)])`  
+**Error:** `AttributeError: 'Board' object has no attribute 'set_colorful_leds'`
+**Location:** `hardware/board.py` line 122
+**Issue:** Method name doesn't match actual SDK (should be `set_rgb`)
+**Solution:** Changed to `board.set_rgb([(1, r, g, b), (2, r, g, b)])`
 **Status:** ✅ Fixed and tested working
 
 ### Hardware Tests Completed

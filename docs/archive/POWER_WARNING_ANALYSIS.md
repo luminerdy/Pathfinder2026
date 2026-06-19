@@ -202,7 +202,7 @@ Add motor load:
    ```bash
    # Monitor in one terminal
    watch -n 0.5 vcgencmd get_throttled
-   
+
    # Run motors in another
    # Watch if throttling appears
    ```
@@ -270,6 +270,6 @@ Add motor load:
 
 ---
 
-**Most likely fix:** Fresh batteries + usb_max_current_enable=1  
-**If that fails:** Separate Pi power supply needed  
+**Most likely fix:** Fresh batteries + usb_max_current_enable=1
+**If that fails:** Separate Pi power supply needed
 **Test priority:** High (affects stability)

@@ -97,7 +97,7 @@ Or install via terminal:
 sudo apt install -y code
 ```
 
-## Step 7: Configure VSCode Remote SSH to Robot
+## Step 7: Configure VSCode Remote SSH to robot
 
 VSCode Remote SSH lets you write and run robot code directly on the robot from the Pi 500 — no need to install a code editor on the robot.
 
@@ -117,7 +117,7 @@ VSCode Remote SSH lets you write and run robot code directly on the robot from t
 
 You can now edit, run, and debug robot code directly from the Pi 500.
 
-> **Robot IP:** The event will use IP addresses for robot connections. Get your team's robot IP address from the facilitator or the event IP assignment sheet.
+> **robot IP:** The event will use IP addresses for robot connections. Get your team's robot IP address from the facilitator or the event IP assignment sheet.
 
 ---
 

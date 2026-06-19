@@ -26,7 +26,7 @@ After this skill, you can:
 - ✅ **Use** RGB LEDs for visual feedback
 - ✅ **Filter** noisy sensor data (median, average)
 
-**Assessment:** Robot stops before hitting obstacle, RGB shows correct colors
+**Assessment:** robot stops before hitting obstacle, RGB shows correct colors
 
 ---
 

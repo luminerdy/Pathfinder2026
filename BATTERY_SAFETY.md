@@ -25,7 +25,7 @@ for i in range(5):
 
 ## Voltage Thresholds
 
-### Pi 4 (Competition Robot)
+### Pi 4 (Competition robot)
 
 | Voltage | Status | What Works |
 |---------|--------|-----------|
@@ -34,7 +34,7 @@ for i in range(5):
 | 7.0-7.5V | Low | Still works but replace soon |
 | < 7.0V | Critical | Replace immediately |
 
-### Pi 5 (Development Robot)
+### Pi 5 (Development robot)
 
 | Voltage | Status | What Works |
 |---------|--------|-----------|
@@ -86,7 +86,7 @@ for i in range(5):
 **Brownout protection:**
 - Built-in circuit cuts power at ~6.0-6.5V
 - Prevents cell damage from over-discharge
-- Robot reboots when motors stop (voltage recovers)
+- robot reboots when motors stop (voltage recovers)
 - **This is correct behavior — the protection is saving your batteries**
 
 ---

@@ -41,9 +41,9 @@ After this skill, you can:
 
 ## Color Spaces Quick Reference
 
-**BGR:** OpenCV default (Blue-Green-Red)  
-**RGB:** Human perception (Red-Green-Blue)  
-**Grayscale:** Single channel, fast processing  
+**BGR:** OpenCV default (Blue-Green-Red)
+**RGB:** Human perception (Red-Green-Blue)
+**Grayscale:** Single channel, fast processing
 **HSV:** Best for color detection (Hue-Saturation-Value)
 
 ---

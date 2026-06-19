@@ -1,4 +1,4 @@
-# C2: Connect Pi 500 to Robot and Test
+# C2: Connect Pi 500 to the robot and test
 
 **Purpose:** Establish SSH connection from your Pi 500 to the robot, verify all hardware works
 
@@ -9,7 +9,7 @@ This is the critical step — once connected, you control the robot entirely fro
 ## Prerequisites
 
 - Pi 500 is powered on, connected to WiFi ([C1](C1_PI500_SETUP.md))
-- Robot is powered on with charged batteries (>7.0V)
+- robot is powered on with charged batteries (>7.0V)
 - Both devices on the same WiFi network
 - You know the robot's IP address (check robot's display or ask facilitator)
 
@@ -17,7 +17,7 @@ This is the critical step — once connected, you control the robot entirely fro
 
 ```
 ┌──────────────────┐     WiFi/SSH      ┌──────────────────┐
-│    Pi 500         │ ──────────────── │    Robot (Pi 4)   │
+│    Pi 500         │ ──────────────── │    robot (Pi 4)   │
 │  (Control Hub)    │                   │  (Mobile Platform)│
 │                   │                   │                   │
 │  - Write code     │   SSH commands    │  - Motors         │
@@ -33,7 +33,7 @@ This is the critical step — once connected, you control the robot entirely fro
 
 ---
 
-## Step 1: Find the Robot's IP
+## Step 1: Find the robot's IP
 
 Ask your facilitator, or check the robot's display. Example: `<ROBOT_IP>`
 
@@ -52,7 +52,7 @@ ssh robot@<ROBOT_IP>
 
 **Success looks like:**
 ```
-robot@RobotPi4:~ $
+robot@robotPi4:~ $
 ```
 
 You're now ON the robot. Every command you type runs on the robot.
@@ -152,13 +152,13 @@ ssh robot@<ROBOT_IP>
 
 ## Copying Files
 
-**Pi 500 → Robot:**
+**Pi 500 → robot:**
 ```bash
 # From Pi 500 terminal (NOT SSH'd into robot)
 scp ~/Pathfinder2026/my_script.py robot@<ROBOT_IP>:/home/robot/pathfinder/skills/
 ```
 
-**Robot → Pi 500:**
+**robot → Pi 500:**
 ```bash
 # From Pi 500 terminal
 scp robot@<ROBOT_IP>:/home/robot/pathfinder/test_frame.jpg ~/
@@ -201,7 +201,7 @@ nano /home/robot/pathfinder/skills/my_script.py
 - Wrong password? Ask facilitator
 - Username must be `robot` (lowercase)
 
-**Robot not responding to commands:**
+**robot not responding to commands:**
 - Battery dead? Check voltage
 - SSH session frozen? Close terminal, reconnect
 

@@ -41,8 +41,8 @@ POINT AND DRIVE - APRILTAG EDITION
 
 How to use:
   1. Point robot at any AprilTag
-  2. Robot will drive toward it automatically
-  3. Robot stops when close enough
+  2. robot will drive toward it automatically
+  3. robot stops when close enough
   4. Point at another tag to continue
 
 Expected tags: 582 (Home), 583 (Pickup_1), 584 (Pickup_2), 585 (Delivery)
@@ -66,10 +66,10 @@ Scanning for tags... (point robot at any tag)
 - Stop when close: `SUCCESS: REACHED Tag 583 (Pickup_1)! Area=27000px²`
 - **Automatically rotate** to find next tag
 
-### **Step 3: Robot Finds Next Tag Automatically**
+### **Step 3: robot Finds Next Tag Automatically**
 
 **After reaching a tag:**
-- Robot automatically starts rotating
+- robot automatically starts rotating
 - Searches for a different tag
 - Drives to the new tag when found
 - Repeats until you press Ctrl+C!
@@ -123,22 +123,22 @@ No tags visible... (point at a tag)
 
 **1. Start in center of field**
 - Point at Tag 582 (North wall)
-- Robot drives there
+- robot drives there
 - ✅ Tag 582 tested
 
 **2. Rotate 90° clockwise**
 - Point at Tag 583 (East wall)
-- Robot drives there
+- robot drives there
 - ✅ Tag 583 tested
 
 **3. Rotate 90° clockwise**
 - Point at Tag 584 (South wall)
-- Robot drives there
+- robot drives there
 - ✅ Tag 584 tested
 
 **4. Rotate 90° clockwise**
 - Point at Tag 585 (West wall)
-- Robot drives there
+- robot drives there
 - ✅ Tag 585 tested
 
 **Total time:** ~2-3 minutes to test all 4 tags!
@@ -203,13 +203,13 @@ TARGET_AREA = 15000  # Stops at medium distance
 
 ## 🔍 Troubleshooting
 
-### **Robot doesn't move:**
+### **robot doesn't move:**
 - ✅ Check battery voltage (needs >7.5V)
 - ✅ Verify tag is visible in camera view
 - ✅ Make sure tag is tag36h11 family (IDs 582-585)
 - ✅ Tag might be too small (too far away)
 
-### **Robot rotates but doesn't drive forward:**
+### **robot rotates but doesn't drive forward:**
 - Tag is off-center (this is normal)
 - Wait for robot to center it
 - Will drive forward once centered
@@ -219,12 +219,12 @@ TARGET_AREA = 15000  # Stops at medium distance
 - Check lighting (tags need good contrast)
 - Verify tag is flat (not wrinkled/bent)
 
-### **Robot stops far from tag:**
+### **robot stops far from tag:**
 - Tag area not reaching 25,000 px²
 - Tag might be too small (6" instead of 10")
 - Increase TARGET_AREA to require closer approach
 
-### **Robot drives past tag:**
+### **robot drives past tag:**
 - Tag area exceeds target while robot still moving
 - Normal behavior, will stop soon
 - Reduce FORWARD_SPEED for more precise stopping
@@ -309,12 +309,12 @@ Measure:
 Show students:
 - Autonomous navigation in action
 - Computer vision working
-- Robot decision-making
+- robot decision-making
 - Feedback control loops
 
 ### **4. Competition Preparation:**
 Verify:
-- Robot can reach all scoring zones
+- robot can reach all scoring zones
 - Navigation is reliable
 - Tags are competition-ready
 - Field layout is correct
@@ -325,7 +325,7 @@ Verify:
 
 ### **For Best Results:**
 1. **Start in field center** - Can see multiple tags
-2. **Point clearly** - Robot needs tag in view
+2. **Point clearly** - robot needs tag in view
 3. **Wait for stop** - Let robot complete each approach
 4. **Good lighting** - Helps tag detection
 5. **Flat tags** - Wrinkled tags harder to detect
@@ -363,6 +363,6 @@ Verify:
 
 ---
 
-*Created: March 23, 2026*  
-*Based on PathfinderBot Follow Me concept*  
+*Created: March 23, 2026*
+*Based on PathfinderBot Follow Me concept*
 *Adapted for AprilTag navigation*

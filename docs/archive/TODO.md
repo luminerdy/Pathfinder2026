@@ -17,7 +17,7 @@
 - [ ] **Test on actual surface** (carpet vs floor affects speeds)
 - [ ] **Document final values** in config or README
 
-**Why:** Speeds 1-20 typically don't move robot (dead zone)  
+**Why:** Speeds 1-20 typically don't move robot (dead zone)
 **Impact:** Without calibration, fine positioning and slow approaches won't work
 
 ---
@@ -112,9 +112,9 @@
 - [ ] **Stack blocks** (place on top of each other)
 - [ ] **Push vs pickup** strategies
 
-### Multi-Robot
+### Multi-robot
 
-- [ ] **Robot-to-robot communication** (share detected blocks)
+- [ ] **robot-to-robot communication** (share detected blocks)
 - [ ] **Collision avoidance** between robots
 - [ ] **Cooperative manipulation** (two robots, one block)
 - [ ] **Task allocation** (which robot picks up which block)
@@ -168,7 +168,7 @@
 ### Phase 0: Hardware Validation
 - [ ] Motor calibration complete
 - [ ] All motors working
-- [ ] All servos working  
+- [ ] All servos working
 - [ ] Camera functional
 - [ ] Battery monitoring working
 - [ ] Sonar connected (optional)
@@ -212,7 +212,7 @@
   - Warehouse Sorting (simplest)
   - AprilTag Treasure Hunt
   - Line Following Relay
-  - Multi-Robot Collaboration
+  - Multi-robot Collaboration
 - [ ] **Number of robots** - 2, 3, 4, or more?
 - [ ] **Field size** - 6'x6', 8'x8', or 12'x12'?
 - [ ] **Workshop timeline** - 5-6 weeks realistic?

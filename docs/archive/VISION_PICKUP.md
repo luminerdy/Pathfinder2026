@@ -12,7 +12,7 @@ The vision-guided pickup system uses:
 - **Inverse kinematics** to calculate all arm movements
 - **Visual servoing** to approach blocks autonomously
 
-**Key advantage:** Robot figures out arm movements automatically based on where it sees the block. No manual position tuning needed!
+**Key advantage:** robot figures out arm movements automatically based on where it sees the block. No manual position tuning needed!
 
 ---
 
@@ -43,7 +43,7 @@ Visual servoing loop:
     - Center block in camera view (rotate)
     - Drive forward
     - Re-detect and adjust
-  
+
 Stop when block fills ~30% of view
 ```
 
@@ -53,12 +53,12 @@ All positions calculated from block location:
 
 1. Pre-grasp: (block_x, block_y, block_z + 100mm)
    ↓ IK calculates joint angles
-   
+
 2. Open gripper
 
 3. Grasp: (block_x, block_y, block_z + 15mm)
    ↓ IK calculates joint angles
-   
+
 4. Close gripper
 
 5. Lift: (block_x, block_y, 150mm)
@@ -84,7 +84,7 @@ NO hardcoded positions - adapts to block location!
 
 **Field layout:**
 ```
-          Robot
+          robot
             ↓
     ┌─────────────┐
     │   Camera    │
@@ -96,7 +96,7 @@ NO hardcoded positions - adapts to block location!
     ┌─────┐  🏷️
     │Block│  Tag
     └─────┘
-    
+
 - Block: 15-30cm in front of robot
 - Tag: Near block (within camera view)
 - Both on flat surface
@@ -127,7 +127,7 @@ python3 demos/vision_pickup.py --color red --no-tag
 ### 1. Position Block
 - Place 1" red cube on floor
 - 15-20 cm in front of robot
-- Robot should be able to reach (within arm range)
+- robot should be able to reach (within arm range)
 
 ### 2. Position AprilTag
 - Place 6" tag near block
@@ -147,7 +147,7 @@ print("Press 'q' to quit, 's' to save image")
 while True:
     img = camera.read()
     cv2.imshow("Camera View", img)
-    
+
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
         break
@@ -171,7 +171,7 @@ python3 demos/vision_pickup.py --color red
 ```
 
 **What happens:**
-1. Robot detects red block and AprilTag
+1. robot detects red block and AprilTag
 2. Calculates block position (using tag for accuracy)
 3. Approaches block if too far away
 4. Moves arm above block (IK calculates angles)
@@ -217,15 +217,15 @@ class VisualPickupController:
     def __init__(self, robot):
         # Block specs
         self.block_size_mm = 25  # 1 inch = 25mm
-        
+
         # Approach
         self.approach_distance_mm = 150  # Stop when this close
-        
+
         # Grasp heights (adjust for your gripper)
         self.pre_grasp_height_mm = 100  # Above block
         self.grasp_height_mm = 15       # Gripper center height
         self.lift_height_mm = 150       # Lift to this height
-        
+
         # Camera calibration (adjust if needed)
         self.camera_offset_forward_mm = 100  # Camera ahead of base
         self.camera_offset_up_mm = 100       # Camera height
@@ -344,7 +344,7 @@ result = pickup.pickup_block(color='red', tag_id=0)
 
 if result.success:
     x, y, z = result.block_position
-    
+
     # Custom arm movement
     # Example: Push block instead of pickup
     robot.arm.set_position(x, y, 30)  # Above block
@@ -377,7 +377,7 @@ robot.arm.gripper_open()
 ```python
 # Zone tags:
 # Tag 0 = Red zone
-# Tag 1 = Blue zone  
+# Tag 1 = Blue zone
 # Tag 2 = Green zone
 # Tag 10 = Pickup area
 
@@ -390,15 +390,15 @@ for color in ['red', 'blue', 'green']:
     result = pickup.pickup_block(color=color, tag_id=10)
     if result.success:
         blocks_found.append(color)
-        
+
         # 3. Deliver to correct zone
         zone_tag = {'red': 0, 'blue': 1, 'green': 2}[color]
         robot.navigator.go_to_tag(zone_tag)
-        
+
         # 4. Place block
         robot.arm.set_position(150, 0, 50)
         robot.arm.gripper_open()
-        
+
         # 5. Return to pickup
         robot.navigator.go_to_tag(10)
 ```
@@ -413,7 +413,7 @@ for color in ['red', 'blue', 'green']:
    - Hue: Color (0-180 in OpenCV)
    - Saturation: Color intensity
    - Value: Brightness
-   
+
 2. **Create color mask:**
    ```python
    mask = cv2.inRange(hsv, lower_bound, upper_bound)
@@ -449,7 +449,7 @@ offset_y_mm = (by - ty) * mm_per_pixel
 
 block_distance = tag_distance  # Approximate (same plane)
 
-# Robot coordinates
+# robot coordinates
 x = block_distance - camera_offset  # Forward
 y = offset_x_mm                      # Lateral
 z = 0                                # Ground
@@ -459,7 +459,7 @@ z = 0                                # Ground
 
 ### Inverse Kinematics
 
-Robot uses existing IK from `arm_inverse_kinematics.py`:
+robot uses existing IK from `arm_inverse_kinematics.py`:
 
 ```python
 # Input: Target position (x, y, z)
@@ -533,11 +533,11 @@ Benefits: Better distance estimation without AprilTag
 
 **Vision-guided pickup with AprilTag assistance:**
 
-✅ **No hardcoded positions** - All IK-based  
-✅ **Accurate positioning** - ±5mm with tag  
-✅ **Autonomous approach** - Visual servoing  
-✅ **Color detection** - HSV-based  
-✅ **Ready for competition** - Integrates with navigation  
+✅ **No hardcoded positions** - All IK-based
+✅ **Accurate positioning** - ±5mm with tag
+✅ **Autonomous approach** - Visual servoing
+✅ **Color detection** - HSV-based
+✅ **Ready for competition** - Integrates with navigation
 
 **Usage:**
 ```bash
@@ -553,4 +553,4 @@ result = pickup.pickup_block(color='red', tag_id=0)
 
 ---
 
-**Robot figures out how to reach - you just tell it what color to grab!** 🤖🎯🦾
+**robot figures out how to reach - you just tell it what color to grab!** 🤖🎯🦾

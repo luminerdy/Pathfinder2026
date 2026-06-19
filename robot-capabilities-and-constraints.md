@@ -1,4 +1,4 @@
-# Robot Capabilities and Constraints
+# robot Capabilities and Constraints
 
 ## Purpose
 
@@ -476,7 +476,7 @@ Field constraints should influence:
 
 ## Why This Matters
 
-Robot behavior depends on software responsiveness, sensor processing, camera frame rate, web UI latency, and CPU load. Adding more features does not always make the robot better if those features slow down control.
+robot behavior depends on software responsiveness, sensor processing, camera frame rate, web UI latency, and CPU load. Adding more features does not always make the robot better if those features slow down control.
 
 ## Questions to Answer
 
@@ -570,7 +570,7 @@ Battery and power limits should influence:
 - Competition schedule
 - Charging plan
 - Spare battery plan
-- Robot readiness checklist
+- robot readiness checklist
 - Troubleshooting guide
 
 ---
@@ -587,7 +587,7 @@ Pathfinder2026 is not only a robotics competition. It is a leadership, teamwork,
 |---|---|
 | Time | Teams have limited time to build, test, tune, and compete |
 | Skill level | Some participants may have little or no coding experience |
-| Assembly variation | Robot build quality may vary between teams |
+| Assembly variation | robot build quality may vary between teams |
 | Debugging experience | Teams may not know whether failure is mechanical, electrical, software, or sensor-related |
 | LLM usage | LLM-generated code may require testing, tuning, and correction |
 | Strategy | Teams may overbuild instead of focusing on scoring |
@@ -630,12 +630,12 @@ This table summarizes the major capability areas that need to be tested and docu
 
 # 13. Recommended Test Process
 
-## Step 1: Establish Baseline Robot
+## Step 1: Establish Baseline robot
 
 Use one known-good robot as the baseline test unit.
 
 Record:
-- Robot model
+- robot model
 - Raspberry Pi version
 - Battery type
 - Camera used
@@ -699,7 +699,7 @@ Use findings to update:
 
 ---
 
-# 14. Pathfinder2026 Robot Operating Envelope
+# 14. Pathfinder2026 robot Operating Envelope
 
 Use this section to summarize the final tested limits.
 

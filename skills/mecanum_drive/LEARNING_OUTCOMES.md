@@ -1,8 +1,8 @@
 # D1: Mecanum Drive - Learning Outcomes
 
-**Skill:** D1 - Mecanum Drive (Foundation)  
-**Difficulty:** ⭐ Beginner  
-**Time:** 15-20 minutes  
+**Skill:** D1 - Mecanum Drive (Foundation)
+**Difficulty:** ⭐ Beginner
+**Time:** 15-20 minutes
 
 ---
 
@@ -20,7 +20,7 @@
 2. **Define** key concepts
    - Motor duty cycle (0-100%)
    - Omnidirectional movement
-   - Robot-centric coordinate system
+   - robot-centric coordinate system
 
 3. **Identify** the 4 wheel positions
    - Front-Left, Front-Right, Rear-Left, Rear-Right
@@ -94,7 +94,7 @@
 
 **Observation checklist:**
 - [ ] Runs demo successfully (no errors)
-- [ ] Robot moves in all 8 patterns
+- [ ] robot moves in all 8 patterns
 - [ ] Student can identify which movement is which
 - [ ] Student explains why strafe is special (can't do with normal wheels)
 
@@ -113,7 +113,7 @@
 **Demonstration:**
 Student successfully:
 1. Runs demo without assistance
-2. Robot completes all 8 movements
+2. robot completes all 8 movements
 3. Square pattern closes within 6 inches
 4. Student can stop robot (emergency stop)
 
@@ -141,7 +141,7 @@ Student can:
 
 ### Minimum (Pass)
 - ✅ Demo runs without crashing
-- ✅ Robot moves in at least 6/8 patterns correctly
+- ✅ robot moves in at least 6/8 patterns correctly
 - ✅ Student can explain mecanum wheel basics
 - ✅ Student aware of safety (battery check, clear space)
 
@@ -231,7 +231,7 @@ Student can:
 - Discussion (5 min): Q&A, safety, next steps
 - Hands-on (10 min): Students run on their robots
 
-**For students:** This is enough, move to D2  
+**For students:** This is enough, move to D2
 **For engineers:** Additional 15-30 min for config tuning and theory
 
 ---
@@ -250,7 +250,7 @@ A: "Yes! Edit config.yaml, change max speed. But too fast = loses traction."
 A: "No sensors measuring position, so small errors add up. That's what encoders/vision fix!"
 
 **Q: "What if one wheel is backward?"**
-A: "Robot will spin when trying to strafe. Fix: edit config, invert that motor."
+A: "robot will spin when trying to strafe. Fix: edit config, invert that motor."
 
 ### Setup Checklist
 

@@ -1,9 +1,9 @@
 # Skill: Autonomous Block Pickup (E5)
 
-**Difficulty:** ⭐⭐⭐ (Advanced - Full Integration)  
-**Type:** Vision + Drive + Arm Coordination  
-**Prerequisites:** D1 (Drive), D3 (Arm), D4 (Camera), E3 (Detection), E4 (Servoing)  
-**Estimated Time:** 30-40 minutes  
+**Difficulty:** ⭐⭐⭐ (Advanced - Full Integration)
+**Type:** Vision + Drive + Arm Coordination
+**Prerequisites:** D1 (Drive), D3 (Arm), D4 (Camera), E3 (Detection), E4 (Servoing)
+**Estimated Time:** 30-40 minutes
 
 ---
 
@@ -24,10 +24,10 @@
 
 ```
 PHASE 1: SCAN               PHASE 2: APPROACH           PHASE 3: PICKUP
-                             
+
 Camera: Forward              Camera: Down                Arm sequence
-Arm: Tucked up              Arm: Looking down            
-                             
+Arm: Tucked up              Arm: Looking down
+
     [Rotate]                 [Stop-Look-Drive]           [Lower]
     [Detect block]           [Center on block]           [Grab]
     [Face it]                [Drive forward]             [Lift]
@@ -138,18 +138,18 @@ def scan_for_block(board, camera, detector, color=None):
     """
     # Position arm for forward-looking camera
     move_arm(board, POS_CAMERA_FORWARD)
-    
+
     for step in range(16):  # 16 x 22deg = ~360deg
         # Capture and detect
         frame = get_fresh_frame(camera)
         blocks = detect_blocks(detector, frame, color)
-        
+
         if blocks and abs(blocks[0].offset_from_center) < 100:
             return True  # Found and facing it!
-        
+
         # Rotate ~22 degrees
         rotate_in_place(board, degrees=22)
-    
+
     return False  # No block found
 ```
 
@@ -161,34 +161,34 @@ def approach_block(board, camera, detector, color=None):
     Camera pointed down to see block below robot.
     """
     move_arm(board, POS_CAMERA_DOWN)
-    
+
     for cycle in range(40):
         # STOP (no motion blur)
         stop(board)
         time.sleep(0.2)
-        
+
         # LOOK (detect while stationary)
         frame = get_fresh_frame(camera)
         blocks = detect_blocks(detector, frame, color)
-        
+
         if not blocks:
             search_rotation()  # Lost target, search
             continue
-        
+
         block = blocks[0]
         error_x = block.center_x - DOWN_VIEW_CENTER_X
         error_y = DOWN_VIEW_TARGET_Y - block.center_y
-        
+
         # ARRIVED?
         if abs(error_x) < tolerance and abs(error_y) < tolerance:
             return True
-        
+
         # DRIVE (short burst)
         if abs(error_x) > tolerance:
             rotate_to_center(error_x)
         else:
             drive_forward(duration_based_on_distance)
-    
+
     return False  # Timeout
 ```
 
@@ -232,7 +232,7 @@ POS_CAMERA_DOWN    = [(1, 2500), (3, 590), (4, 2450), (5, 1214), (6, 1500)]
 
 **The handoff:**
 1. Forward view detects block at ~45cm
-2. Robot rotates to face block
+2. robot rotates to face block
 3. Switch to down view (change shoulder servo)
 4. Block appears in down view (different pixel position!)
 5. Use down-view calibration to center and approach
@@ -242,13 +242,13 @@ POS_CAMERA_DOWN    = [(1, 2500), (3, 590), (4, 2450), (5, 1214), (6, 1500)]
 ```python
 def custom_pickup(board, camera, detector, target_color):
     """Build your own pickup strategy."""
-    
+
     # 1. Scan (customize rotation strategy)
     # ...
-    
+
     # 2. Approach (customize speed, tolerance)
     # ...
-    
+
     # 3. Custom arm sequence
     # Tune these positions for your block size/shape:
     POSITIONS = {
@@ -257,7 +257,7 @@ def custom_pickup(board, camera, detector, target_color):
         'lift':   [(1, 1475), (3, 590), (4, 2450), (5, 700), (6, 1500)],
         'carry':  [(1, 1558), (3, 569), (4, 2400), (5, 809), (6, 1500)],
     }
-    
+
     for name, pos in POSITIONS.items():
         print('  %s...' % name)
         board.set_servo_position(800, pos)
@@ -381,8 +381,8 @@ autonomous_pickup:
   # Phase 1: Scan
   scan_steps: 16           # Rotation steps (16 = ~360deg)
   scan_tolerance: 100      # Max offset to consider "facing" (pixels)
-  
-  # Phase 2: Approach  
+
+  # Phase 2: Approach
   approach_cycles: 40      # Max approach iterations
   motor_power: 30
   rotation_power: 30
@@ -390,7 +390,7 @@ autonomous_pickup:
   down_view_target_y: 350  # Target Y for "arrived"
   x_tolerance: 80          # Horizontal tolerance (pixels)
   y_tolerance: 50          # Vertical tolerance (pixels)
-  
+
   # Phase 3: Arm positions (servo PWM values)
   camera_forward: [2500, 590, 2450, 700, 1500]   # [grip, wrist, elbow, shoulder, base]
   camera_down:    [2500, 590, 2450, 1214, 1500]
@@ -398,7 +398,7 @@ autonomous_pickup:
   pickup_grab:    [1475, 830, 2170, 2410, 1500]
   pickup_lift:    [1475, 590, 2450, 700, 1500]
   carry:          [1558, 569, 2400, 809, 1500]
-  
+
   # Safety
   battery_min_pi4: 7.0
   battery_min_pi5: 8.1

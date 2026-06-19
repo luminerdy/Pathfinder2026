@@ -2,7 +2,7 @@
 
 For complete setup instructions, see:
 
-- **[A2: Robot Pi OS Build](docs/setup/A2_ROBOT_PI_OS_BUILD.md)** — Full SD card image creation guide
+- **[A2: robot Pi OS Build](docs/setup/A2_ROBOT_PI_OS_BUILD.md)** — Full SD card image creation guide
 - **[Battery Safety](BATTERY_SAFETY.md)** — Voltage requirements and charging
 
 ## Quick Install (if OS is already set up)

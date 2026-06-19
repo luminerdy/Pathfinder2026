@@ -15,7 +15,7 @@ Build a course that rewards reliable robot behavior, quick iteration, and smart 
 - A pickup area
 - A delivery or storage area
 
-## Robot Tasks
+## robot Tasks
 
 Teams can choose a strategy that fits their robot:
 

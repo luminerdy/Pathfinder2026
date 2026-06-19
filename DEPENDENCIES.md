@@ -151,7 +151,7 @@ Enable hardware interfaces:
 sudo raspi-config
 # Interface Options → I2C → Enable
 # Interface Options → SPI → Enable
-# Interface Options → Serial Port → 
+# Interface Options → Serial Port →
 #   - Login shell: No
 #   - Serial port hardware: Yes
 ```
@@ -440,5 +440,5 @@ chmod +x install_dependencies.sh
 
 ---
 
-**Last Updated:** March 2026  
+**Last Updated:** March 2026
 **Tested On:** Raspberry Pi OS (64-bit), Debian version 12 (bookworm)

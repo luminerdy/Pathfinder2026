@@ -3,7 +3,7 @@
 **Drive with Logitech F710 wireless gamepad**
 
 ## Setup
-1. Plug F710 USB receiver into **Robot Pi**
+1. Plug F710 USB receiver into **robot Pi**
 2. Gamepad on, back switch to **X**
 3. `sudo apt install python3-pygame joystick`
 4. `python3 skills/gamepad_drive/gamepad_drive.py`

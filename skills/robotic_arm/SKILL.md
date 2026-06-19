@@ -1,13 +1,13 @@
 # Skill: Robotic Arm Control
 
-**Difficulty:** ⭐⭐ (Intermediate - Hardware Manipulation)  
-**Type:** Servo Control & Manipulation  
-**Prerequisites:** D1 (Mecanum Drive recommended)  
-**Estimated Time:** 25-30 minutes  
+**Difficulty:** ⭐⭐ (Intermediate - Hardware Manipulation)
+**Type:** Servo Control & Manipulation
+**Prerequisites:** D1 (Mecanum Drive recommended)
+**Estimated Time:** 25-30 minutes
 
 ---
 
-> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`get_board()`, `board.set_servo_position()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `Robot` class which wraps all of this — same concepts, cleaner code.
+> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`get_board()`, `board.set_servo_position()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
 ## 📘 Overview
 
@@ -116,7 +116,7 @@ python3 play_action.py shake_head
 
 **Available action groups:**
 - `stand` - Neutral standing position
-- `shake_head` - Head shake gesture  
+- `shake_head` - Head shake gesture
 - `wave` - Waving motion (if available)
 
 **Try making one:**
@@ -243,7 +243,7 @@ arm.move_to(0, 120, 180)
 def pick_and_place(pickup_xyz, place_xyz, approach_height=50):
     """
     Pick object and place it elsewhere.
-    
+
     Args:
         pickup_xyz: (x, y, z) tuple for pickup location
         place_xyz: (x, y, z) for place location
@@ -251,31 +251,31 @@ def pick_and_place(pickup_xyz, place_xyz, approach_height=50):
     """
     x_pickup, y_pickup, z_pickup = pickup_xyz
     x_place, y_place, z_place = place_xyz
-    
+
     # 1. Approach pickup from above
     arm.move_to(x_pickup, y_pickup, z_pickup + approach_height)
     arm.open_gripper()
-    
+
     # 2. Descend to object
     arm.move_to(x_pickup, y_pickup, z_pickup)
-    
+
     # 3. Grab
     arm.close_gripper()
     time.sleep(0.5)  # Wait for grip
-    
+
     # 4. Lift
     arm.move_to(x_pickup, y_pickup, z_pickup + approach_height)
-    
+
     # 5. Move to place location (high)
     arm.move_to(x_place, y_place, z_place + approach_height)
-    
+
     # 6. Descend
     arm.move_to(x_place, y_place, z_place)
-    
+
     # 7. Release
     arm.open_gripper()
     time.sleep(0.3)
-    
+
     # 8. Withdraw
     arm.move_to(x_place, y_place, z_place + approach_height)
 

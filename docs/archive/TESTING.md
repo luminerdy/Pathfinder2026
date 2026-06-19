@@ -4,14 +4,14 @@ This guide walks you through testing all robot components to verify proper assem
 
 ## Prerequisites
 
-- Robot assembled and powered on
+- robot assembled and powered on
 - Raspberry Pi connected (SSH or direct)
 - Battery charged (>7.0V recommended)
 - All servos and motors plugged in
 
 ## Quick Start
 
-### 1. Initialize Robot
+### 1. Initialize robot
 
 This sets the arm to starting position and verifies basic connectivity:
 
@@ -26,7 +26,7 @@ python3 start_robot.py
 - Arm moves to home position
 - Gripper opens
 - 2 quick beeps + green LED
-- Robot ready!
+- robot ready!
 
 ### 2. Run Full Hardware Test
 
@@ -143,7 +143,7 @@ sonar.rgb_off()
 sonar.close()
 ```
 
-**Verify:** 
+**Verify:**
 - Distance readings make sense
 - RGB LEDs change color (green=far, yellow=medium, red=close)
 
@@ -214,7 +214,7 @@ nano /home/robot/code/pathfinder/Deviation.yaml
 
 ```
 PASS - board
-PASS - motors  
+PASS - motors
 PASS - chassis
 PASS - arm_servos
 PASS - arm_ik
@@ -223,7 +223,7 @@ PASS - sonar
 
 Results: 7/7 tests passed
 
-🎉 All tests passed! Robot is ready.
+🎉 All tests passed! robot is ready.
 ```
 
 ### ⚠ Partial Pass

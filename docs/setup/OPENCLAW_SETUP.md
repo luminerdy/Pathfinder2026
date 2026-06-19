@@ -48,7 +48,7 @@ Think of it as a **team member who knows Python, robotics, and never gets tired.
 OpenClaw requires Node.js. Check if it's installed:
 ```bash
 node --version
-# Need v18+ 
+# Need v18+
 ```
 
 If not installed:
@@ -81,13 +81,13 @@ openclaw config set anthropic.key YOUR_API_KEY_HERE
 
 Ask your coach for the workshop API key, or use your own.
 
-### Step 5: Configure Robot Connection
+### Step 5: Configure robot Connection
 
 Tell OpenClaw how to reach your robot:
 
 Create `~/.openclaw/workspace/TOOLS.md`:
 ```markdown
-### Robot Connection
+### robot Connection
 - SSH: robot@<ROBOT_IP>
 - Password: (your robot's password)
 - Code location: /home/robot/pathfinder

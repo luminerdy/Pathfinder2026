@@ -6,7 +6,7 @@ Motors don't work on our Pathfinder2026 code, but work on Hiwonder image.
 ## Root Cause
 **Missing UART0 configuration** in `/boot/firmware/config.txt`
 
-## Investigation Results from Working Robot (10.10.10.137)
+## Investigation Results from Working robot (10.10.10.137)
 
 ### System Configuration
 
@@ -60,7 +60,7 @@ Runs on boot, creates persistent Board instance:
 ### NO ROS
 Confirmed: No ROS installed. Pure Python + systemd services.
 
-## Solution for Our Robot
+## Solution for Our robot
 
 ### Step 1: Enable UART0 and USB Power
 
@@ -135,7 +135,7 @@ If you want the robot to auto-start like the Hiwonder image:
 Create `/etc/systemd/system/pathfinder.service`:
 ```ini
 [Unit]
-Description=Pathfinder Robot Service
+Description=Pathfinder robot Service
 After=network.target
 
 [Service]
@@ -177,15 +177,15 @@ When back on the robot:
 
 **Voltage Requirements:**
 - **Minimum for motors:** 7.5V
-- **Minimum safe:** 7.0V  
+- **Minimum safe:** 7.0V
 - **Fully charged:** 8.4V (2x 4.2V lithium cells)
 - **Critical low:** < 7.0V → CHARGE IMMEDIATELY
 
 **Symptoms of Low Battery:**
-- Robot shuts down when motors run (brownout protection)
+- robot shuts down when motors run (brownout protection)
 - LEDs dim during operation
 - Power cuts out completely (not graceful shutdown)
-- Robot reboots immediately after power loss
+- robot reboots immediately after power loss
 
 **Why This Happens:**
 1. Motors draw high current (several amps)

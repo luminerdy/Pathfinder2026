@@ -113,4 +113,4 @@ The event uses assigned IP addresses for robot connections. Get your team's robo
 
 ---
 
-**Next:** [C2: Connect to Robot](C2_CONNECT_AND_TEST.md) (SSH from Pi 500 to your robot)
+**Next:** [C2: Connect to robot](C2_CONNECT_AND_TEST.md) (SSH from Pi 500 to your robot)

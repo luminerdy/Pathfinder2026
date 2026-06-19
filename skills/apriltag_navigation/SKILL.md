@@ -1,13 +1,13 @@
 # Skill: AprilTag Navigation
 
-**Difficulty:** ⭐⭐⭐ (Intermediate)  
-**Type:** Autonomous Navigation  
-**Prerequisites:** Basic drive control, camera setup  
-**Estimated Time:** 30-45 minutes  
+**Difficulty:** ⭐⭐⭐ (Intermediate)
+**Type:** Autonomous Navigation
+**Prerequisites:** Basic drive control, camera setup
+**Estimated Time:** 30-45 minutes
 
 ---
 
-> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `Robot` class which wraps all of this — same concepts, cleaner code.
+> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
 ## 📘 Overview
 
@@ -74,12 +74,12 @@ python3 run_demo.py
 **What happens:**
 1. Camera opens and starts looking for tag 581
 2. When found, robot calculates distance and angle
-3. Robot approaches using mecanum strafe (smooth!)
+3. robot approaches using mecanum strafe (smooth!)
 4. Stops about 22 inches from the tag
 5. Beeps when complete
 
 **Success looks like:**
-- Robot drives straight toward tag (even if slightly off-center)
+- robot drives straight toward tag (even if slightly off-center)
 - Smooth approach (no jerky stop-rotate-drive)
 - Stops at consistent distance (within ±2 inches)
 
@@ -91,16 +91,16 @@ python3 run_demo.py
 - Check lighting (no glare, no shadows)
 - Try moving robot closer (start 3-5 feet away)
 
-**"Robot doesn't move":**
+**"robot doesn't move":**
 - Check battery voltage (`battery_check.py`)
 - Verify motors work (`test_drive.py`)
 - Check if sonar is blocking (remove obstacles)
 
-**"Robot approaches but doesn't center":**
+**"robot approaches but doesn't center":**
 - Calibrate camera (see Implementation Guide below)
 - Adjust `Kx` gain in config (increase for stronger centering)
 
-**"Robot crashes into tag":**
+**"robot crashes into tag":**
 - Check `TARGET_DISTANCE` in config (increase it)
 - Verify sonar is working (should stop at 15cm)
 
@@ -123,8 +123,8 @@ from pupil_apriltags import Detector
 
 detector = Detector(families='tag36h11')
 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-detections = detector.detect(gray, estimate_tag_pose=True, 
-                             camera_params=CAMERA_PARAMS, 
+detections = detector.detect(gray, estimate_tag_pose=True,
+                             camera_params=CAMERA_PARAMS,
                              tag_size=TAG_SIZE)
 ```
 
@@ -144,7 +144,7 @@ z = pose_t[2][0]  # Distance (meters, forward)
 **Coordinate system:**
 - **X-axis:** Left (-) to Right (+) from robot's perspective
 - **Y-axis:** Down (-) to Up (+) (camera optical axis)
-- **Z-axis:** Robot to tag (distance forward)
+- **Z-axis:** robot to tag (distance forward)
 
 #### 3. Proportional Control
 ```python
@@ -184,7 +184,7 @@ def drive(strafe, forward):
     fr = forward - strafe
     rl = forward - strafe
     rr = forward + strafe
-    
+
     board.set_motor_duty([(1, fl), (2, fr), (3, rl), (4, rr)])
 ```
 
@@ -204,26 +204,26 @@ apriltag_navigation:
   camera_fy: 500  # Focal length Y (pixels)
   camera_cx: 320  # Principal point X (image center)
   camera_cy: 240  # Principal point Y (image center)
-  
+
   # Tag specification
   tag_size: 0.254  # meters (10 inches = 0.254m)
   target_tag_id: 581  # Which tag to navigate to
-  
+
   # Control gains (higher = stronger response)
   gain_lateral: 120   # Kx - strafe correction strength
   gain_forward: 100   # Kz - forward speed
-  
+
   # Tolerances (when to stop correcting)
   center_tolerance: 0.03  # meters (~1.2 inches)
   distance_tolerance: 0.05  # meters (~2 inches)
-  
+
   # Speed limits
   max_speed: 35   # Maximum motor duty
   min_speed: 28   # Minimum to overcome friction
-  
+
   # Target approach distance
   target_distance: 0.55  # meters (~22 inches)
-  
+
   # Safety (sonar)
   sonar_stop_distance: 15   # cm - emergency stop
   sonar_slow_distance: 30   # cm - reduce speed
@@ -480,5 +480,5 @@ apriltag_navigation/
 
 ---
 
-*Need help? Check the troubleshooting section or ask a mentor.*  
+*Need help? Check the troubleshooting section or ask a mentor.*
 *Ready for more? Try the template or full implementation!*

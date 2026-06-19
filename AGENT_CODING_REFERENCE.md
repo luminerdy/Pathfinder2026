@@ -64,7 +64,7 @@
 ```json
 {
   "import": "from robot import Robot",
-  "rule": "Always use Robot as a context manager — motors stop and hardware releases on exit, even on exception",
+  "rule": "Always use robot as a context manager — motors stop and hardware releases on exit, even on exception",
   "constructor": {
     "enable_camera": "bool, default True — set False to save startup time if camera not needed",
     "enable_sonar":  "bool, default True — set False if sonar not needed",
@@ -349,7 +349,7 @@ Access via `robot.sonar`.
 
 Canonical, tested sequences. Use as-is or adapt.
 
-### Pattern 1: Minimal Working Robot
+### Pattern 1: Minimal Working robot
 
 ```python
 import time
@@ -523,7 +523,7 @@ with Robot(enable_camera=False, enable_sonar=False) as robot:
 | `from skills.auto_pickup import ...` | `bump_grab` | Deprecated |
 | `from skills.block_approach import ...` | `bump_grab` | Deprecated |
 | `from skills.block_pursue import ...` | `bump_grab` | Deprecated |
-| `robot = Robot()` without `with` | `with Robot() as robot:` | Resource leak on crash |
+| `robot = robot()` without `with` | `with robot() as robot:` | Resource leak on crash |
 | Create `Camera`, `Sonar`, `board` directly | `robot.camera`, `robot.sonar`, `robot.board` | Second hardware instance conflicts with first |
 | Trust a single sonar reading | Median of 5 readings | Noisy sensor |
 | Process frames while driving | Stop → settle → scan → decide → move | Detection unreliable in motion |
@@ -552,9 +552,9 @@ from skills.bin_collect import bin_collect
 | Issue | Impact | Status |
 |---|---|---|
 | Camera not calibrated (fx=500 estimated) | AprilTag distance ~50% inaccurate | Open — real .npz from V1 needed |
-| `competition.py` uses old `auto_pickup` | Not using Robot class | Needs refactor |
+| `competition.py` uses old `auto_pickup` | Not using robot class | Needs refactor |
 | 44 files use `sys.path.insert()` hacks | Import reliability varies by launch directory | Needs setup.py fix |
-| buddy2 not fully validated with Robot class | May hit hardware differences | Test in progress |
+| buddy2 not fully validated with robot class | May hit hardware differences | Test in progress |
 
 ---
 

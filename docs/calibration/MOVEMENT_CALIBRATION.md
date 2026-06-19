@@ -3,8 +3,8 @@
 # Movement Calibration Results
 ## Fresh Battery (8.21V) - March 24, 2026
 
-**Session:** 1:00 PM - 1:30 PM CDT  
-**Battery:** 8.21V (fresh)  
+**Session:** 1:00 PM - 1:30 PM CDT
+**Battery:** 8.21V (fresh)
 **Pi Status:** No throttling (0x0)
 
 ---
@@ -64,7 +64,7 @@ Pattern shows rotation through 4 walls of rectangular field.
 def rotate_90_degrees(board, direction='right'):
     """
     Rotate 90° in place
-    
+
     Args:
         board: BoardController instance
         direction: 'right' (clockwise) or 'left' (counter-clockwise)
@@ -73,7 +73,7 @@ def rotate_90_degrees(board, direction='right'):
         board.set_motor_duty([(1, 30), (2, -30), (3, 30), (4, -30)])
     else:
         board.set_motor_duty([(1, -30), (2, 30), (3, -30), (4, 30)])
-    
+
     time.sleep(0.87)
     board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
 ```
@@ -83,19 +83,19 @@ def rotate_90_degrees(board, direction='right'):
 def rotate_degrees(board, degrees, direction='right'):
     """
     Rotate specified degrees
-    
+
     Args:
         board: BoardController instance
         degrees: Angle to rotate (positive value)
         direction: 'right' or 'left'
     """
     duration = degrees / 103.0  # 103 deg/sec at power 30
-    
+
     if direction == 'right':
         board.set_motor_duty([(1, 30), (2, -30), (3, 30), (4, -30)])
     else:
         board.set_motor_duty([(1, -30), (2, 30), (3, -30), (4, 30)])
-    
+
     time.sleep(duration)
     board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
 ```

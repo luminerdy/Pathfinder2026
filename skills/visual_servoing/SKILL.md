@@ -1,13 +1,13 @@
 # Skill: Visual Servoing (E4)
 
-**Difficulty:** ⭐⭐⭐ (Advanced - Control + Vision Integration)  
-**Type:** Closed-Loop Vision-Guided Motion  
-**Prerequisites:** D1 (Mecanum Drive), D4 (Camera), E3 (Block Detection)  
-**Estimated Time:** 25-30 minutes  
+**Difficulty:** ⭐⭐⭐ (Advanced - Control + Vision Integration)
+**Type:** Closed-Loop Vision-Guided Motion
+**Prerequisites:** D1 (Mecanum Drive), D4 (Camera), E3 (Block Detection)
+**Estimated Time:** 25-30 minutes
 
 ---
 
-> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`get_board()`, `cv2.VideoCapture()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `Robot` class which wraps all of this — same concepts, cleaner code.
+> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`get_board()`, `cv2.VideoCapture()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
 ## Overview
 
@@ -174,28 +174,28 @@ approach.cleanup()
 while not reached and not timeout:
     # 1. Capture frame
     ret, frame = camera.read()
-    
+
     # 2. Detect blocks
     blocks = detector.detect(frame, colors=[target_color])
-    
+
     # 3. Find locked target (or nearest if not locked)
     block = find_locked_target(blocks)
-    
+
     if block is None:
         stop()  # Lost target
         continue
-    
+
     # 4. Calculate errors
     error_x = block.center_x - 320  # Pixels from center
     error_y = 420 - block.center_y  # Pixels from bottom target
-    
+
     # 5. Proportional control
     strafe = clamp(error_x * Kx)    # Left/right correction
     forward = clamp(error_y * Ky)   # Forward speed
-    
+
     # 6. Drive
     mecanum_drive(strafe, forward)
-    
+
     # 7. Check if arrived
     if abs(error_x) < tolerance_x and abs(error_y) < tolerance_y:
         stop()
@@ -215,7 +215,7 @@ MIN_SPEED = 28     # Minimum to overcome friction
 
 ### Level 3: Target Locking
 
-**Problem:** Multiple blocks visible. Robot switches between them mid-approach.
+**Problem:** Multiple blocks visible. robot switches between them mid-approach.
 
 **Solution: Target lock**
 ```python
@@ -354,20 +354,20 @@ visual_servoing:
   # Control gains
   Kx: 0.15              # Strafe proportional gain
   Ky: 0.10              # Forward proportional gain
-  
+
   # Tolerances (pixels)
   x_tolerance: 40       # Centered enough
   y_tolerance: 30       # Close enough
   target_y: 420         # Block at bottom = pickup distance
-  
+
   # Speed limits
   max_speed: 30
   min_speed: 28
-  
+
   # Target lock
   lock_radius: 120      # Max pixel movement between frames
   lost_timeout: 2.0     # Seconds before declaring lost
-  
+
   # Safety
   approach_timeout: 30  # Max seconds for approach
   close_range_gain: 0.7 # Reduce speed when <30cm

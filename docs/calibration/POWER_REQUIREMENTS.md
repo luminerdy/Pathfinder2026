@@ -3,7 +3,7 @@
 # Power Requirements Summary
 ## Pathfinder2026 with Raspberry Pi 5
 
-**Last Updated:** March 24, 2026  
+**Last Updated:** March 24, 2026
 **Platform:** Pathfinder robot with Raspberry Pi 5 8GB
 
 ---
@@ -198,7 +198,7 @@ vcgencmd get_throttled
 
 ---
 
-## Recommendations for the Robot Platform
+## Recommendations for the robot Platform
 
 1. **Document minimum battery voltage:** >8.2V (not 7.5V)
 2. **Pi 5 power requirements:** Verify regulator can supply 5V/5A + motors

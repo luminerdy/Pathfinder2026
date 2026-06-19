@@ -6,7 +6,7 @@ Quick setup and testing guide for Pathfinder2026 robots.
 
 ## Prerequisites
 
-- Robot is powered on
+- robot is powered on
 - Battery charged (> 7.5V)
 - Development machine connected to same network
 - SSH access configured
@@ -25,7 +25,7 @@ ssh robot@<ROBOT_IP>
 
 ---
 
-## 2. Start Robot
+## 2. Start robot
 
 Initialize the robot and set arm to starting position:
 
@@ -100,7 +100,7 @@ python3 test_movement.py
 5. Rotate (2 seconds)
 
 **Verify:**
-- Robot moves in each direction
+- robot moves in each direction
 - Mecanum strafing works
 - No wheel slip
 - Smooth movement

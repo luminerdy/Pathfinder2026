@@ -3,9 +3,9 @@
 # Rotation Calibration Results
 ## Day 7 - March 24, 2026
 
-**Session:** 9:19 AM - 9:40 AM CDT  
-**Battery at start:** ~8.0V (estimated)  
-**Battery at end:** 7.85V  
+**Session:** 9:19 AM - 9:40 AM CDT
+**Battery at start:** ~8.0V (estimated)
+**Battery at end:** 7.85V
 **Status:** Battery decline affected results
 
 ---
@@ -243,16 +243,16 @@ elif battery_v < 8.0:
 ## Summary
 
 **What Worked:**
-✅ Visual calibration method using AprilTags  
-✅ Identified minimum rotation power (25 threshold, 28 safe)  
-✅ Measured rotation rates (~105-120 deg/sec)  
-✅ Discovered battery effect on performance  
+✅ Visual calibration method using AprilTags
+✅ Identified minimum rotation power (25 threshold, 28 safe)
+✅ Measured rotation rates (~105-120 deg/sec)
+✅ Discovered battery effect on performance
 ✅ Corrected false assumptions about previous "360° scan"
 
 **What Needs Work:**
-⚠️ Update all scripts to use power 28 minimum  
-⚠️ Add battery monitoring everywhere  
-⚠️ Re-test with full battery  
+⚠️ Update all scripts to use power 28 minimum
+⚠️ Add battery monitoring everywhere
+⚠️ Re-test with full battery
 ⚠️ Calibrate forward movement similarly
 
 **Key Insight:**

@@ -2,7 +2,7 @@
 
 **Purpose:** Pre-image all SD cards before workshop day so teams start in minutes, not hours.
 
-Two images needed per team: one for the Pi 500 (control hub), one for the Robot (Pi 4).
+Two images needed per team: one for the Pi 500 (control hub), one for the robot (Pi 4).
 
 **Scale:** 49 teams = 49 robot SD cards + 49 Pi 500 SD cards = **98 cards total.**
 
@@ -92,7 +92,7 @@ Two images needed per team: one for the Pi 500 (control hub), one for the Robot 
 
 ---
 
-## Image 2: Robot Pi (Pi 4)
+## Image 2: robot Pi (Pi 4)
 
 Detailed build guide: [A2_ROBOT_PI_OS_BUILD.md](A2_ROBOT_PI_OS_BUILD.md)
 
@@ -155,11 +155,11 @@ Detailed build guide: [A2_ROBOT_PI_OS_BUILD.md](A2_ROBOT_PI_OS_BUILD.md)
      ```
    - Optionally update the device label if needed.
 
-### What's on the Robot Image
+### What's on the robot Image
 
 | Item | Purpose |
 |------|---------|
-| Raspberry Pi OS | Robot OS |
+| Raspberry Pi OS | robot OS |
 | Python 3 + OpenCV + Flask | Vision + web control |
 | VS Code + Python extension | Local editing (via VNC) |
 | I2C + smbus2 | Motor/servo communication |
@@ -173,7 +173,7 @@ Detailed build guide: [A2_ROBOT_PI_OS_BUILD.md](A2_ROBOT_PI_OS_BUILD.md)
 
 Use IP addresses for event connections. Keep an assignment sheet like this:
 
-| House | Team | Pi 500 IP | Robot IP |
+| House | Team | Pi 500 IP | robot IP |
 |-------|------|-----------|----------|
 | 1 | 1 | 10.1.1.11 | 10.1.1.101 |
 | 1 | 2 | 10.1.1.12 | 10.1.1.102 |
@@ -188,7 +188,7 @@ Use IP addresses for event connections. Keep an assignment sheet like this:
 
 Before teams arrive:
 - [ ] All Pi 500 SD cards imaged and tested
-- [ ] All Robot SD cards imaged and tested
+- [ ] All robot SD cards imaged and tested
 - [ ] WiFi network up and tested
 - [ ] All devices can ping each other
 - [ ] SSH from each Pi 500 to its paired robot verified
@@ -211,5 +211,5 @@ Before teams arrive:
 **SSH refused:**
 - `sudo systemctl enable ssh && sudo systemctl start ssh`
 
-**Robot code missing:**
+**robot code missing:**
 - `cd ~ && git clone https://github.com/luminerdy/Pathfinder2026.git pathfinder`

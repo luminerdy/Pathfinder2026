@@ -43,7 +43,7 @@ After this skill, you can:
 
 ## Troubleshooting
 
-**Robot doesn't move:**
+**robot doesn't move:**
 - Check battery: `python3 ../../tests/battery_check.py`
 - Test motors: `python3 ../../tests/test_motors.py`
 

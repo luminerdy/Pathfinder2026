@@ -1,13 +1,13 @@
 # Skill: Line Following (E6)
 
-**Difficulty:** ⭐⭐⭐ (Advanced - Vision + Drive Integration)  
-**Type:** Closed-Loop Path Tracking  
-**Prerequisites:** D1 (Mecanum Drive), D4 (Camera Vision)  
-**Estimated Time:** 25-30 minutes  
+**Difficulty:** ⭐⭐⭐ (Advanced - Vision + Drive Integration)
+**Type:** Closed-Loop Path Tracking
+**Prerequisites:** D1 (Mecanum Drive), D4 (Camera Vision)
+**Estimated Time:** 25-30 minutes
 
 ---
 
-> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `Robot` class which wraps all of this — same concepts, cleaner code.
+> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
 ## Overview
 
@@ -102,10 +102,10 @@ python3 run_demo.py
 **What happens:**
 1. Camera points down (arm repositioned)
 2. Detects lime green line
-3. Robot drives forward, steering to follow line
+3. robot drives forward, steering to follow line
 4. Stops when line ends or timeout
 
-**SAFETY:** Robot will drive! Clear the path and be ready with Ctrl+C.
+**SAFETY:** robot will drive! Clear the path and be ready with Ctrl+C.
 
 ### Step 3: Tuning
 

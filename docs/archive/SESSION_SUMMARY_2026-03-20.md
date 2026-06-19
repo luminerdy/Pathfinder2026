@@ -37,7 +37,7 @@ dtparam=uart0=on      # For motor controller (CRITICAL!)
 ### Issue #2: Low Battery (IDENTIFIED & DOCUMENTED)
 
 **Discovery:**
-- Robot shuts down when motors run
+- robot shuts down when motors run
 - Not software shutdown - instant power cutoff
 - Brownout protection circuit triggering
 
@@ -114,7 +114,7 @@ Restarted Pathfinder robot.service
 
 **Attempted servo test:**
 - Lost connection before completion (network issue)
-- Robot rebooted successfully
+- robot rebooted successfully
 - Ready for retry when needed
 
 ## Documentation Created
@@ -203,7 +203,7 @@ Restarted Pathfinder robot.service
 
 ## Next Steps
 
-### Immediate (When Back on Robot Pi)
+### Immediate (When Back on robot Pi)
 1. Edit `/boot/firmware/config.txt` - add uart0 and i2c_arm
 2. Reboot
 3. Verify `/dev/ttyAMA0` exists
@@ -296,7 +296,7 @@ Restarted Pathfinder robot.service
 
 ---
 
-**Session Date:** Friday, March 20, 2026  
-**Duration:** Morning session (8:30 AM - ~9:00 AM CDT)  
-**Status:** BREAKTHROUGH - Motor issue solved, ready for testing  
+**Session Date:** Friday, March 20, 2026
+**Duration:** Morning session (8:30 AM - ~9:00 AM CDT)
+**Status:** BREAKTHROUGH - Motor issue solved, ready for testing
 **Next Session:** Apply config, charge battery, test motors

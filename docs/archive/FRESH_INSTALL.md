@@ -1,4 +1,4 @@
-# Fresh Robot OS Installation Guide
+# Fresh robot OS Installation Guide
 
 Complete setup instructions for Pathfinder2026 on a fresh Raspberry Pi OS installation.
 
@@ -280,12 +280,12 @@ hardware:
   board:
     serial_port: "/dev/ttyAMA0"
     baud_rate: 1000000
-    
+
   chassis:
     wheel_base: 67        # mm
     track_width: 59       # mm
     wheel_diameter: 65    # mm
-    
+
   camera:
     device: 0
     width: 640
@@ -305,7 +305,7 @@ Create for servo calibration:
 ```yaml
 # Servo offsets (pulse width adjustments)
 '1': 0      # Base
-'3': 0      # Shoulder  
+'3': 0      # Shoulder
 '4': 0      # Elbow
 '5': 0      # Wrist/Gripper
 '6': 0      # Base rotate
@@ -343,6 +343,6 @@ Run calibration to adjust these values for your specific robot.
 
 ---
 
-**Last Updated:** March 20, 2026  
-**Tested On:** Raspberry Pi 5 8GB, Debian 13 (Trixie)  
+**Last Updated:** March 20, 2026
+**Tested On:** Raspberry Pi 5 8GB, Debian 13 (Trixie)
 **Status:** ✅ Verified working

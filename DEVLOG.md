@@ -80,14 +80,14 @@ Built full end-to-end capability for navigating the "Zone 584" field challenge: 
 ### buddy2 Setup
 - buddy2 confirmed running Debian 13.4 Trixie (not Bookworm), Python 3.13.5
 - Discovered: `i2cdetect` does not show motor board at 0x7A on buddy2 — confirmed normal; use Python battery read test instead
-- Updated the Robot Pi OS build guide for Trixie and pushed to GitHub; this guide now lives at `docs/setup/A2_ROBOT_PI_OS_BUILD.md`
+- Updated the robot Pi OS build guide for Trixie and pushed to GitHub; this guide now lives at `docs/setup/A2_ROBOT_PI_OS_BUILD.md`
 
 ### Open Priorities Identified
 - Camera calibration: `fx=500` is hardcoded estimate across 9 files; real `.npz` from V1 needed (top priority)
 - `competition.py` refactor needed (553 lines, still on old `auto_pickup` pattern)
 - 44 files have `sys.path.insert()` hacks; need `setup.py`
 - Dead skills to remove: `auto_pickup`, `block_approach`, `block_pursue` (~1,400 lines)
-- Workshop starter templates need updating to Robot pattern
+- Workshop starter templates need updating to robot pattern
 
 ---
 
@@ -97,7 +97,7 @@ See git log for detailed history. Key milestones:
 
 - **Day 2** — Fixed motor silence bug: missing `dtparam=uart0=on` in `/boot/firmware/config.txt`
 - **Day 9** — Board auto-detect fix: "must be ALL or NOTHING" — 37-file change
-- **Day 16** — Major architecture refactor: single `Robot` class owns all hardware; all skills accept Robot instance
+- **Day 16** — Major architecture refactor: single `robot` class owns all hardware; all skills accept robot instance
 - **Proven** — 8/8 AprilTag tour at 7.86V; bump-and-grab insight: camera on arm, block vanishing = contact signal
 - **Decommissioned Pathfinder2026 Pi 5** — 25W draw too high for batteries; switched to Pi 4 (15W)
 - **Workshop docs complete** — competition rules, facilitator guide, BOM, field layout, scoring, SD card guide, Pi 500 setup, OpenClaw setup, VSCode Remote SSH setup

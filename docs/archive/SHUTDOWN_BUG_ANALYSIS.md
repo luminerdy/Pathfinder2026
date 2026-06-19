@@ -1,7 +1,7 @@
-# Robot Shutdown During Motor Operation - Analysis
+# robot Shutdown During Motor Operation - Analysis
 
 ## Problem Report
-Robot shuts down unexpectedly when running motors.
+robot shuts down unexpectedly when running motors.
 
 ## Possible Causes
 
@@ -83,7 +83,7 @@ import time
 
 chip = gpiod.Chip('gpiochip4')
 key2 = chip.get_line(23)
-key2.request(consumer="test", type=gpiod.LINE_REQ_DIR_IN, 
+key2.request(consumer="test", type=gpiod.LINE_REQ_DIR_IN,
              flags=gpiod.LINE_REQ_FLAG_BIAS_PULL_UP)
 
 for i in range(10):
@@ -192,7 +192,7 @@ From documentation analysis:
 ```python
 class Robot:
     MINIMUM_VOLTAGE = 7.2  # Volts
-    
+
     def check_battery(self):
         volt = self.board.get_battery()
         if volt is None:
@@ -201,7 +201,7 @@ class Robot:
         if v < self.MINIMUM_VOLTAGE:
             raise RuntimeError(f"Battery too low: {v:.2f}V (need >{self.MINIMUM_VOLTAGE}V)")
         return v
-    
+
     def move(self, ...):
         self.check_battery()  # Check before movement
         # ... motor commands
@@ -218,6 +218,6 @@ class Robot:
 
 ---
 
-**Most likely cause:** Low battery causing voltage sag during motor operation.  
-**Quick fix:** Charge battery fully before testing.  
+**Most likely cause:** Low battery causing voltage sag during motor operation.
+**Quick fix:** Charge battery fully before testing.
 **Permanent fix:** Add voltage monitoring and safety checks.

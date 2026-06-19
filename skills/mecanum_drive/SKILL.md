@@ -1,13 +1,13 @@
 # Skill: Mecanum Drive
 
-**Difficulty:** ⭐ (Beginner - Foundation Skill)  
-**Type:** Hardware Control  
-**Prerequisites:** None (start here!)  
-**Estimated Time:** 15-20 minutes  
+**Difficulty:** ⭐ (Beginner - Foundation Skill)
+**Type:** Hardware Control
+**Prerequisites:** None (start here!)
+**Estimated Time:** 15-20 minutes
 
 ---
 
-> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`get_board()`, `board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `Robot` class which wraps all of this — same concepts, cleaner code.
+> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`get_board()`, `board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
 ## 📘 Overview
 
@@ -52,11 +52,11 @@ Mecanum drive gives your robot **omnidirectional movement** - it can move forwar
 
 ## 🚀 Quick Start (Run the Demo)
 
-### Step 1: Prepare Robot
+### Step 1: Prepare robot
 
 **Safety first:**
 - Clear at least 6 feet of space around robot
-- Robot on floor (not on table - it WILL move!)
+- robot on floor (not on table - it WILL move!)
 - Battery charged (check voltage: should be >7.0V)
 - Emergency stop ready (you = Ctrl+C)
 
@@ -81,7 +81,7 @@ The robot demonstrates 8 movement patterns in sequence:
 8. **Square Pattern** (1-meter sides)
 
 **Success looks like:**
-- Robot moves smoothly in each direction
+- robot moves smoothly in each direction
 - Strafe is truly sideways (no forward/backward component)
 - Rotation is in-place (no translation)
 - Square pattern closes (returns to start point ±6 inches)
@@ -91,12 +91,12 @@ The robot demonstrates 8 movement patterns in sequence:
 **Key observations:**
 
 **Strafe (sideways movement):**
-- Robot moves left/right WITHOUT rotating
+- robot moves left/right WITHOUT rotating
 - This is impossible with standard wheels!
 - Wheels spin in specific pattern to create lateral force
 
 **Rotation in place:**
-- Robot spins without moving forward/backward
+- robot spins without moving forward/backward
 - All 4 wheels contribute to rotation
 - Useful for aligning with targets
 
@@ -107,12 +107,12 @@ The robot demonstrates 8 movement patterns in sequence:
 
 ### Step 4: Troubleshooting
 
-**"Robot doesn't move":**
+**"robot doesn't move":**
 - Check battery: `python3 ../../tests/battery_check.py`
 - Verify motors: `python3 ../../tests/test_motors.py`
 - Look for red LED on board (low voltage warning)
 
-**"Robot moves but in wrong direction":**
+**"robot moves but in wrong direction":**
 - Motor wiring might be reversed (common on assembly)
 - Check `config.yaml` → `motor_directions` settings
 - Some motors may need inversion (1 → -1)
@@ -141,7 +141,7 @@ Each wheel has rollers at 45° to the wheel's axis.
           ↓
     ╱╲╱╲╱╲╱╲   ← Rollers (45°)
     |      |
-    
+
 When wheel spins:
 - Forward component: along wheel axis
 - Lateral component: perpendicular (from rollers)
@@ -198,13 +198,13 @@ board = get_board()
 def drive_mecanum(vx, vy, omega, wheelbase=0.2):
     """
     Drive with mecanum wheels.
-    
+
     Args:
         vx: Strafe speed (-100 to 100, positive = right)
         vy: Forward speed (-100 to 100, positive = forward)
         omega: Rotation speed (-100 to 100, positive = CCW)
-        wheelbase: Robot wheelbase in meters (for rotation scaling)
-    
+        wheelbase: robot wheelbase in meters (for rotation scaling)
+
     Returns:
         None (sends motor commands directly)
     """
@@ -214,7 +214,7 @@ def drive_mecanum(vx, vy, omega, wheelbase=0.2):
     fr = vy - vx - omega * L * 100
     rl = vy - vx + omega * L * 100
     rr = vy + vx - omega * L * 100
-    
+
     # Normalize if any wheel exceeds 100
     max_speed = max(abs(fl), abs(fr), abs(rl), abs(rr))
     if max_speed > 100:
@@ -223,7 +223,7 @@ def drive_mecanum(vx, vy, omega, wheelbase=0.2):
         fr *= scale
         rl *= scale
         rr *= scale
-    
+
     # Send to motors (clamp to -100 to 100)
     board.set_motor_duty([
         (1, int(max(-100, min(100, fl)))),  # FL
@@ -248,7 +248,7 @@ mecanum_drive:
   # Speed limits (duty cycle 0-100)
   max_speed: 50       # Maximum speed for demos
   min_speed: 25       # Minimum to overcome friction
-  
+
   # Motor inversions (if motors wired backward)
   # Set to -1 to reverse, 1 for normal
   motor_directions:
@@ -256,16 +256,16 @@ mecanum_drive:
     front_right: 1    # Motor 2
     rear_left: 1      # Motor 3
     rear_right: 1     # Motor 4
-  
-  # Robot dimensions (meters)
+
+  # robot dimensions (meters)
   wheelbase: 0.20     # Distance between left and right wheels
   track_width: 0.20   # Distance between front and back wheels
   wheel_diameter: 0.065  # Wheel diameter in meters
-  
+
   # Movement durations (seconds) for demo
   demo_duration: 2.0  # How long each movement lasts
   demo_pause: 1.0     # Pause between movements
-  
+
   # Square pattern parameters
   square_side: 1.0    # Side length in meters
   square_speed: 35    # Speed for square pattern
@@ -315,7 +315,7 @@ F_wheel = [F_x, F_y] where:
 **4-wheel force summation:**
 
 ```
-Robot body forces:
+robot body forces:
 F_x_robot = F_FL + F_FR + F_RL + F_RR (lateral)
 F_y_robot = F_FL - F_FR - F_RL + F_RR (forward)
 τ_robot = (F_FL - F_FR + F_RL - F_RR) * L (torque)
@@ -328,7 +328,7 @@ Where L = distance from center to wheel.
 **Problem:** Given desired robot velocity [vx, vy, ω], find wheel speeds [ω1, ω2, ω3, ω4].
 
 **Coordinate frames:**
-- Robot frame: Origin at robot center, +X right, +Y forward
+- robot frame: Origin at robot center, +X right, +Y forward
 - Wheel frame: Origin at wheel center, +X along wheel axis
 
 **Transformation matrices:**
@@ -463,7 +463,7 @@ For pure forward (vy only):
 
 ### Field-Centric Drive
 
-**Problem:** Robot-centric drive feels weird when robot is rotated.
+**Problem:** robot-centric drive feels weird when robot is rotated.
 
 **Solution:** Transform desired motion to robot frame first.
 
@@ -471,23 +471,23 @@ For pure forward (vy only):
 def drive_field_centric(field_vx, field_vy, omega, robot_heading):
     """
     Drive relative to field, not robot.
-    
+
     Args:
         field_vx: Desired velocity in field X (right)
         field_vy: Desired velocity in field Y (forward)
         omega: Rotation speed (same as robot frame)
         robot_heading: Current robot angle (radians)
-    
+
     Returns:
         (robot_vx, robot_vy, omega) in robot frame
     """
     cos_h = math.cos(robot_heading)
     sin_h = math.sin(robot_heading)
-    
+
     # Rotation matrix transformation
     robot_vx = field_vx * cos_h + field_vy * sin_h
     robot_vy = -field_vx * sin_h + field_vy * cos_h
-    
+
     return robot_vx, robot_vy, omega
 ```
 

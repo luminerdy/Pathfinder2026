@@ -102,7 +102,7 @@ Quick reference checklist for setting up a new robot.
 ```bash
 - [ ] python3 pathfinder.py --demo d1_basic_drive
 - [ ] Motors moved in patterns
-- [ ] python3 pathfinder.py --demo d3_arm_basics  
+- [ ] python3 pathfinder.py --demo d3_arm_basics
 - [ ] Servos moved through positions
 ```
 
@@ -207,6 +207,6 @@ Quick links to docs:
 
 ---
 
-**Version:** 1.0  
-**Last Updated:** March 20, 2026  
+**Version:** 1.0
+**Last Updated:** March 20, 2026
 **Status:** ✅ Verified on Pi 5 + Debian 13

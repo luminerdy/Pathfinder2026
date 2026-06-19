@@ -1,12 +1,12 @@
-# Robot Assembly
+# robot assembly
 
-Robot Assembly is the first workshop phase. The goal is to turn a kit into a robot that is mechanically built, powered, connected, and safe to test.
+robot assembly is the first workshop phase. The goal is to turn a kit into a robot that is mechanically built, powered, connected, and safe to test.
 
 ## What This Phase Covers
 
 1. Physical robot assembly
 2. Pi 500 control hub setup
-3. Robot Pi setup
+3. robot Pi setup
 4. First SSH connection
 5. Hardware verification
 
@@ -73,16 +73,16 @@ Relevant setup docs:
 - [Pi 500 OS Build](../setup/A1_PI500_OS_BUILD.md)
 - [Pi 500 Setup](../setup/C1_PI500_SETUP.md)
 
-## Robot Pi Setup
+## robot Pi setup
 
-The Robot Pi runs the code on the robot.
+The robot Pi runs the code on the robot.
 
 Relevant setup docs:
 
-- [Robot Pi OS Build](../setup/A2_ROBOT_PI_OS_BUILD.md)
+- [robot Pi OS build](../setup/A2_ROBOT_PI_OS_BUILD.md)
 - [Connect and Test](../setup/C2_CONNECT_AND_TEST.md)
 
-## Where The Robot Code Lives
+## Where The Code Lives
 
 On the robot:
 
@@ -129,7 +129,7 @@ python3 skills/mecanum_drive/run_demo.py
 
 The team is ready for Capabilities Exploration when:
 
-- Robot is physically assembled.
+- robot is physically assembled.
 - Wheels spin freely.
 - Arm and gripper move without binding.
 - Camera and sonar are mounted.

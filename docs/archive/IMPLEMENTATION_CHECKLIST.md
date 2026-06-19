@@ -35,7 +35,7 @@ Based on Hiwonder system analysis. Priority order.
   - Create `Deviation.yaml` for servo offsets
   - Implement calibration tool
   - Apply offsets in servo commands
-  
+
 - [ ] **Battery voltage monitoring**
   - Verify `get_battery()` returns values (not None)
   - Add voltage display/logging
@@ -202,7 +202,7 @@ Based on Hiwonder system analysis. Priority order.
 
 ## Success Criteria
 
-**Minimum Viable Robot:**
+**Minimum Viable robot:**
 - ✅ Motors move
 - ✅ Servos move
 - ✅ Battery reads correctly

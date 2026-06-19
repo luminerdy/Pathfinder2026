@@ -2,27 +2,27 @@
 
 Welcome to Pathfinder2026. This workshop has three phases:
 
-1. Robot Assembly
+1. robot assembly
 2. Capabilities Exploration
 3. Course Challenge
 
 The goal is to build a working robot, learn its capabilities, then combine those skills into a course run.
 
-## Phase 1: Robot Assembly
+## Phase 1: robot assembly
 
 Build and prepare the robot before running code.
 
-Use the phase guide: [Robot Assembly](docs/workshop/ROBOT_ASSEMBLY.md)
+Use the phase guide: [robot assembly](docs/workshop/ROBOT_ASSEMBLY.md)
 
 Minimum checklist:
 
-- Robot chassis assembled
+- robot chassis assembled
 - Mecanum wheels installed correctly
 - Arm and gripper attached
 - Camera mounted and connected
 - Sonar connected
 - Batteries charged
-- Robot Pi booted
+- robot Pi booted
 - Pi 500 connected to workshop WiFi
 - Pi 500 can SSH into the robot
 - Battery check passes
@@ -45,7 +45,7 @@ Recommended order:
 |------|------------|------|
 | D1 | Mecanum drive | `python3 skills/mecanum_drive/run_demo.py` |
 | D2 | Sonar sensors | `python3 skills/sonar_sensors/run_demo.py` |
-| D3 | Robotic arm | `python3 skills/robotic_arm/run_demo.py` |
+| D3 | robotic arm | `python3 skills/robotic_arm/run_demo.py` |
 | D4 | Camera vision | `python3 skills/camera_vision/test_camera.py` |
 | E2 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
 | E3 | Block detection | `python3 skills/block_detection/run_demo.py` |
@@ -87,7 +87,7 @@ Before a course run:
 
 ## Troubleshooting
 
-**Robot does not move**
+**robot does not move**
 
 - Check battery: `python3 scripts/tools/check_battery.py`
 - Try a higher motor power with fresh batteries.

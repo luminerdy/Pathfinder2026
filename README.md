@@ -6,7 +6,7 @@ Pathfinder2026 is the event repo for the 2026 Pathfinder robot workshop. It is m
 
 The workshop flow follows the original PathfinderBot event shape:
 
-1. Robot Assembly
+1. robot assembly
 2. Capabilities Exploration
 3. Course Challenge
 
@@ -17,11 +17,11 @@ The robot software underneath comes from PathfinderV2.
 If you are new to this repo, use this order:
 
 1. [START_HERE.md](START_HERE.md) - event-day guide
-2. [Robot Assembly](docs/workshop/ROBOT_ASSEMBLY.md) - build the robot and verify it works
+2. [robot assembly](docs/workshop/ROBOT_ASSEMBLY.md) - build the robot and verify it works
 3. [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md) - run the robot demos
 4. [Course Challenge](docs/workshop/COURSE_CHALLENGE.md) - combine skills on the field
 
-## Where Is The Robot Code?
+## Where Does The Code Live?
 
 On the robot, the code should live here:
 
@@ -58,7 +58,7 @@ Most participants should run scripts from `skills/`. Most code changes should al
 | `START_HERE.md` | Event-day participant path. |
 | `CONTRIBUTING.md` | GitHub repo file rules, including no emojis in committed files. |
 | `docs/workshop/` | Human-facing workshop phases. |
-| `docs/setup/` | Pre-event Pi 500, Robot Pi, SD card, and connection setup. |
+| `docs/setup/` | Pre-event Pi 500, robot Pi, SD card, and connection setup. |
 | `docs/calibration/` | Calibration and tuning notes. |
 | `docs/archive/` | Historical development notes from PathfinderV2. |
 
@@ -95,11 +95,11 @@ http://<ROBOT_IP>:8080
 
 ## Workshop Phases
 
-### 1. Robot Assembly
+### 1. robot assembly
 
-Teams build the robot, prepare the Pi 500, connect to the Robot Pi, and verify the robot can safely move.
+Teams build the robot, prepare the Pi 500, connect to the robot Pi, and verify the robot can safely move.
 
-Guide: [Robot Assembly](docs/workshop/ROBOT_ASSEMBLY.md)
+Guide: [robot assembly](docs/workshop/ROBOT_ASSEMBLY.md)
 
 ### 2. Capabilities Exploration
 
@@ -135,7 +135,7 @@ Guide: [Course Challenge](docs/workshop/COURSE_CHALLENGE.md)
 For pre-event setup:
 
 - [Pi 500 OS Build](docs/setup/A1_PI500_OS_BUILD.md)
-- [Robot Pi OS Build](docs/setup/A2_ROBOT_PI_OS_BUILD.md)
+- [robot Pi OS build](docs/setup/A2_ROBOT_PI_OS_BUILD.md)
 - [Pi 500 Setup](docs/setup/C1_PI500_SETUP.md)
 - [Connect and Test](docs/setup/C2_CONNECT_AND_TEST.md)
 - [Bill of Materials](docs/setup/BILL_OF_MATERIALS.md)

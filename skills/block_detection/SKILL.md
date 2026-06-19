@@ -1,9 +1,9 @@
 # Skill: Block Detection (E3)
 
-**Difficulty:** ⭐⭐ (Intermediate - Computer Vision Application)  
-**Type:** Vision + Color Detection  
-**Prerequisites:** D4 (Camera Vision)  
-**Estimated Time:** 20-25 minutes  
+**Difficulty:** ⭐⭐ (Intermediate - Computer Vision Application)
+**Type:** Vision + Color Detection
+**Prerequisites:** D4 (Camera Vision)
+**Estimated Time:** 20-25 minutes
 
 ---
 
@@ -227,43 +227,43 @@ import numpy as np
 def detect_custom_color(frame, h_low, h_high, s_min=80, v_min=50):
     """
     Detect objects of a custom color.
-    
+
     Args:
         frame: BGR image
         h_low, h_high: Hue range (0-180)
         s_min: Minimum saturation
         v_min: Minimum value (brightness)
-    
+
     Returns:
         List of (center_x, center_y, area) tuples
     """
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    
+
     lower = np.array([h_low, s_min, v_min])
     upper = np.array([h_high, 255, 255])
     mask = cv2.inRange(hsv, lower, upper)
-    
+
     # Clean up noise
     kernel = np.ones((3, 3), np.uint8)
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
-    
+
     # Find contours
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL,
                                     cv2.CHAIN_APPROX_SIMPLE)
-    
+
     results = []
     for c in contours:
         area = cv2.contourArea(c)
         if area < 30:  # Skip tiny blobs
             continue
-        
+
         M = cv2.moments(c)
         if M['m00'] > 0:
             cx = int(M['m10'] / M['m00'])
             cy = int(M['m01'] / M['m00'])
             results.append((cx, cy, area))
-    
+
     return sorted(results, key=lambda r: r[2], reverse=True)
 ```
 

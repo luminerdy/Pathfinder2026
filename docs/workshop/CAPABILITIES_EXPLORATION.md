@@ -12,7 +12,7 @@ Run short demos, observe behavior, and tune only what is needed. Each capability
 |------|------------|------|
 | D1 | Mecanum drive | `python3 skills/mecanum_drive/run_demo.py` |
 | D2 | Sonar sensors | `python3 skills/sonar_sensors/run_demo.py` |
-| D3 | Robotic arm | `python3 skills/robotic_arm/run_demo.py` |
+| D3 | robotic arm | `python3 skills/robotic_arm/run_demo.py` |
 | D4 | Camera vision | `python3 skills/camera_vision/test_camera.py` |
 | E2 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
 | E3 | Block detection | `python3 skills/block_detection/run_demo.py` |

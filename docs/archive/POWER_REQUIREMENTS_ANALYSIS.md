@@ -2,7 +2,7 @@
 
 ## TL;DR
 
-**For educational/workshop use: YES** ✅  
+**For educational/workshop use: YES** ✅
 **For competitive robotics/heavy duty: MARGINAL** ⚠️
 
 ## Power Budget Breakdown
@@ -142,7 +142,7 @@
    # Don't do this:
    all_motors(100%)  # Too much current!
    all_servos_move()
-   
+
    # Do this instead:
    motors(50%)       # Moderate speed
    time.sleep(0.1)   # Brief movements

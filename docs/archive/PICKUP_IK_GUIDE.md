@@ -107,37 +107,37 @@ try:
     # 1. Detect block
     frame = robot.camera.read()
     blocks = robot.vision.detect_blocks(frame)
-    
+
     if blocks['red']:
         block = blocks['red'][0]
-        
+
         # 2. Calculate 3D position
         # (simplified - real version uses camera calibration)
         x = 200  # From distance estimation
         y = 0    # From horizontal offset
         z = 25   # Block height (1 inch)
-        
+
         # 3. Execute pickup sequence
         # Pre-grasp
         solution = robot.arm.ik.set_position(x, y, 100)
         robot.arm.move_to_pose(solution)
-        
+
         # Open gripper
         robot.arm.set_gripper(2500)
-        
+
         # Lower
         solution = robot.arm.ik.set_position(x, y, 20)
         robot.arm.move_to_pose(solution)
-        
+
         # Grasp
         robot.arm.set_gripper(1475)
-        
+
         # Lift
         solution = robot.arm.ik.set_position(x, y, 150)
         robot.arm.move_to_pose(solution)
-        
+
         print("Block picked up!")
-    
+
 finally:
     robot.cleanup()
 ```
@@ -226,7 +226,7 @@ Adjust these based on testing!
 
 ### Scenario 1: AprilTag-Assisted Pickup
 ```python
-# 1. Robot sees block and nearby AprilTag
+# 1. robot sees block and nearby AprilTag
 # 2. Calculate accurate 3D position using tag reference
 # 3. Approach block (visual servoing)
 # 4. IK calculates arm pose
@@ -236,7 +236,7 @@ Adjust these based on testing!
 
 ### Scenario 2: Vision-Only Pickup
 ```python
-# 1. Robot sees block (no AprilTag)
+# 1. robot sees block (no AprilTag)
 # 2. Estimate position from camera (less accurate)
 # 3. Approach block
 # 4. IK calculates arm pose
@@ -246,7 +246,7 @@ Adjust these based on testing!
 
 ### Scenario 3: Blind Pickup (Known Position)
 ```python
-# 1. Robot knows block is at (x, y, z) from prior scan
+# 1. robot knows block is at (x, y, z) from prior scan
 # 2. Drive to position
 # 3. IK calculates arm pose
 # 4. Execute pickup (no vision feedback)

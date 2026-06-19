@@ -1,4 +1,4 @@
-# Robot Positioning Strategy for Block Pickup
+# robot Positioning Strategy for Block Pickup
 
 **Problem:** Arm has limited reach, camera can't see both AprilTags and floor blocks simultaneously
 
@@ -29,14 +29,14 @@
 1. Detect AprilTag near target block
 2. Navigate to tag using existing navigate_simple_forward.py
 3. Stop at "approach zone" (measured distance from tag)
-4. Robot is now in general vicinity of block
+4. robot is now in general vicinity of block
 ```
 
 **Example:**
 - Block is placed near Tag 1
-- Robot navigates to Tag 1
+- robot navigates to Tag 1
 - Stops when tag area = 15,000-20,000 pixels² (closer than navigation target)
-- Robot is now ~50-80cm from tag
+- robot is now ~50-80cm from tag
 - Block should be visible when camera tilts down
 
 **Key Parameters:**
@@ -113,7 +113,7 @@ while not in_pickup_zone(block):
     # Calculate correction
     x_error = block['center_x'] - FRAME_CENTER_X
     distance = estimate_distance(block['area'])
-    
+
     # Apply correction
     if abs(x_error) > 30:  # Not centered
         if x_error > 0:
@@ -122,21 +122,21 @@ while not in_pickup_zone(block):
             chassis.strafe_left(20)
         time.sleep(0.3)
         chassis.stop()
-    
+
     elif distance > TARGET_DISTANCE:  # Too far
         chassis.move_forward(20)
         time.sleep(0.2)
         chassis.stop()
-    
+
     elif distance < TARGET_DISTANCE:  # Too close
         chassis.move_backward(20)
         time.sleep(0.2)
         chassis.stop()
-    
+
     else:
         # In position!
         break
-    
+
     # Re-detect block
     block = detect_block(target_color)
 ```
@@ -144,7 +144,7 @@ while not in_pickup_zone(block):
 **Target Metrics (from calibration):**
 - Horizontal center: Frame_X ±30px
 - Distance: Block area ~= target_area (from reach calibration)
-- Angle: Robot facing block (not critical with mecanum)
+- Angle: robot facing block (not critical with mecanum)
 
 ---
 
@@ -155,53 +155,53 @@ while not in_pickup_zone(block):
 ```python
 def pickup_block_at_tag(tag_id, block_color):
     """Complete pickup sequence with positioning"""
-    
+
     # PHASE 1: NAVIGATE TO TAG AREA
     print(f"Phase 1: Navigating to Tag {tag_id}...")
-    
+
     # Camera in NAVIGATION mode (already there from startup)
     position_camera_navigation()
-    
+
     # Navigate close to tag (not as close as usual)
     navigate_to_tag_close(tag_id, target_area=18000)  # Closer approach
-    
+
     # PHASE 2: SWITCH TO BLOCK DETECTION
     print("Phase 2: Switching to block detection mode...")
-    
+
     # Change camera angle
     position_camera_for_blocks()
     time.sleep(2)  # Let servos settle
-    
+
     # Find block
     block = find_block_color(block_color, timeout=10)
     if not block:
         print("ERROR: Block not found after tag approach")
         return False
-    
+
     print(f"Block detected: {block['color']} at ({block['center_x']}, {block['center_y']})")
-    
+
     # PHASE 3: FINE POSITIONING
     print("Phase 3: Fine positioning for pickup...")
-    
+
     # Position robot optimally
     success = position_for_pickup(block, target_area=PICKUP_TARGET_AREA)
     if not success:
         print("ERROR: Could not position for pickup")
         return False
-    
+
     # Verify in reach
     if not verify_in_reach(block):
         print("ERROR: Block not in arm reach zone")
         return False
-    
+
     # EXECUTE PICKUP
     print("Executing pickup...")
     pickup_success = execute_gripper_pickup(block)
-    
+
     # RETURN TO NAVIGATION MODE
     print("Returning to navigation mode...")
     position_camera_navigation()
-    
+
     return pickup_success
 ```
 
@@ -308,9 +308,9 @@ python3 test_integrated_positioning.py  # Create this next
 
 ### **Advantages over Alternatives:**
 
-❌ **Single camera angle (compromise):** Can't see either task well  
-❌ **Second camera:** Added complexity, cost, processing  
-❌ **Guess and grab:** Low success rate, wastes time  
+❌ **Single camera angle (compromise):** Can't see either task well
+❌ **Second camera:** Added complexity, cost, processing
+❌ **Guess and grab:** Low success rate, wastes time
 ✅ **This approach:** Uses existing hardware optimally
 
 ---
@@ -367,14 +367,14 @@ python3 test_integrated_positioning.py  # Create this next
 ## 📝 Notes
 
 - This strategy emerged from understanding physical constraints
-- Robot positioning is AS IMPORTANT as arm IK
+- robot positioning is AS IMPORTANT as arm IK
 - Camera mode switching is the key enabler
 - Mecanum drive makes fine positioning practical
 - Calibration is essential (don't guess!)
 
 ---
 
-**Status:** Strategy designed, calibration scripts ready  
-**Next Step:** Run calibrations to get actual measurements  
-**Owner:** Scotty + Pathfinder  
+**Status:** Strategy designed, calibration scripts ready
+**Next Step:** Run calibrations to get actual measurements
+**Owner:** Scotty + Pathfinder
 **Date:** March 22, 2026

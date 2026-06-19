@@ -1,19 +1,19 @@
 # Skill: Gamepad Remote Control (D6)
 
-**Difficulty:** ⭐ (Beginner - Plug and Play)  
-**Type:** Manual Control  
-**Prerequisites:** C2 (Connected to robot)  
-**Estimated Time:** 10 minutes  
+**Difficulty:** ⭐ (Beginner - Plug and Play)
+**Type:** Manual Control
+**Prerequisites:** C2 (Connected to robot)
+**Estimated Time:** 10 minutes
 
 ---
 
-> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `Robot` class which wraps all of this — same concepts, cleaner code.
+> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
 ## Overview
 
 Drive your robot with a Logitech F710 wireless gamepad. Tank-style stick control with mecanum strafing, trigger-based speed control, bumper turns, and D-pad arm actions.
 
-The gamepad plugs into the **Robot Pi** (not the Pi 500). You control from the couch, the robot drives on the field.
+The gamepad plugs into the **robot Pi** (not the Pi 500). You control from the couch, the robot drives on the field.
 
 ### Why Gamepad?
 
@@ -28,7 +28,7 @@ The gamepad plugs into the **Robot Pi** (not the Pi 500). You control from the c
 
 ### Step 1: Hardware Setup
 
-1. Plug the **F710 USB wireless receiver** into the **Robot Pi** (any USB port)
+1. Plug the **F710 USB wireless receiver** into the **robot Pi** (any USB port)
 2. Turn on the gamepad (center button)
 3. Set the **back switch to X** (XInput mode, not D/DirectInput)
 4. Check the green LED is on (connected)
@@ -144,18 +144,18 @@ Triggers override sticks when pressed. Great for smooth, controlled approach.
 while running:
     # Read gamepad state
     left_y = gamepad.get_axis(1)   # Left stick Y
-    right_y = gamepad.get_axis(3)  # Right stick Y  
+    right_y = gamepad.get_axis(3)  # Right stick Y
     strafe = gamepad.get_axis(0)   # Left stick X
-    
+
     # Apply deadzone (ignore tiny stick drift)
     if abs(left_y) < 0.15: left_y = 0
-    
+
     # Calculate motor speeds (tank + strafe)
     fl = -left_y + strafe    # Front left
     fr = -right_y - strafe   # Front right
     rl = -left_y - strafe    # Rear left
     rr = -right_y + strafe   # Rear right
-    
+
     # Scale to motor range and send
     board.set_motor_duty([(1, fl*50), (2, fr*50), (3, rl*50), (4, rr*50)])
 ```
@@ -180,7 +180,7 @@ DEADZONE = 0.15       # Ignore stick values below this
 ```yaml
 gamepad:
   max_speed: 50        # Motor duty cycle limit
-  turn_speed: 40       # In-place turn speed  
+  turn_speed: 40       # In-place turn speed
   deadzone: 0.15       # Stick deadzone
   mode: "xinput"       # X mode on back of controller
 ```
@@ -190,17 +190,17 @@ gamepad:
 ## Troubleshooting
 
 **"No gamepad detected":**
-- USB receiver plugged into Robot Pi (not Pi 500)?
+- USB receiver plugged into robot Pi (not Pi 500)?
 - Gamepad powered on (green LED)?
 - Back switch set to **X** (not D)?
 - Try: `lsusb | grep -i logitech`
 - Try: `ls /dev/input/js*` (should show js0)
 
-**Robot drives wrong direction:**
+**robot drives wrong direction:**
 - Sticks inverted? Adjust axis mapping in code
 - Motors wired backward? Swap motor plugs or invert in code
 
-**Robot creeps when sticks centered:**
+**robot creeps when sticks centered:**
 - Increase DEADZONE (0.15 → 0.20)
 - Recalibrate: `sudo jscal /dev/input/js0`
 

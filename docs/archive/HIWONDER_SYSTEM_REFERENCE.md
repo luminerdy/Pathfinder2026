@@ -61,7 +61,7 @@ console=serial0,115200 console=tty1 root=PARTUUID=2074da14-02 rootfstype=ext4 fs
 
 ## Systemd Services
 
-### Core Robot Services
+### Core robot Services
 
 **Pathfinder robot.service**
 ```ini
@@ -187,12 +187,12 @@ def startTruckPi():
     rpc_server.board = board
     rpc_server.AK = AK
     rpc_server.set_board()  # Called twice in code
-    
+
     # Initialize sonar RGB
     HWSONAR.setRGBMode(0)
     HWSONAR.setPixelColor(0, (0,0,0))
     HWSONAR.setPixelColor(1, (0,0,0))
-    
+
     # Distribute references
     RemoteControl.HWSONAR = HWSONAR
     Avoidance.HWSONAR = HWSONAR
@@ -209,17 +209,17 @@ def set_board():
     color_sorting.board = board
     visual_patrol.board = board
     avoidance.board = board
-    
+
     # Distribute ArmIK reference
     color_detect.AK = AK
     color_tracking.AK = AK
     color_sorting.AK = AK
     visual_patrol.AK = AK
     avoidance.AK = AK
-    
+
     # Initialize default position
     color_detect.initMove()
-    
+
     # BUZZER BEEP (might be initialization signal?)
     board.set_buzzer(1900, 0.3, 0.7, 1)
 ```
@@ -370,7 +370,7 @@ board.set_motor_duty([[1, 0]])
 5. **set_buzzer() might be init signal** - Called after board setup
 6. **Servo offsets are essential** - Deviation.yaml corrects mechanical tolerances
 7. **No ROS needed** - Pure Python works fine
-8. **systemd services auto-start** - Robot ready on boot
+8. **systemd services auto-start** - robot ready on boot
 9. **GPIO buttons** - Hardware testing via physical button
 10. **JSON-RPC for remote control** - Web/app can control robot
 
@@ -410,6 +410,6 @@ python3 board_demo/hardware_test.py
 
 ---
 
-**Document generated:** 2026-03-20  
-**Source system:** 10.10.10.137 (Hiwonder factory image)  
+**Document generated:** 2026-03-20
+**Source system:** 10.10.10.137 (Hiwonder factory image)
 **Purpose:** Reference for Pathfinder2026 development

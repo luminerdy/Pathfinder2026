@@ -1,9 +1,9 @@
-# Bill of Materials — Robot + Pi 500 Setup
+# Bill of Materials — robot + Pi 500 Setup
 
-**Last Updated:** April 25, 2026  
+**Last Updated:** April 25, 2026
 **Purpose:** Materials for one team’s robot and Pi 500 setup
 
-Robot/Pi 500 setup lives here. Workshop challenge field materials will be added later.
+robot/Pi 500 setup lives here. Workshop challenge field materials will be added later.
 
 ---
 
@@ -12,7 +12,7 @@ Robot/Pi 500 setup lives here. Workshop challenge field materials will be added 
 | Item | Qty | Notes |
 |------|-----|-------|
 | Hiwonder MasterPi robot kit | 1 | Chassis, mecanum wheels, arm, servos, camera |
-| Raspberry Pi 4 (4GB) | 1 | Robot brain |
+| Raspberry Pi 4 (4GB) | 1 | robot brain |
 | microSD card — robot (32GB+) | 1 | Pre-imaged with robot OS |
 | 18650 batteries (pair) | 2 sets | 1 in robot + 1 spare |
 | Raspberry Pi 500 | 1 | Team control hub |
@@ -50,6 +50,6 @@ Robot/Pi 500 setup lives here. Workshop challenge field materials will be added 
 ## Quick Links
 
 - [Pi 500 OS build](A1_PI500_OS_BUILD.md)
-- [Robot Pi OS build](A2_ROBOT_PI_OS_BUILD.md)
+- [robot Pi OS build](A2_ROBOT_PI_OS_BUILD.md)
 - [Pi 500 setup](C1_PI500_SETUP.md)
 - [Connect and test](C2_CONNECT_AND_TEST.md)

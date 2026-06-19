@@ -1,8 +1,8 @@
-# A2 - Robot Pi OS Build Steps
+# A2 - robot Pi OS build steps
 
 **Purpose:** Create an SD card image for a Pathfinder2026 workshop robot.
-**Platform:** Raspberry Pi 4 (4GB+)  
-**OS:** Raspberry Pi OS (Debian 13 Trixie, 64-bit)  
+**Platform:** Raspberry Pi 4 (4GB+)
+**OS:** Raspberry Pi OS (Debian 13 Trixie, 64-bit)
 **Raspberry Pi Imager:** 2.0.0
 **Current Pi OS Released:** 2026-06-18
 **Last tested:** 2026-06-18
@@ -40,7 +40,7 @@ After completing these steps you will have an SD card that can be cloned for all
 - **WiFi:** Configure your workshop network SSID and password
 - **Locale:** Set timezone and keyboard layout
 
-> **Event account note:** Event notes may refer to the user name as "Robot"; keep the Linux account lowercase as `robot` so paths and commands match `/home/robot/pathfinder`.
+> **Event account note:** Event notes may refer to the user name as "robot"; keep the Linux account lowercase as `robot` so paths and commands match `/home/robot/pathfinder`.
 
 ### Flash
 Click **Write** and wait for completion.
@@ -297,7 +297,7 @@ sudo usermod -a -G dialout,i2c,gpio,video robot
 
 ## Step 9: Test Hardware
 
-**Important:** Robot must be assembled with batteries installed before this step.
+**Important:** robot must be assembled with batteries installed before this step.
 
 ### Battery
 ```bash
@@ -349,7 +349,7 @@ board = get_board(); time.sleep(0.5)
 board.set_motor_duty([(1,30),(2,30),(3,30),(4,30)])
 time.sleep(0.5)
 board.set_motor_duty([(1,0),(2,0),(3,0),(4,0)])
-print('Robot should have moved forward briefly')
+print('robot should have moved forward briefly')
 "
 ```
 
@@ -505,7 +505,7 @@ sudo dd if=Pathfinder2026.img of=/dev/sdY bs=4M status=progress
 ### On Windows
 Use **Win32 Disk Imager** or **balenaEtcher** to read/write the image.
 
-### Per-Robot Changes After Cloning
+### Per-robot changes after cloning
 Each robot needs an assigned IP address recorded on the event IP sheet. If static IPs are used, configure the assigned IP before the event.
 
 Optional: set a unique device label for local identification, but do not use it for event connections.
@@ -535,7 +535,7 @@ sudo nmcli dev wifi connect "SSID" password "PASSWORD"
 | NumPy | 2.2.4 | Math operations |
 | Visual Studio Code | 1.119+ | Code editor |
 | Python extension (ms-python) | 2026.4+ | Python language support in VS Code |
-| Pathfinder2026 | Latest | Robot framework |
+| Pathfinder2026 | Latest | robot framework |
 
 ## Quick Reference: Hardware Interfaces
 
@@ -605,7 +605,7 @@ sudo reboot
 
 ---
 
-*Created: March 26, 2026*  
+*Created: March 26, 2026*
 *Updated: June 18, 2026 - aligned to Raspberry Pi OS release 2026-06-18 and Raspberry Pi Imager 2.0.0*
 *Last tested: June 18, 2026*
 *Tested on: Raspberry Pi 4 Model B, Debian 13 Trixie 64-bit, Python 3.13.x*

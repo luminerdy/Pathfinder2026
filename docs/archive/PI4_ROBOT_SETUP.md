@@ -1,8 +1,8 @@
-# Pi 4 Robot Setup Guide
-## Pathfinder2026 — Fresh Robot Configuration
+# Pi 4 robot Setup Guide
+## Pathfinder2026 — Fresh robot Configuration
 
-**Last Updated:** March 25, 2026  
-**Tested On:** Raspberry Pi 4 Model B Rev 1.5  
+**Last Updated:** March 25, 2026
+**Tested On:** Raspberry Pi 4 Model B Rev 1.5
 **OS:** Raspberry Pi OS (Bookworm, 64-bit)
 
 ---
@@ -204,7 +204,7 @@ time.sleep(1)
 board.set_motor_duty([(1,30),(2,30),(3,30),(4,30)])
 time.sleep(0.5)
 board.set_motor_duty([(1,0),(2,0),(3,0),(4,0)])
-print('Robot should have moved forward briefly')
+print('robot should have moved forward briefly')
 "
 ```
 
@@ -269,7 +269,7 @@ sudo nano /etc/systemd/system/pathfinder-startup.service
 
 ```ini
 [Unit]
-Description=Pathfinder2026 Robot Startup Sequence
+Description=Pathfinder2026 robot Startup Sequence
 After=network.target
 
 [Service]

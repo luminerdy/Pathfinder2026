@@ -12,9 +12,9 @@ You need **4 AprilTags** for the wall-centered field configuration:
 - **Tag ID: 585** (South wall) - Pickup Zone 2
 - **Tag ID: 586** (West wall) - Delivery Zone
 
-**Tag Family:** tag36h11 (PathfinderBot standard)  
-**Size:** 10 inches x 10 inches (upgraded from 6" for better detection)  
-**Paper:** 11" x 17" or tile across multiple 8.5" x 11" sheets  
+**Tag Family:** tag36h11 (PathfinderBot standard)
+**Size:** 10 inches x 10 inches (upgraded from 6" for better detection)
+**Paper:** 11" x 17" or tile across multiple 8.5" x 11" sheets
 
 ## Download Pre-Generated Tags
 
@@ -159,7 +159,7 @@ If tags not detected:
 - **Wrong family:** Must be tag36h11
 - **Wrinkled:** Tags must be perfectly flat
 
-### Robot sees wrong tag ID
+### robot sees wrong tag ID
 - Double-check which file you printed
 - Verify tag number in corner of image
 
@@ -178,7 +178,7 @@ If tags not detected:
 - [ ] Height is 10 inches (center of tag)
 - [ ] Tags face inward toward field
 - [ ] Tested with `python3 find_apriltag.py`
-- [ ] Robot successfully detects all 4 tags
+- [ ] robot successfully detects all 4 tags
 
 ## Next Steps
 

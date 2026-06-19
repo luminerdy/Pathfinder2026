@@ -38,10 +38,10 @@ Good grip!         Weak grip!           Can't grip!
 ```
 IF block_angle < 5°:
     "Close enough" → Pick up directly
-    
+
 ELIF block_angle < 30°:
     "Needs alignment" → Rotate base to match
-    
+
 ELSE:
     "Too extreme" → Abort (ask human to reposition)
 ```
@@ -81,11 +81,11 @@ ELSE:
 if abs(block.angle) > 5°:  # tolerance
     if abs(block.angle) > 30°:  # max
         return FAIL("Block too rotated")
-    
+
     # Rotate base
     rotation_time = abs(block.angle) / 45.0
     chassis.rotate(direction, rotation_time)
-    
+
     # Re-detect
     block = detect_again()
     # Should now be closer to 0°
@@ -102,13 +102,13 @@ if abs(block.angle) > 5°:  # tolerance
 **Default (alignment ON):**
 ```bash
 python3 demos/vision_pickup.py --color red
-# Robot will auto-align to block angle
+# robot will auto-align to block angle
 ```
 
 **Disable alignment:**
 ```bash
 python3 demos/vision_pickup.py --color red --no-align
-# Robot picks up from any angle (may fail if >30°)
+# robot picks up from any angle (may fail if >30°)
 ```
 
 ### Set Maximum Angle
@@ -179,15 +179,15 @@ print("Press 'q' to quit, 'c' to capture")
 while True:
     img = robot.camera.read()
     block = pickup._detect_block_by_color(img, 'red')  # or 'blue', etc.
-    
+
     if block:
         annotated = pickup._annotate_detection(img, block, None)
-        cv2.putText(annotated, f"Angle: {block.angle:.1f} deg", 
+        cv2.putText(annotated, f"Angle: {block.angle:.1f} deg",
                    (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 2)
         cv2.imshow("Block Detection", annotated)
     else:
         cv2.imshow("Block Detection", img)
-    
+
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
         break
@@ -255,7 +255,7 @@ rotation_time = abs(target_angle) / 30.0  # Faster
 
 ### "Rotation causes drift"
 
-**Problem:** Robot moves sideways while rotating
+**Problem:** robot moves sideways while rotating
 
 **Causes:**
 - Floor not level
@@ -289,7 +289,7 @@ def _align_gripper_wrist(self, block_angle):
     """
     # Calculate wrist angle
     wrist_angle = block_angle  # Direct mapping
-    
+
     # Set wrist servo
     # (Requires wrist servo control in arm.py)
     self.arm.set_wrist_angle(wrist_angle)
@@ -409,11 +409,11 @@ For better angle accuracy:
 
 **Block orientation handling:**
 
-✅ **Detects** block rotation angle  
-✅ **Decides** if alignment needed  
-✅ **Aligns** robot base to match  
-✅ **Adapts** to gripper limitations  
-✅ **Configurable** max angles and tolerance  
+✅ **Detects** block rotation angle
+✅ **Decides** if alignment needed
+✅ **Aligns** robot base to match
+✅ **Adapts** to gripper limitations
+✅ **Configurable** max angles and tolerance
 
 **Usage:**
 ```bash

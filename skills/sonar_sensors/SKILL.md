@@ -1,13 +1,13 @@
 # Skill: Sonar Sensors
 
-**Difficulty:** ⭐ (Beginner - Hardware Skill)  
-**Type:** Sensor Reading & Obstacle Detection  
-**Prerequisites:** D1 (Mecanum Drive recommended)  
-**Estimated Time:** 15-20 minutes  
+**Difficulty:** ⭐ (Beginner - Hardware Skill)
+**Type:** Sensor Reading & Obstacle Detection
+**Prerequisites:** D1 (Mecanum Drive recommended)
+**Estimated Time:** 15-20 minutes
 
 ---
 
-> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`Sonar()`, `board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `Robot` class which wraps all of this — same concepts, cleaner code.
+> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`Sonar()`, `board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
 ## 📘 Overview
 
@@ -101,19 +101,19 @@ The robot demonstrates 6 sonar capabilities:
    - Green (>30cm) = SAFE - full speed
 
 5. **Movement with Safety** (drives forward, stops if obstacle)
-   - Robot moves forward at 40% speed
+   - robot moves forward at 40% speed
    - Stops automatically if obstacle detected
    - Demo: Put hand in path, robot stops
 
 6. **Obstacle Avoidance** (turn away from obstacles)
-   - Robot drives forward
+   - robot drives forward
    - If obstacle ahead, backs up and turns
    - Explores area autonomously
 
 **Success looks like:**
 - Distance readings are accurate (measure with ruler, compare)
 - RGB colors change based on distance
-- Robot stops before hitting obstacle
+- robot stops before hitting obstacle
 - Avoidance behavior works (backs up and turns)
 
 ### Step 3: Try It Yourself
@@ -179,7 +179,7 @@ If LEDs don't light, check troubleshooting section below.
 - Test with: `python3 -c "from hardware.sonar import Sonar; import time; s = Sonar(); s.set_both_rgb((255,0,0)); time.sleep(2); s.rgb_off()"`
 - **Common fix:** If error `'I2CSonar' object has no attribute 'setPixelColor'`, the method name needs to be `set_pixel_color` (snake_case) not `setPixelColor` (camelCase)
 
-**"Robot doesn't stop for obstacles":**
+**"robot doesn't stop for obstacles":**
 - Threshold too close (increase to 20-30cm)
 - Sensor blocked (check mounting)
 - Code issue (check `check_obstacles=True` enabled)
@@ -252,7 +252,7 @@ else:
 def set_distance_indicator(distance):
     """
     Color-code distance for visual feedback.
-    
+
     Red: <15cm (danger zone, emergency stop)
     Yellow: 15-30cm (caution zone, slow down)
     Green: >30cm (safe zone, full speed)
@@ -339,7 +339,7 @@ def get_filtered_distance(samples=10):
         if dist and dist > 0:
             readings.append(dist)
         time.sleep(0.01)
-    
+
     if readings:
         return statistics.median(readings)
     return None
@@ -351,7 +351,7 @@ class SonarFilter:
     def __init__(self, window_size=5):
         self.window = []
         self.window_size = window_size
-    
+
     def update(self, distance):
         self.window.append(distance)
         if len(self.window) > self.window_size:
@@ -376,23 +376,23 @@ sonar:
   danger_zone: 15      # Red - emergency stop
   caution_zone: 30     # Yellow - slow down
   safe_zone: 50        # Green - full speed
-  
+
   # Sensor parameters
   max_range: 400       # Maximum valid reading (cm)
   min_range: 2         # Minimum valid reading (cm)
   timeout: 0.05        # Echo timeout (seconds)
-  
+
   # Filtering
   filter_samples: 10   # How many samples to average
   outlier_threshold: 50  # Reject readings > 50cm different
-  
+
   # RGB LED colors (R, G, B values 0-255)
   colors:
     danger: [255, 0, 0]    # Red
     caution: [255, 255, 0]  # Yellow
     safe: [0, 255, 0]      # Green
     off: [0, 0, 0]         # LEDs off
-  
+
   # Movement safety
   stop_distance: 15    # Emergency stop if closer (cm)
   slow_distance: 30    # Reduce speed if closer (cm)
@@ -431,7 +431,7 @@ Wavelength λ = v / f
 where:
   v = speed of sound = 343 m/s (at 20°C)
   f = frequency = 40,000 Hz (40 kHz)
-  
+
 λ = 343 / 40000 = 0.00857 m = 8.57 mm
 ```
 
@@ -501,7 +501,7 @@ For 4m range:
 t = 4 / (343/2) + overhead
   ≈ 23 ms + 2 ms
   = 25 ms
-  
+
 Max update rate ≈ 40 Hz
 ```
 
@@ -535,12 +535,12 @@ class SonarKalman:
         self.P = 100  # Estimate uncertainty
         self.Q = process_var  # Process noise
         self.R = measurement_var  # Measurement noise
-    
+
     def predict(self, velocity_estimate=0, dt=0.05):
         """Predict next state."""
         self.x = self.x + velocity_estimate * dt
         self.P = self.P + self.Q
-    
+
     def update(self, measurement):
         """Update with measurement."""
         K = self.P / (self.P + self.R)  # Kalman gain
@@ -578,13 +578,13 @@ def scan_environment(num_angles=36):
         angle = i * (360 / num_angles)
         distance = sonar.get_filtered_distance()
         scan.append((angle, distance))
-        
+
         # Rotate 10°
         board.set_motor_duty([(1, 20), (2, -20), (3, 20), (4, -20)])
         time.sleep(0.05)
         board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
         time.sleep(0.1)
-    
+
     return scan
 ```
 

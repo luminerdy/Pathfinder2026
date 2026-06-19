@@ -1,4 +1,4 @@
-# Pathfinder Robot Requirements
+# Pathfinder robot requirements
 
 # Core dependencies
 numpy>=1.24.0
@@ -11,7 +11,7 @@ opencv-contrib-python>=4.8.0
 # YOLO Object Detection
 ultralytics>=8.0.0  # YOLOv11 support
 
-# AprilTag Detection  
+# AprilTag Detection
 dt-apriltags>=3.3.0
 pupil-apriltags>=1.0.4
 

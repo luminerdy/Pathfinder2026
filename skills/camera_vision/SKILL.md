@@ -1,9 +1,9 @@
 # Skill: Camera Vision
 
-**Difficulty:** ⭐⭐ (Intermediate - Computer Vision Basics)  
-**Type:** Sensor Input & Image Processing  
-**Prerequisites:** None (foundation skill)  
-**Estimated Time:** 20-25 minutes  
+**Difficulty:** ⭐⭐ (Intermediate - Computer Vision Basics)
+**Type:** Sensor Input & Image Processing
+**Prerequisites:** None (foundation skill)
+**Estimated Time:** 20-25 minutes
 
 ---
 
@@ -172,13 +172,13 @@ camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 while True:
     ret, frame = camera.read()
-    
+
     if not ret:
         break
-    
+
     # Display frame
     cv2.imshow('Camera', frame)
-    
+
     # Wait 1ms, check for 'q' key
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
@@ -195,16 +195,16 @@ prev_time = time.time()
 
 while True:
     ret, frame = camera.read()
-    
+
     # Calculate FPS
     curr_time = time.time()
     fps = 1 / (curr_time - prev_time)
     prev_time = curr_time
-    
+
     # Draw FPS on frame
     cv2.putText(frame, f"FPS: {fps:.1f}", (10, 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-    
+
     cv2.imshow('Camera', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
@@ -294,25 +294,25 @@ mask = cv2.inRange(hsv, lower, upper)
 camera:
   # Hardware
   device: 0  # /dev/video0 (try 1, 2 if 0 doesn't work)
-  
+
   # Resolution
   width: 640
   height: 480
-  
+
   # Performance
   fps: 30  # Target frames per second
-  
+
   # Image processing
   flip: false  # Flip 180° if camera mounted upside-down
   mirror: false  # Mirror horizontally
-  
+
   # Auto-exposure settings
   auto_exposure: true  # Let camera adjust exposure
   exposure: -1  # Manual exposure value (-1 = auto)
-  
+
   # White balance
   auto_white_balance: true
-  
+
   # Focus (if adjustable)
   auto_focus: true
   focus: -1  # Manual focus value (-1 = auto)
@@ -322,15 +322,15 @@ colors:
   red:
     lower: [0, 100, 100]
     upper: [10, 255, 255]
-  
+
   green:
     lower: [40, 50, 50]
     upper: [80, 255, 255]
-  
+
   blue:
     lower: [100, 100, 100]
     upper: [130, 255, 255]
-  
+
   yellow:
     lower: [20, 100, 100]
     upper: [30, 255, 255]
@@ -491,7 +491,7 @@ frame_count = 0
 while True:
     ret, frame = camera.read()
     frame_count += 1
-    
+
     # Only process every 3rd frame
     if frame_count % 3 == 0:
         # Heavy processing here
