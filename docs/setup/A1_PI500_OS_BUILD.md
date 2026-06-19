@@ -88,14 +88,13 @@ Write this down for troubleshooting. The robot IP address is the important addre
 
 ## Step 6: Install Visual Studio Code
 
-1. From the Pi 500 desktop, open **Raspberry Pi menu → Preferences → Recommended Software**
-2. Scroll down, check **Visual Studio Code**
-3. Click **Apply** and wait for installation to complete
+Use the terminal install for the event build. It is repeatable and easy to verify:
 
-Or install via terminal:
 ```bash
-sudo apt install -y code
+sudo apt-get install -y code
 ```
+
+If that command cannot find `code`, use **Raspberry Pi menu -> Preferences -> Recommended Software**, check **Visual Studio Code**, then click **Apply**.
 
 ## Step 7: Configure VSCode Remote SSH to robot
 

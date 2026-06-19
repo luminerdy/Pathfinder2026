@@ -226,27 +226,11 @@ All should print without errors.
 
 ---
 
-## Step 6: Install Visual Studio Code
+## Step 6: VS Code Remote SSH Note
 
-VS Code is installed directly on the robot so students can code on it locally or via Remote SSH from the Pi 500.
+Do not install the full VS Code desktop app on the robot for the event workflow. Install VS Code on the Pi 500, then use Remote SSH to edit `/home/robot/pathfinder` on the robot.
 
-```bash
-sudo apt-get install -y code
-```
-
-### Install the Python Extension
-
-```bash
-code --install-extension ms-python.python --user-data-dir /home/robot/.vscode
-```
-
-This also installs Pylance and the Python debugger automatically.
-
-### Verify
-```bash
-code --version
-# Should show VS Code version number
-```
+The first Remote SSH connection from the Pi 500 installs the VS Code server component on the robot automatically.
 
 ---
 

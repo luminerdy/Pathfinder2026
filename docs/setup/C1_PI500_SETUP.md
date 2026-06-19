@@ -54,11 +54,11 @@ Practice opening a terminal now. You'll be using it constantly.
 
 VS Code gives you a real code editor with syntax highlighting, file browser, and built-in terminal — much better than editing in nano.
 
-1. **Install:** Pi Menu → **Preferences** → **Recommended Software** → check **Visual Studio Code** → Apply
-2. **Or from terminal:**
+1. **Install from terminal:**
    ```bash
-   sudo apt install -y code
+   sudo apt-get install -y code
    ```
+2. **Fallback if apt cannot find `code`:** Pi Menu -> **Preferences** -> **Recommended Software** -> check **Visual Studio Code** -> Apply
 3. **Add extensions** (open VS Code, click Extensions icon on left):
    - **Python** (Microsoft) — syntax highlighting, linting
    - **Remote - SSH** (Microsoft) — edit files directly on the robot!
