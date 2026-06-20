@@ -88,37 +88,6 @@ Before a course run:
 - Clear the course of people and loose cables.
 - Choose a simple first strategy, then improve it.
 
-## Troubleshooting
-
-**robot does not move**
-
-- Check battery: `python3 scripts/tools/check_battery.py`
-- Try a higher motor power with fresh batteries.
-- Confirm the robot is on the floor, not lifted by a cable or stand.
-
-**Camera not working**
-
-- Run `ls /dev/video*`
-- Re-seat the USB camera cable.
-- Try `python3 skills/camera_vision/test_camera.py`
-
-**AprilTags not detected**
-
-- Use tag36h11 tags.
-- Improve lighting.
-- Make sure tags are large enough and not glossy.
-
-**Block detection unreliable**
-
-- Avoid shadows.
-- Tune HSV values in `skills/block_detection/config.yaml`.
-
-**Line following loses the line**
-
-- Use lime green tape.
-- Slow down the line-following config.
-- Avoid tight curves until the robot is tuned.
-
 ## License
 
 MIT License. See [LICENSE](LICENSE).
