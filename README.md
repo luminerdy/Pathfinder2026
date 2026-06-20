@@ -6,7 +6,7 @@ Pathfinder2026 is the event repo for the 2026 Pathfinder robot workshop. It is m
 
 The workshop flow follows the original PathfinderBot event shape:
 
-1. robot assembly
+1. Assemble
 2. Capabilities Exploration
 3. Course Challenge
 
@@ -17,7 +17,7 @@ The robot software underneath comes from PathfinderV2.
 If you are new to this repo, use this order:
 
 1. [START_HERE.md](START_HERE.md) - event-day guide
-2. [robot assembly](docs/workshop/ROBOT_ASSEMBLY.md) - build the robot and verify it works
+2. [Assemble](docs/workshop/ASSEMBLE.md) - set up the Pi 500, build the robot, and verify the connection
 3. [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md) - run the robot demos
 4. [Course Challenge](docs/workshop/COURSE_CHALLENGE.md) - combine skills on the field
 
@@ -67,7 +67,7 @@ Most participants should run scripts from `skills/`. Most code changes should al
 If you are preparing the event:
 
 - Use `docs/setup/` for SD cards, Pi setup, and connection testing.
-- Use `docs/workshop/ROBOT_ASSEMBLY.md` to tighten the assembly flow.
+- Use `docs/workshop/ASSEMBLE.md` to tighten the Assemble phase.
 - Use `docs/workshop/CAPABILITIES_EXPLORATION.md` to choose which demos participants run.
 - Use `docs/workshop/COURSE_CHALLENGE.md` to capture the course design in your head.
 
@@ -95,11 +95,11 @@ http://<ROBOT_IP>:8080
 
 ## Workshop Phases
 
-### 1. robot assembly
+### 1. Assemble
 
-Teams build the robot, prepare the Pi 500, connect to the robot Pi, and verify the robot can safely move.
+Teams unbox and boot the Pi 500, connect to GitHub, unpack and assemble the robot, connect to the robot Pi, and verify the robot can safely move.
 
-Guide: [robot assembly](docs/workshop/ROBOT_ASSEMBLY.md)
+Guide: [Assemble](docs/workshop/ASSEMBLE.md)
 
 ### 2. Capabilities Exploration
 

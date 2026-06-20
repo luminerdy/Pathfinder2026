@@ -1,16 +1,34 @@
-# robot assembly
+# Assemble
 
-robot assembly is the first workshop phase. The goal is to turn a kit into a robot that is mechanically built, powered, connected, and safe to test.
+Assemble is the first workshop phase. The goal is to prepare the team's Pi 500 control hub and build a robot that is mechanically ready, powered, connected, and safe to test.
 
 ## What This Phase Covers
 
-1. Physical robot assembly
-2. Pi 500 control hub setup
+1. Pi 500 unbox, boot, network, GitHub, and VS Code setup
+2. robot unpacking and physical assembly
 3. robot Pi setup
-4. First SSH connection
+4. First SSH connection from the Pi 500 to the robot
 5. Hardware verification
 
-## Physical Assembly
+## Pi 500 Setup
+
+Use the Pi 500 as the team's coding and control hub.
+
+This track covers:
+
+- Unbox and connect the Pi 500.
+- Boot Raspberry Pi OS.
+- Connect to workshop WiFi.
+- Confirm GitHub access.
+- Install VS Code on the Pi 500.
+- Prepare VS Code Remote SSH for the robot.
+
+Relevant setup docs:
+
+- [Pi 500 OS Build](../setup/A1_PI500_OS_BUILD.md)
+- [Pi 500 Setup](../setup/C1_PI500_SETUP.md)
+
+## robot assembly
 
 Use the kit parts and event instructions to build the robot before running code.
 
@@ -63,15 +81,6 @@ Teams may add storage or guides for blocks, but changes should not block:
 - Arm movement
 - Battery access
 - Power switch access
-
-## Pi 500 Setup
-
-Use the Pi 500 as the team's coding and control hub.
-
-Relevant setup docs:
-
-- [Pi 500 OS Build](../setup/A1_PI500_OS_BUILD.md)
-- [Pi 500 Setup](../setup/C1_PI500_SETUP.md)
 
 ## robot Pi setup
 

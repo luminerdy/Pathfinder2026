@@ -2,20 +2,24 @@
 
 Welcome to Pathfinder2026. This workshop has three phases:
 
-1. robot assembly
+1. Assemble
 2. Capabilities Exploration
 3. Course Challenge
 
 The goal is to build a working robot, learn its capabilities, then combine those skills into a course run.
 
-## Phase 1: robot assembly
+## Phase 1: Assemble
 
-Build and prepare the robot before running code.
+Set up the Pi 500 control hub and assemble the robot before running code.
 
-Use the phase guide: [robot assembly](docs/workshop/ROBOT_ASSEMBLY.md)
+Use the phase guide: [Assemble](docs/workshop/ASSEMBLE.md)
 
 Minimum checklist:
 
+- Pi 500 unboxed, connected, and booted
+- Pi 500 connected to workshop WiFi
+- GitHub reachable from the Pi 500
+- VS Code installed on the Pi 500
 - robot chassis assembled
 - Mecanum wheels installed correctly
 - Arm and gripper attached
@@ -23,7 +27,6 @@ Minimum checklist:
 - Sonar connected
 - Batteries charged
 - robot Pi booted
-- Pi 500 connected to workshop WiFi
 - Pi 500 can SSH into the robot
 - Battery check passes
 

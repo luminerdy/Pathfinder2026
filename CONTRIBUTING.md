@@ -16,6 +16,6 @@ Use these docs as the main entry points:
 
 - [README.md](README.md)
 - [START_HERE.md](START_HERE.md)
-- [docs/workshop/ROBOT_ASSEMBLY.md](docs/workshop/ROBOT_ASSEMBLY.md)
+- [docs/workshop/ASSEMBLE.md](docs/workshop/ASSEMBLE.md)
 - [docs/workshop/CAPABILITIES_EXPLORATION.md](docs/workshop/CAPABILITIES_EXPLORATION.md)
 - [docs/workshop/COURSE_CHALLENGE.md](docs/workshop/COURSE_CHALLENGE.md)

@@ -1,6 +1,6 @@
 # Course Challenge
 
-The Course Challenge is the event capstone. Teams combine robot assembly, driving, sensing, vision, arm control, and strategy into a course run.
+The Course Challenge is the event capstone. Teams combine the Assemble phase, driving, sensing, vision, arm control, and strategy into a course run.
 
 ## Goal
 
