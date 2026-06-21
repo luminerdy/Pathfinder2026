@@ -26,7 +26,7 @@ The Pi 500 is your **command center** — you'll use it to write code, SSH into 
 4. Choose OS: **Raspberry Pi OS (64-bit)** — Desktop version
 5. Choose Storage: Select your microSD card
 6. Click the **gear icon** (⚙️) for advanced settings:
-   - Set device name / hostname: `hub`
+   - Set device name / hostname: `pihub`
    - Enable SSH (password authentication)
    - Set username: `pi500`
    - Set password: (your choice, document it!)
@@ -34,7 +34,7 @@ The Pi 500 is your **command center** — you'll use it to write code, SSH into 
    - Set locale: Your timezone
 7. Click **Write** and wait for completion
 
-Use `hub` and `pi500` consistently for the Pi 500. The robot uses the `robot` account separately.
+Use `pihub` and `pi500` consistently for the Pi 500. The robot uses the `robot` account separately.
 
 ## Step 2: First Boot
 
