@@ -29,9 +29,9 @@ Two images needed per team: one for the Pi 500 (control hub), one for the robot 
    - Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
    - Choose OS: **Raspberry Pi OS (64-bit) Desktop**
    - Advanced settings (gear icon):
-     - Device name / hostname: any event label you prefer; event connections use IP addresses
+     - Device name / hostname: `hub`
      - Enable SSH (password auth)
-     - Username: `robot`
+     - Username: `pi500`
      - Password: choose your own workshop password
      - WiFi: Your workshop network SSID + password
      - Timezone: Your timezone
