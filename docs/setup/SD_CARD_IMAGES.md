@@ -72,10 +72,11 @@ Two images needed per team: one for the Pi 500 (control hub), one for the robot 
    - Shut down Pi 500
    - Remove SD card
    - Use Raspberry Pi Imager or `dd` to clone the card
-   - For each clone, boot and record its assigned IP address:
+   - For each clone, boot and confirm it gets a network address:
      ```bash
      hostname -I
      ```
+   - Do not give the Pi 500 IP to participants as a connection target. Participants connect to the robot IP.
    - Optionally update the device label if needed.
 
 ### What's on the Pi 500 Image
@@ -173,14 +174,14 @@ Detailed build guide: [A2_ROBOT_PI_OS_BUILD.md](A2_ROBOT_PI_OS_BUILD.md)
 
 Use IP addresses for event connections. Keep an assignment sheet like this:
 
-| House | Team | Pi 500 IP | robot IP |
-|-------|------|-----------|----------|
+| House | Team | Pi 500 IP (optional troubleshooting) | robot IP (participant connection) |
+|-------|------|--------------------------------------|-----------------------------------|
 | 1 | 1 | 10.1.1.11 | 10.1.1.101 |
 | 1 | 2 | 10.1.1.12 | 10.1.1.102 |
 | ... | ... | ... | ... |
 | 7 | 49 | 10.7.1.17 | 10.7.1.107 |
 
-**Static IPs recommended** - each house gets its own subnet (for example, House 1 = 10.1.x.x, House 2 = 10.2.x.x). Participants should connect with `ssh robot@<ROBOT_IP>`.
+**Static IPs recommended** - each house gets its own subnet (for example, House 1 = 10.1.x.x, House 2 = 10.2.x.x). Participants should use only the robot IP for SSH, VS Code Remote SSH, and web controls.
 
 ---
 

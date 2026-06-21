@@ -80,14 +80,16 @@ Optional: if you want to read docs without switching back to GitHub, keep a loca
 
 Optional: if you want to run separate Pi 500-side camera or AprilTag experiments, install OpenCV, AprilTag, and NumPy on the Pi 500. Otherwise, leave those packages on the robot.
 
-## Step 5: Note Your IP Address
+## Step 5: Confirm Network Connection
 
 ```bash
 hostname -I
 # Example: 10.10.10.141
 ```
 
-Write this down for troubleshooting. The robot IP address is the important address for event connections.
+This confirms the Pi 500 is on the network. Do not use this IP for robot connections.
+
+For the event, the important address is the robot IP from the facilitator or event IP assignment sheet. Use that robot IP with SSH, VS Code Remote SSH, and the web control page.
 
 ## Step 6: Install Visual Studio Code
 
