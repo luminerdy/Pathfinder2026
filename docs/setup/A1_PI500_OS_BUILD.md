@@ -105,12 +105,20 @@ If that command cannot find `code`, use **Raspberry Pi menu -> Preferences -> Re
 
 VSCode Remote SSH lets you write and run robot code directly on the robot from the Pi 500 — no need to install a code editor on the robot.
 
-**Install extensions:**
+**Install required Pi 500 VS Code extensions:**
+
+```bash
+code --install-extension ms-python.python
+code --install-extension ms-vscode-remote.remote-ssh
+```
+
+Or install them through the VS Code interface:
+
 1. Open Visual Studio Code
 2. Press `Ctrl+Shift+X` to open Extensions
 3. Search for and install:
-   - **Remote - SSH** (Microsoft)
    - **Python** (Microsoft)
+   - **Remote - SSH** (Microsoft)
 
 **Connect to your robot:**
 1. Press `F1` → type `Remote-SSH: Connect to Host` → select it

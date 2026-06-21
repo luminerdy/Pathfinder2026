@@ -59,7 +59,12 @@ VS Code gives you a real code editor with syntax highlighting, file browser, and
    sudo apt-get install -y code
    ```
 2. **Fallback if apt cannot find `code`:** Pi Menu -> **Preferences** -> **Recommended Software** -> check **Visual Studio Code** -> Apply
-3. **Add extensions** (open VS Code, click Extensions icon on left):
+3. **Add required extensions from terminal:**
+   ```bash
+   code --install-extension ms-python.python
+   code --install-extension ms-vscode-remote.remote-ssh
+   ```
+4. **Or add extensions in VS Code** (open VS Code, click Extensions icon on left):
    - **Python** (Microsoft) — syntax highlighting, linting
    - **Remote - SSH** (Microsoft) — edit files directly on the robot!
 
