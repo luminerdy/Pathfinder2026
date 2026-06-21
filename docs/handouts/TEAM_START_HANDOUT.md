@@ -20,6 +20,10 @@ On the Pi 500, open a browser and go to:
 https://github.com/luminerdy/Pathfinder2026
 ```
 
+Or scan:
+
+![QR code for Pathfinder2026 GitHub repo](pathfinder2026-qr.png)
+
 Start with:
 
 ```text
