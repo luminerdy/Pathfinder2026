@@ -54,7 +54,7 @@ ping -c 3 google.com
 
 # Check Python
 python3 --version
-# Should show Python 3.11+
+# Should show Python 3.13.x
 
 # Check SSH is running
 sudo systemctl status ssh
