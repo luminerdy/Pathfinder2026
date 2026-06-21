@@ -101,9 +101,9 @@ sudo apt-get install -y code
 
 If that command cannot find `code`, use **Raspberry Pi menu -> Preferences -> Recommended Software**, check **Visual Studio Code**, then click **Apply**.
 
-## Step 7: Configure VSCode Remote SSH to robot
+## Step 7: Install VS Code Extensions
 
-VSCode Remote SSH lets you write and run robot code directly on the robot from the Pi 500 — no need to install a code editor on the robot.
+Install the VS Code extensions needed later during the event. Teams will connect the Pi 500 to the robot in [C2_CONNECT_AND_TEST.md](C2_CONNECT_AND_TEST.md).
 
 **Install required Pi 500 VS Code extensions:**
 
@@ -119,17 +119,6 @@ Or install them through the VS Code interface:
 3. Search for and install:
    - **Python** (Microsoft)
    - **Remote - SSH** (Microsoft)
-
-**Connect to your robot:**
-1. Press `F1` → type `Remote-SSH: Connect to Host` → select it
-2. Enter: `robot@<ROBOT_IP>` using the IP address assigned to your team's robot
-3. Enter the robot password when prompted
-4. VSCode installs its server component on the robot automatically (first time only, ~1 minute)
-5. Select **Open Folder** → navigate to `/home/robot/pathfinder`
-
-You can now edit, run, and debug robot code directly from the Pi 500.
-
-> **robot IP:** The event will use IP addresses for robot connections. Get your team's robot IP address from the facilitator or the event IP assignment sheet.
 
 ---
 

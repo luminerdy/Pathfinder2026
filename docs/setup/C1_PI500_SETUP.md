@@ -68,16 +68,7 @@ VS Code gives you a real code editor with syntax highlighting, file browser, and
    - **Python** (Microsoft) — syntax highlighting, linting
    - **Remote - SSH** (Microsoft) — edit files directly on the robot!
 
-### Remote SSH Setup (edit robot files from Pi 500)
-
-1. Open VS Code
-2. Press `Ctrl+Shift+P` → type "Remote-SSH: Connect to Host"
-3. Enter: `robot@<ROBOT_IP>`
-4. Enter password when prompted
-5. You're now editing files **on the robot** from your Pi 500!
-6. Open folder: `/home/robot/pathfinder`
-
-**This is the recommended workflow:** Edit code in VS Code on Pi 500, it saves directly to the robot. Open VS Code's built-in terminal to run scripts. No `scp` needed.
+The Pi 500 is now ready for event-time robot connection. Use [C2: Connect and Test](C2_CONNECT_AND_TEST.md) when the robot is assembled and powered on.
 
 ---
 
