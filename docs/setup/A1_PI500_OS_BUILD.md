@@ -61,23 +61,24 @@ sudo systemctl status ssh
 # Should show: active (running)
 ```
 
-## Step 4: Install Workshop Dependencies
+## Step 4: Install Local Workshop Docs
 
 ```bash
 # Update system
 sudo apt update && sudo apt upgrade -y
 
-# Install required packages
-sudo apt install -y python3-opencv python3-pip sshpass
+# Recommended: install git so the Pi 500 can keep a local copy of the workshop docs
+sudo apt install -y git
 
-# Install Python packages
-pip3 install pupil-apriltags numpy --break-system-packages
-
-# Clone the workshop repository
+# Recommended: clone the workshop repository for local docs, checklists, and examples
 cd ~
 git clone https://github.com/luminerdy/Pathfinder2026.git
 cd Pathfinder2026
 ```
+
+The local clone is useful for reading docs without switching back to GitHub. It is not required to run robot code. Robot code runs on the robot through VS Code Remote SSH.
+
+The Pi 500 does not need OpenCV, AprilTag, or NumPy for the normal event workflow. Install vision packages on the Pi 500 only if you plan to run separate Pi 500-side camera or AprilTag experiments.
 
 ## Step 5: Note Your IP Address
 
@@ -129,10 +130,10 @@ After setup, your Pi 500 has:
 | Item | Purpose |
 |------|---------|
 | Raspberry Pi OS Desktop | Visual interface for coding and monitoring |
-| Python 3 + OpenCV | Run and edit workshop scripts |
+| Python 3 | Basic scripting and tools |
 | SSH client | Connect to robot remotely |
 | Visual Studio Code + Remote SSH | Write and run robot code directly on the robot |
-| Pathfinder2026 repo | All workshop skills, guides, and code |
+| Pathfinder2026 repo | Local copy of workshop docs, checklists, and examples |
 | Terminal | Command line for SSH, git, python |
 
 ## What's NOT on the Pi 500
@@ -140,6 +141,7 @@ After setup, your Pi 500 has:
 - No motor/servo drivers (those are on the robot)
 - No hardware SDK (robot only)
 - No camera access to robot camera (use SSH + web interface)
+- No OpenCV, AprilTag, or NumPy required unless doing optional Pi 500-side vision testing
 
 The Pi 500 is the **brain**. The robot is the **body**. They talk over WiFi.
 

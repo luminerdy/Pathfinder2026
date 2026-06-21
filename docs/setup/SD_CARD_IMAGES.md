@@ -40,8 +40,7 @@ Two images needed per team: one for the Pi 500 (control hub), one for the robot 
 2. **Boot and install dependencies:**
    ```bash
    sudo apt update && sudo apt upgrade -y
-   sudo apt install -y python3-opencv python3-pip python3-pygame sshpass joystick code
-   pip3 install pupil-apriltags numpy --break-system-packages
+   sudo apt install -y git code
    ```
 
 3. **Install VS Code extensions:**
@@ -50,25 +49,26 @@ Two images needed per team: one for the Pi 500 (control hub), one for the robot 
    code --install-extension ms-vscode-remote.remote-ssh
    ```
 
-3. **Clone workshop repo:**
+4. **Clone workshop repo:**
    ```bash
    cd ~
    git clone https://github.com/luminerdy/Pathfinder2026.git
    ```
 
-4. **Add workshop files to desktop:**
+5. **Add workshop files to desktop:**
    ```bash
    # Quick-access links on desktop
    ln -s ~/Pathfinder2026/START_HERE.md ~/Desktop/START_HERE.md
    ```
 
-5. **Test:**
+6. **Test:**
    ```bash
    cd ~/Pathfinder2026
-   python3 -c "import cv2; import pupil_apriltags; import pygame; print('All dependencies OK')"
+   git status
+   code --version
    ```
 
-6. **Clone for each team:**
+7. **Clone for each team:**
    - Shut down Pi 500
    - Remove SD card
    - Use Raspberry Pi Imager or `dd` to clone the card
@@ -83,11 +83,11 @@ Two images needed per team: one for the Pi 500 (control hub), one for the robot 
 | Item | Purpose |
 |------|---------|
 | Raspberry Pi OS Desktop | Visual interface |
-| Python 3 + OpenCV + pygame | Run scripts + gamepad |
+| Python 3 | Basic scripting and tools |
 | VS Code + Remote SSH | Edit robot code with full IDE |
-| SSH + sshpass | Connect to robot |
-| pupil-apriltags | AprilTag detection (for testing) |
-| Pathfinder2026 repo | All workshop skills and docs |
+| SSH client | Connect to robot |
+| Git | Clone and update workshop docs |
+| Pathfinder2026 repo | Local copy of workshop docs, checklists, and examples |
 | Desktop shortcuts | START_HERE |
 
 ---
