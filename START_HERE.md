@@ -8,6 +8,8 @@ Welcome to Pathfinder2026. This workshop has three phases:
 
 The goal is to build a working robot, learn its capabilities, then combine those skills into a course run.
 
+For a short printable team guide, use [Team Start Handout](docs/handouts/TEAM_START_HANDOUT.md).
+
 ## Phase 1: Assemble
 
 Set up the Pi 500 control hub and assemble the robot before running code.

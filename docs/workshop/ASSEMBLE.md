@@ -14,6 +14,10 @@ Assemble is the first workshop phase. The goal is to prepare the team's Pi 500 c
 
 Use the Pi 500 as the team's coding and control hub.
 
+Quick team handout:
+
+- [Team Start Handout](../handouts/TEAM_START_HANDOUT.md)
+
 This track covers:
 
 - Unbox and connect the Pi 500.

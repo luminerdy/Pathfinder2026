@@ -16,6 +16,7 @@ Use these docs as the main entry points:
 
 - [README.md](README.md)
 - [START_HERE.md](START_HERE.md)
+- [docs/handouts/TEAM_START_HANDOUT.md](docs/handouts/TEAM_START_HANDOUT.md)
 - [docs/workshop/ASSEMBLE.md](docs/workshop/ASSEMBLE.md)
 - [docs/workshop/CAPABILITIES_EXPLORATION.md](docs/workshop/CAPABILITIES_EXPLORATION.md)
 - [docs/workshop/COURSE_CHALLENGE.md](docs/workshop/COURSE_CHALLENGE.md)

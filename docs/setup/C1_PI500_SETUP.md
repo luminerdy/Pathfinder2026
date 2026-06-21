@@ -4,6 +4,8 @@
 
 The Pi 500 is a keyboard computer — the keyboard IS the computer. You just need a monitor and mouse.
 
+For a short team-facing checklist, use [Team Start Handout](../handouts/TEAM_START_HANDOUT.md).
+
 ---
 
 ## Materials Needed
