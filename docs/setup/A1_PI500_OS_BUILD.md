@@ -67,18 +67,18 @@ sudo systemctl status ssh
 # Update system
 sudo apt update && sudo apt upgrade -y
 
-# Recommended: install git so the Pi 500 can keep a local copy of the workshop docs
+# Optional: if you want a local copy of the workshop docs, install git
 sudo apt install -y git
 
-# Recommended: clone the workshop repository for local docs, checklists, and examples
+# Optional: clone the workshop repository for local docs, checklists, and examples
 cd ~
 git clone https://github.com/luminerdy/Pathfinder2026.git
 cd Pathfinder2026
 ```
 
-The local clone is useful for reading docs without switching back to GitHub. It is not required to run robot code. Robot code runs on the robot through VS Code Remote SSH.
+Optional: if you want to read docs without switching back to GitHub, keep a local clone on the Pi 500. Robot code still runs on the robot through VS Code Remote SSH.
 
-The Pi 500 does not need OpenCV, AprilTag, or NumPy for the normal event workflow. Install vision packages on the Pi 500 only if you plan to run separate Pi 500-side camera or AprilTag experiments.
+Optional: if you want to run separate Pi 500-side camera or AprilTag experiments, install OpenCV, AprilTag, and NumPy on the Pi 500. Otherwise, leave those packages on the robot.
 
 ## Step 5: Note Your IP Address
 
