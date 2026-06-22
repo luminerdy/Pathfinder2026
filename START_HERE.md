@@ -18,8 +18,8 @@ Teams split into two paths, then come back together:
 
 | Path | Guide | Goal |
 |------|-------|------|
-| Pi 500 setup | [C1: Pi 500 Setup](docs/setup/C1_PI500_SETUP.md) | Get the control hub powered, online, and ready for VS Code |
 | robot assembly | [B1: robot Assembly Guide](docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) | Build the robot and make it safe to power |
+| Pi 500 setup | [C1: Pi 500 Setup](docs/setup/C1_PI500_SETUP.md) | Get the control hub powered, online, and ready for VS Code |
 | robot Pi/WiFi | [C2: robot Pi WiFi Setup](docs/setup/C2_ROBOT_PI_WIFI_SETUP.md) | Power the robot and get the robot IP |
 | Connect/test | [C3: Connect and Test](docs/setup/C3_CONNECT_AND_TEST.md) | Connect Pi 500 to robot and verify hardware |
 
