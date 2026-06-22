@@ -70,7 +70,7 @@ VS Code gives you a real code editor with syntax highlighting, file browser, and
    - **Python** (Microsoft) — syntax highlighting, linting
    - **Remote - SSH** (Microsoft) — edit files directly on the robot!
 
-The Pi 500 is now ready for event-time robot connection. Use [C2: Connect and Test](C2_CONNECT_AND_TEST.md) when the robot is assembled and powered on.
+The Pi 500 is now ready for event-time robot connection. When the robot is assembled, use [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md), then [C3: Connect and Test](C3_CONNECT_AND_TEST.md).
 
 ---
 
@@ -111,4 +111,4 @@ The event uses assigned IP addresses for robot connections. Get your team's robo
 
 ---
 
-**Next:** [C2: Connect to robot](C2_CONNECT_AND_TEST.md) (SSH from Pi 500 to your robot)
+**Next:** [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md)

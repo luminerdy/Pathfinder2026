@@ -1,4 +1,4 @@
-# C2: Connect Pi 500 to the robot and test
+# C3: Connect Pi 500 to the robot and test
 
 **Purpose:** Establish SSH connection from your Pi 500 to the robot, verify all hardware works
 
@@ -9,6 +9,8 @@ This is the critical step — once connected, you control the robot entirely fro
 ## Prerequisites
 
 - Pi 500 is powered on, connected to WiFi ([C1](C1_PI500_SETUP.md))
+- robot is assembled ([B1](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md))
+- robot Pi is powered on and on the workshop network ([C2](C2_ROBOT_PI_WIFI_SETUP.md))
 - robot is powered on with charged batteries (>7.0V)
 - Both devices on the same WiFi network
 - You know the robot's IP address (check robot's display or ask facilitator)

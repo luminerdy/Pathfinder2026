@@ -103,7 +103,7 @@ If that command cannot find `code`, use **Raspberry Pi menu -> Preferences -> Re
 
 ## Step 7: Install VS Code Extensions
 
-Install the VS Code extensions needed later during the event. Teams will connect the Pi 500 to the robot in [C2_CONNECT_AND_TEST.md](C2_CONNECT_AND_TEST.md).
+Install the VS Code extensions needed later during the event. Teams will connect the Pi 500 to the robot in [C3_CONNECT_AND_TEST.md](C3_CONNECT_AND_TEST.md).
 
 **Install required Pi 500 VS Code extensions:**
 

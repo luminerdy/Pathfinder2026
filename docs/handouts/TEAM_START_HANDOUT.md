@@ -68,7 +68,7 @@ Goal: build a robot that is safe to power and test.
 Detailed guide:
 
 ```text
-docs/workshop/ASSEMBLE.md
+docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md
 ```
 
 ## Meet Back Together
@@ -76,14 +76,18 @@ docs/workshop/ASSEMBLE.md
 When the Pi 500 is ready and the robot is assembled:
 
 1. Get your assigned robot IP address from the facilitator.
-2. Open the connect/test guide:
+2. Open the robot Pi/WiFi guide:
    ```text
-   docs/setup/C2_CONNECT_AND_TEST.md
+   docs/setup/C2_ROBOT_PI_WIFI_SETUP.md
    ```
-3. Connect from the Pi 500 to the robot:
+3. Open the connect/test guide:
+   ```text
+   docs/setup/C3_CONNECT_AND_TEST.md
+   ```
+4. Connect from the Pi 500 to the robot:
    ```bash
    ssh robot@<ROBOT_IP>
    ```
-4. Run battery, camera, arm, and drive checks.
+5. Run battery, camera, arm, and drive checks.
 
 Use only the robot IP for SSH, VS Code Remote SSH, and web controls.

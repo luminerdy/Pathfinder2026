@@ -14,29 +14,16 @@ For a short printable team guide, use [Team Start Handout](docs/handouts/TEAM_ST
 
 Set up the Pi 500 control hub and assemble the robot before running code.
 
-Use the phase guide: [Assemble](docs/workshop/ASSEMBLE.md)
+Teams split into two paths, then come back together:
 
-Minimum checklist:
+| Path | Guide | Goal |
+|------|-------|------|
+| Pi 500 setup | [C1: Pi 500 Setup](docs/setup/C1_PI500_SETUP.md) | Get the control hub powered, online, and ready for VS Code |
+| robot assembly | [B1: robot Assembly Guide](docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) | Build the robot and make it safe to power |
+| robot Pi/WiFi | [C2: robot Pi WiFi Setup](docs/setup/C2_ROBOT_PI_WIFI_SETUP.md) | Power the robot and get the robot IP |
+| Connect/test | [C3: Connect and Test](docs/setup/C3_CONNECT_AND_TEST.md) | Connect Pi 500 to robot and verify hardware |
 
-- Pi 500 unboxed, connected, and booted
-- Pi 500 connected to workshop WiFi
-- GitHub reachable from the Pi 500
-- VS Code installed on the Pi 500
-- robot chassis assembled
-- Mecanum wheels installed correctly
-- Arm and gripper attached
-- Camera mounted and connected
-- Sonar connected
-- Batteries charged
-- robot Pi booted
-- Pi 500 can SSH into the robot
-- Battery check passes
-
-```bash
-ssh robot@<ROBOT_IP>
-cd /home/robot/pathfinder
-python3 scripts/tools/check_battery.py
-```
+Use the overview guide if you want the whole Assemble phase on one page: [Assemble](docs/workshop/ASSEMBLE.md).
 
 ## Phase 2: Capabilities Exploration
 

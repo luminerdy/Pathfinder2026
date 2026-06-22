@@ -36,6 +36,10 @@ Relevant setup docs:
 
 Use the kit parts and event instructions to build the robot before running code.
 
+Dedicated event guide:
+
+- [B1 robot Assembly Guide](B1_ROBOT_ASSEMBLY_GUIDE.md)
+
 ### Chassis
 
 - Assemble the lower chassis.
@@ -93,7 +97,8 @@ The robot Pi runs the code on the robot.
 Relevant setup docs:
 
 - [robot Pi OS build](../setup/A2_ROBOT_PI_OS_BUILD.md)
-- [Connect and Test](../setup/C2_CONNECT_AND_TEST.md)
+- [C2 robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md)
+- [C3 Connect and Test](../setup/C3_CONNECT_AND_TEST.md)
 
 ## Where The Code Lives
 
