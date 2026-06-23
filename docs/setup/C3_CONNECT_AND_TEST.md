@@ -13,7 +13,7 @@ This is the critical step — once connected, you control the robot entirely fro
 - robot Pi is powered on and on the workshop network ([C2](C2_ROBOT_PI_WIFI_SETUP.md))
 - robot is powered on with charged batteries (>7.0V)
 - Both devices on the same WiFi network
-- You know the robot's IP address (check robot's display or ask facilitator)
+- You have the robot IP address from [C2](C2_ROBOT_PI_WIFI_SETUP.md)
 
 ## Architecture
 
@@ -35,11 +35,9 @@ This is the critical step — once connected, you control the robot entirely fro
 
 ---
 
-## Step 1: Find the robot's IP
+## Step 1: SSH Connection
 
-Ask your facilitator, or check the robot's display. Example: `<ROBOT_IP>`
-
-## Step 2: SSH Connection
+Use the robot IP confirmed in [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md).
 
 Open a terminal on your Pi 500:
 
@@ -80,7 +78,7 @@ If this works, use the same `robot@<ROBOT_IP>` address in VS Code Remote SSH. Th
 
 If `ssh-copy-id` is not available or the key setup gets confusing, skip this section and keep using the robot password.
 
-## Step 3: Check Battery
+## Step 2: Check Battery
 
 **Do this FIRST every time you connect!**
 
@@ -109,7 +107,7 @@ if mv and 5000 < mv < 20000:
 | 7.0-7.5V | Low | Replace soon |
 | <7.0V | Critical | Replace NOW |
 
-## Step 4: Test Motors
+## Step 3: Test Motors
 
 ```bash
 cd /home/robot/pathfinder
@@ -123,7 +121,7 @@ python3 skills/mecanum_drive/run_demo.py
 - Are wheels touching the ground?
 - Try higher power scripts
 
-## Step 5: Test Arm
+## Step 4: Test Arm
 
 ```bash
 python3 skills/robotic_arm/run_demo.py
@@ -131,7 +129,7 @@ python3 skills/robotic_arm/run_demo.py
 
 The arm should move through several positions and test the gripper.
 
-## Step 6: Test Camera
+## Step 5: Test Camera
 
 ```bash
 python3 skills/camera_vision/test_camera.py
@@ -146,7 +144,7 @@ http://<ROBOT_IP>:8080
 ```
 (Replace with your robot's IP)
 
-## Step 7: Test Sonar
+## Step 6: Test Sonar
 
 ```bash
 python3 -c "
