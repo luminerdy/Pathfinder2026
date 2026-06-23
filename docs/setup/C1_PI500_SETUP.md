@@ -109,10 +109,4 @@ You should see files like `START_HERE.md`, `README.md`, and the `docs/` folder.
 
 ---
 
-## Important: Use the Assigned IP Address
-
-The event uses assigned IP addresses for robot connections. Get your team's robot IP address from the facilitator or the event IP assignment sheet.
-
----
-
 **Next:** [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md)
