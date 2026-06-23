@@ -52,8 +52,10 @@ ssh robot@<ROBOT_IP>
 
 **Success looks like:**
 ```
-robot@robotPi4:~ $
+robot@pathfinder:~ $
 ```
+
+The prompt changes from the Pi 500 prompt, usually `pi500@pihub:~ $`, to the robot prompt, `robot@pathfinder:~ $`.
 
 You're now ON the robot. Every command you type runs on the robot.
 
