@@ -100,4 +100,4 @@ See git log for detailed history. Key milestones:
 - **Day 16** — Major architecture refactor: single `robot` class owns all hardware; all skills accept robot instance
 - **Proven** — 8/8 AprilTag tour at 7.86V; bump-and-grab insight: camera on arm, block vanishing = contact signal
 - **Decommissioned Pathfinder2026 Pi 5** — 25W draw too high for batteries; switched to Pi 4 (15W)
-- **Workshop docs complete** — competition rules, facilitator guide, BOM, field layout, scoring, SD card guide, Pi 500 setup, OpenClaw setup, VSCode Remote SSH setup
+- **Workshop docs complete** — BOM, Pi 500 setup, robot Pi setup, event connect/test flow, and VS Code Remote SSH setup
