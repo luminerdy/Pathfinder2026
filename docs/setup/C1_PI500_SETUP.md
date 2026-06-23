@@ -74,20 +74,24 @@ The Pi 500 is now ready for event-time robot connection. When the robot is assem
 
 ---
 
-## Step 6: Verify Workshop Repo
+## Step 6: Open Workshop Repo
+
+Use the GitHub repo as the main source:
+
+```text
+https://github.com/luminerdy/Pathfinder2026
+```
+
+Open `START_HERE.md` from the repo page.
+
+Optional: if you cloned the repo locally during image setup, verify it:
 
 ```bash
 cd ~/Pathfinder2026
-ls skills/
+ls
 ```
 
-You should see folders like `mecanum_drive/`, `sonar_sensors/`, `camera_vision/`, etc.
-
-If the repo isn't there:
-```bash
-cd ~
-git clone https://github.com/luminerdy/Pathfinder2026.git
-```
+You should see files like `START_HERE.md`, `README.md`, and the `docs/` folder.
 
 ---
 
