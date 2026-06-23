@@ -84,6 +84,8 @@ If `ssh-copy-id` is not available or the key setup gets confusing, skip this sec
 
 **Do this FIRST every time you connect!**
 
+Run these commands while you are logged into the robot. Your prompt should look like `robot@pathfinder:~ $`.
+
 ```bash
 cd /home/robot/pathfinder
 python3 -c "
