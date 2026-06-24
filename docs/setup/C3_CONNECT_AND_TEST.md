@@ -67,10 +67,13 @@ Open a new terminal on the Pi 500. Do not run these commands while logged into t
 
 ```bash
 ssh-keygen -t ed25519
+ls ~/.ssh/id_ed25519.pub
 ssh-copy-id robot@<ROBOT_IP>
 ```
 
 For `ssh-keygen`, press Enter to accept the default file location. For the event, press Enter again if asked for a passphrase.
+
+If `ssh-copy-id` says `ERROR: No identities found`, the Pi 500 does not have a default public key yet. Run `ssh-keygen -t ed25519` again and accept the default file location. Then check that `~/.ssh/id_ed25519.pub` exists before running `ssh-copy-id`.
 
 After the key is copied, connect the simple way:
 
