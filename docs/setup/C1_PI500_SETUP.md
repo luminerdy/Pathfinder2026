@@ -17,7 +17,23 @@ For a short team-facing checklist, use [Team Start Handout](../handouts/TEAM_STA
 - USB mouse
 - Power supply (USB-C)
 
+## Photos To Add
+
+Add these photos when the Pi 500 table setup is finalized:
+
+| Photo file | Show |
+|------------|------|
+| `docs/images/pi500/01_pi500_parts.jpg` | Pi 500, monitor, mouse, HDMI adapter, and power supply laid out |
+| `docs/images/pi500/02_pi500_ports.jpg` | Pi 500 ports used for monitor, mouse, and power |
+| `docs/images/pi500/03_desktop_ready.jpg` | Pi 500 desktop after boot |
+| `docs/images/pi500/04_wifi_connected.jpg` | WiFi menu or network connected state |
+| `docs/images/pi500/05_vscode_extensions.jpg` | VS Code with Python and Remote SSH extensions installed |
+
 ## Step 1: Connect Hardware
+
+Photo: `docs/images/pi500/01_pi500_parts.jpg`
+
+Photo: `docs/images/pi500/02_pi500_ports.jpg`
 
 ```
 [Monitor] ←HDMI→ [Micro HDMI Adapter] ←→ [Pi 500 HDMI port]
@@ -29,11 +45,15 @@ The Pi 500's keyboard is built-in — no separate keyboard needed.
 
 ## Step 2: Power On
 
+Photo: `docs/images/pi500/03_desktop_ready.jpg`
+
 1. Plug in power
 2. Wait for desktop to appear (~30 seconds)
 3. If prompted for password, enter the one set during imaging
 
 ## Step 3: Connect to WiFi
+
+Photo: `docs/images/pi500/04_wifi_connected.jpg`
 
 1. Click the network icon in the top-right taskbar
 2. Select your workshop WiFi network
@@ -53,6 +73,8 @@ You'll use the terminal for everything in this workshop:
 Practice opening a terminal now. You'll be using it constantly.
 
 ## Step 5: Install VS Code (Recommended)
+
+Photo: `docs/images/pi500/05_vscode_extensions.jpg`
 
 VS Code gives you a real code editor with syntax highlighting, file browser, and built-in terminal — much better than editing in nano.
 
