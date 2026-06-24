@@ -55,6 +55,8 @@ temp/
 *.png
 !docs/images/*.png
 !docs/images/*.jpg
+!docs/images/**/*.png
+!docs/images/**/*.jpg
 images/debug/
 
 # Web control state
