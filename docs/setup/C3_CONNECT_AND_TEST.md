@@ -142,14 +142,27 @@ The arm should move through several positions and test the gripper.
 python3 skills/camera_vision/test_camera.py
 ```
 
-Should report `Camera: 640x480` and save a test image.
+This is a snapshot test. It should report `Camera: 640x480` and save a test image.
 
-**View the camera feed in a browser:**
-From your Pi 500's browser, open:
+To view the live camera feed, start the web control server on the robot:
+
+```bash
+python3 web/web_control.py
+```
+
+Leave that terminal running. It should print:
+
+```text
+Open in browser: http://<ROBOT_IP>:8080
+```
+
+Then, from the Pi 500 browser, open:
+
 ```
 http://<ROBOT_IP>:8080
 ```
-(Replace with your robot's IP)
+
+Replace `<ROBOT_IP>` with your robot's IP. If the page does not load, make sure the web control server is still running on the robot and that the Pi 500 and robot are on the same WiFi network.
 
 ## Step 6: Test Sonar
 
@@ -283,7 +296,10 @@ python3 -c "from lib.board import get_board; b=get_board(); b.set_motor_duty([(1
 # Copy file to robot
 scp file.py robot@<ROBOT_IP>:/home/robot/pathfinder/
 
-# View camera
+# Start camera web feed on the robot
+python3 web/web_control.py
+
+# Then view camera from the Pi 500 browser
 # Open browser: http://<ROBOT_IP>:8080
 ```
 

@@ -102,7 +102,7 @@ You should see files like `START_HERE.md`, `README.md`, and the `docs/` folder.
 | Open terminal | Ctrl+Alt+T |
 | SSH to robot | `ssh robot@<ROBOT_IP>` |
 | Copy file to robot | `scp file.py robot@<ROBOT_IP>:/home/robot/pathfinder/` |
-| View robot camera | Open browser: `http://<ROBOT_IP>:8080` |
+| View robot camera | After web control is running on the robot, open browser: `http://<ROBOT_IP>:8080` |
 | Edit code | `nano filename.py` or use Thonny (GUI editor) |
 | Run Python | `python3 script.py` |
 | Stop a running script | Ctrl+C |
