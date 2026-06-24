@@ -168,14 +168,16 @@ Replace `<ROBOT_IP>` with your robot's IP. If the page does not load, make sure 
 
 ```bash
 python3 -c "
-from sdk.common.sonar import Sonar
+from lib.sonar import Sonar
 s = Sonar()
-d = s.getDistance()
-print('Sonar: %.0f mm' % d)
+d = s.get_distance()
+print('Sonar: %.0f mm' % d if d is not None else 'Sonar: no reading')
 "
 ```
 
-Put your hand in front of the robot and run again — distance should change.
+Put your hand in front of the robot and run again. The distance should change.
+
+If you see `Sonar: no reading`, check that I2C is enabled, the sonar cable is connected, and `sudo i2cdetect -y 1` shows address `77`.
 
 ---
 

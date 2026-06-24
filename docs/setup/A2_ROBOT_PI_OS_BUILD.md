@@ -367,12 +367,12 @@ cam.release()
 ### Sonar
 ```bash
 python3 -c "
-from hardware.sonar import Sonar
+from lib.sonar import Sonar
 import time
 sonar = Sonar()
 for i in range(3):
     d = sonar.get_distance()
-    if d: print(f'Sonar: {d:.1f} cm')
+    if d is not None: print(f'Sonar: {d:.0f} mm')
     else: print('Sonar: No reading')
     time.sleep(0.3)
 "
@@ -383,7 +383,7 @@ for i in range(3):
 cd /home/robot/pathfinder
 python3 -c "
 from lib.board import get_board, PLATFORM
-from hardware.sonar import Sonar
+from lib.sonar import Sonar
 import cv2, time
 
 print('Pathfinder2026 Hardware Test')
@@ -421,7 +421,7 @@ print('Motors: Brief forward sent')
 # Sonar
 sonar = Sonar()
 d = sonar.get_distance()
-if d: print(f'Sonar: {d:.1f} cm')
+if d is not None: print(f'Sonar: {d:.0f} mm')
 else: print('Sonar: No reading')
 
 # Camera
