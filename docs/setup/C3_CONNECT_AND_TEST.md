@@ -59,26 +59,26 @@ The prompt changes from the Pi 500 prompt, usually `pi500@pihub:~ $`, to the rob
 
 You're now ON the robot. Every command you type runs on the robot.
 
-## Optional: Set Up A Unique SSH Key
+## Recommended: Set Up A Simple SSH Key
 
-Use the password connection first. After that works, you can create a unique SSH key on the Pi 500 and copy it to the robot. This makes VS Code Remote SSH and later terminal sessions smoother because the Pi 500 can identify itself without typing the robot password every time.
+Use the password connection first. After that works, set up an SSH key so this same Pi 500 can connect to the robot without typing the robot password each time.
 
-Run these commands on the Pi 500, not inside the SSH session:
-
-```bash
-ssh-keygen -t ed25519 -f ~/.ssh/pathfinder2026_robot -C "pi500-to-robot" -N ""
-ssh-copy-id -i ~/.ssh/pathfinder2026_robot.pub robot@<ROBOT_IP>
-```
-
-Test the key:
+Open a new terminal on the Pi 500. Do not run these commands while logged into the robot:
 
 ```bash
-ssh -i ~/.ssh/pathfinder2026_robot robot@<ROBOT_IP>
+ssh-keygen -t ed25519
+ssh-copy-id robot@<ROBOT_IP>
 ```
 
-If this works, use the same `robot@<ROBOT_IP>` address in VS Code Remote SSH. The key is unique to that Pi 500. If a team swaps Pi 500s, repeat this step from the new Pi 500.
+For `ssh-keygen`, press Enter to accept the default file location. For the event, press Enter again if asked for a passphrase.
 
-If `ssh-copy-id` is not available or the key setup gets confusing, skip this section and keep using the robot password.
+After the key is copied, connect the simple way:
+
+```bash
+ssh robot@<ROBOT_IP>
+```
+
+If the team changes Pi 500s, repeat this key setup from the new Pi 500.
 
 ## Step 2: Check Battery
 
