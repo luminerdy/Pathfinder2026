@@ -212,7 +212,7 @@ scp robot@<ROBOT_IP>:/home/robot/pathfinder/test_frame.jpg ~/
 **Option A: VS Code + Remote SSH (Recommended!)**
 1. Open VS Code on Pi 500
 2. `Ctrl+Shift+P` → "Remote-SSH: Connect to Host" → `robot@<ROBOT_IP>`
-3. Enter the robot password when prompted.
+3. If you set up the SSH key above, VS Code should connect without asking for the robot password. If not, enter the robot password when prompted.
 4. Wait for VS Code to install its server component on the robot. This happens automatically the first time and may take about a minute.
 5. Open folder: `/home/robot/pathfinder`
 6. Edit files directly on the robot with full IDE features
