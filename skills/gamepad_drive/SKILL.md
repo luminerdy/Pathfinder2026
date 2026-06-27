@@ -222,4 +222,4 @@ gamepad_drive/
 
 ---
 
-*Grab the controller and drive!* 🎮
+*Grab the controller and drive!*

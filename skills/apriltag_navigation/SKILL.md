@@ -9,7 +9,7 @@
 
 > **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
-## 📘 Overview
+##  Overview
 
 ### What This Skill Does
 
@@ -50,7 +50,7 @@ AprilTag Navigation enables your robot to **autonomously find and approach** fid
 
 ---
 
-## 🚀 Quick Start (Run the Demo)
+##  Quick Start (Run the Demo)
 
 ### Step 1: Print AprilTag
 
@@ -106,7 +106,7 @@ python3 run_demo.py
 
 ---
 
-## 🔧 Implementation Guide (For Coders)
+##  Implementation Guide (For Coders)
 
 ### How It Works
 
@@ -249,7 +249,7 @@ apriltag_navigation:
 
 ---
 
-## 🎓 Engineering Deep Dive (Advanced)
+##  Engineering Deep Dive (Advanced)
 
 ### Mathematical Foundation
 

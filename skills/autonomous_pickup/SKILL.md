@@ -423,4 +423,4 @@ Existing code (already on robot):
 
 ---
 
-*The grand integration: See it, drive to it, grab it!* 🤖🔴✊
+*The grand integration: See it, drive to it, grab it!* ✊

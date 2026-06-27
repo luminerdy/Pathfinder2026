@@ -35,4 +35,4 @@ ba.cleanup()
 ## Next: E5 Autonomous Pickup (add arm grab!)
 
 ---
-*See target, correct, reach!* 🎯
+*See target, correct, reach!*

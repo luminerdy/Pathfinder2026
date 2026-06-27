@@ -27,6 +27,7 @@ Reverse-engineered from the vendor Board.py module.
 
 import time
 import struct
+from pathlib import Path
 from smbus2 import SMBus, i2c_msg
 from typing import List, Tuple, Optional
 
@@ -54,7 +55,7 @@ REG_SERVO_CMD = 40        # Servo command register
 BUZZER_PIN = 31
 
 # Deviation file (servo calibration offsets)
-DEVIATION_FILE = '/home/robot/code/pathfinder/Deviation.yaml'
+DEVIATION_FILE = Path(__file__).resolve().parents[1] / 'Deviation.yaml'
 
 
 def _load_deviations():
@@ -73,15 +74,15 @@ def _load_deviations():
 class BoardController:
     """
     I2C board controller for Pi 4 robot platform.
-    
+
     Same API as lib/board_protocol.py (Pi 5) so all skills
     work unchanged on either platform.
     """
-    
+
     def __init__(self):
         self._deviations = _load_deviations()
         self._buzzer_initialized = False
-    
+
     def _i2c_write(self, data):
         """Write bytes to board via I2C"""
         with SMBus(I2C_BUS) as bus:
@@ -95,7 +96,7 @@ class BoardController:
                     bus.i2c_rdwr(msg)
                 except Exception:
                     pass
-    
+
     def _i2c_read(self, register, length):
         """Write register address then read bytes"""
         with SMBus(I2C_BUS) as bus:
@@ -114,13 +115,13 @@ class BoardController:
                     return list(msg_read)
                 except Exception:
                     return None
-    
+
     # ===== Motor Control =====
-    
+
     def set_motor_duty(self, motors: List[Tuple[int, float]]):
         """
         Set motor duty cycles.
-        
+
         Args:
             motors: List of (motor_id, duty) tuples
                    motor_id: 1-4
@@ -129,27 +130,27 @@ class BoardController:
         for motor_id, duty in motors:
             if motor_id < 1 or motor_id > 4:
                 continue
-            
+
             # Invert motors 1 and 3 (left side, mounted backwards)
             if motor_id == 1 or motor_id == 3:
                 duty = -duty
-            
+
             # Clamp
             duty = max(-100, min(100, int(duty)))
-            
+
             # Register: 31 + (motor_id - 1)
             reg = REG_MOTOR_BASE + (motor_id - 1)
-            
+
             # Speed as signed byte
             speed_byte = duty.to_bytes(1, 'little', signed=True)[0]
             self._i2c_write([reg, speed_byte])
-    
+
     # ===== Servo Control =====
-    
+
     def set_servo_position(self, duration_ms: int, servos: List[Tuple[int, int]]):
         """
         Set servo positions (all move simultaneously).
-        
+
         Args:
             duration_ms: Movement duration in milliseconds
             servos: List of (servo_id, pulse_width) tuples
@@ -158,33 +159,33 @@ class BoardController:
         """
         duration_ms = max(0, min(30000, duration_ms))
         count = len(servos)
-        
+
         # Build command: [40, count, time_lo, time_hi, id1, pulse_lo1, pulse_hi1, ...]
         buf = [REG_SERVO_CMD, count]
         buf += list(duration_ms.to_bytes(2, 'little'))
-        
+
         for servo_id, pulse in servos:
             if servo_id < 1 or servo_id > 6:
                 continue
-            
+
             # Apply deviation correction
             deviation = self._deviations.get(servo_id, 0)
             pulse += deviation
-            
+
             # Clamp
             pulse = max(500, min(2500, pulse))
-            
+
             buf.append(servo_id)
             buf += list(pulse.to_bytes(2, 'little'))
-        
+
         self._i2c_write(buf)
-    
+
     # ===== Battery =====
-    
+
     def get_battery(self) -> Optional[int]:
         """
         Get battery voltage.
-        
+
         Returns:
             Voltage in millivolts, or None on error
         """
@@ -193,16 +194,16 @@ class BoardController:
             voltage = int.from_bytes(bytes(data), 'little')
             return voltage
         return None
-    
+
     # ===== Buzzer =====
-    
+
     def set_buzzer(self, freq_hz: int, on_s: float, off_s: float, repeat: int = 1):
         """
         Control buzzer.
-        
+
         Note: Pi 4 buzzer is simple GPIO on/off (no frequency control).
         freq_hz parameter is accepted for API compatibility but ignored.
-        
+
         Args:
             freq_hz: Ignored (GPIO buzzer has fixed frequency)
             on_s: On duration in seconds
@@ -211,26 +212,26 @@ class BoardController:
         """
         if not _GPIO_AVAILABLE:
             return
-        
+
         if not self._buzzer_initialized:
             GPIO.setup(BUZZER_PIN, GPIO.OUT)
             self._buzzer_initialized = True
-        
+
         for _ in range(repeat):
             GPIO.output(BUZZER_PIN, True)
             time.sleep(on_s)
             GPIO.output(BUZZER_PIN, False)
             time.sleep(off_s)
-    
+
     # ===== RGB LEDs =====
-    
+
     def set_rgb(self, leds: List[Tuple[int, int, int, int]]):
         """
         Set RGB LED colors via sonar I2C LEDs (no sudo needed).
-        
+
         The board also has WS281x NeoPixels on GPIO 12, but those
         require root for DMA. We use the sonar's I2C LEDs instead.
-        
+
         Args:
             leds: List of (led_id, r, g, b) tuples
                  led_id: 0-1
@@ -249,9 +250,9 @@ class BoardController:
                     bus.write_byte_data(SONAR_ADDR, reg_base + 2, b & 0xFF)
         except Exception:
             pass  # LEDs not critical
-    
+
     # ===== Cleanup =====
-    
+
     def close(self):
         """Stop motors and clean up"""
         self.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])

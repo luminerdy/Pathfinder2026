@@ -9,7 +9,7 @@
 
 > **Note — Raw API for learning:** The code examples in this guide use `cv2.VideoCapture()` directly so you can see exactly how the camera works under the hood. Your **starter templates** use `robot.camera.get_frame()` which wraps all of this — same concepts, cleaner code.
 
-## 📘 Overview
+##  Overview
 
 ### What This Skill Does
 
@@ -53,7 +53,7 @@ Learn to **capture, display, and process** camera images for computer vision tas
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Step 1: Test Camera Hardware
 
@@ -118,7 +118,7 @@ python3 color_spaces.py
 
 ---
 
-## 🔧 Implementation Guide (For Coders)
+##  Implementation Guide (For Coders)
 
 ### Level 1: Capture and Save Image
 
@@ -344,7 +344,7 @@ save:
 
 ---
 
-## 🎓 Engineering Deep Dive (Advanced)
+##  Engineering Deep Dive (Advanced)
 
 ### Camera Hardware Basics
 
@@ -514,4 +514,4 @@ camera_vision/
 
 ---
 
-*See the world through robot eyes!* 📷
+*See the world through robot eyes!*

@@ -12,63 +12,88 @@ from lib.camera import Camera
 from skills.block_detect import BlockDetector  # was: capabilities.vision.Vision
 import cv2
 import time
+import json
+from pupil_apriltags import Detector
 
-def test_camera_mode(arm, camera, vision, mode_name, servo_positions, test_type):
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
+def detect_apriltags(frame, detector):
+    """Detect AprilTags and return simple dictionaries for this test."""
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    tags = detector.detect(gray)
+    detections = []
+
+    for tag in tags:
+        corners = tag.corners
+        width = max(corners[:, 0]) - min(corners[:, 0])
+        height = max(corners[:, 1]) - min(corners[:, 1])
+        detections.append({
+            'id': tag.tag_id,
+            'center_x': int(tag.center[0]),
+            'center_y': int(tag.center[1]),
+            'area': width * height,
+        })
+
+    return detections
+
+
+def test_camera_mode(arm, camera, tag_detector, block_detector, mode_name, servo_positions, test_type):
     """Test a specific camera angle configuration"""
-    
+
     print(f"\n{'='*60}")
     print(f"Testing: {mode_name}")
     print(f"{'='*60}")
-    
+
     # Move to position
     print(f"Moving camera to {mode_name} position...")
     arm.set_servos(servo_positions)
     time.sleep(2)
-    
+
     print(f"Servo positions: {servo_positions}")
-    
+
     # Capture test image
     frame = camera.get_frame()
     if frame is None:
-        print("❌ No frame captured")
+        print("[!!] No frame captured")
         return None
-    
+
     # Save reference image
-    filename = f"/home/robot/code/pathfinder/camera_{mode_name.lower().replace(' ', '_')}.jpg"
-    cv2.imwrite(filename, frame)
-    print(f"📸 Image saved: {filename}")
-    
+    filename = REPO_ROOT / f"camera_{mode_name.lower().replace(' ', '_')}.jpg"
+    cv2.imwrite(str(filename), frame)
+    print(f"Image saved: {filename}")
+
     # Test detection based on type
     results = {}
-    
+
     if test_type == 'apriltag' or test_type == 'both':
-        print("\n🏷️  Testing AprilTag detection...")
-        tags = vision.detect_apriltags(frame)
+        print("\nTesting AprilTag detection...")
+        tags = detect_apriltags(frame, tag_detector)
         if tags:
-            print(f"   ✅ Detected {len(tags)} tag(s)")
+            print(f"   [OK] Detected {len(tags)} tag(s)")
             for tag in tags:
                 print(f"      ID {tag['id']}: center=({tag['center_x']}, {tag['center_y']}), area={tag['area']:.0f}px²")
             results['apriltag_count'] = len(tags)
             results['apriltag_visible'] = True
         else:
-            print(f"   ❌ No AprilTags detected")
+            print(f"   [!!] No AprilTags detected")
             results['apriltag_count'] = 0
             results['apriltag_visible'] = False
-    
+
     if test_type == 'block' or test_type == 'both':
-        print("\n🟥 Testing block detection...")
-        blocks = vision.detect_blocks(frame)
+        print("\nTesting block detection...")
+        blocks = block_detector.detect(frame)
         if blocks:
-            print(f"   ✅ Detected {len(blocks)} block(s)")
+            print(f"   [OK] Detected {len(blocks)} block(s)")
             for block in blocks:
-                print(f"      {block['color']}: center=({block['center_x']}, {block['center_y']}), area={block['area']:.0f}px²")
+                print(f"      {block.color}: center=({block.center_x}, {block.center_y}), area={block.area:.0f}px²")
             results['block_count'] = len(blocks)
             results['block_visible'] = True
         else:
-            print(f"   ❌ No blocks detected")
+            print(f"   [!!] No blocks detected")
             results['block_count'] = 0
             results['block_visible'] = False
-    
+
     # User feedback
     print(f"\nPlease review the camera view:")
     if test_type == 'apriltag':
@@ -80,33 +105,34 @@ def test_camera_mode(arm, camera, vision, mode_name, servo_positions, test_type)
     else:
         see_both = input("  Can you see both tags AND floor blocks? (y/n): ").lower() == 'y'
         results['user_confirms'] = see_both
-    
+
     fov = input("  Field of view rating (1-5, 5=excellent): ")
     results['fov_rating'] = int(fov) if fov.isdigit() else 3
-    
+
     return results
 
 def calibrate_camera_angles():
     """Find optimal camera angles for different tasks"""
-    
+
     print("="*60)
     print("CAMERA MODE CALIBRATION")
     print("="*60)
     print("\nThis will test different camera angles to find optimal")
     print("positions for navigation and block detection.\n")
-    
+
     # Setup
     print("Setup instructions:")
     print("  1. Place robot on field")
     print("  2. Place AprilTag ~1m in front")
     print("  3. Place colored block on floor ~30cm in front")
     input("\nPress Enter when ready...")
-    
+
     arm = Arm()
     camera = Camera()
-    vision = Vision()
-    camera.start_capture()
-    
+    tag_detector = Detector(families='tag36h11')
+    block_detector = BlockDetector()
+    camera.open()
+
     # Test configurations
     # Format: (name, servo_dict, test_type)
     test_configs = [
@@ -118,7 +144,7 @@ def calibrate_camera_angles():
             3: 590,   # Wrist
             1: 2500   # Gripper open
         }, 'apriltag'),
-        
+
         # Angled down slightly (compromise)
         ("Compromise Angle", {
             6: 1500,
@@ -127,7 +153,7 @@ def calibrate_camera_angles():
             3: 800,   # Wrist more down
             1: 2500
         }, 'both'),
-        
+
         # Looking down at floor (block detection)
         ("Block Detection Down", {
             6: 1500,
@@ -136,7 +162,7 @@ def calibrate_camera_angles():
             3: 1200,  # Wrist straight down
             1: 2500
         }, 'block'),
-        
+
         # Extreme down (close blocks)
         ("Close Pickup View", {
             6: 1500,
@@ -146,24 +172,24 @@ def calibrate_camera_angles():
             1: 2500
         }, 'block'),
     ]
-    
+
     results = {}
-    
+
     for config_name, servos, test_type in test_configs:
-        result = test_camera_mode(arm, camera, vision, config_name, servos, test_type)
+        result = test_camera_mode(arm, camera, tag_detector, block_detector, config_name, servos, test_type)
         results[config_name] = {
             'servos': servos,
             'test_type': test_type,
             'results': result
         }
-        
+
         time.sleep(1)
-    
+
     # Analysis
     print("\n" + "="*60)
     print("CALIBRATION SUMMARY")
     print("="*60)
-    
+
     for config_name, data in results.items():
         print(f"\n{config_name}:")
         print(f"  Purpose: {data['test_type']}")
@@ -174,31 +200,31 @@ def calibrate_camera_angles():
                 print(f"  AprilTags: {data['results']['apriltag_count']}")
             if 'block_count' in data['results']:
                 print(f"  Blocks: {data['results']['block_count']}")
-    
+
     # Recommendations
     print("\n" + "="*60)
     print("RECOMMENDED CAMERA STRATEGY")
     print("="*60)
-    
+
     # Find best modes
     nav_modes = {k: v for k, v in results.items() if v['test_type'] in ['apriltag', 'both']}
     block_modes = {k: v for k, v in results.items() if v['test_type'] in ['block', 'both']}
-    
+
     if nav_modes:
-        best_nav = max(nav_modes.items(), 
+        best_nav = max(nav_modes.items(),
                       key=lambda x: x[1]['results'].get('fov_rating', 0) if x[1]['results'] else 0)
-        print(f"\n📍 NAVIGATION MODE: {best_nav[0]}")
+        print(f"\nNAVIGATION MODE: {best_nav[0]}")
         print(f"   Servos: {best_nav[1]['servos']}")
         print(f"   Use for: AprilTag detection, long-distance navigation")
-    
+
     if block_modes:
         best_block = max(block_modes.items(),
                         key=lambda x: x[1]['results'].get('fov_rating', 0) if x[1]['results'] else 0)
-        print(f"\n🟥 BLOCK DETECTION MODE: {best_block[0]}")
+        print(f"\nBLOCK DETECTION MODE: {best_block[0]}")
         print(f"   Servos: {best_block[1]['servos']}")
         print(f"   Use for: Floor block detection, close-range positioning")
-    
-    print("\n🔄 SWITCHING STRATEGY:")
+
+    print("\nSWITCHING STRATEGY:")
     print("   1. Start in NAVIGATION mode")
     print("   2. Navigate to approximate block location using AprilTag")
     print("   3. SWITCH to BLOCK DETECTION mode")
@@ -206,15 +232,14 @@ def calibrate_camera_angles():
     print("   5. Execute pickup")
     print("   6. SWITCH back to NAVIGATION mode")
     print("   7. Navigate to delivery location")
-    
+
     # Save configuration
-    import json
-    config_file = '/home/robot/code/pathfinder/camera_modes.json'
+    config_file = REPO_ROOT / 'camera_modes.json'
     with open(config_file, 'w') as f:
         json.dump(results, f, indent=2)
-    print(f"\n💾 Configuration saved to: {config_file}")
-    
-    camera.stop_capture()
+    print(f"\nConfiguration saved to: {config_file}")
+
+    camera.release()
     arm.cleanup()
 
 if __name__ == "__main__":

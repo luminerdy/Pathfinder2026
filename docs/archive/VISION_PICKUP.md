@@ -93,7 +93,7 @@ NO hardcoded positions - adapts to block location!
           ↓
     10-30 cm space
           ↓
-    ┌─────┐  🏷️
+    ┌─────┐  ️
     │Block│  Tag
     └─────┘
 
@@ -553,4 +553,4 @@ result = pickup.pickup_block(color='red', tag_id=0)
 
 ---
 
-**robot figures out how to reach - you just tell it what color to grab!** 🤖🎯🦾
+**robot figures out how to reach - you just tell it what color to grab!**

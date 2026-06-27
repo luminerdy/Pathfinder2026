@@ -15,10 +15,7 @@ board = BoardController()
 time.sleep(0.3)
 
 # Stop motors first
-board.set_motor_duty(1, 0)
-board.set_motor_duty(2, 0)
-board.set_motor_duty(3, 0)
-board.set_motor_duty(4, 0)
+board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
 
 # Base centered
 board.set_servo_position(300, [(1, 1500)])
@@ -45,9 +42,7 @@ for servo_id, position in positions:
 
 # Beep to indicate ready
 print("\nBeeping to indicate ready...")
-board.set_buzzer(True)
-time.sleep(0.1)
-board.set_buzzer(False)
+board.set_buzzer(1000, 0.1, 0.05, 1)
 
 print("\n[OK] Arm positioned for forward camera view")
 print("Camera (backward-mounted) should now see floor in front")

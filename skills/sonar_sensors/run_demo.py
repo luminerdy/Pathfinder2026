@@ -16,8 +16,8 @@ Usage:
     python3 run_demo.py
 
 Safety:
-    - Clear 6 feet of space in front of robot
-    - Be ready to catch robot if it doesn't stop
+    - Clear a 4-foot by 4-foot area around the robot
+    - Put the robot on the floor only. It can drive off a table.
     - Press Ctrl+C to emergency stop
 
 Press Ctrl+C to stop at any time.
@@ -32,6 +32,45 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 from lib.board import get_board
 from lib.sonar import Sonar
 
+
+def stop_motors(board):
+    """Stop all drive motors."""
+    board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+
+
+def read_cm(sonar):
+    """Read sonar distance in centimeters."""
+    distance_mm = sonar.get_distance()
+    return distance_mm / 10.0 if distance_mm is not None else None
+
+
+def filtered_cm(sonar, samples=10):
+    """Median-filter sonar readings in centimeters."""
+    readings = []
+    for _ in range(samples):
+        distance = read_cm(sonar)
+        if distance is not None:
+            readings.append(distance)
+        time.sleep(0.05)
+
+    if not readings:
+        return None
+
+    readings.sort()
+    return readings[len(readings) // 2]
+
+
+def set_zone_led(sonar, distance_cm):
+    """Set sonar LEDs based on distance in centimeters."""
+    if distance_cm is None:
+        sonar.off()
+    elif distance_cm < 15:
+        sonar.set_led_color(255, 0, 0)
+    elif distance_cm < 30:
+        sonar.set_led_color(255, 255, 0)
+    else:
+        sonar.set_led_color(0, 255, 0)
+
 def main():
     print("=" * 60)
     print("SONAR SENSORS DEMONSTRATION")
@@ -40,52 +79,54 @@ def main():
     print("This demo shows 6 sonar capabilities.")
     print()
     print("SAFETY:")
-    print("  - Clear 6 feet of space in front of robot")
-    print("  - Be ready to catch if it doesn't stop")
+    print("  - Clear a 4-foot by 4-foot area around the robot")
+    print("  - Put the robot on the floor only. It can drive off a table.")
     print("  - Press Ctrl+C to emergency stop")
     print()
     input("Press Enter to start demo...")
     print()
-    
+
     board = get_board()
     sonar = Sonar()
-    
+
     try:
         # Demo 1: Distance Reading
         print("[1/6] Distance Reading (10 samples)")
         print("  Watch RGB LEDs change color...")
         for i in range(10):
-            dist = sonar.get_distance()
-            if dist:
+            dist = read_cm(sonar)
+            if dist is not None:
                 print(f"    Sample {i+1}: {dist:.1f} cm")
-                sonar.set_distance_indicator()
+                set_zone_led(sonar, dist)
             time.sleep(0.5)
-        sonar.rgb_off()
+        sonar.off()
         time.sleep(2)
-        
+
         # Demo 2: Filtered Reading
         print("\n[2/6] Filtered Reading (median of 10)")
-        filtered = sonar.get_filtered_distance(samples=10)
-        if filtered:
+        filtered = filtered_cm(sonar, samples=10)
+        if filtered is not None:
             print(f"    Median distance: {filtered:.1f} cm")
+        else:
+            print("    No sonar reading")
         time.sleep(2)
-        
+
         # Demo 3: Obstacle Detection
         print("\n[3/6] Obstacle Detection Test")
         print("  Wave hand in front of sensor...")
         print("  Red LED = obstacle <20cm, Green = clear")
         for i in range(15):
-            dist = sonar.get_distance()
-            if sonar.is_obstacle_detected(threshold=20):
+            dist = read_cm(sonar)
+            if dist is not None and dist < 20:
                 print(f"    OBSTACLE at {dist:.1f} cm!" if dist else "    OBSTACLE!")
-                sonar.set_both_rgb((255, 0, 0))
+                sonar.set_led_color(255, 0, 0)
             else:
                 print(f"    Clear ({dist:.1f} cm)" if dist else "    Clear")
-                sonar.set_both_rgb((0, 255, 0))
+                sonar.set_led_color(0, 255, 0)
             time.sleep(0.3)
-        sonar.rgb_off()
+        sonar.off()
         time.sleep(2)
-        
+
         # Demo 4: Range Zones
         print("\n[4/6] Range Zones (red/yellow/green)")
         print("  Red (<15cm) = DANGER")
@@ -93,65 +134,63 @@ def main():
         print("  Green (>30cm) = SAFE")
         print("  Move hand to see zones...")
         for i in range(15):
-            dist = sonar.get_distance()
-            if dist:
+            dist = read_cm(sonar)
+            if dist is not None:
                 if dist < 15:
                     zone = "DANGER"
-                    sonar.set_both_rgb((255, 0, 0))
                 elif dist < 30:
                     zone = "CAUTION"
-                    sonar.set_both_rgb((255, 255, 0))
                 else:
                     zone = "SAFE"
-                    sonar.set_both_rgb((0, 255, 0))
+                set_zone_led(sonar, dist)
                 print(f"    {dist:.1f} cm - {zone}")
             time.sleep(0.3)
-        sonar.rgb_off()
+        sonar.off()
         time.sleep(2)
-        
+
         # Demo 5: Safe Movement
         print("\n[5/6] Safe Movement Test")
         print("  Robot will drive forward at 35% speed")
         print("  Will STOP if obstacle detected <15cm")
         print("  Try blocking its path...")
         time.sleep(2)
-        
+
         start_time = time.time()
         max_duration = 5.0
         speed = 35
         stop_threshold = 15
-        
+
         while time.time() - start_time < max_duration:
-            dist = sonar.get_distance()
-            if dist and dist < stop_threshold:
+            dist = read_cm(sonar)
+            if dist is not None and dist < stop_threshold:
                 print(f"    STOPPING! Obstacle at {dist:.1f} cm")
-                board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-                sonar.set_both_rgb((255, 0, 0))
+                stop_motors(board)
+                sonar.set_led_color(255, 0, 0)
                 break
             else:
                 # Drive forward
                 board.set_motor_duty([(1, speed), (2, speed), (3, speed), (4, speed)])
-                sonar.set_both_rgb((0, 255, 0))
+                sonar.set_led_color(0, 255, 0)
             time.sleep(0.05)
-        
-        board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-        sonar.rgb_off()
+
+        stop_motors(board)
+        sonar.off()
         time.sleep(2)
-        
+
         # Demo 6: Obstacle Avoidance
         print("\n[6/6] Obstacle Avoidance")
         print("  Robot will explore and avoid obstacles")
         print("  Block its path to see avoidance behavior")
         time.sleep(2)
-        
+
         start_time = time.time()
         max_duration = 10.0
         speed = 30
-        
+
         while time.time() - start_time < max_duration:
-            dist = sonar.get_distance()
-            
-            if dist and dist < 20:
+            dist = read_cm(sonar)
+
+            if dist is not None and dist < 20:
                 # Obstacle! Back up and turn
                 print(f"    Obstacle at {dist:.1f} cm - backing up...")
                 # Back up
@@ -161,17 +200,17 @@ def main():
                 print("    Turning right...")
                 board.set_motor_duty([(1, 30), (2, -30), (3, 30), (4, -30)])
                 time.sleep(0.6)
-                board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+                stop_motors(board)
                 time.sleep(0.3)
             else:
                 # Clear - drive forward
                 board.set_motor_duty([(1, speed), (2, speed), (3, speed), (4, speed)])
-            
+
             time.sleep(0.05)
-        
-        board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-        sonar.rgb_off()
-        
+
+        stop_motors(board)
+        sonar.off()
+
         print()
         print("=" * 60)
         print("DEMO COMPLETE!")
@@ -189,21 +228,21 @@ def main():
         print("  - Try editing config.yaml to change thresholds")
         print("  - Read SKILL.md to understand how ultrasonic works")
         print("  - Integrate with D1 (mecanum + sonar = safe navigation)")
-        
+
         # Victory beep
         board.set_buzzer(1000, 0.1, 0.1, 2)
-    
+
     except KeyboardInterrupt:
         print("\nDemo stopped by user (Ctrl+C)")
-    
+
     except Exception as e:
         print(f"\nERROR: {e}")
         import traceback
         traceback.print_exc()
-    
+
     finally:
-        board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-        sonar.rgb_off()
+        stop_motors(board)
+        sonar.off()
         print("\nMotors stopped, LEDs off. Demo complete.")
 
 if __name__ == "__main__":

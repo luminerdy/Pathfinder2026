@@ -437,6 +437,6 @@ result = pickup.pickup_block(color='red')
 
 ---
 
-**The robot adapts to block orientation automatically!** 🤖🔄
+**The robot adapts to block orientation automatically!**
 
 Test with blocks at different angles to find your gripper's limits, then configure accordingly.

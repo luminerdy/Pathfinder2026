@@ -35,4 +35,4 @@ python3 skills/auto_pickup.py blue      # Blue only
 - Battery warning: Charge batteries!
 
 ---
-*See it, drive to it, grab it!* 🤖🔴✊
+*See it, drive to it, grab it!* ✊

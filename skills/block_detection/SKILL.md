@@ -393,4 +393,4 @@ Existing code (already on robot):
 
 ---
 
-*Find the blocks, know the colors, estimate the distance!* 🔴🔵🟡
+*Find the blocks, know the colors, estimate the distance!*

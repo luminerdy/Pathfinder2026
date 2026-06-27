@@ -6,6 +6,10 @@ Shows: battery, camera, system info
 
 import subprocess
 import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+CHECK_BATTERY = REPO_ROOT / 'scripts' / 'tools' / 'check_battery.py'
 
 print("=" * 60)
 print("PATHFINDER ROBOT STATUS")
@@ -19,8 +23,8 @@ print(f"User: robot")
 # Battery
 print("\n=== BATTERY ===")
 try:
-    result = subprocess.run(['python3', 'check_battery.py'], 
-                          capture_output=True, text=True, cwd='/home/robot/code/pathfinder')
+    result = subprocess.run(['python3', str(CHECK_BATTERY)],
+                            capture_output=True, text=True, cwd=str(REPO_ROOT))
     print(result.stdout)
 except:
     print("Could not check battery")

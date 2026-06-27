@@ -68,9 +68,9 @@ def main():
         action='store_true',
         help='Disable mecanum fine positioning (strafing)'
     )
-    
+
     args = parser.parse_args()
-    
+
     print("\n" + "="*60)
     print("Vision-Guided Pickup Demo")
     print("="*60)
@@ -79,33 +79,33 @@ def main():
     if args.tag is not None:
         print(f"Reference tag: {args.tag}")
     print("="*60 + "\n")
-    
+
     # Initialize robot
     print("Initializing robot...")
     try:
         robot = Pathfinder()
         robot.initialize(enable_camera=True, enable_sonar=False, enable_monitoring=False)
-        
+
         # Create pickup controller
         pickup = VisualPickupController(robot)
-        
+
         # Configure alignment
         if args.no_align:
             pickup.align_to_block = False
             print("⚠️  Block alignment disabled")
         pickup.max_misalignment_degrees = args.max_angle
-        
+
         # Configure mecanum positioning
         if args.no_mecanum_position:
             pickup.use_mecanum_positioning = False
             print("⚠️  Mecanum fine positioning disabled")
-        
+
         print("✅ Robot ready!\n")
-        
+
     except Exception as e:
         print(f"❌ Failed to initialize robot: {e}")
         return 1
-    
+
     # Setup instructions
     print("SETUP:")
     print(f"1. Place {args.color} block on floor in front of robot")
@@ -115,19 +115,19 @@ def main():
         print(f"   - Tag should be visible to camera")
         print(f"   - Tag provides reference for accurate positioning")
     print()
-    
+
     input("Press Enter when ready to start...")
-    
+
     # Execute pickup
     try:
-        print("\n🤖 Starting pickup sequence...\n")
-        
+        print("\n Starting pickup sequence...\n")
+
         result = pickup.pickup_block(
             color=args.color,
             use_tag=not args.no_tag,
             tag_id=args.tag
         )
-        
+
         # Print results
         print("\n" + "="*60)
         print("PICKUP RESULT")
@@ -142,18 +142,18 @@ def main():
         for img_path in result.images:
             print(f"  - {img_path}")
         print("="*60 + "\n")
-        
+
         # Shutdown
         robot.shutdown()
-        
+
         return 0 if result.success else 1
-        
+
     except KeyboardInterrupt:
         print("\n\n⚠️  Interrupted by user")
         robot.chassis.stop()
         robot.shutdown()
         return 130
-    
+
     except Exception as e:
         print(f"\n❌ Pickup failed: {e}")
         import traceback

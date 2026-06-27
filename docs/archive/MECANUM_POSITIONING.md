@@ -495,6 +495,6 @@ result = pickup.pickup_block(color='red')
 
 ---
 
-**Mecanum wheels aren't just for driving - they're precision positioning tools!** 🤖⚡
+**Mecanum wheels aren't just for driving - they're precision positioning tools!** ⚡
 
 Use them for accurate block centering and watch your pickup success rate soar!

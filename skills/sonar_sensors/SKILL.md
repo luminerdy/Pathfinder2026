@@ -9,7 +9,7 @@
 
 > **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`Sonar()`, `board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
-## 📘 Overview
+##  Overview
 
 ### What This Skill Does
 
@@ -54,7 +54,7 @@ Sonar sensors use **ultrasonic sound waves** to measure distance, just like bats
 
 ---
 
-## 🚀 Quick Start (Run the Demo)
+##  Quick Start (Run the Demo)
 
 ### Step 1: Understand the Hardware
 
@@ -191,7 +191,7 @@ If LEDs don't light, check troubleshooting section below.
 
 ---
 
-## 🔧 Implementation Guide (For Coders)
+##  Implementation Guide (For Coders)
 
 ### How Ultrasonic Sensors Work
 
@@ -420,7 +420,7 @@ sonar:
 
 ---
 
-## 🎓 Engineering Deep Dive (Advanced)
+##  Engineering Deep Dive (Advanced)
 
 ### Ultrasonic Physics
 
@@ -669,4 +669,4 @@ sonar_sensors/
 
 ---
 
-*Learn to sense the world - safety first!* 🔊
+*Learn to sense the world - safety first!*

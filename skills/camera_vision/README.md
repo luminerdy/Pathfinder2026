@@ -72,4 +72,4 @@ After this skill, you can:
 
 ---
 
-*See the world through robot eyes!* 📷
+*See the world through robot eyes!*

@@ -137,7 +137,7 @@ board.pwm_servo_set_position(0.5, [[5, 2000]]) # ✅ Gripper closed!
 - Both issues now resolved
 - robot fully operational and ready for workshops
 
-**Time to solution:** 2 days of debugging, 5 minutes to fix! 😅
+**Time to solution:** 2 days of debugging, 5 minutes to fix!
 
 **Confidence level:** 100% - Multiple successful tests executed
 

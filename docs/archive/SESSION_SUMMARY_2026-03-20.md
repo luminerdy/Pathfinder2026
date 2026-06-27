@@ -108,7 +108,7 @@ board.set_motor_duty([[1, 60]])  # ✅ WORKED!
 ```
 Stopped Pathfinder robot.service
 Checked voltage: 6.87V
-Status: 🔴 CRITICAL - Too low for motor operation
+Status:  CRITICAL - Too low for motor operation
 Restarted Pathfinder robot.service
 ```
 
@@ -211,7 +211,7 @@ Restarted Pathfinder robot.service
 5. Run `python3 check_battery.py`
 6. Test motor with simple script
 7. Test servo
-8. Celebrate! 🎉
+8. Celebrate!
 
 ### Short Term (1-2 hours)
 1. Run full `test_hardware.py` suite
@@ -292,7 +292,7 @@ Restarted Pathfinder robot.service
 
 ## Quote of the Day
 
-> "It's not a bug, it's a brownout protection feature saving your battery!" 🔋
+> "It's not a bug, it's a brownout protection feature saving your battery!"
 
 ---
 

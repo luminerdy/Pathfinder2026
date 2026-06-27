@@ -274,4 +274,4 @@ After session:
 
 ---
 
-*Clear outcomes + measurable assessment = effective learning!* 📚
+*Clear outcomes + measurable assessment = effective learning!*

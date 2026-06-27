@@ -71,15 +71,15 @@ def main():
         default=True,
         help='Check battery before starting (default: True)'
     )
-    
+
     args = parser.parse_args()
-    
+
     setup_logging(args.verbose)
-    
+
     if args.list_fields:
         list_available_fields()
         return 0
-    
+
     # Get field config
     try:
         field_config = get_field_config(args.field)
@@ -87,10 +87,10 @@ def main():
         print(f"\nError: {e}")
         print("\nUse --list-fields to see available configurations")
         return 1
-    
+
     # Print field info
     print_field_info(field_config)
-    
+
     # Battery check
     if args.battery_check:
         print("Checking battery...")
@@ -114,33 +114,33 @@ def main():
         except Exception as e:
             print(f"⚠️  Battery check failed: {e}")
             print("Continuing anyway...")
-    
+
     # Initialize robot
     print("\nInitializing robot...")
     try:
         # Import Pathfinder
         from pathfinder import Pathfinder
-        
+
         robot = Pathfinder()
         robot.initialize(enable_camera=True, enable_sonar=True, enable_monitoring=False)
-        
+
         # Navigator should be initialized automatically if camera is enabled
         if not hasattr(robot, 'navigator') or robot.navigator is None:
             print("⚠️  Navigator not initialized (camera may be disabled)")
             return 1
-        
+
         print("✅ Robot initialized")
-        
+
     except Exception as e:
         print(f"❌ Failed to initialize robot: {e}")
         import traceback
         traceback.print_exc()
         return 1
-    
+
     # Create test suite
     print("\nCreating test suite...")
     test_suite = AutonomousTestSuite(robot, field_config, args.output)
-    
+
     # Confirmation
     print("\n" + "="*60)
     print("READY TO START AUTONOMOUS TESTING")
@@ -156,18 +156,18 @@ def main():
     print("  4. Return to home position")
     print("\n⚠️  Make sure field is clear and robot has room to move!")
     print()
-    
+
     response = input("Start testing? [Y/n]: ")
     if response.lower() == 'n':
         print("Aborted.")
         robot.shutdown()
         return 0
-    
+
     # Run tests
     try:
-        print("\n🤖 Starting autonomous test suite...\n")
+        print("\n Starting autonomous test suite...\n")
         summary = test_suite.run_all_tests()
-        
+
         # Print summary
         print("\n" + "="*60)
         print("TEST SUMMARY")
@@ -180,18 +180,18 @@ def main():
         print(f"\nResults: {test_suite.run_dir}")
         print(f"Report: {test_suite.run_dir / 'report.md'}")
         print("="*60 + "\n")
-        
+
         # Cleanup
         robot.shutdown()
-        
+
         return 0 if summary['failed'] == 0 else 1
-        
+
     except KeyboardInterrupt:
         print("\n\n⚠️  Testing interrupted by user")
         robot.chassis.stop()
         robot.shutdown()
         return 130
-    
+
     except Exception as e:
         print(f"\n❌ Test suite failed: {e}")
         import traceback

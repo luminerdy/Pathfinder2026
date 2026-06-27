@@ -67,4 +67,4 @@ After mastering mecanum drive, try:
 
 ---
 
-*Master movement first - everything builds on this!* 🎯
+*Master movement first - everything builds on this!*

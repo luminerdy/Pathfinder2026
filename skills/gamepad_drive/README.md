@@ -28,4 +28,4 @@
 | **Start** | **Quit** |
 
 ---
-*Grab the controller and drive!* 🎮
+*Grab the controller and drive!*

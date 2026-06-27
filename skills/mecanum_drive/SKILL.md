@@ -9,7 +9,7 @@
 
 > **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`get_board()`, `board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
-## 📘 Overview
+##  Overview
 
 ### What This Skill Does
 
@@ -50,7 +50,7 @@ Mecanum drive gives your robot **omnidirectional movement** - it can move forwar
 
 ---
 
-## 🚀 Quick Start (Run the Demo)
+##  Quick Start (Run the Demo)
 
 ### Step 1: Prepare robot
 
@@ -129,7 +129,7 @@ The robot demonstrates 8 movement patterns in sequence:
 
 ---
 
-## 🔧 Implementation Guide (For Coders)
+##  Implementation Guide (For Coders)
 
 ### How Mecanum Wheels Work
 
@@ -291,7 +291,7 @@ mecanum_drive:
 
 ---
 
-## 🎓 Engineering Deep Dive (Advanced)
+##  Engineering Deep Dive (Advanced)
 
 ### Mecanum Wheel Mechanics
 
@@ -542,4 +542,4 @@ mecanum_drive/
 
 ---
 
-*Master this first - all navigation skills build on mecanum control!* 🎯
+*Master this first - all navigation skills build on mecanum control!*

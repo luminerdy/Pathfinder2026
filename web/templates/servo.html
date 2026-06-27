@@ -97,19 +97,19 @@
 </head>
 <body>
     <div class="container">
-        <h1>🤖 Servo Control</h1>
-        
+        <h1> Servo Control</h1>
+
         <div class="presets">
             <button onclick="loadPreset('rest')">Rest Position</button>
             <button onclick="loadPreset('forward')">Camera Forward</button>
         </div>
-        
+
         <div class="servo-control">
             <div class="servo-header">
                 <span class="servo-name">1. Gripper</span>
                 <span class="servo-value" id="value1">2500</span>
             </div>
-            <input type="range" id="servo1" min="1475" max="2500" value="2500" 
+            <input type="range" id="servo1" min="1475" max="2500" value="2500"
                    oninput="updateServo(1, this.value)">
             <div class="range-labels">
                 <span>1475 (closed)</span>
@@ -117,13 +117,13 @@
                 <span>2500 (open)</span>
             </div>
         </div>
-        
+
         <div class="servo-control">
             <div class="servo-header">
                 <span class="servo-name">3. Wrist</span>
                 <span class="servo-value" id="value3">1500</span>
             </div>
-            <input type="range" id="servo3" min="500" max="2500" value="1500" 
+            <input type="range" id="servo3" min="500" max="2500" value="1500"
                    oninput="updateServo(3, this.value)">
             <div class="range-labels">
                 <span>500</span>
@@ -131,13 +131,13 @@
                 <span>2500</span>
             </div>
         </div>
-        
+
         <div class="servo-control">
             <div class="servo-header">
                 <span class="servo-name">4. Elbow</span>
                 <span class="servo-value" id="value4">1500</span>
             </div>
-            <input type="range" id="servo4" min="500" max="2500" value="1500" 
+            <input type="range" id="servo4" min="500" max="2500" value="1500"
                    oninput="updateServo(4, this.value)">
             <div class="range-labels">
                 <span>500</span>
@@ -145,13 +145,13 @@
                 <span>2500</span>
             </div>
         </div>
-        
+
         <div class="servo-control">
             <div class="servo-header">
                 <span class="servo-name">5. Shoulder</span>
                 <span class="servo-value" id="value5">1500</span>
             </div>
-            <input type="range" id="servo5" min="500" max="2500" value="1500" 
+            <input type="range" id="servo5" min="500" max="2500" value="1500"
                    oninput="updateServo(5, this.value)">
             <div class="range-labels">
                 <span>500</span>
@@ -159,13 +159,13 @@
                 <span>2500</span>
             </div>
         </div>
-        
+
         <div class="servo-control">
             <div class="servo-header">
                 <span class="servo-name">6. Base (Rotation)</span>
                 <span class="servo-value" id="value6">1500</span>
             </div>
-            <input type="range" id="servo6" min="500" max="2500" value="1500" 
+            <input type="range" id="servo6" min="500" max="2500" value="1500"
                    oninput="updateServo(6, this.value)">
             <div class="range-labels">
                 <span>500 (right)</span>
@@ -174,14 +174,14 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         let timeout = null;
-        
+
         function updateServo(servo, value) {
             // Update display
             document.getElementById('value' + servo).textContent = value;
-            
+
             // Debounce - only send after user stops moving slider
             clearTimeout(timeout);
             timeout = setTimeout(() => {
@@ -192,7 +192,7 @@
                 });
             }, 100);
         }
-        
+
         function loadPreset(name) {
             fetch('/preset/' + name)
                 .then(response => response.json())
@@ -207,7 +207,7 @@
                     }
                 });
         }
-        
+
         // Load current positions on page load
         fetch('/get_positions')
             .then(response => response.json())

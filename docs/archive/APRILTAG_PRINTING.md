@@ -189,4 +189,4 @@ Once tags are mounted:
 
 ---
 
-**Ready to give your robot eyes!** 🤖👁️
+**Ready to give your robot eyes!** ️

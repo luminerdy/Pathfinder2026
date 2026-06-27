@@ -67,4 +67,4 @@ After this skill, you can:
 
 ---
 
-*Safety first - let sensors guide the way!* 🔊
+*Safety first - let sensors guide the way!*

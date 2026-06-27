@@ -9,7 +9,7 @@
 
 > **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`get_board()`, `board.set_servo_position()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
 
-## 📘 Overview
+##  Overview
 
 ### What This Skill Does
 
@@ -54,12 +54,12 @@ Learn to control a **5-servo robotic arm** to position, grab, and manipulate obj
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Step 1: Understand the Hardware
 
 **Your arm has 5 servos:**
-1. **Servo 1:** Gripper/Claw (1475=closed ✊, 2500=open 🖐️)
+1. **Servo 1:** Gripper/Claw (1475=closed ✊, 2500=open ️)
 2. **Servo 3:** Wrist (rotation up/down)
 3. **Servo 4:** Elbow (bend joint)
 4. **Servo 5:** Shoulder (raise/lower arm)
@@ -145,7 +145,7 @@ python3 run_demo.py
 
 ---
 
-## 🔧 Implementation Guide (For Coders)
+##  Implementation Guide (For Coders)
 
 ### Level 2: Named Positions (Simple Python)
 
@@ -285,7 +285,7 @@ pick_and_place((0, 200, 30), (80, 180, 30))
 
 ---
 
-## 🎓 Engineering Deep Dive (Advanced)
+##  Engineering Deep Dive (Advanced)
 
 ### Servo Control Theory
 
@@ -409,4 +409,4 @@ robotic_arm/
 
 ---
 
-*Learn to control - position, grab, manipulate!* 🦾
+*Learn to control - position, grab, manipulate!*

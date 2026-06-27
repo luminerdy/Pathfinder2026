@@ -412,6 +412,6 @@ python3 -c "from hardware import *; ..."
 
 ---
 
-**Run calibration before serious testing!** 🤖⚡
+**Run calibration before serious testing!** ⚡
 
 Your specific robot + surface + battery combination determines optimal speeds.

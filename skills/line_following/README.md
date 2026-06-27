@@ -48,4 +48,4 @@ detection = follower.detect_line(frame)
 - No conflict with block detection
 
 ---
-*Follow the line, stay on track!* 🟢
+*Follow the line, stay on track!*

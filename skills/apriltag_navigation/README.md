@@ -6,7 +6,7 @@
 
 ## Choose Your Level
 
-### 🟢 Level 1: Just Run It (Beginners)
+###  Level 1: Just Run It (Beginners)
 **File:** `run_demo.py`
 **What:** Pre-built demo, no code changes needed
 **Time:** 5 minutes
@@ -15,7 +15,7 @@
 python3 run_demo.py
 ```
 
-### 🟡 Level 2: Tune Parameters (Non-Coders)
+###  Level 2: Tune Parameters (Non-Coders)
 **File:** `config.yaml`
 **What:** Edit configuration values, no coding
 **Time:** 15 minutes
@@ -23,7 +23,7 @@ python3 run_demo.py
 1. Edit `config.yaml` (change target_tag_id, speeds, etc.)
 2. Run `run_demo.py` again to see changes
 
-### 🟠 Level 3: Fill in the Blanks (Learning to Code)
+###  Level 3: Fill in the Blanks (Learning to Code)
 **File:** `apriltag_nav_template.py`
 **What:** Complete the TODO sections
 **Time:** 30-45 minutes
@@ -33,7 +33,7 @@ python3 run_demo.py
 3. Search for `???` and fill in your code
 4. Run and test
 
-### 🔴 Level 4: Full Implementation (Advanced)
+###  Level 4: Full Implementation (Advanced)
 **File:** `apriltag_nav.py`
 **What:** Read and understand the complete implementation
 **Time:** 1-2 hours

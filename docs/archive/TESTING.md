@@ -223,7 +223,7 @@ PASS - sonar
 
 Results: 7/7 tests passed
 
-🎉 All tests passed! robot is ready.
+ All tests passed! robot is ready.
 ```
 
 ### ⚠ Partial Pass

@@ -388,4 +388,4 @@ line_following/
 
 ---
 
-*Follow the line, stay on track!* 🟢
+*Follow the line, stay on track!*

@@ -19,11 +19,14 @@ import cv2
 import time
 import json
 import sys, os
+from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from lib.board import get_board
 BoardController = None  # Use get_board() instead
 
 app = Flask(__name__)
+REPO_ROOT = Path(__file__).resolve().parents[1]
+SAVED_POSITIONS_PATH = REPO_ROOT / 'saved_positions.json'
 
 # Global state
 board = get_board()
@@ -64,7 +67,7 @@ def generate_frames():
         success, frame = cam.read()
         if not success:
             break
-        
+
         # Add battery voltage overlay
         mv = board.get_battery()
         if mv:
@@ -72,7 +75,7 @@ def generate_frames():
             color = (0, 255, 0) if voltage > 8.2 else (0, 165, 255) if voltage > 8.0 else (0, 0, 255)
             cv2.putText(frame, f"Battery: {voltage:.2f}V", (10, 30),
                        cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
-        
+
         # Add servo positions overlay
         y_pos = 70
         for servo_id in sorted(servo_positions.keys()):
@@ -80,11 +83,11 @@ def generate_frames():
             cv2.putText(frame, f"S{servo_id}: {pos}", (10, y_pos),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
             y_pos += 30
-        
+
         # Encode frame
         ret, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = buffer.tobytes()
-        
+
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
 
@@ -105,45 +108,45 @@ def drive():
     try:
         data = request.json
         direction = data.get('direction')
-        
+
         # Safety check: prevent motor commands at low battery
         mv = board.get_battery()
         if mv:
             voltage = mv / 1000.0
             if voltage < 7.8 and direction != 'stop':
-                return jsonify({'status': 'error', 
+                return jsonify({'status': 'error',
                               'message': f'Battery too low ({voltage:.2f}V) - Replace batteries!'})
-        
+
         drive_pwr = motor_power['drive']
         turn_pwr = motor_power['turn']
-        
+
         # Limit max power to prevent crashes
         drive_pwr = min(drive_pwr, 40)
         turn_pwr = min(turn_pwr, 40)
-        
+
         if direction == 'forward':
-            board.set_motor_duty([(1, drive_pwr), (2, drive_pwr), 
+            board.set_motor_duty([(1, drive_pwr), (2, drive_pwr),
                                   (3, drive_pwr), (4, drive_pwr)])
         elif direction == 'backward':
-            board.set_motor_duty([(1, -drive_pwr), (2, -drive_pwr), 
+            board.set_motor_duty([(1, -drive_pwr), (2, -drive_pwr),
                                   (3, -drive_pwr), (4, -drive_pwr)])
         elif direction == 'left':
-            board.set_motor_duty([(1, -turn_pwr), (2, turn_pwr), 
+            board.set_motor_duty([(1, -turn_pwr), (2, turn_pwr),
                                   (3, -turn_pwr), (4, turn_pwr)])
         elif direction == 'right':
-            board.set_motor_duty([(1, turn_pwr), (2, -turn_pwr), 
+            board.set_motor_duty([(1, turn_pwr), (2, -turn_pwr),
                                   (3, turn_pwr), (4, -turn_pwr)])
         elif direction == 'strafe_left':
-            board.set_motor_duty([(1, -drive_pwr), (2, drive_pwr), 
+            board.set_motor_duty([(1, -drive_pwr), (2, drive_pwr),
                                   (3, drive_pwr), (4, -drive_pwr)])
         elif direction == 'strafe_right':
-            board.set_motor_duty([(1, drive_pwr), (2, -drive_pwr), 
+            board.set_motor_duty([(1, drive_pwr), (2, -drive_pwr),
                                   (3, -drive_pwr), (4, drive_pwr)])
         elif direction == 'stop':
             board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-        
+
         return jsonify({'status': 'ok'})
-    
+
     except Exception as e:
         # Emergency stop on any error
         try:
@@ -158,13 +161,13 @@ def servo():
     data = request.json
     servo_id = int(data.get('servo'))
     position = int(data.get('position'))
-    
+
     # Update position
     servo_positions[servo_id] = position
-    
+
     # Send to board
     board.set_servo_position(500, [(servo_id, position)])
-    
+
     return jsonify({'status': 'ok', 'servo': servo_id, 'position': position})
 
 @app.route('/save_position', methods=['POST'])
@@ -172,13 +175,13 @@ def save_position():
     """Save current arm position"""
     data = request.json
     name = data.get('name')
-    
+
     saved_positions[name] = servo_positions.copy()
-    
+
     # Save to file
-    with open('/home/robot/code/pathfinder/saved_positions.json', 'w') as f:
+    with open(SAVED_POSITIONS_PATH, 'w') as f:
         json.dump(saved_positions, f, indent=2)
-    
+
     return jsonify({'status': 'ok', 'name': name, 'positions': servo_positions})
 
 @app.route('/load_position', methods=['POST'])
@@ -186,17 +189,17 @@ def load_position():
     """Load saved arm position"""
     data = request.json
     name = data.get('name')
-    
+
     if name in saved_positions:
         positions = saved_positions[name]
-        
+
         # Apply all servos
         servo_list = [(sid, pos) for sid, pos in positions.items()]
         board.set_servo_position(500, servo_list)
-        
+
         # Update state
         servo_positions.update(positions)
-        
+
         return jsonify({'status': 'ok', 'name': name, 'positions': positions})
     else:
         return jsonify({'status': 'error', 'message': 'Position not found'})
@@ -204,7 +207,7 @@ def load_position():
 @app.route('/get_positions', methods=['GET'])
 def get_positions():
     """Get all saved positions"""
-    return jsonify({'positions': list(saved_positions.keys()), 
+    return jsonify({'positions': list(saved_positions.keys()),
                    'current': servo_positions})
 
 @app.route('/battery', methods=['GET'])
@@ -212,8 +215,8 @@ def battery():
     """Get battery voltage"""
     mv = board.get_battery()
     voltage = mv / 1000.0 if mv else 0
-    
-    return jsonify({'voltage': voltage, 
+
+    return jsonify({'voltage': voltage,
                    'status': 'good' if voltage > 8.2 else 'low' if voltage > 8.0 else 'critical'})
 
 @app.route('/motor_power', methods=['GET'])
@@ -233,7 +236,7 @@ def set_motor_power():
 
 # Load saved positions on startup
 try:
-    with open('/home/robot/code/pathfinder/saved_positions.json', 'r') as f:
+    with open(SAVED_POSITIONS_PATH, 'r') as f:
         saved_positions = json.load(f)
         # Convert string keys to ints for servo_positions dict
         for name, positions in saved_positions.items():
@@ -246,16 +249,16 @@ if __name__ == '__main__':
     print("Pathfinder2026 Web Control")
     print("="*70)
     print()
-    
+
     # Position robot to startup/camera-forward position
     print("Positioning robot to startup position...")
     try:
         # Turn off sonar LEDs (both LEDs on the sonar)
         board.set_rgb([(0, 0, 0, 0), (1, 0, 0, 0)])
-        
+
         # Stop motors
         board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-        
+
         # Move to camera-forward position (ONE SERVO AT A TIME to avoid power spike)
         camera_forward = [
             (1, 2500),  # Claw open
@@ -264,16 +267,16 @@ if __name__ == '__main__':
             (4, 2450),  # Elbow
             (3, 590),   # Wrist
         ]
-        
+
         print("  Moving servos sequentially...")
         for servo_id, pwm in camera_forward:
             board.set_servo_position(800, [(servo_id, pwm)])  # Slower speed (800ms)
             time.sleep(0.5)  # Longer delay between servos
-        
+
         print("  Robot positioned to camera-forward")
     except Exception as e:
         print(f"  Warning: Could not position robot: {e}")
-    
+
     print()
     print("Starting web server...")
     print("Open in browser: http://<ROBOT_IP>:8080")
@@ -285,5 +288,5 @@ if __name__ == '__main__':
     print("  Sliders - Servo control")
     print("  Save/Load - Store arm positions")
     print()
-    
+
     app.run(host='0.0.0.0', port=8080, threaded=True)

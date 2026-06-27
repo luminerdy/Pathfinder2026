@@ -2,7 +2,7 @@
 
 Based on Hiwonder system analysis. Priority order.
 
-## 🔥 CRITICAL - Must Have (Motor Functionality)
+##  CRITICAL - Must Have (Motor Functionality)
 
 - [ ] **Add to `/boot/firmware/config.txt`:**
   ```ini
@@ -52,7 +52,7 @@ Based on Hiwonder system analysis. Priority order.
   - KEY2 (GPIO 23): Shutdown
   - Create systemd service
 
-## 📦 MEDIUM PRIORITY - Enhanced Features
+##  MEDIUM PRIORITY - Enhanced Features
 
 - [ ] **Systemd auto-start service**
   - Create `/etc/systemd/system/pathfinder.service`
@@ -74,7 +74,7 @@ Based on Hiwonder system analysis. Priority order.
   - REST API (simpler alternative)
   - WebSocket for real-time control
 
-## 🎯 LOW PRIORITY - Nice to Have
+##  LOW PRIORITY - Nice to Have
 
 - [ ] **Web UI**
   - Control panel
@@ -104,7 +104,7 @@ Based on Hiwonder system analysis. Priority order.
   - Visual patrol
   - Color tracking/sorting
 
-## 📝 Documentation Updates Needed
+##  Documentation Updates Needed
 
 - [ ] **INSTALL.md**
   - Add boot config steps
@@ -131,7 +131,7 @@ Based on Hiwonder system analysis. Priority order.
   - Color threshold tuning
   - Camera calibration
 
-## 🔄 Code Refactoring (Future)
+##  Code Refactoring (Future)
 
 - [ ] **Consistent error handling**
   - Try/except around hardware calls

@@ -76,4 +76,4 @@ After this skill, you can:
 
 ---
 
-*Position, grab, manipulate!* 🦾
+*Position, grab, manipulate!*

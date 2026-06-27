@@ -390,4 +390,4 @@ Existing code (already on robot):
 
 ---
 
-*See the target, correct the error, reach the goal!* 🎯
+*See the target, correct the error, reach the goal!*

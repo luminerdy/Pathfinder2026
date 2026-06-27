@@ -309,4 +309,4 @@ Adjust these based on testing!
 3. IK calculates servo angles
 4. Execute the sequence
 
-**It's that simple!** 🤖🎯
+**It's that simple!**

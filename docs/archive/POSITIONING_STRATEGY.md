@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 The Challenge
+##  The Challenge
 
 ### **Physical Constraints:**
 1. **Arm reach:** ~80-150mm from robot base
@@ -18,7 +18,7 @@
 
 ---
 
-## 📋 Three-Phase Approach
+##  Three-Phase Approach
 
 ### **Phase 1: Coarse Navigation (AprilTag-Based)**
 
@@ -148,7 +148,7 @@ while not in_pickup_zone(block):
 
 ---
 
-## 🔄 Complete Sequence
+##  Complete Sequence
 
 ### **Example: Pick Red Block Near Tag 1**
 
@@ -207,7 +207,7 @@ def pickup_block_at_tag(tag_id, block_color):
 
 ---
 
-## 📐 Calibration Values (To Be Measured)
+##  Calibration Values (To Be Measured)
 
 ### **From Arm Reach Calibration:**
 ```python
@@ -246,7 +246,7 @@ DISTANCE_LOOKUP = {
 
 ---
 
-## 🧪 Testing Plan
+##  Testing Plan
 
 ### **Test 1: Camera Mode Switching (15 min)**
 ```bash
@@ -282,7 +282,7 @@ python3 test_integrated_positioning.py  # Create this next
 
 ---
 
-## 💡 Key Insights
+##  Key Insights
 
 ### **Why This Works:**
 
@@ -315,7 +315,7 @@ python3 test_integrated_positioning.py  # Create this next
 
 ---
 
-## 📊 Expected Performance
+##  Expected Performance
 
 ### **Success Criteria:**
 
@@ -342,13 +342,13 @@ python3 test_integrated_positioning.py  # Create this next
 
 ---
 
-## 🎯 Implementation Priority
+##  Implementation Priority
 
 ### **Immediate (This Session):**
 1. ✅ Create calibration scripts (DONE)
-2. 🔲 Run arm reach calibration
-3. 🔲 Run camera mode calibration
-4. 🔲 Document measured values
+2.  Run arm reach calibration
+3.  Run camera mode calibration
+4.  Document measured values
 
 ### **Next Session:**
 1. Create distance lookup table
@@ -364,7 +364,7 @@ python3 test_integrated_positioning.py  # Create this next
 
 ---
 
-## 📝 Notes
+##  Notes
 
 - This strategy emerged from understanding physical constraints
 - robot positioning is AS IMPORTANT as arm IK

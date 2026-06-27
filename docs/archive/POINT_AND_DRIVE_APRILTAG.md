@@ -6,7 +6,7 @@ Point your robot at any AprilTag and watch it drive there automatically!
 
 ---
 
-## 🎯 What It Does
+##  What It Does
 
 This script makes the robot:
 1. **Continuously scan** for AprilTags
@@ -24,7 +24,7 @@ Perfect for:
 
 ---
 
-## 🚀 How to Use
+##  How to Use
 
 ### **Step 1: Run the Script**
 
@@ -80,7 +80,7 @@ Press **Ctrl+C** to stop the script.
 
 ---
 
-## 🎮 What You'll See
+##  What You'll See
 
 ### **Normal Operation:**
 
@@ -117,7 +117,7 @@ No tags visible... (point at a tag)
 
 ---
 
-## 📊 Testing All 4 Tags
+##  Testing All 4 Tags
 
 ### **Suggested Workflow:**
 
@@ -177,7 +177,7 @@ else:
 
 ---
 
-## 🎛️ Configuration (Advanced)
+## ️ Configuration (Advanced)
 
 You can adjust these values in the script:
 
@@ -201,7 +201,7 @@ TARGET_AREA = 15000  # Stops at medium distance
 
 ---
 
-## 🔍 Troubleshooting
+##  Troubleshooting
 
 ### **robot doesn't move:**
 - ✅ Check battery voltage (needs >7.5V)
@@ -231,7 +231,7 @@ TARGET_AREA = 15000  # Stops at medium distance
 
 ---
 
-## 🎓 Educational Value
+##  Educational Value
 
 ### **For Students:**
 
@@ -253,7 +253,7 @@ TARGET_AREA = 15000  # Stops at medium distance
 
 ---
 
-## 📈 Expected Performance
+##  Expected Performance
 
 ### **With 10" tag36h11 tags:**
 
@@ -289,7 +289,7 @@ TARGET_AREA = 15000  # Stops at medium distance
 
 ---
 
-## 🎯 Use Cases
+##  Use Cases
 
 ### **1. Field Setup Validation:**
 Run this script to verify:
@@ -321,7 +321,7 @@ Verify:
 
 ---
 
-## 💡 Tips
+##  Tips
 
 ### **For Best Results:**
 1. **Start in field center** - Can see multiple tags
@@ -338,7 +338,7 @@ Verify:
 
 ---
 
-## 🔗 Related Scripts
+##  Related Scripts
 
 **Other navigation tools:**
 - `navigate_simple_forward.py` - Navigate to specific tag ID
@@ -359,7 +359,7 @@ Verify:
 - ✅ Demonstrate autonomous behavior
 - ✅ Validate field setup
 
-**Just point and watch it go!** 🚀
+**Just point and watch it go!**
 
 ---
 

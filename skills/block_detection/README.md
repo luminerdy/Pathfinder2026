@@ -36,4 +36,4 @@ Camera -> HSV -> Threshold -> Morphology -> Contours -> Filter -> Detect
 - E5: Autonomous Pickup (detect + drive + grab)
 
 ---
-*Find the blocks!* 🔴🔵🟡
+*Find the blocks!*
