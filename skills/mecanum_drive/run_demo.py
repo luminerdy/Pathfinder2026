@@ -45,6 +45,19 @@ class MecanumDemo:
     def stop(self):
         """Stop all motors."""
         self.board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+
+    def _clamp(self, speed):
+        """Clamp motor duty cycle to the robot's safe range."""
+        return int(max(-100, min(100, speed)))
+
+    def _set_motors(self, front_left, front_right, rear_left, rear_right):
+        """Set all four drive motors using the Pathfinder motor numbering."""
+        self.board.set_motor_duty([
+            (1, self._clamp(front_left)),   # Front left
+            (2, self._clamp(front_right)),  # Front right
+            (3, self._clamp(rear_left)),    # Rear left
+            (4, self._clamp(rear_right)),   # Rear right
+        ])
     
     def drive(self, vx, vy, omega=0):
         """
@@ -71,13 +84,7 @@ class MecanumDemo:
             rl *= scale
             rr *= scale
         
-        # Clamp and send
-        self.board.set_motor_duty([
-            (1, int(max(-100, min(100, fl)))),
-            (2, int(max(-100, min(100, fr)))),
-            (3, int(max(-100, min(100, rl)))),
-            (4, int(max(-100, min(100, rr))))
-        ])
+        self._set_motors(fl, fr, rl, rr)
     
     def forward(self, speed, duration):
         """Move forward."""
@@ -110,14 +117,16 @@ class MecanumDemo:
     def rotate_cw(self, speed, duration):
         """Rotate clockwise."""
         print(f"  Rotating clockwise at {speed}% for {duration}s...")
-        self.drive(0, 0, speed)
+        # Clockwise/right turn: left side forward, right side backward.
+        self._set_motors(speed, -speed, speed, -speed)
         time.sleep(duration)
         self.stop()
     
     def rotate_ccw(self, speed, duration):
         """Rotate counter-clockwise."""
         print(f"  Rotating counter-clockwise at {speed}% for {duration}s...")
-        self.drive(0, 0, -speed)
+        # Counter-clockwise/left turn: left side backward, right side forward.
+        self._set_motors(-speed, speed, -speed, speed)
         time.sleep(duration)
         self.stop()
     
