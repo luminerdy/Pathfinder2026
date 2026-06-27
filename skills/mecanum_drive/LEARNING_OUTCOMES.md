@@ -256,7 +256,7 @@ A: "robot will spin when trying to strafe. Fix: edit config, invert that motor."
 
 Before session:
 - [ ] All robots charged (>7.5V)
-- [ ] Clear floor space (6 feet per robot)
+- [ ] Clear floor space (at least 4 feet by 4 feet per robot)
 - [ ] Backup robots ready (in case of hardware failure)
 - [ ] Config files pre-loaded on all robots
 - [ ] Test run on demo robot (verify it works!)

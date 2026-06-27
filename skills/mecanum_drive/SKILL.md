@@ -55,8 +55,8 @@ Mecanum drive gives your robot **omnidirectional movement** - it can move forwar
 ### Step 1: Prepare robot
 
 **Safety first:**
-- Clear at least 6 feet of space around robot
-- robot on floor (not on table - it WILL move!)
+- Clear at least a 4-foot by 4-foot area around the robot
+- robot on floor only. It can drive off a table.
 - Battery charged (check voltage: should be >7.0V)
 - Emergency stop ready (you = Ctrl+C)
 

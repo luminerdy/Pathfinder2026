@@ -116,6 +116,8 @@ if mv and 5000 < mv < 20000:
 
 ## Step 3: Test Motors
 
+**Caution:** The robot will move as soon as the demo starts. Put it on the floor, not on a table. Clear at least a 4-foot by 4-foot area so it can move about 2 feet in any direction. It can drive off a table.
+
 ```bash
 cd /home/robot/pathfinder
 python3 skills/mecanum_drive/run_demo.py

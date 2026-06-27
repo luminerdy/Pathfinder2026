@@ -18,8 +18,8 @@ Usage:
     python3 run_demo.py
 
 Safety:
-    - Clear 6 feet of space around robot
-    - Robot on floor (not on table!)
+    - Clear a 4-foot by 4-foot area around the robot
+    - Robot on floor only. It can drive off a table.
     - Battery >7.0V (check first)
     - Press Ctrl+C to emergency stop
 
@@ -149,8 +149,8 @@ def main():
     print("This demo shows 8 basic movement patterns.")
     print()
     print("SAFETY:")
-    print("  - Make sure robot has 6 feet of clear space")
-    print("  - Robot should be on the floor (not on a table!)")
+    print("  - Clear a 4-foot by 4-foot area around the robot")
+    print("  - Put the robot on the floor only. It can drive off a table.")
     print("  - Press Ctrl+C to emergency stop")
     print()
     print("Press Ctrl+C to stop at any time.")
