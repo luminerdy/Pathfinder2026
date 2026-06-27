@@ -56,7 +56,7 @@ class MecanumDemo:
             omega: Rotation speed (-100 to 100, + = CCW)
         """
         # Mecanum wheel equations
-        L = 0.1  # Wheelbase scaling factor
+        L = 1.0  # Keep rotation input in motor-duty units for the workshop demo
         fl = vy + vx + omega * L
         fr = vy - vx - omega * L
         rl = vy - vx + omega * L
@@ -135,7 +135,7 @@ class MecanumDemo:
             print(f"    Side {i+1}/4")
             self.forward(speed, side_duration)
             time.sleep(0.5)
-            self.rotate_cw(30, 1.0)  # 90° turn (approximate)
+            self.rotate_cw(40, 1.0)  # 90° turn (approximate)
             time.sleep(0.5)
         self.stop()
 
@@ -165,10 +165,10 @@ def main():
         v = voltage / 1000.0
         print(f"  Battery: {v:.2f}V")
         if v < 7.0:
-            print("  ⚠️  WARNING: Battery low! Charge before continuing.")
+            print("  [WARNING] Battery low! Charge before continuing.")
             return
     else:
-        print("  ⚠️  Could not read battery (check board connection)")
+        print("  [WARNING] Could not read battery (check board connection)")
     
     print()
     input("Press Enter to start demo...")
@@ -201,12 +201,12 @@ def main():
         
         # Pattern 5: Rotate Clockwise
         print("[5/8] Rotate Clockwise")
-        demo.rotate_cw(35, 1.2)  # Slower, shorter for rotation
+        demo.rotate_cw(40, 1.2)  # Turns need enough power to overcome floor friction
         time.sleep(pause)
         
         # Pattern 6: Rotate Counter-Clockwise
         print("[6/8] Rotate Counter-Clockwise")
-        demo.rotate_ccw(35, 1.2)
+        demo.rotate_ccw(40, 1.2)
         time.sleep(pause)
         
         # Pattern 7: Diagonal

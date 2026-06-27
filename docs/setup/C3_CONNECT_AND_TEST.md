@@ -123,6 +123,8 @@ python3 skills/mecanum_drive/run_demo.py
 
 **Watch the robot!** It should move in 8 patterns: forward, backward, strafe, rotate, diagonals, square.
 
+The rotate and square-pattern turns are tuned to use 40% motor power so the robot can turn reliably around an 8V battery level.
+
 **If motors don't move:**
 - Check battery (>7.0V needed)
 - Are wheels touching the ground?

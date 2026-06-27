@@ -9,8 +9,8 @@
 speeds:
   max: 50          # Maximum speed for normal movement (try 30-70)
   min: 25          # Minimum to overcome friction (try 20-30)
-  rotation: 35     # Speed for rotation (try 25-45)
-  square: 35       # Speed for square pattern
+  rotation: 40     # Speed for rotation (try 35-45)
+  square: 40       # Speed for square pattern turns
 
 # Demo timing (seconds)
 demo:
