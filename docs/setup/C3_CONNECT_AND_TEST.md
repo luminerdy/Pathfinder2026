@@ -202,7 +202,8 @@ ssh robot@<ROBOT_IP>
 **Pi 500 → robot:**
 ```bash
 # From Pi 500 terminal (NOT SSH'd into robot)
-scp ~/Pathfinder2026/my_script.py robot@<ROBOT_IP>:/home/robot/pathfinder/skills/
+ssh robot@<ROBOT_IP> "mkdir -p /home/robot/team_code"
+scp ~/Pathfinder2026/my_script.py robot@<ROBOT_IP>:/home/robot/team_code/
 ```
 
 **robot → Pi 500:**
@@ -213,28 +214,33 @@ scp robot@<ROBOT_IP>:/home/robot/pathfinder/test_frame.jpg ~/
 
 ## Editing Code
 
+Recommended workflow: keep `/home/robot/pathfinder` as the official updateable repo, and copy files into `/home/robot/team_code` before students modify them. See [C5: Team code workflow](C5_TEAM_CODE_WORKFLOW.md).
+
 **Option A: VS Code + Remote SSH (Recommended!)**
 1. Open VS Code on Pi 500
 2. `Ctrl+Shift+P` → "Remote-SSH: Connect to Host" → `robot@<ROBOT_IP>`
 3. If you set up the SSH key above, VS Code should connect without asking for the robot password. If not, enter the robot password when prompted.
 4. Wait for VS Code to install its server component on the robot. This happens automatically the first time and may take about a minute.
-5. Open folder: `/home/robot/pathfinder`
-6. Edit files directly on the robot with full IDE features
-7. Use VS Code's built-in terminal to run scripts
+5. Create the team folder if needed: `mkdir -p /home/robot/team_code`
+6. Open folder: `/home/robot/team_code`
+7. Copy examples from `/home/robot/pathfinder` into `/home/robot/team_code` before editing.
+8. Use VS Code's built-in terminal to run scripts.
 (See [C1 Pi 500 Setup](C1_PI500_SETUP.md) for VS Code install)
 
 **Option B: Edit on Pi 500, copy to robot**
 ```bash
 # On Pi 500
 nano ~/Pathfinder2026/skills/my_script.py
-# Then copy
-scp ~/Pathfinder2026/skills/my_script.py robot@<ROBOT_IP>:/home/robot/pathfinder/skills/
+# Then copy to the team folder on the robot
+ssh robot@<ROBOT_IP> "mkdir -p /home/robot/team_code"
+scp ~/Pathfinder2026/skills/my_script.py robot@<ROBOT_IP>:/home/robot/team_code/
 ```
 
 **Option C: Edit directly on robot via SSH terminal**
 ```bash
 # While SSH'd into robot
-nano /home/robot/pathfinder/skills/my_script.py
+mkdir -p /home/robot/team_code
+nano /home/robot/team_code/my_script.py
 ```
 
 ---
@@ -300,7 +306,7 @@ python3 -c "from lib.board import get_board; import time; b=get_board(); time.sl
 python3 -c "from lib.board import get_board; b=get_board(); b.set_motor_duty([(1,0),(2,0),(3,0),(4,0)])"
 
 # Copy file to robot
-scp file.py robot@<ROBOT_IP>:/home/robot/pathfinder/
+scp file.py robot@<ROBOT_IP>:/home/robot/team_code/
 
 # Start camera web feed on the robot
 python3 web/web_control.py

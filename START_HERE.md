@@ -23,6 +23,7 @@ Teams split into two paths, then come back together:
 | robot Pi/WiFi | [C2: robot Pi WiFi Setup](docs/setup/C2_ROBOT_PI_WIFI_SETUP.md) | Power the robot and get the robot IP |
 | Connect/test | [C3: Connect and Test](docs/setup/C3_CONNECT_AND_TEST.md) | Connect Pi 500 to robot and verify hardware |
 | Update robot code | [C4: Update robot code](docs/setup/C4_UPDATE_ROBOT_CODE.md) | Pull latest code onto the robot if facilitators publish fixes |
+| Team code workflow | [C5: Team code workflow](docs/setup/C5_TEAM_CODE_WORKFLOW.md) | Copy examples before students modify code |
 
 Use the overview guide if you want the whole Assemble phase on one page: [Assemble](docs/workshop/ASSEMBLE.md).
 

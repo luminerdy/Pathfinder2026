@@ -4,6 +4,8 @@
 
 Use this only when a facilitator tells the team to update, or when a GitHub change needs to reach the robot.
 
+Student edits should be saved outside the official repo before updating. Use [C5: Team code workflow](C5_TEAM_CODE_WORKFLOW.md) for the copy-first editing pattern.
+
 ## Where To Run These Commands
 
 Run these commands while logged into the robot.
@@ -45,6 +47,8 @@ git status
 If the output says `working tree clean`, continue.
 
 If files are modified, stop and ask a facilitator before pulling. Those changes may be team work or local testing changes.
+
+If the team needs to keep those changes, copy them to `/home/robot/team_code` before updating.
 
 ## Step 4: Pull The Latest Code
 

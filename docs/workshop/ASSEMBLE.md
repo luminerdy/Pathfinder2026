@@ -100,6 +100,7 @@ Relevant setup docs:
 - [C2 robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md)
 - [C3 Connect and Test](../setup/C3_CONNECT_AND_TEST.md)
 - [C4 Update robot code](../setup/C4_UPDATE_ROBOT_CODE.md)
+- [C5 Team code workflow](../setup/C5_TEAM_CODE_WORKFLOW.md)
 
 ## Where The Code Lives
 
