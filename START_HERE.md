@@ -22,6 +22,7 @@ Teams split into two paths, then come back together:
 | Pi 500 setup | [C1: Pi 500 Setup](docs/setup/C1_PI500_SETUP.md) | Get the control hub powered, online, and ready for VS Code |
 | robot Pi/WiFi | [C2: robot Pi WiFi Setup](docs/setup/C2_ROBOT_PI_WIFI_SETUP.md) | Power the robot and get the robot IP |
 | Connect/test | [C3: Connect and Test](docs/setup/C3_CONNECT_AND_TEST.md) | Connect Pi 500 to robot and verify hardware |
+| Update robot code | [C4: Update robot code](docs/setup/C4_UPDATE_ROBOT_CODE.md) | Pull latest code onto the robot if facilitators publish fixes |
 
 Use the overview guide if you want the whole Assemble phase on one page: [Assemble](docs/workshop/ASSEMBLE.md).
 

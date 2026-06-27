@@ -309,6 +309,8 @@ python3 web/web_control.py
 # Open browser: http://<ROBOT_IP>:8080
 ```
 
+Need the latest code on the robot? Use [C4: Update robot code](C4_UPDATE_ROBOT_CODE.md).
+
 ---
 
 **You're connected!** Now head to [START_HERE.md](../../START_HERE.md) to begin the workshop skills.
