@@ -53,7 +53,7 @@ class MecanumDemo:
         Args:
             vx: Strafe speed (-100 to 100, + = right)
             vy: Forward speed (-100 to 100, + = forward)
-            omega: Rotation speed (-100 to 100, + = CCW)
+            omega: Rotation speed (-100 to 100, + = clockwise/right)
         """
         # Mecanum wheel equations
         L = 1.0  # Keep rotation input in motor-duty units for the workshop demo
@@ -110,14 +110,14 @@ class MecanumDemo:
     def rotate_cw(self, speed, duration):
         """Rotate clockwise."""
         print(f"  Rotating clockwise at {speed}% for {duration}s...")
-        self.drive(0, 0, -speed)
+        self.drive(0, 0, speed)
         time.sleep(duration)
         self.stop()
     
     def rotate_ccw(self, speed, duration):
         """Rotate counter-clockwise."""
         print(f"  Rotating counter-clockwise at {speed}% for {duration}s...")
-        self.drive(0, 0, speed)
+        self.drive(0, 0, -speed)
         time.sleep(duration)
         self.stop()
     
