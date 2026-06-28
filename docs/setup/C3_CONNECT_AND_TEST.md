@@ -114,29 +114,7 @@ This checks motor wiring before running any driving patterns.
 
 ```bash
 cd /home/robot/pathfinder
-python3 -c "
-from lib.board import get_board
-import time
-
-board = get_board()
-motors = [
-    (1, 'front left'),
-    (2, 'front right'),
-    (3, 'rear left'),
-    (4, 'rear right'),
-]
-
-for motor_id, name in motors:
-    input('Press Enter to test motor %d (%s).' % (motor_id, name))
-    print('Motor %d (%s): running forward briefly' % (motor_id, name))
-    board.set_motor_duty([(motor_id, 40)])
-    time.sleep(0.5)
-    board.set_motor_duty([(motor_id, 0)])
-    time.sleep(0.5)
-
-board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-print('Motor wiring test complete')
-"
+python3 scripts/tools/check_motors.py
 ```
 
 Expected:
@@ -158,31 +136,7 @@ Keep hands clear of the arm and gripper.
 
 ```bash
 cd /home/robot/pathfinder
-python3 -c "
-from lib.board import get_board
-import time
-
-board = get_board()
-tests = [
-    (1, 'gripper', 2500, 1475, 2500),
-    (6, 'base', 1300, 1700, 1500),
-    (5, 'shoulder', 700, 1000, 700),
-    (4, 'elbow', 2450, 2200, 2450),
-    (3, 'wrist', 590, 900, 590),
-]
-
-for servo_id, name, pos1, pos2, home in tests:
-    input('Press Enter to test servo %d (%s).' % (servo_id, name))
-    print('Servo %d (%s): %d -> %d -> %d' % (servo_id, name, pos1, pos2, home))
-    board.set_servo_position(700, [(servo_id, pos1)])
-    time.sleep(1.0)
-    board.set_servo_position(700, [(servo_id, pos2)])
-    time.sleep(1.0)
-    board.set_servo_position(700, [(servo_id, home)])
-    time.sleep(1.0)
-
-print('Servo wiring test complete')
-"
+python3 scripts/tools/check_servos.py
 ```
 
 Expected:
