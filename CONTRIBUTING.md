@@ -6,6 +6,7 @@ Pathfinder2026 is an event repo, so files should be easy to read in GitHub, term
 
 - Do not add emojis to GitHub repository files.
 - Use plain text labels instead of emoji status markers.
+- Update the `README.md` Last Updated date whenever the main event page or repo flow changes.
 - Prefer `[OK]`, `[WARN]`, `[ERROR]`, `[TODO]`, and `[DONE]` in scripts, docs, logs, and examples.
 - Keep participant-facing docs simple, direct, and easy to scan.
 - Put event workflow first; put implementation detail behind links.
