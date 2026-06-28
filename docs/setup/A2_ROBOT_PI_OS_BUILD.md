@@ -14,7 +14,7 @@
 
 ## Overview
 
-After completing these steps you will have an SD card that can be cloned for all workshop robots. Each robot gets an identical image; WiFi credentials and assigned IP address are recorded per robot.
+After completing these steps you will have an SD card that can be cloned for all workshop robots. Each robot gets an identical image; WiFi credentials are included, and the robot IP is confirmed at event time.
 
 **Materials:** see [BILL_OF_MATERIALS.md](BILL_OF_MATERIALS.md) in this folder for the robot/setup BOM.
 
@@ -502,7 +502,7 @@ sudo dd if=Pathfinder2026.img of=/dev/sdY bs=4M status=progress
 Use **Win32 Disk Imager** or **balenaEtcher** to read/write the image.
 
 ### Per-robot changes after cloning
-Each robot needs an assigned IP address recorded on the event IP sheet. If static IPs are used, configure the assigned IP before the event.
+Robot IPs come from the workshop network DHCP and usually stay sticky. Confirm the robot IP during event setup instead of setting fixed addresses before the event.
 
 Optional: set a unique device label for local identification, but do not use it for event connections.
 

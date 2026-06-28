@@ -255,7 +255,7 @@ nano /home/robot/team_code/my_script.py
 **Cannot connect to the robot IP:**
 - Confirm you are using the robot IP, not the Pi 500 IP.
 - Confirm the Pi 500 and robot are on the same workshop network.
-- Ask the facilitator to check the event IP assignment sheet.
+- Ask the facilitator to confirm the robot IP.
 - If the robot was rebooted or moved to another network, its IP may have changed.
 - Try: `ping <ROBOT_IP>` from the Pi 500.
 

@@ -9,7 +9,6 @@ This is an event-time step. The robot SD card image should already be created be
 - robot is assembled: [B1 robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md)
 - robot batteries are installed and charged
 - Pi 500 is on workshop WiFi: [C1 Pi 500 Setup](C1_PI500_SETUP.md)
-- Facilitator has the event IP assignment sheet
 
 ## Step 1: Power On The robot
 
@@ -20,7 +19,7 @@ This is an event-time step. The robot SD card image should already be created be
 
 ## Step 2: Get The robot IP
 
-Use the robot IP from the facilitator or event IP assignment sheet.
+Use the robot IP from the facilitator.
 
 If a facilitator needs to confirm the robot IP directly on the robot, run:
 

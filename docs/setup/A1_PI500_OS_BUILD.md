@@ -89,7 +89,7 @@ hostname -I
 
 This confirms the Pi 500 is on the network. Do not use this IP for robot connections.
 
-For the event, the important address is the robot IP from the facilitator or event IP assignment sheet. Use that robot IP with SSH, VS Code Remote SSH, and the web control page.
+For the event, the important address is the robot IP confirmed during robot setup. Use that robot IP with SSH, VS Code Remote SSH, and the web control page.
 
 ## Step 6: Install Visual Studio Code
 
@@ -152,7 +152,7 @@ For workshops, the facilitator can pre-image all SD cards to save time:
 
 1. Build one Pi 500 image following steps above
 2. Use Raspberry Pi Imager to clone the SD card
-3. Update each clone's device label if needed and record the assigned IP address
+3. Update each clone's device label if needed
 4. Pre-connect to workshop WiFi
 
 This skips 15-20 minutes of setup per team.
