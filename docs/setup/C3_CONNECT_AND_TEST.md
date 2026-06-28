@@ -114,7 +114,125 @@ if mv and 5000 < mv < 20000:
 | 7.0-7.5V | Low | Replace soon |
 | <7.0V | Critical | Replace NOW |
 
-## Step 3: Test Motors
+## Step 3: Test Individual Motors
+
+This checks motor wiring before running any driving patterns.
+
+**Caution:** The robot will move as soon as each motor starts. Put it on the floor, not on a table. Clear at least a 4-foot by 4-foot area. It can drive off a table.
+
+```bash
+cd /home/robot/pathfinder
+python3 -c "
+from lib.board import get_board
+import time
+
+board = get_board()
+motors = [
+    (1, 'front left'),
+    (2, 'front right'),
+    (3, 'rear left'),
+    (4, 'rear right'),
+]
+
+for motor_id, name in motors:
+    input('Press Enter to test motor %d (%s).' % (motor_id, name))
+    print('Motor %d (%s): running forward briefly' % (motor_id, name))
+    board.set_motor_duty([(motor_id, 40)])
+    time.sleep(0.5)
+    board.set_motor_duty([(motor_id, 0)])
+    time.sleep(0.5)
+
+board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+print('Motor wiring test complete')
+"
+```
+
+Expected:
+
+| Motor | Wheel |
+|-------|-------|
+| 1 | Front left |
+| 2 | Front right |
+| 3 | Rear left |
+| 4 | Rear right |
+
+Each wheel should move when its motor number is tested. If the wrong wheel moves, the motor cables are connected to the wrong port. If a wheel does not move or spins backward during this single-motor test, note it for facilitator review before running drive patterns.
+
+## Step 4: Test Arm Servos
+
+This checks that the arm servos respond separately from the drive motors.
+
+Keep hands clear of the arm and gripper.
+
+```bash
+cd /home/robot/pathfinder
+python3 -c "
+from lib.board import get_board
+import time
+
+board = get_board()
+tests = [
+    (1, 'gripper', 2500, 1475, 2500),
+    (6, 'base', 1300, 1700, 1500),
+    (5, 'shoulder', 700, 1000, 700),
+    (4, 'elbow', 2450, 2200, 2450),
+    (3, 'wrist', 590, 900, 590),
+]
+
+for servo_id, name, pos1, pos2, home in tests:
+    input('Press Enter to test servo %d (%s).' % (servo_id, name))
+    print('Servo %d (%s): %d -> %d -> %d' % (servo_id, name, pos1, pos2, home))
+    board.set_servo_position(700, [(servo_id, pos1)])
+    time.sleep(1.0)
+    board.set_servo_position(700, [(servo_id, pos2)])
+    time.sleep(1.0)
+    board.set_servo_position(700, [(servo_id, home)])
+    time.sleep(1.0)
+
+print('Servo wiring test complete')
+"
+```
+
+Expected:
+
+| Servo | Part |
+|-------|------|
+| 1 | Gripper |
+| 3 | Wrist |
+| 4 | Elbow |
+| 5 | Shoulder |
+| 6 | Base rotation |
+
+Servo 2 is not used on this robot.
+
+If a drive motor moves during a servo test, stop and ask a facilitator to check the board connection and software image.
+
+## Step 5: Test Sonar
+
+This checks that the ultrasonic sensor is connected and reading distance.
+
+```bash
+cd /home/robot/pathfinder
+python3 -c "
+from lib.sonar import Sonar
+import time
+
+s = Sonar()
+for i in range(5):
+    d = s.get_distance()
+    print('Reading %d: %.0f mm' % (i + 1, d) if d is not None else 'Reading %d: no reading' % (i + 1))
+    if d is not None:
+        s.set_led_by_distance(d)
+    time.sleep(0.5)
+s.off()
+"
+```
+
+Put your hand in front of the robot and run the test again. The distance should change.
+
+If you see `no reading`, check that I2C is enabled, the sonar cable is connected, and `sudo i2cdetect -y 1` shows address `77`.
+
+## Step 6: Test Drive Patterns
 
 **Caution:** The robot will move as soon as the demo starts. Put it on the floor, not on a table. Clear at least a 4-foot by 4-foot area so it can move about 2 feet in any direction. It can drive off a table.
 
@@ -132,7 +250,7 @@ The rotate and square-pattern turns are tuned to use 40% motor power so the robo
 - Are wheels touching the ground?
 - Try higher power scripts
 
-## Step 4: Test Arm
+## Step 7: Test Arm Demo
 
 ```bash
 python3 skills/robotic_arm/run_demo.py
@@ -140,7 +258,7 @@ python3 skills/robotic_arm/run_demo.py
 
 The arm should move through several positions and test the gripper.
 
-## Step 5: Test Camera
+## Step 8: Test Camera
 
 ```bash
 python3 skills/camera_vision/test_camera.py
@@ -167,21 +285,6 @@ http://<ROBOT_IP>:8080
 ```
 
 Replace `<ROBOT_IP>` with your robot's IP. If the page does not load, make sure the web control server is still running on the robot and that the Pi 500 and robot are on the same WiFi network.
-
-## Step 6: Test Sonar
-
-```bash
-python3 -c "
-from lib.sonar import Sonar
-s = Sonar()
-d = s.get_distance()
-print('Sonar: %.0f mm' % d if d is not None else 'Sonar: no reading')
-"
-```
-
-Put your hand in front of the robot and run again. The distance should change.
-
-If you see `Sonar: no reading`, check that I2C is enabled, the sonar cable is connected, and `sudo i2cdetect -y 1` shows address `77`.
 
 ---
 
