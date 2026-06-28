@@ -91,20 +91,12 @@ Run these commands while you are logged into the robot. Your prompt should look 
 
 ```bash
 cd /home/robot/pathfinder
-python3 -c "
-from lib.board import get_board
-import time
-board = get_board()
-time.sleep(2)
-mv = board.get_battery()
-if mv and 5000 < mv < 20000:
-    v = mv / 1000.0
-    print('Battery: %.2fV' % v)
-    if v < 7.0: print('WARNING: Replace batteries!')
-    elif v < 7.5: print('Low - replace soon')
-    else: print('Good')
-"
+python3 scripts/tools/check_battery.py
 ```
+
+This should print the platform, battery voltage, status, and note.
+
+If it prints `ERROR: Cannot read battery voltage`, check robot power, battery connection, and the motor board connection before continuing.
 
 **Battery guide:**
 | Voltage | Status | Action |
@@ -403,7 +395,7 @@ nano /home/robot/team_code/my_script.py
 ssh robot@<ROBOT_IP>
 
 # Check battery
-python3 -c "from lib.board import get_board; import time; b=get_board(); time.sleep(2); mv=b.get_battery(); print('%.2fV' % (mv/1000.0) if mv and 5000<mv<20000 else 'error')"
+python3 scripts/tools/check_battery.py
 
 # Emergency stop (if robot is moving unexpectedly)
 python3 -c "from lib.board import get_board; b=get_board(); b.set_motor_duty([(1,0),(2,0),(3,0),(4,0)])"
