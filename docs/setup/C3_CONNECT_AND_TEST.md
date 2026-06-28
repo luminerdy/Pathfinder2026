@@ -159,19 +159,7 @@ This checks that the ultrasonic sensor is connected and reading distance.
 
 ```bash
 cd /home/robot/pathfinder
-python3 -c "
-from lib.sonar import Sonar
-import time
-
-s = Sonar()
-for i in range(5):
-    d = s.get_distance()
-    print('Reading %d: %.0f mm' % (i + 1, d) if d is not None else 'Reading %d: no reading' % (i + 1))
-    if d is not None:
-        s.set_led_by_distance(d)
-    time.sleep(0.5)
-s.off()
-"
+python3 scripts/tools/check_sonar.py
 ```
 
 Put your hand in front of the robot and run the test again. The distance should change.
