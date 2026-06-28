@@ -21,22 +21,22 @@ python3 play_action.py stand
 ```
 Play back pre-recorded sequences.
 
-### Level 2: Named Positions (Python)
+### Level 2: Safe Arm Demo (Python)
 ```bash
 python3 run_demo.py
 ```
-Move through safe, pre-defined positions.
+Move to home, test gripper open/close, and rotate the base.
 
 ---
 
 ## Learning Outcomes
 
 After this skill, you can:
-- ✅ **Explain** what each servo does (base, shoulder, elbow, wrist, gripper)
-- ✅ **Control** servos via web UI or Python
-- ✅ **Use** named positions for quick positioning
-- ✅ **Play** action groups (pre-recorded sequences)
-- ✅ **Program** pick-and-place sequences (Level 4)
+- Explain what each servo does (base, shoulder, elbow, wrist, gripper)
+- Control servos via web UI or Python
+- Run the safe arm demo
+- Play action groups (pre-recorded sequences)
+- Program pick-and-place sequences after positions are verified
 
 ---
 
@@ -44,9 +44,9 @@ After this skill, you can:
 
 **5 Servos:**
 1. Gripper (1475=closed, 2500=open)
-3. Wrist (500-2500)
+3. Shoulder (500-2500)
 4. Elbow (500-2500)
-5. Shoulder (500-2500)
+5. Wrist (500-2500)
 6. Base (500-2500)
 
 *Note: Servo 2 doesn't exist*
@@ -60,7 +60,7 @@ After this skill, you can:
 - Verify servo ID (no servo 2!)
 
 **Arm hits itself:**
-- Use named positions (pre-tested safe)
+- Return to the home position first
 - Move through waypoints
 
 **Gripper won't close:**
@@ -76,4 +76,4 @@ After this skill, you can:
 
 ---
 
-*Position, grab, manipulate!*
+*Position, grab, manipulate.*

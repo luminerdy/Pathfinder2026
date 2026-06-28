@@ -144,9 +144,9 @@ Expected:
 | Servo | Part |
 |-------|------|
 | 1 | Gripper |
-| 3 | Wrist |
+| 3 | Shoulder |
 | 4 | Elbow |
-| 5 | Shoulder |
+| 5 | Wrist |
 | 6 | Base rotation |
 
 Servo 2 is not used on this robot.
@@ -190,7 +190,7 @@ The rotate and square-pattern turns are tuned to use 40% motor power so the robo
 python3 skills/robotic_arm/run_demo.py
 ```
 
-The arm should move through several positions and test the gripper.
+The arm should move to the known-good home position, test the gripper, and rotate the base left/right.
 
 ## Step 8: Test Camera
 

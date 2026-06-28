@@ -41,16 +41,16 @@ Learn to control a **5-servo robotic arm** to position, grab, and manipulate obj
 ### Why Robotic Arms?
 
 **Advantages:**
-- ✅ Precise positioning (mm accuracy)
-- ✅ Repeatable (exact same motion every time)
-- ✅ Tireless (24/7 operation, no fatigue)
-- ✅ Flexible (reprogram for different tasks)
+- Precise positioning (mm accuracy)
+- Repeatable (exact same motion every time)
+- Tireless (24/7 operation, no fatigue)
+- Flexible (reprogram for different tasks)
 
 **Limitations:**
-- ❌ Reachability (limited workspace, can't reach everywhere)
-- ❌ Payload (limited lifting capacity, ~200g for this arm)
-- ❌ Complexity (5+ servos, coordination required)
-- ❌ Cost (more servos = more expensive)
+- Reachability (limited workspace, can't reach everywhere)
+- Payload (limited lifting capacity, ~200g for this arm)
+- Complexity (5+ servos, coordination required)
+- Cost (more servos = more expensive)
 
 ---
 
@@ -128,7 +128,7 @@ python3 play_action.py shake_head
 
 **Success = You played an action group and understand they're pre-recorded sequences!**
 
-### Step 3: Named Positions (Python)
+### Step 3: Safe Arm Demo (Python)
 
 **No web browser needed - pure Python:**
 ```bash
@@ -137,46 +137,39 @@ python3 run_demo.py
 ```
 
 **What happens:**
-1. Arm moves through named positions (rest, forward, pickup, home)
+1. Arm moves to the known-good home position
 2. Gripper opens and closes
-3. Demonstrates reach and workspace
+3. Base rotates left and right
 
-**Success = All positions work, arm doesn't collide with itself!**
+**Success = Home, gripper, and base rotation work without drive motors moving.**
 
 ---
 
 ##  Implementation Guide (For Coders)
 
-### Level 2: Named Positions (Simple Python)
+### Level 2: Safe Servo Control (Simple Python)
 
-**Quick positioning:**
+**Basic positioning:**
 ```python
-from hardware.arm import Arm
 from lib.board import get_board
 
 board = get_board()
-arm = Arm(board)
 
-# Named positions
-arm.move_to_named('rest')     # Compact, safe position
-arm.move_to_named('forward')  # Reach forward
-arm.move_to_named('pickup')   # Low, ready to grab
-arm.move_to_named('carry')    # Hold object while moving
-arm.move_to_named('home')     # Return to start
+# Known-good home position
+board.set_servo_position(1000, [
+    (1, 2500),  # Gripper open
+    (3, 1200),  # Shoulder neutral
+    (4, 1500),  # Elbow neutral
+    (5, 1500),  # Wrist neutral
+    (6, 1500),  # Base center
+])
 
-# Gripper control
-arm.open_gripper()            # Open claw
-arm.close_gripper()           # Close claw
-arm.grip(force=0.5)           # Partial grip (50%)
+# Gripper open/close
+board.set_servo_position(500, [(1, 2500)])
+board.set_servo_position(500, [(1, 1475)])
 ```
 
-**Named positions are defined in config:**
-```yaml
-positions:
-  rest:    {x: 0, y: 100, z: 50}   # mm coordinates
-  forward: {x: 0, y: 200, z: 100}
-  pickup:  {x: 0, y: 200, z: 20}
-```
+Use only positions that have been tested on the event robot. Do not add reach, pickup, or carry positions to the workshop path until they are mechanically verified.
 
 ### Level 1.5: Action Groups (Pre-Recorded)
 
@@ -396,7 +389,7 @@ Frame 3: (1200ms, 1475, 590, 2450, 700, 1500)  -- End (gripper closed)
 ```
 robotic_arm/
 ├── SKILL.md                # This file
-├── run_demo.py             # Level 1/2: Named positions demo
+├── run_demo.py             # Level 1/2: Safe home, gripper, and base demo
 ├── play_action.py          # Level 1.5: Action group playback
 ├── config.yaml             # Configuration (positions, limits)
 ├── pick_place_template.py  # Level 4: Template for custom sequences
