@@ -125,7 +125,8 @@ You should see files like `START_HERE.md`, `README.md`, and the `docs/` folder.
 ## What To Do While The robot Is Still Being Built
 
 - Help the robot assembly team with the checklist.
-- Read [C3: Connect and Test](C3_CONNECT_AND_TEST.md) so you know what will happen after assembly.
+- Read [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md) so you know how the robot IP will be found.
+- Read [C3: Connect and Test](C3_CONNECT_AND_TEST.md) so you know what will happen after the robot IP is known.
 - Open [Student Troubleshooting](../workshop/TROUBLESHOOTING.md) in another browser tab.
 - Do not try to SSH into the robot until the robot is powered on and the robot IP is known.
 
@@ -138,12 +139,11 @@ When the robot is assembled and powered on, use [C2: robot Pi WiFi Setup](C2_ROB
 | Action | How |
 |--------|-----|
 | Open terminal | Ctrl+Alt+T |
-| SSH to robot | `ssh robot@<ROBOT_IP>` |
-| Copy file to robot | `scp file.py robot@<ROBOT_IP>:/home/robot/team_code/` |
-| View robot camera | After web control is running on the robot, open browser: `http://<ROBOT_IP>:8080` |
 | Edit code | `nano filename.py` or use Thonny (GUI editor) |
 | Run Python | `python3 script.py` |
 | Stop a running script | Ctrl+C |
+
+Robot SSH, file copy, and camera web links start after [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md), when the robot IP is known.
 
 ---
 
