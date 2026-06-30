@@ -290,16 +290,18 @@ For a shorter student checklist, see [Student Troubleshooting](../workshop/TROUB
 - Is the robot powered on?
 - Are both devices on the same WiFi?
 - Check robot IP: `ping <ROBOT_IP>`
+- Compare with another team before changing settings.
 
 **Cannot connect to the robot IP:**
 - Confirm you are using the robot IP, not the Pi 500 IP.
 - Confirm the Pi 500 and robot are on the same workshop network.
-- Ask the facilitator to confirm the robot IP.
+- Compare with another team that can connect.
+- Ask the facilitator to confirm the robot IP if it still fails.
 - If the robot was rebooted or moved to another network, its IP may have changed.
 - Try: `ping <ROBOT_IP>` from the Pi 500.
 
 **"Permission denied":**
-- Wrong password? Ask facilitator
+- Wrong password? Compare with another team, then ask facilitator.
 - Username must be `robot` (lowercase)
 
 **robot not responding to commands:**

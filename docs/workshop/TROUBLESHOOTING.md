@@ -2,6 +2,17 @@
 
 Use this page when the robot does not do what the guide says it should do.
 
+## Getting Help
+
+Try this order:
+
+1. Re-read the step you are on.
+2. Check this troubleshooting page.
+3. Compare with another team that has the same step working.
+4. Ask a facilitator.
+
+Ask a facilitator right away for battery wiring, motor wiring, servo wiring, smoke, heat, broken parts, or commands that require `sudo`.
+
 ## First Checks
 
 Run these while connected to the robot:
@@ -31,13 +42,15 @@ ssh robot@<ROBOT_IP>
 If ping fails:
 
 - Confirm the Pi 500 and robot are on the same WiFi network.
-- Ask the facilitator to confirm the current robot IP.
+- Compare with another team and confirm they are using the same network.
+- Ask a facilitator to confirm the current robot IP if the network looks right.
 - Make sure the robot is powered on.
 
 If SSH asks for a password after keys were set up:
 
 - Use the robot password if needed.
-- Ask for help before deleting SSH keys.
+- Compare with another team before deleting SSH keys.
+- Ask a facilitator before deleting SSH keys.
 
 ## Battery Low Or No Reading
 
@@ -56,7 +69,8 @@ If there is no reading:
 
 - Check that the robot power switch is on.
 - Check battery holder wiring.
-- Ask a facilitator before continuing.
+- Compare with another team.
+- Ask a facilitator before continuing if wiring may be involved.
 
 ## robot Does Not Move
 
@@ -125,7 +139,8 @@ If no camera appears:
 
 - Re-seat the USB camera cable.
 - Try a different USB port.
-- Ask a facilitator to confirm the camera is detected.
+- Compare with another team.
+- Ask a facilitator to confirm the camera is detected if the cable and port do not fix it.
 
 ## Web Page Does Not Load
 
@@ -164,4 +179,4 @@ Then write down:
 - What moved incorrectly
 - Any error message
 
-Give that information to a facilitator.
+Compare that information with another team. If the issue still does not make sense, give it to a facilitator.

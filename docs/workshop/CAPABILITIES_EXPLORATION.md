@@ -6,6 +6,10 @@ Capabilities Exploration is where teams learn what the robot can do before they 
 
 Run short demos, observe behavior, and tune only what is needed. Each capability should be understood well enough that the team can reuse it during the Course Challenge.
 
+Before editing tuning files, read [Configuration Guide](CONFIG_GUIDE.md).
+
+If something fails, use [Student Troubleshooting](TROUBLESHOOTING.md) and compare with another team before asking a facilitator, unless the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
+
 ## Step 0: Manual Control
 
 The web control interface is useful for driving, viewing camera output, checking battery, and moving the arm.

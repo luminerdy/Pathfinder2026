@@ -65,6 +65,8 @@ Most participants should run scripts from `skills/`. Most code changes should al
 | `docs/calibration/` | Calibration and tuning notes. |
 | `docs/archive/` | Historical development notes from PathfinderV2. |
 | `docs/workshop/TROUBLESHOOTING.md` | Student-facing quick fixes for event problems. |
+| `docs/workshop/CONFIG_GUIDE.md` | Which settings teams can safely tune. |
+| `docs/calibration/2026_MOVEMENT_TEST_PLAN.md` | Checklist for 2026 movement calibration tests. |
 
 ## What Should I Work On?
 
@@ -73,6 +75,8 @@ If you are preparing the event:
 - Use `docs/setup/` for SD cards, Pi setup, and connection testing.
 - Use `docs/workshop/ASSEMBLE.md` to tighten the Assemble phase.
 - Use `docs/workshop/CAPABILITIES_EXPLORATION.md` to choose which demos participants run.
+- Use `docs/workshop/CONFIG_GUIDE.md` to decide which settings teams can safely tune.
+- Use `docs/calibration/2026_MOVEMENT_TEST_PLAN.md` while testing real robot movement.
 - Use `docs/workshop/COURSE_CHALLENGE.md` to capture the course design in your head.
 
 If you are testing robot behavior:

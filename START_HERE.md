@@ -10,7 +10,7 @@ The goal is to build a working robot, learn its capabilities, then combine those
 
 For a short printable team guide, use [Team Start Handout](docs/handouts/TEAM_START_HANDOUT.md).
 
-If something fails during the event, use [Student Troubleshooting](docs/workshop/TROUBLESHOOTING.md).
+If something fails during the event, use [Student Troubleshooting](docs/workshop/TROUBLESHOOTING.md). Compare with another team before asking a facilitator, unless the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
 
 ## Phase 1: Assemble
 
@@ -34,6 +34,8 @@ Use the overview guide if you want the whole Assemble phase on one page: [Assemb
 Run the capability demos before trying the course.
 
 Use the phase guide: [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md)
+
+Use [Configuration Guide](docs/workshop/CONFIG_GUIDE.md) before changing tuning files.
 
 Start with manual web control:
 

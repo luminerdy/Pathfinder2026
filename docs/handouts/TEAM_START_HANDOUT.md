@@ -20,6 +20,8 @@ Person 3 should write down:
 - First issue the team needs help with
 - One simple Course Challenge strategy
 
+If the team gets stuck, Person 3 should compare notes with another team before asking a facilitator, unless the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
+
 ## Open The GitHub Repo
 
 On the Pi 500, open a browser and go to:
