@@ -79,23 +79,23 @@ You'll use the terminal for everything in this workshop:
 
 Practice opening a terminal now. You'll be using it constantly.
 
-## Step 5: Install VS Code (Recommended)
+## Step 5: Verify VS Code
 
-VS Code gives you a real code editor with syntax highlighting, file browser, and built-in terminal — much better than editing in nano.
+VS Code should already be installed on the Pi 500 image from [A1: Pi 500 OS Build](A1_PI500_OS_BUILD.md). This step only verifies that it is ready for event use.
 
-1. **Install from terminal:**
+1. Open VS Code:
    ```bash
-   sudo apt-get install -y code
+   code
    ```
-2. **Fallback if apt cannot find `code`:** Pi Menu -> **Preferences** -> **Recommended Software** -> check **Visual Studio Code** -> Apply
-3. **Add required extensions from terminal:**
+2. Verify the required extensions are installed:
    ```bash
-   code --install-extension ms-python.python
-   code --install-extension ms-vscode-remote.remote-ssh
+   code --list-extensions
    ```
-4. **Or add extensions in VS Code** (open VS Code, click Extensions icon on left):
-   - **Python** (Microsoft) — syntax highlighting, linting
-   - **Remote - SSH** (Microsoft) — edit files directly on the robot!
+3. Confirm the list includes:
+   - `ms-python.python`
+   - `ms-vscode-remote.remote-ssh`
+
+If VS Code or either extension is missing, use [A1: Pi 500 OS Build](A1_PI500_OS_BUILD.md), Step 6 and Step 7, to install them.
 
 The Pi 500 is now ready for event-time robot connection. When the robot is assembled, use [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md), then [C3: Connect and Test](C3_CONNECT_AND_TEST.md).
 
