@@ -10,7 +10,15 @@ For a 3-person team:
 |--------|-----------|
 | 1 | Set up the Pi 500 control hub |
 | 2 | Start assembling the robot |
-| 3 | Help both tracks and keep the checklist moving |
+| 3 | Track the checklist, record the robot IP, and read the Course Challenge |
+
+Person 3 should write down:
+
+- The robot IP
+- Battery check result
+- Motor and servo check result
+- First issue the team needs help with
+- One simple Course Challenge strategy
 
 ## Open The GitHub Repo
 
@@ -75,7 +83,7 @@ docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md
 
 When the Pi 500 is ready and the robot is assembled:
 
-1. Get your assigned robot IP address from the facilitator.
+1. Get the robot IP from the facilitator or the robot display.
 2. Open the robot Pi/WiFi guide:
    ```text
    docs/setup/C2_ROBOT_PI_WIFI_SETUP.md
