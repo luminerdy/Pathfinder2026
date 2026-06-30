@@ -17,23 +17,24 @@ For a short team-facing checklist, use [Team Start Handout](../handouts/TEAM_STA
 - USB mouse
 - Power supply (USB-C)
 
-## Photos To Add
+## Photos In This Guide
 
-Add these photos when the Pi 500 table setup is finalized:
+These images are stored in this repo under `docs/images/pi500/`.
 
 | Photo file | Show |
 |------------|------|
-| `docs/images/pi500/01_pi500_parts.jpg` | Pi 500, monitor, mouse, HDMI adapter, and power supply laid out |
-| `docs/images/pi500/02_pi500_ports.jpg` | Pi 500 ports used for monitor, mouse, and power |
-| `docs/images/pi500/03_desktop_ready.jpg` | Pi 500 desktop after boot |
-| `docs/images/pi500/04_wifi_connected.jpg` | WiFi menu or network connected state |
-| `docs/images/pi500/05_vscode_extensions.jpg` | VS Code with Python and Remote SSH extensions installed |
+| `docs/images/pi500/01_pi500_connection.jpg` | Pi 500 connected to monitor, mouse, and power |
+| `docs/images/pi500/02_pi500_connection_closeup.jpg` | Pi 500 connection closeup |
+| `docs/images/pi500/03_pi500_boot_desktop.jpg` | Pi 500 after boot |
+| `docs/images/pi500/04_pi_config_password.jpg` | Raspberry Pi configuration/password screen |
+| `docs/images/pi500/05_wifi_setup.jpg` | WiFi network menu |
+| `docs/images/pi500/06_open_terminal.jpg` | Terminal menu location |
 
 ## Step 1: Connect Hardware
 
-Photo: `docs/images/pi500/01_pi500_parts.jpg`
+<img src="../images/pi500/01_pi500_connection.jpg" width="400" alt="Pi 500 connected to monitor and mouse">
 
-Photo: `docs/images/pi500/02_pi500_ports.jpg`
+<img src="../images/pi500/02_pi500_connection_closeup.jpg" width="400" alt="Closeup of Pi 500 monitor and mouse connections">
 
 ```
 [Monitor] ←HDMI→ [Micro HDMI Adapter] ←→ [Pi 500 HDMI port]
@@ -45,15 +46,19 @@ The Pi 500's keyboard is built-in — no separate keyboard needed.
 
 ## Step 2: Power On
 
-Photo: `docs/images/pi500/03_desktop_ready.jpg`
+<img src="../images/pi500/03_pi500_boot_desktop.jpg" width="500" alt="Pi 500 booted to desktop">
 
 1. Plug in power
 2. Wait for desktop to appear (~30 seconds)
 3. If prompted for password, enter the one set during imaging
 
+If the Raspberry Pi configuration or password screen appears, keep the event hostname as `pihub` and use the password provided for the event.
+
+<img src="../images/pi500/04_pi_config_password.jpg" width="500" alt="Raspberry Pi configuration password screen">
+
 ## Step 3: Connect to WiFi
 
-Photo: `docs/images/pi500/04_wifi_connected.jpg`
+<img src="../images/pi500/05_wifi_setup.jpg" width="250" alt="WiFi setup menu">
 
 1. Click the network icon in the top-right taskbar
 2. Select your workshop WiFi network
@@ -65,6 +70,8 @@ Photo: `docs/images/pi500/04_wifi_connected.jpg`
 
 ## Step 4: Open Terminal
 
+<img src="../images/pi500/06_open_terminal.jpg" width="500" alt="Open terminal from Raspberry Pi menu">
+
 You'll use the terminal for everything in this workshop:
 
 - **Menu bar:** Click the terminal icon in the top taskbar
@@ -73,8 +80,6 @@ You'll use the terminal for everything in this workshop:
 Practice opening a terminal now. You'll be using it constantly.
 
 ## Step 5: Install VS Code (Recommended)
-
-Photo: `docs/images/pi500/05_vscode_extensions.jpg`
 
 VS Code gives you a real code editor with syntax highlighting, file browser, and built-in terminal — much better than editing in nano.
 

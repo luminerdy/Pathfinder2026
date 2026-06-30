@@ -1,11 +1,12 @@
 # Pi 500 Setup Photos
 
-Place Pi 500 setup photos here.
+Pi 500 setup photos used by `docs/setup/C1_PI500_SETUP.md`.
 
-Expected files:
+Migrated from `stemoutreach/PathfinderBot`:
 
-- `01_pi500_parts.jpg`
-- `02_pi500_ports.jpg`
-- `03_desktop_ready.jpg`
-- `04_wifi_connected.jpg`
-- `05_vscode_extensions.jpg`
+- `01_pi500_connection.jpg`
+- `02_pi500_connection_closeup.jpg`
+- `03_pi500_boot_desktop.jpg`
+- `04_pi_config_password.jpg`
+- `05_wifi_setup.jpg`
+- `06_open_terminal.jpg`
