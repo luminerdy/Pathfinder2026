@@ -6,9 +6,9 @@ Vendor-tested positions from PathfinderBot V1 + our own calibrations.
 
 Servo IDs:
     1 = Gripper      (1475=closed, 2500=open)
-    3 = Shoulder      (500-2500)
+    3 = Wrist         (500-2500)
     4 = Elbow         (500-2500)
-    5 = Wrist         (500-2500)
+    5 = Shoulder      (500-2500)
     6 = Base rotation  (500=right, 1500=center, 2500=left)
 
 Usage:

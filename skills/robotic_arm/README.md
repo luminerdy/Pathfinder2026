@@ -44,9 +44,9 @@ After this skill, you can:
 
 **5 Servos:**
 1. Gripper (1475=closed, 2500=open)
-3. Shoulder (500-2500)
+3. Wrist (500-2500)
 4. Elbow (500-2500)
-5. Wrist (500-2500)
+5. Shoulder (500-2500)
 6. Base (500-2500)
 
 *Note: Servo 2 doesn't exist*

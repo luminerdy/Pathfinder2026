@@ -18,9 +18,9 @@ from lib.board import get_board
 SERVOS = [
     (1, "gripper", 2500, 1475, 2500),
     (6, "base rotation", 1300, 1700, 1500),
-    (3, "shoulder", 590, 900, 590),
+    (3, "wrist", 590, 900, 590),
     (4, "elbow", 2450, 2200, 2450),
-    (5, "wrist", 700, 1000, 700),
+    (5, "shoulder", 700, 1000, 700),
 ]
 
 
@@ -54,9 +54,9 @@ def main():
         print()
         print("Expected mapping:")
         print("  Servo 1: gripper")
-        print("  Servo 3: shoulder")
+        print("  Servo 3: wrist")
         print("  Servo 4: elbow")
-        print("  Servo 5: wrist")
+        print("  Servo 5: shoulder")
         print("  Servo 6: base rotation")
         print()
         print("If a drive motor moved during this test, stop and ask a facilitator.")

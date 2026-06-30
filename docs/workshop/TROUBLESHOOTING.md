@@ -105,9 +105,9 @@ Expected servo mapping:
 | Servo | Part |
 |-------|------|
 | 1 | Gripper |
-| 3 | Shoulder |
+| 3 | Wrist |
 | 4 | Elbow |
-| 5 | Wrist |
+| 5 | Shoulder |
 | 6 | Base |
 
 If the wrong joint moves, ask a facilitator to check the servo wiring.

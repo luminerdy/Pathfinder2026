@@ -4,9 +4,9 @@ Clean-room implementation based on standard robotics mathematics.
 
 Arm configuration:
 - Servo 1: Base rotation
-- Servo 3: Shoulder
+- Servo 3: Wrist
 - Servo 4: Elbow  
-- Servo 5: Wrist/Gripper
+- Servo 5: Shoulder
 - Servo 6: (Alternative base or unused)
 
 Link lengths and geometry determined through measurement and testing.

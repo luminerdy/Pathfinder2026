@@ -11,9 +11,9 @@ It intentionally avoids unverified named reach/pickup/carry poses.
 
 Servo mapping:
   Servo 1: Gripper/Claw  (1475=closed, 2500=open)
-  Servo 3: Shoulder      (500-2500)
+  Servo 3: Wrist         (500-2500)
   Servo 4: Elbow         (500-2500)
-  Servo 5: Wrist         (500-2500)
+  Servo 5: Shoulder      (500-2500)
   Servo 6: Base          (500-2500, 1500=center)
   Note: Servo 2 does not exist on this platform.
 
@@ -33,9 +33,9 @@ from lib.board import get_board
 
 HOME_POSITION = [
     (1, 2500),  # Gripper open
-    (3, 1200),  # Shoulder neutral
+    (3, 1200),  # Wrist neutral
     (4, 1500),  # Elbow neutral
-    (5, 1500),  # Wrist neutral
+    (5, 1500),  # Shoulder neutral
     (6, 1500),  # Base center
 ]
 

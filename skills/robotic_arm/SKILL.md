@@ -158,9 +158,9 @@ board = get_board()
 # Known-good home position
 board.set_servo_position(1000, [
     (1, 2500),  # Gripper open
-    (3, 1200),  # Shoulder neutral
+    (3, 1200),  # Wrist neutral
     (4, 1500),  # Elbow neutral
-    (5, 1500),  # Wrist neutral
+    (5, 1500),  # Shoulder neutral
     (6, 1500),  # Base center
 ])
 
