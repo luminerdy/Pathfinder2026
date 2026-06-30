@@ -275,7 +275,7 @@ scp robot@<ROBOT_IP>:/home/robot/pathfinder/test_frame.jpg ~/
 
 ## Editing Code
 
-Recommended workflow: keep `/home/robot/pathfinder` as the official updateable repo, and copy files into `/home/robot/team_code` before students modify them. See [C5: Team code workflow](C5_TEAM_CODE_WORKFLOW.md).
+Recommended workflow: keep `/home/robot/pathfinder` as the official updateable repo, and edit starter files in `/home/robot/team_code`. See [C5: Team code workflow](C5_TEAM_CODE_WORKFLOW.md).
 
 **Option A: VS Code + Remote SSH (Recommended!)**
 1. Open VS Code on Pi 500
@@ -283,14 +283,16 @@ Recommended workflow: keep `/home/robot/pathfinder` as the official updateable r
 3. If you set up the SSH key above, VS Code should connect without asking for the robot password. If not, enter the robot password when prompted.
 4. Wait for VS Code to install its server component on the robot. This happens automatically the first time and may take about a minute.
 5. Open folder: `/home/robot/team_code`
-6. Copy examples from `/home/robot/pathfinder` into `/home/robot/team_code` before editing.
-7. Use VS Code's built-in terminal to run scripts.
+6. You should see `README.md`, `drive_practice.py`, `arm_practice.py`, and `camera_practice.py`.
+7. Edit the starter files in `/home/robot/team_code`.
+8. Use VS Code's built-in terminal to run scripts.
 (See [C1 Pi 500 Setup](C1_PI500_SETUP.md) for VS Code install)
 
 If `/home/robot/team_code` is missing, open a robot terminal and run:
 
 ```bash
 mkdir -p /home/robot/team_code
+cp -a /home/robot/pathfinder/team_code_starters/. /home/robot/team_code/
 ```
 
 **Option B: Edit on Pi 500, copy to robot**

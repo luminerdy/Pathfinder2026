@@ -18,15 +18,33 @@ Use this folder for team experiments:
 
 Facilitators may update `/home/robot/pathfinder` during the event with `git pull`. Student changes should live in `/home/robot/team_code` so they are not overwritten or mixed with official updates.
 
-## Create The Team Folder
+## Team Folder Starters
 
-The event robot image should already include this folder. If it is missing, run this while logged into the robot:
+The event robot image should already include this folder:
+
+```bash
+/home/robot/team_code
+```
+
+It should include starter files:
+
+```text
+README.md
+drive_practice.py
+arm_practice.py
+camera_practice.py
+```
+
+If the folder is missing, run this while logged into the robot:
 
 ```bash
 mkdir -p /home/robot/team_code
+cp -a /home/robot/pathfinder/team_code_starters/. /home/robot/team_code/
 ```
 
-## Copy Before Editing
+## Copy More Examples Later
+
+The starter files are the best place to begin. Later, if a team wants to experiment with a full example from the official repo, copy it into `/home/robot/team_code` first.
 
 Example: copy the mecanum drive demo before changing it.
 

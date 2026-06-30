@@ -251,12 +251,22 @@ ls skills/
 # Should show skill files including strafe_nav.py, block_detect.py, etc.
 ```
 
-### Create Team Code Folder
+### Create Team Code Starter Folder
 ```bash
 mkdir -p /home/robot/team_code
+cp -a /home/robot/pathfinder/team_code_starters/. /home/robot/team_code/
 ```
 
 This folder gives students a safe place to edit code during the event. Keep `/home/robot/pathfinder` as the official updateable repo.
+
+The starter folder should include:
+
+```text
+/home/robot/team_code/README.md
+/home/robot/team_code/drive_practice.py
+/home/robot/team_code/arm_practice.py
+/home/robot/team_code/camera_practice.py
+```
 
 ### Verify All Imports
 ```bash
