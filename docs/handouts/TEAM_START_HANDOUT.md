@@ -53,7 +53,7 @@ Goal: get the Pi 500 ready as the team's coding and control hub.
    ping -c 3 google.com
    ```
 6. Open the Pathfinder2026 GitHub repo in the browser.
-7. Install or verify VS Code and the required extensions:
+7. Verify VS Code and the required extensions:
    - Python
    - Remote - SSH
 

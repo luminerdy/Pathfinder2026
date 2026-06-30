@@ -97,7 +97,7 @@ VS Code should already be installed on the Pi 500 image from [A1: Pi 500 OS Buil
 
 If VS Code or either extension is missing, use [A1: Pi 500 OS Build](A1_PI500_OS_BUILD.md), Step 6 and Step 7, to install them.
 
-The Pi 500 is now ready for event-time robot connection. When the robot is assembled, use [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md), then [C3: Connect and Test](C3_CONNECT_AND_TEST.md).
+The Pi 500 control hub is now ready. You may not be ready to connect to the robot yet. Wait until the robot assembly team has the robot built, powered, and safe to test.
 
 ---
 
@@ -122,6 +122,17 @@ You should see files like `START_HERE.md`, `README.md`, and the `docs/` folder.
 
 ---
 
+## What To Do While The robot Is Still Being Built
+
+- Help the robot assembly team with the checklist.
+- Read [C3: Connect and Test](C3_CONNECT_AND_TEST.md) so you know what will happen after assembly.
+- Open [Student Troubleshooting](../workshop/TROUBLESHOOTING.md) in another browser tab.
+- Do not try to SSH into the robot until the robot is powered on and the robot IP is known.
+
+When the robot is assembled and powered on, use [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md), then [C3: Connect and Test](C3_CONNECT_AND_TEST.md).
+
+---
+
 ## Pi 500 Quick Reference
 
 | Action | How |
@@ -136,4 +147,4 @@ You should see files like `START_HERE.md`, `README.md`, and the `docs/` folder.
 
 ---
 
-**Next:** [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md)
+**Next when the robot is ready:** [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md)
