@@ -192,10 +192,7 @@ The rotate and square-pattern turns are tuned to use 40% motor power so the robo
 
 ## Step 7: Test Arm Demo
 
-Only run this after Step 4 confirms the servo wiring is correct:
-
-- Servo 3 moves the wrist.
-- Servo 5 moves the shoulder.
+Only run this after Step 4 confirms the servo wiring is correct.
 
 This is a pickup-and-load demo. Place the robot on the floor and put one block directly in front of the gripper.
 
@@ -207,7 +204,7 @@ python3 skills/robotic_arm/run_demo.py
 
 The arm should pick up the block and load it onto the robot's back.
 
-If the wrist and shoulder move differently than Step 4 showed, stop and re-check the arm wiring before changing code.
+If the arm moves differently than Step 4 showed, stop and re-check the arm wiring before changing code.
 
 ## Step 8: Test Camera
 
