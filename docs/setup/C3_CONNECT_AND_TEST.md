@@ -128,6 +128,8 @@ Expected:
 
 Each wheel should move when its motor number is tested. If the wrong wheel moves, the motor cables are connected to the wrong port. If a wheel does not move or spins backward during this single-motor test, note it for facilitator review before running drive patterns.
 
+If this test fails, go back to [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) and check the motor wiring photos before changing code.
+
 ## Step 4: Test Arm Servos
 
 This is a hardware wiring and function check. It confirms each arm servo is plugged into the correct port and that the gripper, wrist, elbow, shoulder, and base all respond.
@@ -153,6 +155,8 @@ Servo 2 is not used on this robot.
 
 If a drive motor moves during a servo test, stop and ask a facilitator to check the board connection and software image.
 
+If the wrong arm joint moves, or a servo does not move, go back to [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) and check the arm and servo wiring before changing code.
+
 ## Step 5: Test Sonar
 
 This is a hardware wiring and function check. It confirms the ultrasonic sensor is connected, powered, and reading distance.
@@ -165,6 +169,8 @@ python3 scripts/tools/check_sonar.py
 Put your hand in front of the robot and run the test again. The distance should change.
 
 If you see `no reading`, check that I2C is enabled, the sonar cable is connected, and `sudo i2cdetect -y 1` shows address `77`.
+
+If the sonar check fails, go back to [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) and check the sonar mounting and wiring before changing code.
 
 ## Step 6: Test Drive Patterns
 
@@ -310,8 +316,13 @@ For a shorter student checklist, see [Student Troubleshooting](../workshop/TROUB
 
 **robot does not move:**
 - Check battery: `python3 scripts/tools/check_battery.py`
+- Re-check motor wiring against [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md).
 - Try a higher motor power with fresh batteries.
 - Confirm the robot is on the floor, not lifted by a cable or stand.
+
+**Arm or sonar check fails:**
+- Re-check assembly wiring against [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md).
+- Confirm the correct cable is connected before changing code.
 
 **Camera not working:**
 - Run `ls /dev/video*` on the robot
