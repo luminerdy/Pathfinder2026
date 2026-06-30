@@ -26,7 +26,7 @@ python3 skills/auto_pickup.py blue      # Blue only
 - Scan: 16 steps x 22deg = 360deg rotation
 - Approach: Stop-look-drive, 30 motor power
 - Pickup: Pre-tested arm positions (servo PWM)
-- Battery check: >7.0V (Pi4), >8.1V (Pi5)
+- Battery check uses the shared platform runtime minimum from `lib/battery.py`.
 
 ## Troubleshooting
 - No block found: Check lighting, color ranges

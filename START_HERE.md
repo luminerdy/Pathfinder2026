@@ -10,6 +10,8 @@ The goal is to build a working robot, learn its capabilities, then combine those
 
 For a short printable team guide, use [Team Start Handout](docs/handouts/TEAM_START_HANDOUT.md).
 
+If something fails during the event, use [Student Troubleshooting](docs/workshop/TROUBLESHOOTING.md).
+
 ## Phase 1: Assemble
 
 Set up the Pi 500 control hub and assemble the robot before running code.
@@ -33,7 +35,15 @@ Run the capability demos before trying the course.
 
 Use the phase guide: [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md)
 
-Recommended order:
+Start with manual web control:
+
+```bash
+python3 web/web_control.py
+```
+
+Open `http://<ROBOT_IP>:8080` from the Pi 500.
+
+Required before the Course Challenge:
 
 | Step | Capability | Demo |
 |------|------------|------|
@@ -41,19 +51,16 @@ Recommended order:
 | D2 | Sonar sensors | `python3 skills/sonar_sensors/run_demo.py` |
 | D3 | robotic arm | `python3 skills/robotic_arm/run_demo.py` |
 | D4 | Camera vision | `python3 skills/camera_vision/test_camera.py` |
-| E2 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
 | E3 | Block detection | `python3 skills/block_detection/run_demo.py` |
+
+Optional if time allows:
+
+| Step | Capability | Demo |
+|------|------------|------|
+| E2 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
 | E4 | Visual servoing | `python3 skills/visual_servoing/run_demo.py` |
 | E5 | Autonomous pickup | `python3 skills/autonomous_pickup/run_demo.py` |
 | E6 | Line following | `python3 skills/line_following/run_demo.py` |
-
-Manual control is available from the web interface:
-
-```bash
-python3 web/web_control.py
-```
-
-Open `http://<ROBOT_IP>:8080` from the Pi 500.
 
 ## Phase 3: Course Challenge
 

@@ -4,7 +4,7 @@ Quick battery voltage check for Pathfinder2026 robot.
 
 Usage:
     python3 check_battery.py           # Display voltage
-    python3 check_battery.py --strict  # Exit 1 if < 7.5V (for scripts)
+    python3 check_battery.py --strict  # Exit 1 if below platform runtime minimum
 """
 
 import sys
@@ -14,33 +14,24 @@ import time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..'))
 
 from lib.board import get_board, PLATFORM
+from lib.battery import read_voltage, runtime_minimum, status_for_voltage
 
 
-def check_battery(strict=False, minimum_voltage=7.5):
+def check_battery(strict=False, minimum_voltage=None):
     """Check battery voltage and display status."""
     try:
         board = get_board()
         time.sleep(0.5)
-        volt_mv = board.get_battery()
+        volts = read_voltage(board)
 
-        if volt_mv is None or not (5000 < volt_mv < 20000):
+        if volts is None:
             print("ERROR: Cannot read battery voltage")
             if strict:
                 sys.exit(1)
             return None
 
-        volts = volt_mv / 1000.0
-
-        if volts < 6.5:
-            status, message, safe = "RED EMERGENCY", "Charge immediately!", False
-        elif volts < 7.0:
-            status, message, safe = "RED CRITICAL", "No motor operation. Charge now!", False
-        elif volts < 7.5:
-            status, message, safe = "YELLOW LOW", "Charge soon. Light operation only.", False
-        elif volts < 8.0:
-            status, message, safe = "GREEN OK", "Normal operation permitted.", True
-        else:
-            status, message, safe = "GREEN EXCELLENT", "Fully charged and ready!", True
+        minimum_voltage = minimum_voltage or runtime_minimum(PLATFORM)
+        status, message, safe = status_for_voltage(volts, PLATFORM)
 
         print("Platform: %s" % PLATFORM)
         print("Battery:  %.2fV" % volts)

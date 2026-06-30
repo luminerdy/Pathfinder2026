@@ -2,20 +2,25 @@
 """
 Movement Utility Functions - Calibrated Movement
 
-Provides calibrated rotation and movement functions based on
+Provides legacy calibrated rotation and movement functions based on
 empirical testing with fresh batteries (8.2V+).
 
-Calibration: March 24, 2026
+Legacy calibration: March 24, 2026
 - Power 30 rotation: ~103 deg/sec
 - 90° turn: 0.87 seconds
 - Battery requirement: >8.2V for reliable operation
+
+Current event note:
+- Real floor conditions may require power 40 for reliable turns.
+- Treat these helpers as approximate until the 2026 robots are recalibrated.
 """
 
 import time
 from lib.board import get_board
+from lib.battery import CALIBRATED_MOVEMENT_VOLTAGE, read_voltage
 BoardController = None  # Use get_board() instead
 
-# Calibration constants (Power 30, Battery 8.2V+)
+# Legacy calibration constants (Power 30, Battery 8.2V+)
 ROTATION_POWER = 30
 ROTATION_RATE = 103  # deg/sec
 TURN_90_DURATION = 0.87  # seconds
@@ -32,7 +37,8 @@ def rotate_90(board, direction='right'):
         board: BoardController instance
         direction: 'right' (clockwise) or 'left' (counter-clockwise)
     
-    Calibrated for Power 30, Battery >8.2V
+    Legacy calibrated value for Power 30, Battery >8.2V.
+    Use power 40 in current demos if the robot does not turn reliably.
     Duration: 0.87 seconds
     """
     if direction == 'right':
@@ -64,7 +70,8 @@ def rotate_degrees(board, degrees, direction='right'):
         degrees: Angle to rotate (positive value, 0-360)
         direction: 'right' (clockwise) or 'left' (counter-clockwise)
     
-    Calibrated for Power 30, Battery >8.2V
+    Legacy calibrated value for Power 30, Battery >8.2V.
+    Use power 40 in current demos if the robot does not turn reliably.
     Rate: ~103 deg/sec
     """
     # Calculate duration based on calibrated rotation rate
@@ -120,7 +127,7 @@ def forward(board, power=30, duration=1.0):
     
     Args:
         board: BoardController instance
-        power: Motor power (30+ recommended for battery >8.2V)
+        power: Motor power (40 recommended for current event turn testing)
         duration: Time to drive (seconds)
     
     NOTE: Speed (cm/sec) not yet calibrated
@@ -189,22 +196,21 @@ def strafe_left(board, power=30, duration=1.0):
     stop(board)
 
 # Battery check helper
-def check_battery(board, min_voltage=8.2):
+def check_battery(board, min_voltage=CALIBRATED_MOVEMENT_VOLTAGE):
     """
     Check if battery voltage is adequate
     
     Args:
         board: BoardController instance
-        min_voltage: Minimum acceptable voltage (default 8.2V)
+        min_voltage: Minimum acceptable voltage for calibrated movement
     
     Returns:
         (voltage, is_adequate) tuple
     """
-    mv = board.get_battery()
-    if not mv:
+    voltage = read_voltage(board)
+    if voltage is None:
         return None, False
-    
-    voltage = mv / 1000.0
+
     is_adequate = voltage >= min_voltage
     
     return voltage, is_adequate

@@ -28,6 +28,7 @@ import time
 
 from pupil_apriltags import Detector
 from lib.board import get_board, PLATFORM
+from lib.battery import read_voltage, runtime_minimum
 from lib.camera import PROCESS_SIZE
 
 
@@ -236,11 +237,10 @@ class StrafeNavigator:
             return v, v >= min_voltage
 
         if min_voltage is None:
-            min_voltage = 7.0 if PLATFORM == 'pi4' else 8.1
-        mv = self.board.get_battery()
-        if not mv:
+            min_voltage = runtime_minimum(PLATFORM)
+        v = read_voltage(self.board)
+        if v is None:
             return 0, True  # can't read — don't block navigation
-        v = mv / 1000.0
         return v, v >= min_voltage
 
     def navigate_to_tag(self, target_id=None, target_distance=None,

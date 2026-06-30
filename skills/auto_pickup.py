@@ -30,6 +30,7 @@ import time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
 from lib.board import get_board, PLATFORM
+from lib.battery import read_voltage, runtime_minimum
 from skills.block_detect import BlockDetector
 
 # ===== CONFIG =====
@@ -54,7 +55,7 @@ POS_PICKUP_GRAB    = [(1, 1475), (3, 830), (4, 2170), (5, 2410), (6, 1500)]  # T
 POS_PICKUP_LIFT    = [(1, 1475), (3, 590), (4, 2450), (5, 700), (6, 1500)]
 POS_CARRY          = [(1, 1558), (3, 569), (4, 2400), (5, 809), (6, 1500)]
 
-BATTERY_MIN = 7.0 if PLATFORM == 'pi4' else 8.1
+BATTERY_MIN = runtime_minimum(PLATFORM)
 
 
 # ===== HELPERS =====
@@ -85,9 +86,8 @@ def check_battery(board):
     """Check battery, return voltage or exit if too low"""
     time.sleep(0.5)
     for _ in range(5):
-        mv = board.get_battery()
-        if mv and 5000 < mv < 20000:
-            v = mv / 1000.0
+        v = read_voltage(board)
+        if v is not None:
             if v < BATTERY_MIN:
                 print("BATTERY TOO LOW: %.2fV (min %.1fV)" % (v, BATTERY_MIN))
                 sys.exit(1)

@@ -20,7 +20,7 @@ Usage:
 Safety:
     - Clear a 4-foot by 4-foot area around the robot
     - Robot on floor only. It can drive off a table.
-    - Battery >7.0V (check first)
+    - Battery check passes
     - Press Ctrl+C to emergency stop
 
 Press Ctrl+C to stop at any time.
@@ -33,7 +33,8 @@ import time
 # Add parent directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
-from lib.board import get_board
+from lib.board import get_board, PLATFORM
+from lib.battery import read_voltage, status_for_voltage
 
 class MecanumDemo:
     """Simple mecanum drive demonstration."""
@@ -169,12 +170,12 @@ def main():
     # Check battery
     demo = MecanumDemo(max_speed=50)
     print("Checking battery...")
-    voltage = demo.board.get_battery()
-    if voltage and voltage > 5000:  # mV
-        v = voltage / 1000.0
+    v = read_voltage(demo.board)
+    if v is not None:
+        status, message, ok = status_for_voltage(v, PLATFORM)
         print(f"  Battery: {v:.2f}V")
-        if v < 7.0:
-            print("  [WARNING] Battery low! Charge before continuing.")
+        print(f"  Status: {status} - {message}")
+        if not ok:
             return
     else:
         print("  [WARNING] Could not read battery (check board connection)")

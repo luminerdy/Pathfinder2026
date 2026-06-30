@@ -64,6 +64,7 @@ Most participants should run scripts from `skills/`. Most code changes should al
 | `docs/setup/` | Pre-event Pi 500, robot Pi, SD card, and connection setup. |
 | `docs/calibration/` | Calibration and tuning notes. |
 | `docs/archive/` | Historical development notes from PathfinderV2. |
+| `docs/workshop/TROUBLESHOOTING.md` | Student-facing quick fixes for event problems. |
 
 ## What Should I Work On?
 
@@ -76,7 +77,8 @@ If you are preparing the event:
 
 If you are testing robot behavior:
 
-- Start with `skills/mecanum_drive/`
+- Start with `skills/README.md`
+- Then `skills/mecanum_drive/`
 - Then `skills/sonar_sensors/`
 - Then `skills/robotic_arm/`
 - Then `skills/camera_vision/`

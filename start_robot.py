@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from lib.board import get_board, PLATFORM
 from lib.arm_positions import Arm
+from lib.battery import read_voltage, status_for_voltage
 
 
 def check(label, ok, detail=''):
@@ -55,23 +56,10 @@ def main():
     print('\nBattery')
     try:
         time.sleep(1.0)
-        mv = None
-        for _ in range(5):
-            mv = board.get_battery()
-            if mv and 5000 < mv < 20000:
-                break
-            time.sleep(0.3)
-        if mv and 5000 < mv < 20000:
-            v = mv / 1000.0
-            if v >= 7.5:
-                detail = '%.2fV -- good' % v
-                ok = True
-            elif v >= 7.0:
-                detail = '%.2fV -- caution' % v
-                ok = True
-            else:
-                detail = '%.2fV -- LOW!' % v
-                ok = False
+        v = read_voltage(board, retries=5, delay=0.3)
+        if v is not None:
+            status, message, ok = status_for_voltage(v, PLATFORM)
+            detail = '%.2fV -- %s -- %s' % (v, status.lower(), message)
             check('battery', ok, detail)
             if ok:
                 passed += 1

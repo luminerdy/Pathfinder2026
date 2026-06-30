@@ -27,6 +27,7 @@ import cv2
 import math
 import time
 from lib.board import get_board
+from lib.battery import GOOD_RUNTIME_VOLTAGE, read_voltage, runtime_minimum
 BoardController = None  # Use get_board() instead
 from skills.block_detect import BlockDetector
 
@@ -178,12 +179,12 @@ class BlockPursuer:
         if min_bat is None:
             try:
                 from lib.board import PLATFORM
-                min_bat = 7.0 if PLATFORM == 'pi4' else 8.1
+                min_bat = runtime_minimum(PLATFORM)
             except ImportError:
-                min_bat = 7.5
+                min_bat = GOOD_RUNTIME_VOLTAGE
         
-        mv = self.board.get_battery()
-        if mv and mv / 1000.0 < min_bat:
+        v = read_voltage(self.board)
+        if v is not None and v < min_bat:
             return {'success': False, 'reason': 'battery_low'}
         
         self._open_camera()

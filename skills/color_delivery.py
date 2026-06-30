@@ -28,6 +28,7 @@ import math
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
 from lib.board import get_board, PLATFORM
+from lib.battery import read_voltage, runtime_minimum
 from lib.arm_positions import Arm, POS_CAMERA_FORWARD, POS_CARRY
 from skills.block_detect import BlockDetector
 
@@ -336,12 +337,11 @@ def _color_delivery_standalone(target_color=None):
 
     board = get_board()
     arm = Arm(board)
-    battery_min = 7.0 if PLATFORM == 'pi4' else 8.1
+    battery_min = runtime_minimum(PLATFORM)
 
     time.sleep(1)
-    mv = board.get_battery()
-    if mv and 5000 < mv < 20000:
-        v = mv / 1000.0
+    v = read_voltage(board)
+    if v is not None:
         print("Battery: %.2fV" % v)
         if v < battery_min:
             print("BATTERY TOO LOW")

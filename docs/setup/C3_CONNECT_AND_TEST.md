@@ -11,7 +11,7 @@ This is the critical step — once connected, you control the robot entirely fro
 - Pi 500 is powered on, connected to WiFi ([C1](C1_PI500_SETUP.md))
 - robot is assembled ([B1](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md))
 - robot Pi is powered on and on the workshop network ([C2](C2_ROBOT_PI_WIFI_SETUP.md))
-- robot is powered on with charged batteries (>7.0V)
+- robot is powered on with charged batteries
 - Both devices on the same WiFi network
 - You have the robot IP address from [C2](C2_ROBOT_PI_WIFI_SETUP.md)
 
@@ -101,10 +101,10 @@ If it prints `ERROR: Cannot read battery voltage`, check robot power, battery co
 **Battery guide:**
 | Voltage | Status | Action |
 |---------|--------|--------|
-| >8.0V | Full | Good to go |
-| 7.5-8.0V | OK | Monitor closely |
-| 7.0-7.5V | Low | Replace soon |
-| <7.0V | Critical | Replace NOW |
+| >=8.2V | Excellent | Ready for calibrated movement tests |
+| 7.5-8.2V | OK | Normal testing; calibrated turns may vary |
+| 7.0-7.5V | Caution | Light testing only; replace soon |
+| <7.0V | Low | Replace or charge before motor operation |
 
 ## Step 3: Test Individual Motors
 
@@ -283,6 +283,8 @@ nano /home/robot/team_code/my_script.py
 ---
 
 ## Troubleshooting
+
+For a shorter student checklist, see [Student Troubleshooting](../workshop/TROUBLESHOOTING.md).
 
 **"Connection refused":**
 - Is the robot powered on?

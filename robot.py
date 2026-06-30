@@ -36,6 +36,7 @@ Skills pattern:
 
 import time
 from lib.board import get_board, PLATFORM
+from lib.battery import read_voltage, runtime_minimum
 
 
 class Robot:
@@ -80,7 +81,7 @@ class Robot:
             self._init_sonar()
 
         # Battery thresholds
-        self.battery_min = 7.0 if PLATFORM == 'pi4' else 8.1
+        self.battery_min = runtime_minimum(PLATFORM)
 
         # Startup beep
         self._beep(0.1)
@@ -100,6 +101,7 @@ class Robot:
         except Exception as e:
             print("Camera init failed: %s" % e)
             self._camera = None
+            self._camera_enabled = False
 
     def _init_sonar(self):
         """Initialize sonar."""
@@ -134,10 +136,7 @@ class Robot:
     @property
     def battery(self):
         """Battery voltage (float) or None."""
-        mv = self.board.get_battery()
-        if mv and 5000 < mv < 20000:
-            return mv / 1000.0
-        return None
+        return read_voltage(self.board)
 
     @property
     def battery_ok(self):
@@ -226,7 +225,8 @@ class Robot:
 
     def shutdown(self):
         """Clean shutdown — stop motors, release camera, LEDs off."""
-        self.stop()
+        if hasattr(self, 'board'):
+            self.stop()
 
         if self._camera:
             self._camera.release()
@@ -245,6 +245,7 @@ class Robot:
 
     def __del__(self):
         try:
-            self.stop()
+            if hasattr(self, 'board'):
+                self.stop()
         except Exception:
             pass

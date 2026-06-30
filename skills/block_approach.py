@@ -17,6 +17,7 @@ import cv2
 import math
 import time
 from lib.board import get_board
+from lib.battery import GOOD_RUNTIME_VOLTAGE, read_voltage, runtime_minimum
 BoardController = None  # Use get_board() instead
 from skills.block_detect import BlockDetector, BlockDetection
 
@@ -51,7 +52,7 @@ class BlockApproach:
     # Safety
     TIMEOUT = 30
     LOST_TIMEOUT = 2.0
-    MIN_BATTERY = None      # Auto: Pi4=7.0, Pi5=8.1
+    MIN_BATTERY = None      # Auto: shared platform runtime minimum
     
     def __init__(self, board=None):
         self.board = board or get_board()
@@ -173,13 +174,12 @@ class BlockApproach:
         if min_bat is None:
             try:
                 from lib.board import PLATFORM
-                min_bat = 7.0 if PLATFORM == 'pi4' else 8.1
+                min_bat = runtime_minimum(PLATFORM)
             except ImportError:
-                min_bat = 7.5
+                min_bat = GOOD_RUNTIME_VOLTAGE
         
-        mv = self.board.get_battery()
-        if mv:
-            v = mv / 1000.0
+        v = read_voltage(self.board)
+        if v is not None:
             if v < min_bat:
                 return {
                     'success': False, 'color': None,
@@ -327,9 +327,9 @@ if __name__ == '__main__':
     
     approach = BlockApproach()
     
-    mv = approach.board.get_battery()
-    if mv:
-        print(f"Battery: {mv/1000:.2f}V")
+    v = read_voltage(approach.board)
+    if v is not None:
+        print(f"Battery: {v:.2f}V")
         print()
     
     try:
