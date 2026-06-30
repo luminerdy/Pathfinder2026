@@ -108,7 +108,7 @@ If it prints `ERROR: Cannot read battery voltage`, check robot power, battery co
 
 ## Step 3: Test Individual Motors
 
-This checks motor wiring before running any driving patterns.
+This is a hardware wiring and function check. It confirms each motor is plugged into the correct port and that each wheel can move before running any driving patterns.
 
 **Caution:** The robot will move as soon as each motor starts. Put it on the floor, not on a table. Clear at least a 4-foot by 4-foot area. It can drive off a table.
 
@@ -130,7 +130,7 @@ Each wheel should move when its motor number is tested. If the wrong wheel moves
 
 ## Step 4: Test Arm Servos
 
-This checks that the arm servos respond separately from the drive motors.
+This is a hardware wiring and function check. It confirms each arm servo is plugged into the correct port and that the gripper, wrist, elbow, shoulder, and base all respond.
 
 Keep hands clear of the arm and gripper.
 
@@ -155,7 +155,7 @@ If a drive motor moves during a servo test, stop and ask a facilitator to check 
 
 ## Step 5: Test Sonar
 
-This checks that the ultrasonic sensor is connected and reading distance.
+This is a hardware wiring and function check. It confirms the ultrasonic sensor is connected, powered, and reading distance.
 
 ```bash
 cd /home/robot/pathfinder
