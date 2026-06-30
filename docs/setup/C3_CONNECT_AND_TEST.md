@@ -238,6 +238,14 @@ If the page does not load, make sure the camera viewer is still running on the r
 
 ---
 
+## Required Tests Complete
+
+After Step 8, the robot connection and hardware checks are complete.
+
+The remaining sections are reference information for using terminals, copying files, editing code, and troubleshooting.
+
+---
+
 ## Working with Two Terminals
 
 You'll often want multiple SSH sessions:
@@ -274,11 +282,16 @@ Recommended workflow: keep `/home/robot/pathfinder` as the official updateable r
 2. `Ctrl+Shift+P` → "Remote-SSH: Connect to Host" → `robot@<ROBOT_IP>`
 3. If you set up the SSH key above, VS Code should connect without asking for the robot password. If not, enter the robot password when prompted.
 4. Wait for VS Code to install its server component on the robot. This happens automatically the first time and may take about a minute.
-5. Create the team folder if needed: `mkdir -p /home/robot/team_code`
-6. Open folder: `/home/robot/team_code`
-7. Copy examples from `/home/robot/pathfinder` into `/home/robot/team_code` before editing.
-8. Use VS Code's built-in terminal to run scripts.
+5. Open folder: `/home/robot/team_code`
+6. Copy examples from `/home/robot/pathfinder` into `/home/robot/team_code` before editing.
+7. Use VS Code's built-in terminal to run scripts.
 (See [C1 Pi 500 Setup](C1_PI500_SETUP.md) for VS Code install)
+
+If `/home/robot/team_code` is missing, open a robot terminal and run:
+
+```bash
+mkdir -p /home/robot/team_code
+```
 
 **Option B: Edit on Pi 500, copy to robot**
 ```bash

@@ -20,7 +20,7 @@ Facilitators may update `/home/robot/pathfinder` during the event with `git pull
 
 ## Create The Team Folder
 
-Run this while logged into the robot:
+The event robot image should already include this folder. If it is missing, run this while logged into the robot:
 
 ```bash
 mkdir -p /home/robot/team_code

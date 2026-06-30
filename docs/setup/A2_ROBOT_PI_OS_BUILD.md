@@ -251,6 +251,13 @@ ls skills/
 # Should show skill files including strafe_nav.py, block_detect.py, etc.
 ```
 
+### Create Team Code Folder
+```bash
+mkdir -p /home/robot/team_code
+```
+
+This folder gives students a safe place to edit code during the event. Keep `/home/robot/pathfinder` as the official updateable repo.
+
 ### Verify All Imports
 ```bash
 cd /home/robot/pathfinder
