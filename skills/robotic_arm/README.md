@@ -21,11 +21,11 @@ python3 play_action.py stand
 ```
 Play back pre-recorded sequences.
 
-### Level 2: Safe Arm Demo (Python)
+### Level 2: Block Pickup Demo (Python)
 ```bash
 python3 run_demo.py
 ```
-Move to home, test gripper open/close, and rotate the base.
+Pick up a block and load it onto the robot's back.
 
 ---
 
@@ -34,7 +34,7 @@ Move to home, test gripper open/close, and rotate the base.
 After this skill, you can:
 - Explain what each servo does (base, shoulder, elbow, wrist, gripper)
 - Control servos via web UI or Python
-- Run the safe arm demo
+- Run the block pickup demo
 - Play action groups (pre-recorded sequences)
 - Program pick-and-place sequences after positions are verified
 
@@ -60,7 +60,8 @@ After this skill, you can:
 - Verify servo ID (no servo 2!)
 
 **Arm hits itself:**
-- Return to the home position first
+- Stop with `Ctrl+C`
+- Re-check servo wiring before running the pickup demo again
 - Move through waypoints
 
 **Gripper won't close:**

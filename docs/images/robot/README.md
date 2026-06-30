@@ -18,6 +18,15 @@ Used in `docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md`:
 - `15_hdmi_connection.jpg`
 - `16_extra_screws.jpg`
 
+Used in `docs/setup/C3_CONNECT_AND_TEST.md`:
+
+- `17_pickup_1.jpg`
+- `18_pickup_2.jpg`
+- `19_pickup_3.jpg`
+- `20_pickup_4.jpg`
+- `21_pickup_5.jpg`
+- `22_pickup_6.jpg`
+
 Reference image not currently embedded in the guide:
 
 - `06_fan_assembly.jpg`

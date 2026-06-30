@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 """
-Robotic Arm Demo (D3 - Level 2: Safe Basics)
+Robotic Arm Demo: Pick Up A Block And Load It Onto The Back
 
-This demo uses only conservative, verified movements:
-- Home position
-- Gripper open/close
-- Base rotation left/right
+This is the C3 arm capability demo. It is based on the original
+PathfinderBot arm pickup movement sequence.
 
-It intentionally avoids unverified named reach/pickup/carry poses.
+Place the robot on the floor and put one block directly in front of
+the gripper before starting.
 
 Servo mapping:
-  Servo 1: Gripper/Claw  (1475=closed, 2500=open)
+  Servo 1: Gripper/Claw  (1455=closed, 2500=open)
   Servo 3: Wrist         (500-2500)
   Servo 4: Elbow         (500-2500)
   Servo 5: Shoulder      (500-2500)
@@ -18,95 +17,83 @@ Servo mapping:
   Note: Servo 2 does not exist on this platform.
 
 Usage:
-    python3 run_demo.py
+    python3 skills/robotic_arm/run_demo.py
 """
 
 import os
 import sys
 import time
 
-# Add project root for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
 from lib.board import get_board
 
 
-HOME_POSITION = [
-    (1, 2500),  # Gripper open
-    (3, 1200),  # Wrist neutral
-    (4, 1500),  # Elbow neutral
-    (5, 1500),  # Shoulder neutral
+READY_POSITION = [
+    (1, 1500),  # Gripper partly open
+    (3, 590),   # Wrist forward
+    (4, 2500),  # Elbow forward
+    (5, 700),   # Shoulder raised
     (6, 1500),  # Base center
 ]
 
 
-def move_home(board, duration_ms=1000):
-    """Move the arm to the known-good home position."""
-    print("  Moving to home position...")
-    board.set_servo_position(duration_ms, HOME_POSITION)
-    time.sleep(duration_ms / 1000.0 + 0.3)
+PICKUP_AND_LOAD_STEPS = [
+    ("Move to ready position", 2000, READY_POSITION, 0.3),
+    ("Lower shoulder toward block", 1000, [(5, 1818)], 1.0),
+    ("Position elbow and shoulder for pickup", 300, [(4, 2023), (5, 2091)], 0.3),
+    ("Open gripper near block", 500, [(1, 2400)], 1.0),
+    ("Open gripper fully", 500, [(1, 2500)], 0.3),
+    ("Reach to block", 800, [(3, 750), (4, 2150), (5, 2364)], 0.8),
+    ("Close gripper on block", 300, [(1, 1455), (5, 2318)], 0.3),
+    ("Lift block", 1000, [(5, 1841)], 1.0),
+    ("Move block over rear storage area", 2000, [(1, 1500), (3, 2500), (4, 500), (5, 1636)], 2.0),
+    ("Release block onto back", 2000, [(1, 2000)], 1.5),
+    ("Return to ready position", 2000, READY_POSITION, 0.3),
+]
+
+
+def stop_all_motors(board):
+    """Stop drive motors in case anything unexpected is active."""
+    board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+
+
+def move_arm(board, label, duration_ms, servos, pause_seconds):
+    """Run one labeled arm movement step."""
+    print("  %s" % label)
+    board.set_servo_position(duration_ms, servos)
+    time.sleep(duration_ms / 1000.0 + pause_seconds)
+
+
+def return_to_ready(board):
+    """Return arm to the ready position."""
+    try:
+        board.set_servo_position(2000, READY_POSITION)
+        time.sleep(2.2)
+    except Exception:
+        pass
 
 
 def main():
-    """Demonstrate safe arm basics."""
-
     print("=" * 60)
-    print("ROBOTIC ARM DEMO - Safe Basics")
+    print("ROBOTIC ARM PICKUP DEMO")
     print("=" * 60)
     print()
-    print("This demo tests home position, gripper, and base rotation.")
+    print("This demo picks up one block and loads it onto the robot's back.")
+    print("Place the robot on the floor and put one block directly in front of the gripper.")
     print("Keep hands clear of the arm and gripper.")
-    print("Press Ctrl+C to stop at any time.")
+    print("Press Ctrl+C to stop.")
     print("-" * 60)
     print()
 
+    input("Press Enter when the block is in place and the arm area is clear...")
+
     board = get_board()
+    stop_all_motors(board)
 
     try:
-        # Demo 1: Home position
-        print("[Demo 1] Home Position")
-        move_home(board, duration_ms=1200)
-        print("  Home position complete")
-        print()
-        time.sleep(0.5)
-
-        # Demo 2: Gripper control
-        print("[Demo 2] Gripper Control")
-        print("  Opening gripper (PWM 2500)...")
-        board.set_servo_position(500, [(1, 2500)])
-        time.sleep(1)
-
-        print("  Closing gripper (PWM 1475)...")
-        board.set_servo_position(500, [(1, 1475)])
-        time.sleep(1)
-
-        print("  Opening gripper again...")
-        board.set_servo_position(500, [(1, 2500)])
-        time.sleep(1)
-        print("  Gripper control complete")
-        print()
-        time.sleep(0.5)
-
-        # Demo 3: Base rotation
-        print("[Demo 3] Base Rotation")
-        move_home(board, duration_ms=800)
-
-        print("  Rotating left (PWM 1300)...")
-        board.set_servo_position(800, [(6, 1300)])
-        time.sleep(1)
-
-        print("  Rotating right (PWM 1700)...")
-        board.set_servo_position(800, [(6, 1700)])
-        time.sleep(1)
-
-        print("  Back to center (PWM 1500)...")
-        board.set_servo_position(800, [(6, 1500)])
-        time.sleep(1)
-        print("  Base rotation complete")
-        print()
-
-        print("Returning to home position...")
-        move_home(board, duration_ms=1000)
+        for label, duration_ms, servos, pause_seconds in PICKUP_AND_LOAD_STEPS:
+            move_arm(board, label, duration_ms, servos, pause_seconds)
 
         print()
         print("=" * 60)
@@ -114,9 +101,9 @@ def main():
         print("=" * 60)
         print()
         print("What you checked:")
-        print("  [OK] Home arm position")
-        print("  [OK] Gripper open/close")
-        print("  [OK] Base rotation left/right")
+        print("  [OK] Gripper opened and closed")
+        print("  [OK] Wrist, elbow, and shoulder moved together")
+        print("  [OK] Arm lifted and loaded the block onto the back")
 
     except KeyboardInterrupt:
         print("\nDemo stopped by user (Ctrl+C)")
@@ -127,11 +114,9 @@ def main():
         traceback.print_exc()
 
     finally:
-        print("\nReturning to home...")
-        try:
-            move_home(board, duration_ms=1000)
-        except Exception:
-            pass
+        print("\nReturning arm to ready position...")
+        return_to_ready(board)
+        stop_all_motors(board)
         print("Done.")
 
 

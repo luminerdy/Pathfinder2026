@@ -1,13 +1,13 @@
 # Skill: Robotic Arm Control
 
-**Difficulty:** ⭐⭐ (Intermediate - Hardware Manipulation)
+**Difficulty:** Intermediate - Hardware Manipulation
 **Type:** Servo Control & Manipulation
 **Prerequisites:** D1 (Mecanum Drive recommended)
 **Estimated Time:** 25-30 minutes
 
 ---
 
-> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`get_board()`, `board.set_servo_position()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
+> **Note - Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`get_board()`, `board.set_servo_position()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this - same concepts, cleaner code.
 
 ##  Overview
 
@@ -20,7 +20,7 @@ Learn to control a **5-servo robotic arm** to position, grab, and manipulate obj
 - Degrees of freedom (DOF) - what each joint does
 - Pre-recorded sequences (action groups like "macros")
 - Named positions (quick positioning)
-- Inverse kinematics basics (XYZ coordinates → joint angles)
+- Inverse kinematics basics (XYZ coordinates to joint angles)
 - Pick-and-place programming
 
 ### Real-World Applications
@@ -59,7 +59,7 @@ Learn to control a **5-servo robotic arm** to position, grab, and manipulate obj
 ### Step 1: Understand the Hardware
 
 **Your arm has 5 servos:**
-1. **Servo 1:** Gripper/Claw (1475=closed ✊, 2500=open ️)
+1. **Servo 1:** Gripper/Claw (1475=closed, 2500=open)
 2. **Servo 3:** Wrist (rotation up/down)
 3. **Servo 4:** Elbow (bend joint)
 4. **Servo 5:** Shoulder (raise/lower arm)
@@ -93,11 +93,11 @@ http://<ROBOT_IP>:5000/servo
 - Preset buttons (Rest, Camera Forward)
 
 **Try this:**
-1. Move Servo 6 (Base) slider → arm rotates
-2. Move Servo 5 (Shoulder) slider → arm raises/lowers
-3. Move Servo 4 (Elbow) slider → arm extends/retracts
-4. Move Servo 1 (Gripper) slider → claw opens/closes
-5. Click "Rest Position" button → arm moves to safe pose
+1. Move Servo 6 (Base) slider - arm rotates
+2. Move Servo 5 (Shoulder) slider - arm raises/lowers
+3. Move Servo 4 (Elbow) slider - arm extends/retracts
+4. Move Servo 1 (Gripper) slider - claw opens/closes
+5. Click "Rest Position" button - arm moves to safe pose
 
 **Success = You understand what each servo does!**
 
@@ -128,7 +128,7 @@ python3 play_action.py shake_head
 
 **Success = You played an action group and understand they're pre-recorded sequences!**
 
-### Step 3: Safe Arm Demo (Python)
+### Step 3: Block Pickup Demo (Python)
 
 **No web browser needed - pure Python:**
 ```bash
@@ -137,11 +137,12 @@ python3 run_demo.py
 ```
 
 **What happens:**
-1. Arm moves to the known-good home position
-2. Gripper opens and closes
-3. Base rotates left and right
+1. Arm moves to the ready position
+2. Gripper opens around a block
+3. Arm grabs and lifts the block
+4. Arm loads the block onto the robot's back
 
-**Success = Home, gripper, and base rotation work without drive motors moving.**
+**Success = The arm picks up a block and loads it onto the back without drive motors moving.**
 
 ---
 
@@ -155,21 +156,22 @@ from lib.board import get_board
 
 board = get_board()
 
-# Known-good home position
-board.set_servo_position(1000, [
-    (1, 2500),  # Gripper open
-    (3, 1200),  # Wrist neutral
-    (4, 1500),  # Elbow neutral
-    (5, 1500),  # Shoulder neutral
+# Ready position for pickup demo
+board.set_servo_position(2000, [
+    (1, 1500),  # Gripper partly open
+    (3, 590),   # Wrist forward
+    (4, 2500),  # Elbow forward
+    (5, 700),   # Shoulder raised
     (6, 1500),  # Base center
 ])
 
-# Gripper open/close
+# Example pickup actions
+board.set_servo_position(1000, [(5, 1818)])  # Lower shoulder
 board.set_servo_position(500, [(1, 2500)])
-board.set_servo_position(500, [(1, 1475)])
+board.set_servo_position(300, [(1, 1455)])   # Close gripper
 ```
 
-Use only positions that have been tested on the event robot. Do not add reach, pickup, or carry positions to the workshop path until they are mechanically verified.
+Use only positions that have been tested on the event robot. Do not add new reach, pickup, or carry positions to the workshop path until they are mechanically verified.
 
 ### Level 1.5: Action Groups (Pre-Recorded)
 
@@ -227,7 +229,7 @@ arm.move_to(0, 120, 180)
 **Reachability:**
 - Not all XYZ positions are possible (arm too short, joint limits)
 - IK solver returns `False` if unreachable
-- Typical workspace: X=±100mm, Y=50-250mm, Z=10-200mm
+- Typical workspace: X=plus/minus 100mm, Y=50-250mm, Z=10-200mm
 
 ### Level 4: Pick-and-Place Sequence
 
@@ -284,18 +286,18 @@ pick_and_place((0, 200, 30), (80, 180, 30))
 
 **PWM (Pulse Width Modulation):**
 - Servos receive 50 Hz signal (20ms period)
-- Pulse width: 500µs to 2500µs
+- Pulse width: 500 microseconds to 2500 microseconds
 - Pulse width = angle
-- 1500µs = center (90°)
-- 500µs = 0°, 2500µs = 180°
+- 1500 microseconds = center (90 degrees)
+- 500 microseconds = 0 degrees, 2500 microseconds = 180 degrees
 
 **Our mapping:**
-- PWM 500-2500 = ~0-180° (servo dependent)
+- PWM 500-2500 = about 0-180 degrees (servo dependent)
 - Some servos have different ranges (gripper: 1475-2500)
 
 ### Forward Kinematics
 
-**Problem:** Given joint angles → where is gripper?
+**Problem:** Given joint angles, where is gripper?
 
 **DH parameters** (Denavit-Hartenberg):
 ```
@@ -322,7 +324,7 @@ def forward_kinematics(theta_base, theta_shoulder, theta_elbow, theta_wrist):
 
 ### Inverse Kinematics
 
-**Problem:** Given desired (x, y, z) → what joint angles?
+**Problem:** Given desired (x, y, z), what joint angles?
 
 **Harder than forward!** (no unique solution, or no solution at all)
 
@@ -352,10 +354,10 @@ Workspace shape: Toroidal (donut) around base
 
 **Joint limits:**
 ```
-Base: ±90° (500-2500 PWM)
-Shoulder: ~0-180°
-Elbow: ~0-180°
-Wrist: ~0-180°
+Base: plus/minus 90 degrees (500-2500 PWM)
+Shoulder: about 0-180 degrees
+Elbow: about 0-180 degrees
+Wrist: about 0-180 degrees
 ```
 
 ### Action Group File Format
@@ -388,16 +390,16 @@ Frame 3: (1200ms, 1475, 590, 2450, 700, 1500)  -- End (gripper closed)
 
 ```
 robotic_arm/
-├── SKILL.md                # This file
-├── run_demo.py             # Level 1/2: Safe home, gripper, and base demo
-├── play_action.py          # Level 1.5: Action group playback
-├── config.yaml             # Configuration (positions, limits)
-├── pick_place_template.py  # Level 4: Template for custom sequences
-├── README.md               # Quick reference
-└── action_groups/          # Pre-recorded sequences
-    ├── stand.d6a
-    ├── shake_head.d6a
-    └── wave.d6a
+SKILL.md                # This file
+run_demo.py             # Level 2: Block pickup and load demo
+play_action.py          # Level 1.5: Action group playback
+config.yaml             # Configuration (positions, limits)
+pick_place_template.py  # Level 4: Template for custom sequences
+README.md               # Quick reference
+action_groups/          # Pre-recorded sequences
+  stand.d6a
+  shake_head.d6a
+  wave.d6a
 ```
 
 ---

@@ -197,11 +197,20 @@ Only run this after Step 4 confirms the servo wiring is correct:
 - Servo 3 moves the wrist.
 - Servo 5 moves the shoulder.
 
+This is a pickup-and-load demo. Place the robot on the floor and put one block directly in front of the gripper.
+
+<img src="../images/robot/17_pickup_1.jpg" width="120" alt="block placed in front of robot gripper">
+<img src="../images/robot/18_pickup_2.jpg" width="120" alt="arm lowering toward block">
+<img src="../images/robot/19_pickup_3.jpg" width="120" alt="gripper approaching block">
+<img src="../images/robot/20_pickup_4.jpg" width="120" alt="gripper holding block">
+<img src="../images/robot/21_pickup_5.jpg" width="120" alt="arm lifting block">
+<img src="../images/robot/22_pickup_6.jpg" width="120" alt="block loaded onto robot back">
+
 ```bash
 python3 skills/robotic_arm/run_demo.py
 ```
 
-The arm should move to the known-good home position, test the gripper, and rotate the base left/right.
+The arm should pick up the block and load it onto the robot's back.
 
 If the wrist and shoulder move differently than Step 4 showed, stop and re-check the arm wiring before changing code.
 
