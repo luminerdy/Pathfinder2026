@@ -199,12 +199,7 @@ Only run this after Step 4 confirms the servo wiring is correct:
 
 This is a pickup-and-load demo. Place the robot on the floor and put one block directly in front of the gripper.
 
-<img src="../images/robot/17_pickup_1.jpg" width="120" alt="block placed in front of robot gripper">
-<img src="../images/robot/18_pickup_2.jpg" width="120" alt="arm lowering toward block">
-<img src="../images/robot/19_pickup_3.jpg" width="120" alt="gripper approaching block">
-<img src="../images/robot/20_pickup_4.jpg" width="120" alt="gripper holding block">
-<img src="../images/robot/21_pickup_5.jpg" width="120" alt="arm lifting block">
-<img src="../images/robot/22_pickup_6.jpg" width="120" alt="block loaded onto robot back">
+<img src="../images/robot/17_pickup_1.jpg" width="120" alt="block placed in front of robot gripper"> <img src="../images/robot/18_pickup_2.jpg" width="120" alt="arm lowering toward block"> <img src="../images/robot/19_pickup_3.jpg" width="120" alt="gripper approaching block"> <img src="../images/robot/20_pickup_4.jpg" width="120" alt="gripper holding block"> <img src="../images/robot/21_pickup_5.jpg" width="120" alt="arm lifting block"> <img src="../images/robot/22_pickup_6.jpg" width="120" alt="block loaded onto robot back">
 
 ```bash
 python3 skills/robotic_arm/run_demo.py
