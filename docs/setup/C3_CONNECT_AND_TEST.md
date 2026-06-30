@@ -204,7 +204,7 @@ python3 skills/robotic_arm/run_demo.py
 
 The arm should pick up the block and load it onto the robot's back.
 
-If the arm moves differently than Step 4 showed, stop and re-check the arm wiring before changing code.
+If any movement is not correct, stop and re-check the arm assembly, block placement, and servo wiring before changing code.
 
 ## Step 8: Test Camera
 
