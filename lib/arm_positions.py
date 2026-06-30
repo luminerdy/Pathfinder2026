@@ -120,7 +120,7 @@ class Arm:
         self.board.set_servo_position(2000, [(5, 700)])
         self.board.set_servo_position(2000, [(6, 1500)])
         
-        # Lower wrist toward ground
+        # Lower shoulder toward ground
         self.board.set_servo_position(1000, [(5, 1818)])
         time.sleep(1)
         
@@ -133,7 +133,7 @@ class Arm:
         self.board.set_servo_position(400, [(1, 1932)])
         time.sleep(0.4)
         
-        # Lower shoulder, extend to block
+        # Adjust wrist and shoulder, extend to block
         self.board.set_servo_position(800, [(3, 750)])
         self.board.set_servo_position(800, [(5, 2364)])
         time.sleep(0.8)

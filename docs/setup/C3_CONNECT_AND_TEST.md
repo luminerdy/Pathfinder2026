@@ -192,11 +192,18 @@ The rotate and square-pattern turns are tuned to use 40% motor power so the robo
 
 ## Step 7: Test Arm Demo
 
+Only run this after Step 4 confirms the servo wiring is correct:
+
+- Servo 3 moves the wrist.
+- Servo 5 moves the shoulder.
+
 ```bash
 python3 skills/robotic_arm/run_demo.py
 ```
 
 The arm should move to the known-good home position, test the gripper, and rotate the base left/right.
+
+If the wrist and shoulder move differently than Step 4 showed, stop and re-check the arm wiring before changing code.
 
 ## Step 8: Test Camera
 
