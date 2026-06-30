@@ -214,10 +214,10 @@ python3 skills/camera_vision/test_camera.py
 
 This is a snapshot test. It should report `Camera: 640x480` and save a test image.
 
-To view the live camera feed, start the web control server on the robot:
+To view the live camera feed, start the camera-only web viewer on the robot:
 
 ```bash
-python3 web/web_control.py
+python3 web/camera_view.py
 ```
 
 Leave that terminal running. It should print:
@@ -232,7 +232,9 @@ Then, from the Pi 500 browser, open:
 http://<ROBOT_IP>:8080
 ```
 
-Replace `<ROBOT_IP>` with your robot's IP. If the page does not load, make sure the web control server is still running on the robot and that the Pi 500 and robot are on the same WiFi network.
+Replace `<ROBOT_IP>` with your robot's IP. This page is only for viewing the camera. It does not include robot movement controls.
+
+If the page does not load, make sure the camera viewer is still running on the robot and that the Pi 500 and robot are on the same WiFi network.
 
 ---
 
@@ -368,8 +370,8 @@ python3 -c "from lib.board import get_board; b=get_board(); b.set_motor_duty([(1
 # Copy file to robot
 scp file.py robot@<ROBOT_IP>:/home/robot/team_code/
 
-# Start camera web feed on the robot
-python3 web/web_control.py
+# Start camera-only web feed on the robot
+python3 web/camera_view.py
 
 # Then view camera from the Pi 500 browser
 # Open browser: http://<ROBOT_IP>:8080
