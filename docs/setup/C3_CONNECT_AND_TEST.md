@@ -396,4 +396,4 @@ Need the latest code on the robot? Use [C4: Update robot code](C4_UPDATE_ROBOT_C
 
 ---
 
-**You're connected!** Now head to [START_HERE.md](../../START_HERE.md) to begin the workshop skills.
+**You're connected!** Now head to [Workshop Guide](../workshop/README.md) to begin the workshop skills.

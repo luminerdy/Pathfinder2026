@@ -109,7 +109,7 @@ Use the GitHub repo as the main source:
 https://github.com/luminerdy/Pathfinder2026
 ```
 
-Open `START_HERE.md` from the repo page.
+Open `docs/workshop/README.md` from the repo page.
 
 Optional: if you cloned the repo locally during image setup, verify it:
 
@@ -118,7 +118,7 @@ cd ~/Pathfinder2026
 ls
 ```
 
-You should see files like `START_HERE.md`, `README.md`, and the `docs/` folder.
+You should see files like `README.md`, the `docs/` folder, and `docs/workshop/README.md`.
 
 ---
 

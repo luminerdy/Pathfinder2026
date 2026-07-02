@@ -37,7 +37,7 @@ Or scan:
 Start with:
 
 ```text
-START_HERE.md
+docs/workshop/README.md
 ```
 
 ## Pi 500 Track

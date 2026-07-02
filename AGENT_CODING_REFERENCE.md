@@ -564,6 +564,6 @@ from skills.bin_collect import bin_collect
 robot-capabilities-and-constraints.md    Field testing framework and game design input
 README.md                                Project overview
 INSTALL.md                               Setup and dependencies
-START_HERE.md                            Quick start
+docs/workshop/README.md                  Workshop quick start
 examples/robot_basics.py                 Working hardware examples
 ```

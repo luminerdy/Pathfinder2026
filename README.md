@@ -2,7 +2,7 @@
 
 **Summer 2026 Pathfinder robotics event**
 
-**Last Updated:** June 30, 2026
+**Last Updated:** July 1, 2026
 
 Pathfinder2026 is the event repo for the 2026 Pathfinder robot workshop. It is meant to be easy for humans first: participants, facilitators, setup helpers, and whoever is editing the course.
 
@@ -16,12 +16,9 @@ The robot software underneath comes from PathfinderV2.
 
 ## Start Here
 
-If you are new to this repo, use this order:
+If you are new to this repo, start here:
 
-1. [START_HERE.md](START_HERE.md) - event-day guide
-2. [Assemble](docs/workshop/ASSEMBLE.md) - set up the Pi 500, build the robot, and verify the connection
-3. [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md) - run the robot demos
-4. [Course Challenge](docs/workshop/COURSE_CHALLENGE.md) - combine skills on the field
+- [Workshop Guide](docs/workshop/README.md) - event-day guide and main workshop index
 
 ## Where Does The Code Live?
 
@@ -57,10 +54,9 @@ Most participants should run scripts from `skills/`. Most code changes should al
 | Folder/File | What It Is For |
 |-------------|----------------|
 | `README.md` | Repo overview and orientation. |
-| `START_HERE.md` | Event-day participant path. |
 | `CONTRIBUTING.md` | GitHub repo file rules, including no emojis in committed files. |
 | `docs/handouts/` | Short printable team handouts. |
-| `docs/workshop/` | Human-facing workshop phases. |
+| `docs/workshop/` | Main human-facing workshop flow. Start here when editing the event. |
 | `docs/setup/` | Pre-event Pi 500, robot Pi, SD card, and connection setup. |
 | `docs/calibration/` | Calibration and tuning notes. |
 | `docs/archive/` | Historical development notes from PathfinderV2. |
