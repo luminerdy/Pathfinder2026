@@ -136,11 +136,13 @@ Guide: [Course Challenge](docs/workshop/COURSE_CHALLENGE.md)
 
 ## Setup Links
 
-For pre-event setup:
+For the workshop, the Pi 500 and robot images should already be created. Teams should start with [Workshop Guide](docs/workshop/README.md).
 
-- [Pi 500 OS Build](docs/setup/A1_PI500_OS_BUILD.md)
+For facilitator pre-event setup:
+
+- [Pi 500 OS Build](docs/setup/A1_PI500_OS_BUILD.md) - pre-event image build
 - [robot Assembly Guide](docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md)
-- [robot Pi OS build](docs/setup/A2_ROBOT_PI_OS_BUILD.md)
+- [robot Pi OS build](docs/setup/A2_ROBOT_PI_OS_BUILD.md) - pre-event image build
 - [Pi 500 Setup](docs/setup/C1_PI500_SETUP.md)
 - [robot Pi WiFi Setup](docs/setup/C2_ROBOT_PI_WIFI_SETUP.md)
 - [Connect and Test](docs/setup/C3_CONNECT_AND_TEST.md)

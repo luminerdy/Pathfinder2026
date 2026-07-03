@@ -30,7 +30,9 @@ Use these files for the event flow:
 | [COURSE_CHALLENGE.md](COURSE_CHALLENGE.md) | Phase 3 course structure |
 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Student-facing troubleshooting |
 
-Use [../setup](../setup) for image builds, Pi setup, robot WiFi, connection testing, and update procedures.
+For the workshop, the Pi 500 and robot OS images should already be created. Teams should skip the image-build documents and start with the event-day guides below.
+
+Facilitators can use [../setup](../setup) before the event for image builds, Pi setup, robot WiFi, connection testing, and update procedures.
 
 ## Phase 1: Assemble
 
@@ -47,6 +49,8 @@ Teams split into two paths, then come back together:
 
 Facilitator references:
 
+- [A1: Pi 500 OS Build](../setup/A1_PI500_OS_BUILD.md) - pre-event image build, skip during workshop
+- [A2: robot Pi OS Build](../setup/A2_ROBOT_PI_OS_BUILD.md) - pre-event image build, skip during workshop
 - [C4: Update robot code](../setup/C4_UPDATE_ROBOT_CODE.md)
 - [C5: Team code workflow](../setup/C5_TEAM_CODE_WORKFLOW.md)
 

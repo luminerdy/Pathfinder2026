@@ -2,7 +2,7 @@
 
 **Purpose:** Power on the assembled robot, confirm it is on the workshop network, and get the robot IP address for C3.
 
-This is an event-time step. The robot SD card image should already be created before the event.
+This is an event-time step. The robot SD card image should already be created before the event. Do not run [A2: robot Pi OS Build](A2_ROBOT_PI_OS_BUILD.md) during the workshop unless a facilitator tells you to rebuild a robot SD card.
 
 ## Prerequisites
 

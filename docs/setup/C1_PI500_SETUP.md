@@ -4,6 +4,8 @@
 
 The Pi 500 is a keyboard computer — the keyboard IS the computer. You just need a monitor and mouse.
 
+Workshop note: the Pi 500 OS image should already be created before the event. Do not run [A1: Pi 500 OS Build](A1_PI500_OS_BUILD.md) during the workshop unless a facilitator tells you to rebuild an SD card.
+
 For a short team-facing checklist, use [Team Start Handout](../handouts/TEAM_START_HANDOUT.md).
 
 ---
@@ -11,7 +13,7 @@ For a short team-facing checklist, use [Team Start Handout](../handouts/TEAM_STA
 ## Materials Needed
 
 - Full setup BOM: [BILL_OF_MATERIALS.md](BILL_OF_MATERIALS.md)
-- Raspberry Pi 500 (with SD card already imaged — see [A1](A1_PI500_OS_BUILD.md))
+- Raspberry Pi 500 with SD card already imaged
 - Portable monitor
 - Micro HDMI to HDMI adapter
 - USB mouse
@@ -81,7 +83,7 @@ Practice opening a terminal now. You'll be using it constantly.
 
 ## Step 5: Verify VS Code
 
-VS Code should already be installed on the Pi 500 image from [A1: Pi 500 OS Build](A1_PI500_OS_BUILD.md). This step only verifies that it is ready for event use.
+VS Code should already be installed on the Pi 500 image. This step only verifies that it is ready for event use.
 
 1. Open VS Code:
    ```bash
@@ -95,7 +97,7 @@ VS Code should already be installed on the Pi 500 image from [A1: Pi 500 OS Buil
    - `ms-python.python`
    - `ms-vscode-remote.remote-ssh`
 
-If VS Code or either extension is missing, use [A1: Pi 500 OS Build](A1_PI500_OS_BUILD.md), Step 6 and Step 7, to install them.
+If VS Code or either extension is missing, ask a facilitator. Facilitators can use [A1: Pi 500 OS Build](A1_PI500_OS_BUILD.md), Step 6 and Step 7, to repair the image.
 
 The Pi 500 control hub is now ready. You may not be ready to connect to the robot yet. Wait until the robot assembly team has the robot built, powered, and safe to test.
 

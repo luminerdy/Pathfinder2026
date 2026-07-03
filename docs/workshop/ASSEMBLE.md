@@ -2,6 +2,8 @@
 
 Assemble is the first workshop phase. The goal is to prepare the team's Pi 500 control hub and build a robot that is mechanically ready, powered, connected, and safe to test.
 
+For the workshop, the Pi 500 and robot OS images should already be created. Teams should skip the image-build documents and start with the event-day setup guides.
+
 ## What This Phase Covers
 
 1. Pi 500 unbox, boot, network, GitHub, and VS Code setup
@@ -24,13 +26,12 @@ This track covers:
 - Boot Raspberry Pi OS.
 - Connect to workshop WiFi.
 - Confirm GitHub access.
-- Install VS Code on the Pi 500.
-- Prepare VS Code Remote SSH for the robot.
+- Verify VS Code and Remote SSH are ready.
 
 Relevant setup docs:
 
-- [Pi 500 OS Build](../setup/A1_PI500_OS_BUILD.md)
-- [Pi 500 Setup](../setup/C1_PI500_SETUP.md)
+- [Pi 500 Setup](../setup/C1_PI500_SETUP.md) - event-day guide
+- [Pi 500 OS Build](../setup/A1_PI500_OS_BUILD.md) - facilitator pre-event image build, skip during workshop
 
 ## robot assembly
 
@@ -96,9 +97,9 @@ The robot Pi runs the code on the robot.
 
 Relevant setup docs:
 
-- [robot Pi OS build](../setup/A2_ROBOT_PI_OS_BUILD.md)
-- [C2 robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md)
-- [C3 Connect and Test](../setup/C3_CONNECT_AND_TEST.md)
+- [C2 robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md) - event-day guide
+- [C3 Connect and Test](../setup/C3_CONNECT_AND_TEST.md) - event-day guide
+- [robot Pi OS build](../setup/A2_ROBOT_PI_OS_BUILD.md) - facilitator pre-event image build, skip during workshop
 - [C4 Update robot code](../setup/C4_UPDATE_ROBOT_CODE.md)
 - [C5 Team code workflow](../setup/C5_TEAM_CODE_WORKFLOW.md)
 
