@@ -80,6 +80,7 @@ def main():
     print("=" * 60)
     print()
     print("This demo picks up one block and loads it onto the robot's back.")
+    print("Only run this after Step 4 confirms the servo wiring is correct.")
     print("Place the robot on the floor and put one block directly in front of the gripper.")
     print("Keep hands clear of the arm and gripper.")
     print("Press Ctrl+C to stop.")
@@ -104,12 +105,16 @@ def main():
         print("  [OK] Gripper opened and closed")
         print("  [OK] Wrist, elbow, and shoulder moved together")
         print("  [OK] Arm lifted and loaded the block onto the back")
+        print()
+        print("If any movement was not correct, stop and re-check the arm assembly, block placement, and servo wiring before changing code.")
 
     except KeyboardInterrupt:
         print("\nDemo stopped by user (Ctrl+C)")
+        print("If any movement was not correct, stop and re-check the arm assembly, block placement, and servo wiring before changing code.")
 
     except Exception as e:
         print("\nERROR: %s" % e)
+        print("Stop and re-check the arm assembly, block placement, and servo wiring before changing code.")
         import traceback
         traceback.print_exc()
 

@@ -32,7 +32,7 @@ if not camera.isOpened():
     print("  - Check USB connection (unplug and replug)")
     print("  - Run: ls /dev/video*  (should show video0)")
     print("  - Try device 1: cv2.VideoCapture(1)")
-    print("  - Check permissions: sudo usermod -a -G video $USER")
+    print("  - Ask a facilitator before running sudo permission commands")
     exit(1)
 
 print("  [OK] Camera opened!")
@@ -51,6 +51,7 @@ height = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
 fps = int(camera.get(cv2.CAP_PROP_FPS))
 
 print("  Resolution: %dx%d" % (width, height))
+print("  Camera: %dx%d" % (width, height))
 print("  FPS: %d" % fps)
 print()
 

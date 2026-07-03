@@ -19,6 +19,7 @@ Usage:
 
 Safety:
     - Clear a 4-foot by 4-foot area around the robot
+    - The robot may move about 2 feet in any direction
     - Robot on floor only. It can drive off a table.
     - Battery check passes
     - Press Ctrl+C to emergency stop
@@ -160,6 +161,7 @@ def main():
     print()
     print("SAFETY:")
     print("  - Clear a 4-foot by 4-foot area around the robot")
+    print("  - The robot may move about 2 feet in any direction")
     print("  - Put the robot on the floor only. It can drive off a table.")
     print("  - Press Ctrl+C to emergency stop")
     print()
@@ -176,9 +178,11 @@ def main():
         print(f"  Battery: {v:.2f}V")
         print(f"  Status: {status} - {message}")
         if not ok:
+            print("  Replace or charge batteries before motor operation.")
             return
     else:
-        print("  [WARNING] Could not read battery (check board connection)")
+        print("  [WARNING] Could not read battery")
+        print("  Check robot power, battery connection, and the motor board connection before continuing.")
     
     print()
     input("Press Enter to start demo...")
@@ -241,9 +245,9 @@ def main():
         print("  [OK] Square pattern - combining movements")
         print()
         print("Next steps:")
-        print("  - Try editing config.yaml to change speeds")
-        print("  - Read SKILL.md to understand how it works")
-        print("  - Experiment with your own movement patterns!")
+        print("  - If motors did not move, re-check battery and Step 3 motor wiring.")
+        print("  - If movement direction was wrong, go back to B1: robot Assembly Guide and check motor wiring before changing code.")
+        print("  - If everything looked correct, continue with the next C3 test.")
         
         # Victory beep
         demo.board.set_buzzer(1000, 0.1, 0.1, 2)

@@ -54,7 +54,8 @@ def main():
             print("  Motor %d: %s wheel" % (motor_id, name))
         print()
         print("If the wrong wheel moved, check the motor cable port.")
-        print("If a wheel did not move or spun backward, ask a facilitator.")
+        print("If a wheel did not move or spun backward, stop before running drive patterns.")
+        print("If this test fails, go back to B1: robot Assembly Guide and check the motor wiring photos before changing code.")
 
     finally:
         stop_all(board)

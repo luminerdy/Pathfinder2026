@@ -188,7 +188,7 @@ The rotate and square-pattern turns are tuned to use 40% motor power so the robo
 **If motors don't move:**
 - Check battery (>7.0V needed)
 - Are wheels touching the ground?
-- Try higher power scripts
+- Re-check Step 3 motor wiring against [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) before changing code.
 
 ## Step 7: Test Arm Demo
 

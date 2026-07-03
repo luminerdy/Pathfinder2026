@@ -26,6 +26,7 @@ def check_battery(strict=False, minimum_voltage=None):
 
         if volts is None:
             print("ERROR: Cannot read battery voltage")
+            print("Check robot power, battery connection, and the motor board connection before continuing.")
             if strict:
                 sys.exit(1)
             return None
@@ -46,6 +47,7 @@ def check_battery(strict=False, minimum_voltage=None):
 
     except Exception as e:
         print("ERROR: %s" % e)
+        print("Check robot power, battery connection, and the motor board connection before continuing.")
         if strict:
             sys.exit(1)
         return None
