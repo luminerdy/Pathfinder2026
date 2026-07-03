@@ -327,7 +327,7 @@ For a shorter student checklist, see [Student Troubleshooting](../workshop/TROUB
 - Confirm you are using the robot IP, not the Pi 500 IP.
 - Confirm the Pi 500 and robot are on the same workshop network.
 - Compare with another team that can connect.
-- Ask the facilitator to confirm the robot IP if it still fails.
+- Repeat [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md) on the robot Pi if it still fails.
 - If the robot was rebooted or moved to another network, its IP may have changed.
 - Try: `ping <ROBOT_IP>` from the Pi 500.
 

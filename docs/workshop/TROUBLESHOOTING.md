@@ -43,7 +43,7 @@ If ping fails:
 
 - Confirm the Pi 500 and robot are on the same WiFi network.
 - Compare with another team and confirm they are using the same network.
-- Ask a facilitator to confirm the current robot IP if the network looks right.
+- Repeat [C2: robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md) on the robot Pi to confirm the current robot IP.
 - Make sure the robot is powered on.
 
 If SSH asks for a password after keys were set up:

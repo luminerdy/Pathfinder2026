@@ -85,7 +85,7 @@ docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md
 
 When the Pi 500 is ready and the robot is assembled:
 
-1. Get the robot IP from the facilitator or the robot display.
+1. Find the robot IP using C2 on the robot Pi.
 2. Open the robot Pi/WiFi guide:
    ```text
    docs/setup/C2_ROBOT_PI_WIFI_SETUP.md
