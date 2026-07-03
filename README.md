@@ -16,9 +16,28 @@ The robot software underneath comes from PathfinderV2.
 
 ## Start Here
 
-If you are new to this repo, start here:
+If you are at the event, start here:
 
-- [Workshop Guide](docs/workshop/README.md) - event-day guide and main workshop index
+- [Workshop Guide](docs/workshop/README.md)
+
+The Workshop Guide is the main event path. It walks teams through:
+
+1. Assemble
+2. Capabilities Exploration
+3. Course Challenge
+
+For the workshop, the Pi 500 and robot images should already be created. The OS build documents are for facilitators preparing equipment before the event.
+
+## Quick Event Links
+
+| Need | Start Here |
+|------|------------|
+| Event-day team flow | [Workshop Guide](docs/workshop/README.md) |
+| Assemble phase | [Assemble](docs/workshop/ASSEMBLE.md) |
+| Connect and test the robot | [C3: Connect And Test](docs/setup/C3_CONNECT_AND_TEST.md) |
+| Explore robot capabilities | [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md) |
+| Troubleshooting | [Student Troubleshooting](docs/workshop/TROUBLESHOOTING.md) |
+| Safe team code edits | [C5: Team Code Workflow](docs/setup/C5_TEAM_CODE_WORKFLOW.md) |
 
 ## Where Does The Code Live?
 
@@ -48,33 +67,9 @@ In this repo, the robot code is organized like this:
 
 Most participants should run scripts from `skills/`. Most code changes should also start there.
 
-## Where Are The Documents?
+## Testing Robot Behavior
 
-| Folder/File | What It Is For |
-|-------------|----------------|
-| `README.md` | Repo overview and orientation. |
-| `CONTRIBUTING.md` | GitHub repo file rules, including no emojis in committed files. |
-| `docs/handouts/` | Short printable team handouts. |
-| `docs/workshop/` | Main human-facing workshop flow. Start here when editing the event. |
-| `docs/setup/` | Pre-event Pi 500, robot Pi, SD card, and connection setup. |
-| `docs/calibration/` | Calibration and tuning notes. |
-| `docs/archive/` | Historical development notes from PathfinderV2. |
-| `docs/workshop/TROUBLESHOOTING.md` | Student-facing quick fixes for event problems. |
-| `docs/workshop/CONFIG_GUIDE.md` | Which settings teams can safely tune. |
-| `docs/calibration/2026_MOVEMENT_TEST_PLAN.md` | Checklist for 2026 movement calibration tests. |
-
-## What Should I Work On?
-
-If you are preparing the event:
-
-- Use `docs/setup/` for SD cards, Pi setup, and connection testing.
-- Use `docs/workshop/ASSEMBLE.md` to tighten the Assemble phase.
-- Use `docs/workshop/CAPABILITIES_EXPLORATION.md` to choose which demos participants run.
-- Use `docs/workshop/CONFIG_GUIDE.md` to decide which settings teams can safely tune.
-- Use `docs/calibration/2026_MOVEMENT_TEST_PLAN.md` while testing real robot movement.
-- Use `docs/workshop/COURSE_CHALLENGE.md` to capture the course design in your head.
-
-If you are testing robot behavior:
+If you are testing robot behavior directly:
 
 - Start with `skills/README.md`
 - Then `skills/mecanum_drive/`
@@ -97,48 +92,9 @@ Then open this from the Pi 500 browser:
 http://<ROBOT_IP>:8080
 ```
 
-## Workshop Phases
+## Facilitator Setup Links
 
-### 1. Assemble
-
-Teams unbox and boot the Pi 500, connect to GitHub, unpack and assemble the robot, connect to the robot Pi, and verify the robot can safely move.
-
-Guide: [Assemble](docs/workshop/ASSEMBLE.md)
-
-### 2. Capabilities Exploration
-
-Teams run focused demos to learn the robot:
-
-- Drive
-- Sonar
-- Arm
-- Camera
-- AprilTags
-- Block detection
-- Visual servoing
-- Pickup
-- Line following
-- Web/manual control
-
-Guide: [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md)
-
-### 3. Course Challenge
-
-Teams combine capabilities on the field:
-
-- Navigate the course
-- Avoid obstacles
-- Detect blocks
-- Pick up, push, store, or deliver blocks
-- Tune strategy for reliability and speed
-
-Guide: [Course Challenge](docs/workshop/COURSE_CHALLENGE.md)
-
-## Setup Links
-
-For the workshop, the Pi 500 and robot images should already be created. Teams should start with [Workshop Guide](docs/workshop/README.md).
-
-For facilitator pre-event setup:
+Use these before the event when preparing images, hardware, and setup flow:
 
 - [Pi 500 OS Build](docs/setup/A1_PI500_OS_BUILD.md) - pre-event image build
 - [robot Assembly Guide](docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md)
@@ -147,6 +103,21 @@ For facilitator pre-event setup:
 - [robot Pi WiFi Setup](docs/setup/C2_ROBOT_PI_WIFI_SETUP.md)
 - [Connect and Test](docs/setup/C3_CONNECT_AND_TEST.md)
 - [Bill of Materials](docs/setup/BILL_OF_MATERIALS.md)
+
+## Repo Map
+
+| Folder/File | What It Is For |
+|-------------|----------------|
+| `docs/workshop/` | Main human-facing workshop flow. Start here when editing the event. |
+| `docs/setup/` | Pre-event Pi 500, robot Pi, SD card, and connection setup. |
+| `docs/handouts/` | Short printable team handouts. |
+| `docs/calibration/` | Calibration and tuning notes. |
+| `docs/archive/` | Historical development notes from PathfinderV2. |
+| `skills/` | Main workshop demos and robot capabilities. |
+| `scripts/tools/` | Utilities like battery, motor, servo, sonar, and camera checks. |
+| `lib/` | Shared robot control code used by the demos. |
+| `web/` | Browser-based robot control interface. |
+| `CONTRIBUTING.md` | GitHub repo file rules, including no emojis in committed files. |
 
 ## License
 
