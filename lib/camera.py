@@ -111,6 +111,7 @@ class Camera:
         """Open the camera."""
         if self.cap is not None:
             return
+        # device 0 is usually /dev/video0, the first USB camera.
         self.cap = cv2.VideoCapture(self.device)
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
@@ -133,7 +134,7 @@ class Camera:
         if not self.is_open():
             self.open()
         
-        # Flush stale frames from buffer
+        # Flush stale frames from buffer so decisions use a fresh image.
         for _ in range(flush):
             self.cap.read()
         
@@ -141,7 +142,7 @@ class Camera:
         if not ret:
             return None
         
-        # Apply undistortion if calibrated
+        # Apply undistortion if a real calibration file was loaded.
         if self.calibrated and self.mapx is not None:
             frame = cv2.remap(frame, self.mapx, self.mapy, cv2.INTER_LINEAR)
         

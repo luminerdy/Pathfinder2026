@@ -21,12 +21,14 @@ from lib.battery import CALIBRATED_MOVEMENT_VOLTAGE, read_voltage
 BoardController = None  # Use get_board() instead
 
 # Legacy calibration constants (Power 30, Battery 8.2V+)
+# These helpers remain for reference, but C3 demos use more conservative values.
 ROTATION_POWER = 30
 ROTATION_RATE = 103  # deg/sec
 TURN_90_DURATION = 0.87  # seconds
 
 def stop(board):
     """Stop all motors"""
+    # Use this after every timed movement so the robot does not keep drifting.
     board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
 
 def rotate_90(board, direction='right'):
@@ -74,7 +76,8 @@ def rotate_degrees(board, degrees, direction='right'):
     Use power 40 in current demos if the robot does not turn reliably.
     Rate: ~103 deg/sec
     """
-    # Calculate duration based on calibrated rotation rate
+    # Calculate duration based on calibrated rotation rate.
+    # This is approximate and changes with battery voltage and floor surface.
     duration = abs(degrees) / ROTATION_RATE
     
     if direction == 'right':
@@ -120,7 +123,7 @@ def rotate_360(board):
     """
     rotate_degrees(board, 360, 'right')
 
-# Forward movement functions (TODO: needs calibration)
+# Forward movement functions. These are timed movements, not distance-controlled.
 def forward(board, power=30, duration=1.0):
     """
     Drive forward

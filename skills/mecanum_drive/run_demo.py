@@ -31,7 +31,7 @@ import sys
 import os
 import time
 
-# Add parent directory to path
+# Add the repository root so this demo can import lib/ when run directly.
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
 from lib.board import get_board, PLATFORM
@@ -54,6 +54,7 @@ class MecanumDemo:
 
     def _set_motors(self, front_left, front_right, rear_left, rear_right):
         """Set all four drive motors using the Pathfinder motor numbering."""
+        # The board expects a list of (motor_number, duty_cycle) pairs.
         self.board.set_motor_duty([
             (1, self._clamp(front_left)),   # Front left
             (2, self._clamp(front_right)),  # Front right
@@ -70,14 +71,15 @@ class MecanumDemo:
             vy: Forward speed (-100 to 100, + = forward)
             omega: Rotation speed (-100 to 100, + = clockwise/right)
         """
-        # Mecanum wheel equations
+        # Mecanum wheel equations combine sideways, forward, and turning motion.
         L = 1.0  # Keep rotation input in motor-duty units for the workshop demo
         fl = vy + vx + omega * L
         fr = vy - vx - omega * L
         rl = vy - vx + omega * L
         rr = vy + vx - omega * L
         
-        # Normalize if any wheel exceeds max
+        # If one wheel would be too fast, scale all wheels down together.
+        # That keeps the movement direction the same while staying within limits.
         max_wheel = max(abs(fl), abs(fr), abs(rl), abs(rr))
         if max_wheel > self.max_speed:
             scale = self.max_speed / max_wheel
@@ -146,6 +148,7 @@ class MecanumDemo:
             print(f"    Side {i+1}/4")
             self.forward(speed, side_duration)
             time.sleep(0.5)
+            # A 90-degree turn is approximate because battery, floor, and tires vary.
             self.rotate_cw(40, 1.0)  # 90° turn (approximate)
             time.sleep(0.5)
         self.stop()
@@ -169,7 +172,7 @@ def main():
     print("-" * 60)
     print()
     
-    # Check battery
+    # Check battery before driving so a weak battery does not look like bad code.
     demo = MecanumDemo(max_speed=50)
     print("Checking battery...")
     v = read_voltage(demo.board)
@@ -189,6 +192,7 @@ def main():
     print()
     
     try:
+        # These values are intentionally conservative for a crowded workshop room.
         duration = 2.0  # seconds per movement
         pause = 1.5     # pause between movements
         speed = 40      # motor speed (0-100)
@@ -263,7 +267,7 @@ def main():
         traceback.print_exc()
     
     finally:
-        # Always stop motors
+        # Always stop motors, even after Ctrl+C or an error.
         demo.stop()
         print()
         print("Motors stopped. Demo complete.")

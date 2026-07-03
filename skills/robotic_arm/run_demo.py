@@ -24,11 +24,13 @@ import os
 import sys
 import time
 
+# Add the repository root so this demo can import lib/ when run directly.
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
 from lib.board import get_board
 
 
+# A known safe pose used at the beginning and end of the demo.
 READY_POSITION = [
     (1, 1500),  # Gripper partly open
     (3, 590),   # Wrist forward
@@ -38,6 +40,8 @@ READY_POSITION = [
 ]
 
 
+# Each step is (message, move time in ms, servo targets, extra pause in seconds).
+# The pauses give the arm time to settle and make the movement easier to watch.
 PICKUP_AND_LOAD_STEPS = [
     ("Move to ready position", 2000, READY_POSITION, 0.3),
     ("Lower shoulder toward block", 1000, [(5, 1818)], 1.0),
@@ -61,6 +65,7 @@ def stop_all_motors(board):
 def move_arm(board, label, duration_ms, servos, pause_seconds):
     """Run one labeled arm movement step."""
     print("  %s" % label)
+    # set_servo_position moves all listed servos together over duration_ms.
     board.set_servo_position(duration_ms, servos)
     time.sleep(duration_ms / 1000.0 + pause_seconds)
 
@@ -90,6 +95,7 @@ def main():
     input("Press Enter when the block is in place and the arm area is clear...")
 
     board = get_board()
+    # This demo only uses the arm, so make sure the drive motors are not active.
     stop_all_motors(board)
 
     try:
@@ -119,6 +125,7 @@ def main():
         traceback.print_exc()
 
     finally:
+        # Leave the robot in a predictable state for the next team or next test.
         print("\nReturning arm to ready position...")
         return_to_ready(board)
         stop_all_motors(board)

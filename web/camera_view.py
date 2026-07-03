@@ -25,9 +25,11 @@ def get_camera():
     """Open the first USB camera lazily."""
     global camera
     if camera is None or not camera.isOpened():
+        # Open the camera only when the first browser requests video.
         camera = cv2.VideoCapture(0)
         camera.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        # Give auto-exposure and focus a brief moment before streaming.
         time.sleep(0.5)
     return camera
 
@@ -38,9 +40,11 @@ def generate_frames():
         cam = get_camera()
         success, frame = cam.read()
         if not success:
+            # Keep the server alive if the camera misses a frame.
             time.sleep(0.2)
             continue
 
+        # Browsers can display a stream of JPEG images as simple live video.
         ok, buffer = cv2.imencode(".jpg", frame)
         if not ok:
             continue
@@ -109,6 +113,7 @@ def index():
 @app.route("/stream")
 def video_feed():
     """Video streaming route."""
+    # multipart/x-mixed-replace is the common format for simple MJPEG streams.
     return Response(
         generate_frames(),
         mimetype="multipart/x-mixed-replace; boundary=frame",
@@ -116,6 +121,7 @@ def video_feed():
 
 
 def release_camera():
+    """Release the camera when the web server exits."""
     if camera is not None and camera.isOpened():
         camera.release()
 

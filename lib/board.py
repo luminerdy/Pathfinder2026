@@ -23,6 +23,7 @@ def detect_platform():
         'pi5', 'pi4', or 'unknown'
     """
     try:
+        # Raspberry Pi OS exposes the board model in this system file.
         with open('/proc/device-tree/model', 'r') as f:
             model = f.read().strip()
         
@@ -46,13 +47,15 @@ def get_board(**kwargs):
     platform = detect_platform()
     
     if platform == 'pi5':
+        # Pi 5 robots use UART serial communication with the motor board.
         from lib.board_protocol import BoardController
         return BoardController(**kwargs)
     elif platform == 'pi4':
+        # Pi 4 robots use the older I2C communication path.
         from lib.board_pi4 import BoardController
         return BoardController(**kwargs)
     else:
-        # Default to Pi 5 protocol (most likely for development)
+        # Default to Pi 5 protocol for development images and future robots.
         from lib.board_protocol import BoardController
         return BoardController(**kwargs)
 

@@ -10,11 +10,13 @@ import os
 import sys
 import time
 
+# Add the repository root so this tool can import lib/ when run from anywhere.
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.."))
 
 from lib.board import get_board
 
 
+# This table is the expected wiring map from board motor port to robot wheel.
 MOTORS = [
     (1, "front left"),
     (2, "front right"),
@@ -43,6 +45,7 @@ def main():
         for motor_id, name in MOTORS:
             input("Press Enter to test motor %d (%s)." % (motor_id, name))
             print("Motor %d (%s): running forward briefly" % (motor_id, name))
+            # Run only one motor at a time so a wiring mistake is easy to see.
             board.set_motor_duty([(motor_id, 40)])
             time.sleep(0.5)
             board.set_motor_duty([(motor_id, 0)])
@@ -58,6 +61,7 @@ def main():
         print("If this test fails, go back to B1: robot Assembly Guide and check the motor wiring photos before changing code.")
 
     finally:
+        # Safety cleanup: no motor should keep running after the test exits.
         stop_all(board)
 
 

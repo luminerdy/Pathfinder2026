@@ -10,6 +10,7 @@ import os
 import sys
 import time
 
+# Add the repository root so this tool can import lib/ when run from anywhere.
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.."))
 
 from lib.sonar import Sonar
@@ -22,6 +23,7 @@ def main():
     print("Run it once, move your hand in front of the sonar, then run it again.")
     print()
 
+    # The Sonar class handles I2C communication with the distance sensor.
     sonar = Sonar()
 
     try:
@@ -33,6 +35,7 @@ def main():
             else:
                 readings.append(distance_mm)
                 print("Reading %d: %.0f mm (%.1f cm)" % (i + 1, distance_mm, distance_mm / 10.0))
+                # The LEDs provide a quick visual check that the sensor is responding.
                 sonar.set_led_by_distance(distance_mm)
             time.sleep(0.5)
 
@@ -48,6 +51,7 @@ def main():
             sys.exit(1)
 
     finally:
+        # Turn the sonar LEDs off when the check is done or interrupted.
         sonar.off()
 
 

@@ -60,6 +60,7 @@ print()
 # We capture 5 to let the camera stabilize.
 print("[3/4] Capturing frames...")
 for i in range(5):
+    # ret tells us whether a frame was captured. frame holds the image data.
     ret, frame = camera.read()
     if ret:
         # frame.shape = (height, width, channels)
@@ -77,13 +78,14 @@ print()
 # JPEG quality is ~95% by default — good enough for testing.
 print("[4/4] Saving test image...")
 if ret and frame is not None:
+    # Save the file in the current folder so students can find it in VS Code.
     cv2.imwrite('test_frame.jpg', frame)
     print("  [OK] Saved as: test_frame.jpg")
     print("  Size: %dx%d" % (frame.shape[1], frame.shape[0]))
 else:
     print("  [!!] No frame to save")
 
-# Always release camera when done — other programs need access
+# Always release camera when done. Other programs need access to the camera.
 camera.release()
 
 print()

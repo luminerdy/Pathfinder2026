@@ -65,6 +65,7 @@ def _load_deviations():
         with open(DEVIATION_FILE) as f:
             data = yaml.safe_load(f)
             if data:
+                # Deviation values are per-servo calibration offsets.
                 return {int(k): int(v) for k, v in data.items()}
     except Exception:
         pass
@@ -90,7 +91,7 @@ class BoardController:
                 msg = i2c_msg.write(I2C_ADDR, data)
                 bus.i2c_rdwr(msg)
             except Exception:
-                # Retry once on failure (vendor code does this)
+                # Retry once because I2C can occasionally miss a transaction.
                 try:
                     msg = i2c_msg.write(I2C_ADDR, data)
                     bus.i2c_rdwr(msg)
@@ -135,7 +136,7 @@ class BoardController:
             if motor_id == 1 or motor_id == 3:
                 duty = -duty
 
-            # Clamp
+            # Keep motor duty inside the safe command range.
             duty = max(-100, min(100, int(duty)))
 
             # Register: 31 + (motor_id - 1)
@@ -168,11 +169,11 @@ class BoardController:
             if servo_id < 1 or servo_id > 6:
                 continue
 
-            # Apply deviation correction
+            # Apply each servo's calibration correction before sending.
             deviation = self._deviations.get(servo_id, 0)
             pulse += deviation
 
-            # Clamp
+            # Keep servo pulse width in the normal hobby-servo range.
             pulse = max(500, min(2500, pulse))
 
             buf.append(servo_id)

@@ -11,6 +11,7 @@ MIN_RUNTIME_PI4 = 7.0
 MIN_RUNTIME_PI5 = 8.1
 GOOD_RUNTIME_VOLTAGE = 7.5
 CALIBRATED_MOVEMENT_VOLTAGE = 8.2
+# Ignore readings outside this range because they usually mean communication failed.
 VALID_MIN_MV = 5000
 VALID_MAX_MV = 20000
 
@@ -23,6 +24,7 @@ def runtime_minimum(platform=None):
 
 def voltage_from_mv(mv):
     """Convert a board millivolt reading to volts, or None if invalid."""
+    # The board reports millivolts, so 8000 means 8.0 volts.
     if mv and VALID_MIN_MV < mv < VALID_MAX_MV:
         return mv / 1000.0
     return None
@@ -38,6 +40,7 @@ def read_voltage(board, retries=1, delay=0.0):
         if voltage is not None:
             return voltage
         if delay and attempt < retries - 1:
+            # A short retry helps when the board has not sent a fresh value yet.
             time.sleep(delay)
     return None
 
@@ -55,6 +58,7 @@ def is_calibrated_movement_ready(voltage):
 def status_for_voltage(voltage, platform=None):
     """Return (status, message, runtime_safe) for participant-facing output."""
     minimum = runtime_minimum(platform)
+    # Return both a short status and a sentence the scripts can print directly.
     if voltage is None:
         return 'UNKNOWN', 'Cannot read battery voltage.', False
     if voltage < minimum:

@@ -61,6 +61,7 @@ def crc8(data: bytes) -> int:
     """
     check = 0
     for byte in data:
+        # CRC catches corrupted serial packets before the board acts on them.
         check = CRC8_TABLE[check ^ byte]
     return check & 0xFF
 
@@ -97,6 +98,7 @@ class BoardProtocol:
         """Start background thread for receiving responses"""
         if not self._running:
             self._running = True
+            # The board can send status packets while the main code is doing work.
             self._read_thread = threading.Thread(target=self._read_loop, daemon=True)
             self._read_thread.start()
             
@@ -111,7 +113,7 @@ class BoardProtocol:
         while self._running:
             try:
                 if self.port.in_waiting > 0:
-                    # Read header
+                    # Every valid packet starts with the same two header bytes.
                     header = self.port.read(2)
                     if header != self.HEADER:
                         continue
@@ -124,7 +126,7 @@ class BoardProtocol:
                     data = self.port.read(length)
                     checksum = self.port.read(1)[0]
                     
-                    # Verify checksum
+                    # Verify checksum before putting the message into the queue.
                     payload = bytes([func, length]) + data
                     if crc8(payload) == checksum:
                         self._rx_queue.put((func, data))
@@ -139,7 +141,7 @@ class BoardProtocol:
             function: Command function code
             data: Command data bytes
         """
-        # Build packet
+        # Build packet in the exact byte format the control board expects.
         packet = self.HEADER
         packet += bytes([function, len(data)])
         packet += data
@@ -148,7 +150,7 @@ class BoardProtocol:
         payload = bytes([function, len(data)]) + data
         packet += bytes([crc8(payload)])
         
-        # Send
+        # Write immediately so movement commands are not delayed.
         self.port.write(packet)
         self.port.flush()
         
@@ -200,6 +202,7 @@ class BoardController:
             # Invert motors 1 and 3 (left side) - they're wired backwards
             if motor_id in [1, 3]:
                 duty = -duty
+            # The board protocol uses motor indexes 0-3, while workshop code uses 1-4.
             # Pack motor index (0-based) and duty as float
             data += struct.pack("<Bf", motor_id - 1, float(duty))
         self.protocol.send_command(Function.MOTOR, data)
@@ -233,6 +236,7 @@ class BoardController:
         
         for servo_id, pulse in servos:
             # Servos are 1-based (unlike motors which are 0-based)
+            # Pulse width controls angle; 1500 is roughly center for many servos.
             data += struct.pack("<BH", servo_id, pulse)
             
         self.protocol.send_command(Function.SERVO, data)
