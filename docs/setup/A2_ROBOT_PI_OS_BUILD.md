@@ -234,6 +234,22 @@ The robot must support VS Code Remote SSH connections from the Pi 500. It does t
 
 Do not install the full VS Code desktop app with `sudo apt-get install -y code` on the robot for the event workflow. Install VS Code on the Pi 500, then connect to `robot@<ROBOT_IP>` with Remote SSH. The first connection installs the VS Code server component on the robot automatically.
 
+### Preload Remote Python Support
+
+During robot image validation, connect to the robot once from VS Code on a Pi 500 using Remote SSH. This installs the VS Code server on the robot and lets you install the Python extension into the remote robot environment before the workshop.
+
+From the Pi 500:
+
+1. Open VS Code.
+2. `Ctrl+Shift+P` -> `Remote-SSH: Connect to Host`.
+3. Connect to `robot@<ROBOT_IP>`.
+4. Open the Extensions panel.
+5. Find `Python` by Microsoft (`ms-python.python`).
+6. Choose **Install in SSH: robot@<ROBOT_IP>** if it is not already installed on the remote robot.
+7. Open `/home/robot/team_code` and confirm a `.py` file shows Python language support.
+
+This remote extension is stored under the `robot` user's VS Code server files on the robot image. It is different from installing the Python extension on the Pi 500 itself.
+
 ---
 
 ## Step 7: Install Pathfinder2026
