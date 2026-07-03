@@ -7,27 +7,18 @@ browser view without robot movement or servo controls.
 
 Usage:
     python3 web/camera_view.py
-    Then open: http://<ROBOT_IP>:8080/?token=<TOKEN>
+    Then open: http://<ROBOT_IP>:8080
 """
 
 import atexit
-import os
 import time
 
 import cv2
-from flask import Flask, Response, request
+from flask import Flask, Response
 
 
 app = Flask(__name__)
 camera = None
-WEB_TOKEN = os.environ.get("PATHFINDER_WEB_TOKEN", "pathfinder2026")
-
-
-def is_authorized():
-    return (
-        request.args.get("token") == WEB_TOKEN
-        or request.headers.get("X-Pathfinder-Token") == WEB_TOKEN
-    )
 
 
 def get_camera():
@@ -63,14 +54,7 @@ def generate_frames():
 @app.route("/")
 def index():
     """Serve a simple camera-only page."""
-    if not is_authorized():
-        return (
-            "Pathfinder camera view requires a token. "
-            "Open http://<ROBOT_IP>:8080/?token=<TOKEN>.",
-            401,
-        )
-
-    return f"""
+    return """
 <!doctype html>
 <html lang="en">
 <head>
@@ -114,7 +98,7 @@ def index():
   <main>
     <h1>Camera Test</h1>
     <p>Live view from the robot USB camera.</p>
-    <img src="/video_feed?token={WEB_TOKEN}" alt="Live camera feed">
+    <img src="/video_feed" alt="Live camera feed">
   </main>
 </body>
 </html>
@@ -125,9 +109,6 @@ def index():
 @app.route("/stream")
 def video_feed():
     """Video streaming route."""
-    if not is_authorized():
-        return "Unauthorized", 401
-
     return Response(
         generate_frames(),
         mimetype="multipart/x-mixed-replace; boundary=frame",
@@ -148,8 +129,7 @@ if __name__ == "__main__":
     print("=" * 70)
     print()
     print("Starting camera-only web viewer...")
-    print("Open in browser: http://<ROBOT_IP>:8080/?token=<TOKEN>")
-    print("Default token:", WEB_TOKEN)
+    print("Open in browser: http://<ROBOT_IP>:8080")
     print()
     print("Press Ctrl+C in this terminal to stop the camera viewer.")
     print()
