@@ -126,7 +126,7 @@ Expected:
 | 3 | Rear left |
 | 4 | Rear right |
 
-Each wheel should move when its motor number is tested. If the wrong wheel moves, the motor cables are connected to the wrong port. If a wheel does not move or spins backward during this single-motor test, note it for facilitator review before running drive patterns.
+Each wheel should move when its motor number is tested. If the wrong wheel moves, the motor cables are connected to the wrong port. If a wheel does not move or spins backward during this single-motor test, stop before running drive patterns.
 
 If this test fails, go back to [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) and check the motor wiring photos before changing code.
 
