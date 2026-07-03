@@ -32,7 +32,6 @@ It should include starter files:
 README.md
 drive_practice.py
 arm_practice.py
-camera_practice.py
 ```
 
 If the folder is missing, run this while logged into the robot:
@@ -104,7 +103,6 @@ Then try:
 
 ```bash
 python3 arm_practice.py
-python3 camera_practice.py
 ```
 
 ### Modify And Run Again
@@ -129,7 +127,9 @@ Save the file, then run it again from the VS Code terminal:
 python3 drive_practice.py
 ```
 
-For `arm_practice.py`, change only one gripper value at a time. For `camera_practice.py`, try changing `OUTPUT_FILE` to save a different picture name.
+For `arm_practice.py`, change only one gripper value at a time.
+
+Camera testing is handled in [C3: Connect And Test](C3_CONNECT_AND_TEST.md). Keep the starter folder focused on drive and arm code students can safely modify first.
 
 ## Before Updating The robot
 

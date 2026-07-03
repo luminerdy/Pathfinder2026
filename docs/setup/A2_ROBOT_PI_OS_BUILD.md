@@ -281,7 +281,6 @@ The starter folder should include:
 /home/robot/team_code/README.md
 /home/robot/team_code/drive_practice.py
 /home/robot/team_code/arm_practice.py
-/home/robot/team_code/camera_practice.py
 ```
 
 ### Verify All Imports
