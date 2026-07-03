@@ -2,57 +2,33 @@
 
 This is the main event guide for Pathfinder2026.
 
-Use this folder when you are planning, running, or editing the workshop flow.
-
-The workshop has three phases:
+Work through the phases in order:
 
 1. Assemble
 2. Capabilities Exploration
 3. Course Challenge
 
-The goal is to build a working robot, learn its capabilities, then combine those skills into a course run.
+For the workshop, the Pi 500 and robot images should already be created. Skip image-build documents during the event.
 
-For a short printable team guide, use [Team Start Handout](../handouts/TEAM_START_HANDOUT.md).
-
-If something fails during the event, use [Student Troubleshooting](TROUBLESHOOTING.md). Compare with another team before asking a facilitator, unless the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
-
-## Where To Work
-
-Use these files for the event flow:
-
-| File | Use it for |
-|------|------------|
-| [README.md](README.md) | Main workshop index and event flow |
-| [ASSEMBLE.md](ASSEMBLE.md) | Phase 1 overview |
-| [B1_ROBOT_ASSEMBLY_GUIDE.md](B1_ROBOT_ASSEMBLY_GUIDE.md) | robot assembly instructions |
-| [CAPABILITIES_EXPLORATION.md](CAPABILITIES_EXPLORATION.md) | Phase 2 demos and tuning path |
-| [CONFIG_GUIDE.md](CONFIG_GUIDE.md) | Safe configuration changes |
-| [COURSE_CHALLENGE.md](COURSE_CHALLENGE.md) | Phase 3 course structure |
-| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Student-facing troubleshooting |
-
-For the workshop, the Pi 500 and robot OS images should already be created. Teams should skip the image-build documents and start with the event-day guides below.
-
-Facilitators can use [../setup](../setup) before the event for image builds, Pi setup, robot WiFi, connection testing, and update procedures.
+If something fails, use [Student Troubleshooting](TROUBLESHOOTING.md). Compare with another team first. Get help right away if the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
 
 ## Phase 1: Assemble
 
-Set up the Pi 500 control hub and assemble the robot before running code.
+Set up the Pi 500 control hub, assemble the robot, then connect and test.
 
-Teams split into two paths, then come back together:
+Teams can split up at first:
 
 | Path | Guide | Goal |
 |------|-------|------|
-| Pi 500 setup | [C1: Pi 500 Setup](../setup/C1_PI500_SETUP.md) | Get the control hub powered, online, and ready for VS Code |
+| Pi 500 setup | [C1: Pi 500 Setup](../setup/C1_PI500_SETUP.md) | Get the control hub powered, online, and ready |
 | robot assembly | [B1: robot Assembly Guide](B1_ROBOT_ASSEMBLY_GUIDE.md) | Build the robot and make it safe to power |
-| robot Pi/WiFi | [C2: robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md) | Power the robot and get the robot IP |
+
+Then come back together:
+
+| Step | Guide | Goal |
+|------|-------|------|
+| robot IP | [C2: robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md) | Power the robot and find the robot IP |
 | Connect/test | [C3: Connect and Test](../setup/C3_CONNECT_AND_TEST.md) | Connect Pi 500 to robot and verify hardware |
-
-Facilitator references:
-
-- [A1: Pi 500 OS Build](../setup/A1_PI500_OS_BUILD.md) - pre-event image build, skip during workshop
-- [A2: robot Pi OS Build](../setup/A2_ROBOT_PI_OS_BUILD.md) - pre-event image build, skip during workshop
-- [C4: Update robot code](../setup/C4_UPDATE_ROBOT_CODE.md)
-- [C5: Team code workflow](../setup/C5_TEAM_CODE_WORKFLOW.md)
 
 Use the overview guide if you want the whole Assemble phase on one page: [Assemble](ASSEMBLE.md).
 
@@ -60,17 +36,22 @@ Use the overview guide if you want the whole Assemble phase on one page: [Assemb
 
 Run the capability demos before trying the course.
 
-Use the phase guide: [Capabilities Exploration](CAPABILITIES_EXPLORATION.md)
+Start here:
 
-Use [Configuration Guide](CONFIG_GUIDE.md) before changing tuning files.
+- [Capabilities Exploration](CAPABILITIES_EXPLORATION.md)
+- [Configuration Guide](CONFIG_GUIDE.md)
 
-Start with manual web control:
+Manual web control:
 
 ```bash
 python3 web/web_control.py
 ```
 
-Open `http://<ROBOT_IP>:8080` from the Pi 500.
+Open this from the Pi 500 browser:
+
+```text
+http://<ROBOT_IP>:8080
+```
 
 Required before the Course Challenge:
 
@@ -95,9 +76,11 @@ Optional if time allows:
 
 Use the robot capabilities to complete a course.
 
-Use the phase guide: [Course Challenge](COURSE_CHALLENGE.md)
+Start here:
 
-The Course Challenge structure is still being refined. Keep this phase simple until the field and scoring are proven.
+- [Course Challenge](COURSE_CHALLENGE.md)
+
+Keep the first strategy simple, then improve it.
 
 Before a course run:
 
@@ -105,4 +88,12 @@ Before a course run:
 - Confirm camera is working.
 - Confirm the arm starts in a safe position.
 - Clear the course of people and loose cables.
-- Choose a simple first strategy, then improve it.
+- Choose a simple first strategy.
+
+## Helpful Links
+
+| Need | Guide |
+|------|-------|
+| Troubleshooting | [Student Troubleshooting](TROUBLESHOOTING.md) |
+| Safe team code edits | [C5: Team Code Workflow](../setup/C5_TEAM_CODE_WORKFLOW.md) |
+| Short team handout | [Team Start Handout](../handouts/TEAM_START_HANDOUT.md) |
