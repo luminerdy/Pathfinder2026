@@ -44,6 +44,7 @@ Start here:
 Manual web control:
 
 ```bash
+cd /home/robot/pathfinder
 python3 web/web_control.py
 ```
 
@@ -53,7 +54,7 @@ Open this from the Pi 500 browser:
 http://<ROBOT_IP>:8080
 ```
 
-Required before the Course Challenge:
+Recommended before Phase 3:
 
 | Step | Capability | Demo |
 |------|------------|------|

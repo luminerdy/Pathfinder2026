@@ -2,15 +2,34 @@
 
 **Phase 2 of 3**
 
-Capabilities Exploration is where teams learn what the robot can do before they attempt the course.
+Capabilities Exploration is where teams learn how the robot works before they attempt the course.
 
-## Goal
+## Why This Phase Matters
 
-Run short demos, observe behavior, and tune only what is needed. Each capability should be understood well enough that the team can reuse it during the Course Challenge.
+The goal is to understand the code that makes the robot move, sense, see, and use its arm.
+
+Do not treat the demos as magic commands. Run them, observe what the robot does, then open the code and connect the behavior to the file that caused it. That understanding is what lets the team choose a simple strategy for Phase 3.
+
+By the end of this phase, the team should know:
+
+- Which scripts make the robot drive.
+- Which scripts read sensors.
+- Which scripts use the camera.
+- Which scripts move the arm.
+- Which settings might need small tuning.
 
 Before editing tuning files, read [Configuration Guide](CONFIG_GUIDE.md).
 
 If something fails, use [Student Troubleshooting](TROUBLESHOOTING.md). Compare with another team first. Get help right away if the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
+
+## Where To Run Commands
+
+Run these commands while connected to the robot:
+
+```bash
+ssh robot@<ROBOT_IP>
+cd /home/robot/pathfinder
+```
 
 ## Step 0: Manual Control
 
@@ -24,7 +43,7 @@ python3 web/web_control.py
 
 Open `http://<ROBOT_IP>:8080` from the Pi 500.
 
-## Required Before Phase 3
+## Recommended Before Phase 3
 
 Run these demos first. They cover the robot behaviors most teams need before attempting the course.
 
@@ -38,7 +57,7 @@ Run these demos first. They cover the robot behaviors most teams need before att
 
 ## Optional If Time Allows
 
-Use these after the required demos are working. These are useful for stronger autonomous runs, but teams should not get stuck here before they have a simple course strategy.
+Use these after the recommended demos are working. These are useful for stronger autonomous runs, but teams should not get stuck here before they have a simple course strategy.
 
 | Step | Capability | Demo |
 |------|------------|------|
