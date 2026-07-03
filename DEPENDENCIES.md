@@ -175,25 +175,21 @@ pip3 install --upgrade pip
 ### Install Pathfinder Requirements
 
 ```bash
-cd /home/robot/code/pathfinder
+cd /home/robot/pathfinder
 pip3 install -r requirements.txt --break-system-packages
 ```
 
 **Note:** Use `--break-system-packages` flag on Raspberry Pi OS Bookworm+
 
 This installs:
-- numpy ✅ (required for SDK)
-- pyyaml ✅ (required for config)
-- opencv-python ✅ (REQUIRED - arm IK depends on this)
-- opencv-contrib-python (optional, for advanced vision)
-- ultralytics (YOLOv11 - downloads model on first use)
-- dt-apriltags or pupil-apriltags (for AprilTag detection)
-- flask, flask-cors (for web UI - optional)
-- pygame, inputs (for gamepad - optional)
-- pyserial ✅ (required for board communication)
-- pillow (for image handling)
+- numpy (required for kinematics and vision math)
+- pyyaml (required for configuration)
+- opencv-python (required for camera and vision demos)
+- pupil-apriltags (required for AprilTag detection)
+- flask (required for web control and camera view)
+- pyserial (required for board communication)
 
-**Note:** Installation may take 15-30 minutes on Pi 5, longer on Pi 4.
+**Note:** The event requirements intentionally avoid YOLO/PyTorch so image setup is faster and more reliable.
 
 **Known Issues:**
 - matplotlib is imported by SDK but not needed - commented out in code
@@ -246,17 +242,16 @@ python3 -c "import numpy; print(f'NumPy {numpy.__version__}')"
 python3 -c "import cv2; print(f'OpenCV {cv2.__version__}')"
 python3 -c "import yaml; print('PyYAML OK')"
 python3 -c "import serial; print('PySerial OK')"
-python3 -c "from ultralytics import YOLO; print('YOLO OK')"
+python3 -c "import pupil_apriltags; print('AprilTags OK')"
 ```
 
 ### Test Serial Port
 
 ```bash
 python3 -c "
-from sdk.common.ros_robot_controller_sdk import Board
-board = Board()
+from lib.board import get_board
+board = get_board()
 print('Board connected!')
-board.close()
 "
 ```
 
@@ -278,8 +273,8 @@ cap.release()
 
 ```bash
 # Reinstall OpenCV
-pip3 uninstall opencv-python opencv-contrib-python
-pip3 install opencv-python opencv-contrib-python
+pip3 uninstall opencv-python
+pip3 install -r requirements.txt --break-system-packages
 ```
 
 ### Serial port permission denied
@@ -307,15 +302,6 @@ v4l2-ctl --list-devices
 # For Pi Camera, ensure cable is connected correctly
 vcgencmd get_camera
 # Should show: supported=1 detected=1
-```
-
-### YOLO model download slow/fails
-
-```bash
-# Pre-download YOLO model
-mkdir -p ~/.cache/ultralytics
-cd ~/.cache/ultralytics
-wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov11n.pt
 ```
 
 ### Low memory issues (Pi 4)
@@ -427,18 +413,17 @@ chmod +x install_dependencies.sh
 
 - **System packages:** 10-15 minutes
 - **Python packages:** 15-30 minutes (Pi 5), 30-60 minutes (Pi 4)
-- **Total:** 30-45 minutes on Pi 5
+- **Total:** 20-35 minutes on Pi 5
 
 ## Disk Space Requirements
 
 - **Base OS:** ~5 GB
 - **System packages:** ~2 GB
-- **Python packages:** ~1.5 GB
-- **YOLO models:** ~10 MB per model
+- **Python packages:** less than 1 GB
 - **Total minimum:** 10 GB
 - **Recommended:** 16 GB+ for workspace and logs
 
 ---
 
-**Last Updated:** March 2026
+**Last Updated:** July 3, 2026
 **Tested On:** Raspberry Pi OS (64-bit), Debian version 12 (bookworm)

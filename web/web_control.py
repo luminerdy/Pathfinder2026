@@ -11,14 +11,16 @@ Provides:
 
 Usage:
     python3 web_control.py
-    Then open: http://<ROBOT_IP>:8080
+    Then open: http://<ROBOT_IP>:8080/?token=<TOKEN>
 """
 
+from functools import wraps
 from flask import Flask, render_template, Response, jsonify, request
 import cv2
 import time
 import json
 import sys, os
+import threading
 from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from lib.board import get_board
@@ -27,10 +29,51 @@ BoardController = None  # Use get_board() instead
 app = Flask(__name__)
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SAVED_POSITIONS_PATH = REPO_ROOT / 'saved_positions.json'
+WEB_TOKEN = os.environ.get('PATHFINDER_WEB_TOKEN', 'pathfinder2026')
 
 # Global state
 board = get_board()
 camera = None  # Opened lazily to avoid locking camera on import
+state_lock = threading.Lock()
+
+ALLOWED_DIRECTIONS = {
+    'forward', 'backward', 'left', 'right',
+    'strafe_left', 'strafe_right', 'stop',
+}
+
+SERVO_LIMITS = {
+    1: (1475, 2500),  # Claw/gripper. Do not go below safe closed position.
+    3: (500, 2500),   # Wrist
+    4: (500, 2500),   # Elbow
+    5: (500, 2500),   # Shoulder
+    6: (500, 2500),   # Base
+}
+
+
+def clamp(value, low, high):
+    return max(low, min(high, int(value)))
+
+
+def token_from_request():
+    data = request.get_json(silent=True) or {}
+    return (
+        request.args.get('token')
+        or request.headers.get('X-Pathfinder-Token')
+        or data.get('token')
+    )
+
+
+def is_authorized():
+    return token_from_request() == WEB_TOKEN
+
+
+def require_token(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not is_authorized():
+            return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+        return func(*args, **kwargs)
+    return wrapper
 
 def get_camera():
     """Get or open camera (lazy initialization)"""
@@ -94,20 +137,30 @@ def generate_frames():
 @app.route('/')
 def index():
     """Serve main control page"""
-    return render_template('control.html')
+    if not is_authorized():
+        return (
+            "Pathfinder web control requires a token. "
+            "Open http://<ROBOT_IP>:8080/?token=<TOKEN>.",
+            401,
+        )
+    return render_template('control.html', token=WEB_TOKEN)
 
 @app.route('/video_feed')
+@require_token
 def video_feed():
     """Video streaming route"""
     return Response(generate_frames(),
                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/drive', methods=['POST'])
+@require_token
 def drive():
     """Drive motor control"""
     try:
         data = request.json
         direction = data.get('direction')
+        if direction not in ALLOWED_DIRECTIONS:
+            return jsonify({'status': 'error', 'message': 'Invalid direction'}), 400
 
         # Safety check: prevent motor commands at low battery
         mv = board.get_battery()
@@ -149,21 +202,33 @@ def drive():
 
     except Exception as e:
         # Emergency stop on any error
+        print(f"Error in drive(): {e}")
         try:
             board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
         except:
             pass
-        return jsonify({'status': 'error', 'message': str(e)})
+        return jsonify({'status': 'error', 'message': 'Drive command failed'}), 500
 
 @app.route('/servo', methods=['POST'])
+@require_token
 def servo():
     """Servo control"""
-    data = request.json
-    servo_id = int(data.get('servo'))
-    position = int(data.get('position'))
+    try:
+        data = request.json or {}
+        servo_id = int(data.get('servo'))
+        position = int(data.get('position'))
+    except (TypeError, ValueError):
+        return jsonify({'status': 'error', 'message': 'Invalid servo request'}), 400
+
+    if servo_id not in SERVO_LIMITS:
+        return jsonify({'status': 'error', 'message': 'Invalid servo id'}), 400
+
+    low, high = SERVO_LIMITS[servo_id]
+    position = clamp(position, low, high)
 
     # Update position
-    servo_positions[servo_id] = position
+    with state_lock:
+        servo_positions[servo_id] = position
 
     # Send to board
     board.set_servo_position(500, [(servo_id, position)])
@@ -171,46 +236,66 @@ def servo():
     return jsonify({'status': 'ok', 'servo': servo_id, 'position': position})
 
 @app.route('/save_position', methods=['POST'])
+@require_token
 def save_position():
     """Save current arm position"""
     data = request.json
-    name = data.get('name')
+    name = str(data.get('name', '')).strip()[:40]
+    if not name:
+        return jsonify({'status': 'error', 'message': 'Position name required'}), 400
 
-    saved_positions[name] = servo_positions.copy()
+    with state_lock:
+        saved_positions[name] = servo_positions.copy()
 
-    # Save to file
-    with open(SAVED_POSITIONS_PATH, 'w') as f:
-        json.dump(saved_positions, f, indent=2)
+        # Save to file
+        with open(SAVED_POSITIONS_PATH, 'w') as f:
+            json.dump(saved_positions, f, indent=2)
 
     return jsonify({'status': 'ok', 'name': name, 'positions': servo_positions})
 
 @app.route('/load_position', methods=['POST'])
+@require_token
 def load_position():
     """Load saved arm position"""
     data = request.json
     name = data.get('name')
+    if not isinstance(name, str):
+        return jsonify({'status': 'error', 'message': 'Position name required'}), 400
 
-    if name in saved_positions:
-        positions = saved_positions[name]
+    with state_lock:
+        position_found = name in saved_positions
+        positions = saved_positions[name].copy() if position_found else None
+
+    if position_found:
+        clamped_positions = {}
+        for sid, pos in positions.items():
+            sid = int(sid)
+            if sid in SERVO_LIMITS:
+                low, high = SERVO_LIMITS[sid]
+                clamped_positions[sid] = clamp(pos, low, high)
 
         # Apply all servos
-        servo_list = [(sid, pos) for sid, pos in positions.items()]
+        servo_list = [(sid, pos) for sid, pos in clamped_positions.items()]
         board.set_servo_position(500, servo_list)
 
         # Update state
-        servo_positions.update(positions)
+        with state_lock:
+            servo_positions.update(clamped_positions)
 
-        return jsonify({'status': 'ok', 'name': name, 'positions': positions})
+        return jsonify({'status': 'ok', 'name': name, 'positions': clamped_positions})
     else:
-        return jsonify({'status': 'error', 'message': 'Position not found'})
+        return jsonify({'status': 'error', 'message': 'Position not found'}), 404
 
 @app.route('/get_positions', methods=['GET'])
+@require_token
 def get_positions():
     """Get all saved positions"""
-    return jsonify({'positions': list(saved_positions.keys()),
-                   'current': servo_positions})
+    with state_lock:
+        return jsonify({'positions': list(saved_positions.keys()),
+                       'current': servo_positions})
 
 @app.route('/battery', methods=['GET'])
+@require_token
 def battery():
     """Get battery voltage"""
     mv = board.get_battery()
@@ -220,19 +305,25 @@ def battery():
                    'status': 'good' if voltage > 8.2 else 'low' if voltage > 8.0 else 'critical'})
 
 @app.route('/motor_power', methods=['GET'])
+@require_token
 def get_motor_power():
     """Get current motor power settings"""
     return jsonify(motor_power)
 
 @app.route('/motor_power', methods=['POST'])
+@require_token
 def set_motor_power():
     """Set motor power"""
     data = request.json
-    if 'drive' in data:
-        motor_power['drive'] = int(data['drive'])
-    if 'turn' in data:
-        motor_power['turn'] = int(data['turn'])
-    return jsonify({'status': 'ok', 'motor_power': motor_power})
+    try:
+        with state_lock:
+            if 'drive' in data:
+                motor_power['drive'] = clamp(data['drive'], 0, 50)
+            if 'turn' in data:
+                motor_power['turn'] = clamp(data['turn'], 0, 50)
+            return jsonify({'status': 'ok', 'motor_power': motor_power})
+    except (TypeError, ValueError):
+        return jsonify({'status': 'error', 'message': 'Invalid motor power'}), 400
 
 # Load saved positions on startup
 try:
@@ -279,7 +370,8 @@ if __name__ == '__main__':
 
     print()
     print("Starting web server...")
-    print("Open in browser: http://<ROBOT_IP>:8080")
+    print("Open in browser: http://<ROBOT_IP>:8080/?token=<TOKEN>")
+    print("Default token:", WEB_TOKEN)
     print()
     print("Controls:")
     print("  WASD or Arrow keys - Drive")

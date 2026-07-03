@@ -27,8 +27,8 @@ sudo journalctl -u pathfinder-startup --no-pager
 Start manually when needed (not a boot service):
 ```bash
 cd /home/robot/pathfinder
-python3 web/web_control.py
-# Open: http://<ROBOT_IP>:8080
+PATHFINDER_WEB_TOKEN=pathfinder2026 python3 web/web_control.py
+# Open: http://<ROBOT_IP>:8080/?token=pathfinder2026
 ```
 
 Works on both Pi 4 and Pi 5 via auto-detection.

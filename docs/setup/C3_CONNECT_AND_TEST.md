@@ -223,16 +223,16 @@ python3 web/camera_view.py
 Leave that terminal running. It should print:
 
 ```text
-Open in browser: http://<ROBOT_IP>:8080
+Open in browser: http://<ROBOT_IP>:8080/?token=<TOKEN>
 ```
 
 Then, from the Pi 500 browser, open:
 
 ```
-http://<ROBOT_IP>:8080
+http://<ROBOT_IP>:8080/?token=pathfinder2026
 ```
 
-Replace `<ROBOT_IP>` with your robot's IP. This page is only for viewing the camera. It does not include robot movement controls.
+Replace `<ROBOT_IP>` with your robot's IP. If your facilitator gives you a different web token, use that instead of `pathfinder2026`. This page is only for viewing the camera. It does not include robot movement controls.
 
 If the page does not load, make sure the camera viewer is still running on the robot and that the Pi 500 and robot are on the same WiFi network.
 
@@ -389,7 +389,7 @@ scp file.py robot@<ROBOT_IP>:/home/robot/team_code/
 python3 web/camera_view.py
 
 # Then view camera from the Pi 500 browser
-# Open browser: http://<ROBOT_IP>:8080
+# Open browser: http://<ROBOT_IP>:8080/?token=pathfinder2026
 ```
 
 Need the latest code on the robot? Use [C4: Update robot code](C4_UPDATE_ROBOT_CODE.md).

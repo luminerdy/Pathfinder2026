@@ -2,33 +2,34 @@
 
 robot:
   name: "Pathfinder"
-  version: "2.0"
+  version: "2026"
   platform: "Mobile Robot with Arm"
-  hardware: "Raspberry Pi 5 8GB"
+  hardware: "Raspberry Pi 4 robot with Pi 500 control hub"
 
 # Hardware Configuration
 hardware:
   board:
-    serial_port: "/dev/ttyAMA10"
+    serial_port: "/dev/ttyAMA0"
     baud_rate: 1000000
     
   servos:
     # Arm servo IDs and ranges
-    base: 
-      id: 1
-      range: [-90, 90]
-    shoulder:
-      id: 2
-      range: [-90, 90]
-    elbow:
-      id: 3
-      range: [-90, 90]
-    wrist:
-      id: 4
-      range: [-90, 90]
     gripper:
+      id: 1
+      pulse: [1475, 2500]
+      notes: "1475=closed, 2500=open"
+    wrist:
+      id: 3
+      pulse: [500, 2500]
+    elbow:
+      id: 4
+      pulse: [500, 2500]
+    shoulder:
       id: 5
-      range: [0, 90]  # 0 = open, 90 = closed
+      pulse: [500, 2500]
+    base:
+      id: 6
+      pulse: [500, 2500]
       
   chassis:
     type: "mecanum"
@@ -97,22 +98,14 @@ vision:
         description: "Delivery Zone - Right"
         location: "West wall, 12\" right of center"
     
-  yolo:
-    model: "yolov11n.pt"  # Nano model for Pi 5
-    confidence: 0.5
-    iou_threshold: 0.45
-    device: "cpu"  # or "0" for GPU if available
-    classes:
-      - block
-      - red_block
-      - blue_block
-      - green_block
-      
 # API Configuration
 api:
+  # Web control is intended for the workshop LAN and requires this shared token.
+  token_env: "PATHFINDER_WEB_TOKEN"
+  default_token: "pathfinder2026"
   webserver:
     host: "0.0.0.0"
-    port: 5000
+    port: 8080
     debug: false
     
   streaming:

@@ -45,7 +45,7 @@ Do not edit these during normal team work unless a facilitator tells you to:
 | `Deviation.yaml` | Servo calibration offsets |
 | `lib/battery.py` | Shared voltage thresholds used by robot code |
 | Files in `lib/` | Hardware control layer |
-| Files in `sdk/` | Lower-level board communication |
+| Files in `lib/` | Lower-level board communication |
 
 If a team wants to experiment with advanced code, copy the file into `/home/robot/team_code` first.
 

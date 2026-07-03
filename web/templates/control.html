@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PathfinderV2 Control</title>
+    <title>Pathfinder2026 Control</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -182,7 +182,7 @@
 </head>
 <body>
     <div class="container">
-        <h1> PathfinderV2 Control Interface</h1>
+        <h1>Pathfinder2026 Control Interface</h1>
 
         <div id="battery-status" class="battery-status battery-good">
             Battery: --.-V
@@ -191,8 +191,8 @@
         <div class="controls-grid">
             <!-- Video Feed -->
             <div class="panel video-panel">
-                <h2> Live Camera Feed</h2>
-                <img id="video-feed" src="/video_feed" alt="Camera feed">
+                <h2>Live Camera Feed</h2>
+                <img id="video-feed" src="/video_feed?token={{ token }}" alt="Camera feed">
             </div>
 
             <!-- Drive Controls -->
@@ -200,7 +200,7 @@
                 <h2> Drive Controls</h2>
 
                 <div style="background: #333; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
-                    <h3 style="margin-top: 0;">⚡ Motor Power</h3>
+                    <h3 style="margin-top: 0;">Motor Power</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div>
                             <label style="display: block; margin-bottom: 5px;">
@@ -220,7 +220,7 @@
                         </div>
                     </div>
                     <div style="color: #888; font-size: 12px; margin-top: 10px;">
-                         Start low (30) and increase if needed. High power at low battery may crash!
+                        Start low (30) and increase if needed. High power at low battery may crash.
                     </div>
                 </div>
 
@@ -229,16 +229,16 @@
                 </div>
                 <div class="drive-controls">
                     <div></div>
-                    <button class="drive-button" id="btn-forward">↑<br>Forward<br>(W)</button>
+                    <button class="drive-button" id="btn-forward">Forward<br>(W)</button>
                     <div></div>
 
-                    <button class="drive-button" id="btn-left">←<br>Left<br>(A)</button>
-                    <button class="drive-button" id="btn-stop" style="background: #f44336;">⏹<br>STOP<br>(Space)</button>
-                    <button class="drive-button" id="btn-right">→<br>Right<br>(D)</button>
+                    <button class="drive-button" id="btn-left">Left<br>(A)</button>
+                    <button class="drive-button" id="btn-stop" style="background: #f44336;">STOP<br>(Space)</button>
+                    <button class="drive-button" id="btn-right">Right<br>(D)</button>
 
-                    <button class="drive-button" id="btn-strafe-left">⇐<br>Strafe L<br>(Q)</button>
-                    <button class="drive-button" id="btn-backward">↓<br>Back<br>(S)</button>
-                    <button class="drive-button" id="btn-strafe-right">⇒<br>Strafe R<br>(E)</button>
+                    <button class="drive-button" id="btn-strafe-left">Strafe L<br>(Q)</button>
+                    <button class="drive-button" id="btn-backward">Back<br>(S)</button>
+                    <button class="drive-button" id="btn-strafe-right">Strafe R<br>(E)</button>
                 </div>
             </div>
 
@@ -309,6 +309,29 @@
     </div>
 
     <script>
+        const authQuery = '?token={{ token }}';
+
+        function authUrl(path) {
+            return path + authQuery;
+        }
+
+        function postJson(path, data) {
+            return fetch(authUrl(path), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Pathfinder-Token': '{{ token }}'
+                },
+                body: JSON.stringify(data)
+            });
+        }
+
+        function getJson(path) {
+            return fetch(authUrl(path), {
+                headers: {'X-Pathfinder-Token': '{{ token }}'}
+            });
+        }
+
         // Drive button handlers
         const driveButtons = {
             'btn-forward': 'forward',
@@ -321,11 +344,7 @@
         };
 
         function sendDriveCommand(direction) {
-            fetch('/drive', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({direction: direction})
-            });
+            postJson('/drive', {direction: direction});
         }
 
         // Button press/release
@@ -388,13 +407,9 @@
                 });
 
                 slider.addEventListener('change', function() {
-                    fetch('/servo', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({
-                            servo: i,
-                            position: parseInt(this.value)
-                        })
+                    postJson('/servo', {
+                        servo: i,
+                        position: parseInt(this.value)
                     });
                 });
             }
@@ -408,11 +423,7 @@
                 return;
             }
 
-            fetch('/save_position', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name: name})
-            })
+            postJson('/save_position', {name: name})
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'ok') {
@@ -425,11 +436,7 @@
 
         // Load position
         function loadPosition(name) {
-            fetch('/load_position', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name: name})
-            })
+            postJson('/load_position', {name: name})
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'ok') {
@@ -448,7 +455,7 @@
 
         // Load saved positions list
         function loadSavedPositions() {
-            fetch('/get_positions')
+            getJson('/get_positions')
             .then(response => response.json())
             .then(data => {
                 const container = document.getElementById('saved-positions');
@@ -475,11 +482,7 @@
         });
 
         drivePowerSlider.addEventListener('change', function() {
-            fetch('/motor_power', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({drive: parseInt(this.value)})
-            });
+            postJson('/motor_power', {drive: parseInt(this.value)});
         });
 
         turnPowerSlider.addEventListener('input', function() {
@@ -487,16 +490,12 @@
         });
 
         turnPowerSlider.addEventListener('change', function() {
-            fetch('/motor_power', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({turn: parseInt(this.value)})
-            });
+            postJson('/motor_power', {turn: parseInt(this.value)});
         });
 
         // Load current motor power
         function loadMotorPower() {
-            fetch('/motor_power')
+            getJson('/motor_power')
             .then(response => response.json())
             .then(data => {
                 drivePowerSlider.value = data.drive;
@@ -508,7 +507,7 @@
 
         // Battery monitoring
         function updateBattery() {
-            fetch('/battery')
+            getJson('/battery')
             .then(response => response.json())
             .then(data => {
                 const statusDiv = document.getElementById('battery-status');

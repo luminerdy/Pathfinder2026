@@ -20,32 +20,25 @@ SERVICE_DIR="/etc/systemd/system"
 
 echo "Installing services..."
 
-# Copy service files
+# Copy boot startup service. Web control is started manually during the event.
 cp "${SCRIPT_DIR}/systemd/pathfinder-startup.service" "$SERVICE_DIR/"
-cp "${SCRIPT_DIR}/systemd/pathfinder-drive.service" "$SERVICE_DIR/"
-cp "${SCRIPT_DIR}/systemd/pathfinder-servo.service" "$SERVICE_DIR/"
 
-echo "✓ Service files copied"
+echo "[OK] Service file copied"
 
 # Reload systemd
 systemctl daemon-reload
-echo "✓ Systemd reloaded"
+echo "[OK] Systemd reloaded"
 
 # Enable services
 systemctl enable pathfinder-startup.service
-systemctl enable pathfinder-drive.service
-systemctl enable pathfinder-servo.service
-echo "✓ Services enabled"
+echo "[OK] Startup service enabled"
 
 # Start services now (optional)
 read -p "Start services now? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     systemctl start pathfinder-startup.service
-    sleep 3
-    systemctl start pathfinder-drive.service
-    systemctl start pathfinder-servo.service
-    echo "✓ Services started"
+    echo "[OK] Startup service started"
 fi
 
 echo ""
@@ -54,19 +47,19 @@ echo "Installation Complete!"
 echo "=================================================="
 echo ""
 echo "Services installed:"
-echo "  • pathfinder-startup.service - Robot initialization"
-echo "  • pathfinder-drive.service   - Web drive (port 5000)"
-echo "  • pathfinder-servo.service   - Servo control (port 5001)"
+echo "  - pathfinder-startup.service - Robot initialization"
+echo ""
+echo "Web control is started manually when needed:"
+echo "  cd /home/robot/pathfinder"
+echo "  PATHFINDER_WEB_TOKEN=pathfinder2026 python3 web/web_control.py"
+echo "  Open http://<ROBOT_IP>:8080/?token=pathfinder2026"
 echo ""
 echo "On next boot, robot will:"
 echo "  1. Initialize hardware"
 echo "  2. Position arm forward"
-echo "  3. Start web interfaces"
 echo ""
 echo "Useful commands:"
 echo "  sudo systemctl status pathfinder-startup"
-echo "  sudo systemctl status pathfinder-drive"
-echo "  sudo systemctl status pathfinder-servo"
 echo "  sudo journalctl -u pathfinder-startup -f"
 echo ""
 echo "To uninstall:"

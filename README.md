@@ -2,7 +2,7 @@
 
 **Summer 2026 Pathfinder robotics event**
 
-**Last Updated:** July 1, 2026
+**Last Updated:** July 3, 2026
 
 Pathfinder2026 is the event repo for the 2026 Pathfinder robot workshop. It is meant to be easy for humans first: participants, facilitators, setup helpers, and whoever is editing the course.
 
@@ -45,7 +45,6 @@ In this repo, the robot code is organized like this:
 | `lib/` | Shared robot control code used by the demos. |
 | `web/` | Browser-based robot control interface. |
 | `config.yaml` | Shared robot configuration. |
-| `sdk/` | Lower-level vendor communication layer used by the robot code. |
 
 Most participants should run scripts from `skills/`. Most code changes should also start there.
 
@@ -95,7 +94,7 @@ python3 web/web_control.py
 Then open this from the Pi 500 browser:
 
 ```text
-http://<ROBOT_IP>:8080
+http://<ROBOT_IP>:8080/?token=pathfinder2026
 ```
 
 ## Workshop Phases

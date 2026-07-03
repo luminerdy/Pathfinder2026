@@ -6,7 +6,7 @@ Hardware and feature test scripts are in `scripts/testing/`.
 
 ```bash
 cd /home/robot/pathfinder
-python3 robot_startup.py
+python3 start_robot.py
 ```
 
 If all 7 steps pass and you hear 2 beeps, the robot is working.
