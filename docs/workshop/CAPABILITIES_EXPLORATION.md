@@ -55,6 +55,34 @@ Run these demos first. They cover the robot behaviors most teams need before att
 | D4 | Camera vision | `python3 skills/camera_vision/test_camera.py` |
 | E3 | Block detection | `python3 skills/block_detection/run_demo.py` |
 
+## Recommended Demo Notes
+
+### D1: Mecanum Drive
+
+This demo shows the code that drives forward, backward, strafes, rotates, moves diagonally, and combines moves into a square pattern.
+
+**Caution:** The robot will move as soon as the demo starts. Put it on the floor, not on a table. Clear at least a 4-foot by 4-foot area so it can move about 2 feet in any direction.
+
+```bash
+python3 skills/mecanum_drive/run_demo.py
+```
+
+Watch which functions match each movement. If the movement is wrong, go back to Phase 1 motor wiring checks before changing code.
+
+### D3: robotic arm pickup
+
+This demo shows the code that moves the arm through a pickup-and-load sequence.
+
+Only run this after Phase 1 servo checks passed. Place the robot on the floor and put one block directly in front of the gripper.
+
+<img src="../images/robot/17_pickup_1.jpg" width="120" alt="block placed in front of robot gripper"> <img src="../images/robot/18_pickup_2.jpg" width="120" alt="arm lowering toward block"> <img src="../images/robot/19_pickup_3.jpg" width="120" alt="gripper approaching block"> <img src="../images/robot/20_pickup_4.jpg" width="120" alt="gripper holding block"> <img src="../images/robot/21_pickup_5.jpg" width="120" alt="arm lifting block"> <img src="../images/robot/22_pickup_6.jpg" width="120" alt="block loaded onto robot back">
+
+```bash
+python3 skills/robotic_arm/run_demo.py
+```
+
+If any movement is not correct, stop and re-check the arm assembly, block placement, and servo wiring before changing code.
+
 ## Optional If Time Allows
 
 Use these after the recommended demos are working. These are useful for stronger autonomous runs, but teams should not get stuck here before they have a simple course strategy.

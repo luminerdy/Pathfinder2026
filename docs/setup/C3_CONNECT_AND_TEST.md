@@ -2,7 +2,7 @@
 
 **Phase 1: Assemble**
 
-**Purpose:** Establish SSH connection from your Pi 500 to the robot, verify all hardware works
+**Purpose:** Establish SSH connection from your Pi 500 to the robot, then verify wiring and core hardware.
 
 This is the critical step — once connected, you control the robot entirely from your Pi 500.
 
@@ -174,43 +174,10 @@ If you see `no reading`, check that I2C is enabled, the sonar cable is connected
 
 If the sonar check fails, go back to [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) and check the sonar mounting and wiring before changing code.
 
-## Step 6: Test Drive Patterns
-
-**Caution:** The robot will move as soon as the demo starts. Put it on the floor, not on a table. Clear at least a 4-foot by 4-foot area so it can move about 2 feet in any direction. It can drive off a table.
+## Step 6: Test Camera Hardware
 
 ```bash
 cd /home/robot/pathfinder
-python3 skills/mecanum_drive/run_demo.py
-```
-
-**Watch the robot!** It should move in 8 patterns: forward, backward, strafe, rotate, diagonals, square.
-
-The rotate and square-pattern turns are tuned to use 40% motor power so the robot can turn reliably around an 8V battery level.
-
-**If motors don't move:**
-- Check battery (>7.0V needed)
-- Are wheels touching the ground?
-- Re-check Step 3 motor wiring against [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) before changing code.
-
-## Step 7: Test Arm Demo
-
-Only run this after Step 4 confirms the servo wiring is correct.
-
-This is a pickup-and-load demo. Place the robot on the floor and put one block directly in front of the gripper.
-
-<img src="../images/robot/17_pickup_1.jpg" width="120" alt="block placed in front of robot gripper"> <img src="../images/robot/18_pickup_2.jpg" width="120" alt="arm lowering toward block"> <img src="../images/robot/19_pickup_3.jpg" width="120" alt="gripper approaching block"> <img src="../images/robot/20_pickup_4.jpg" width="120" alt="gripper holding block"> <img src="../images/robot/21_pickup_5.jpg" width="120" alt="arm lifting block"> <img src="../images/robot/22_pickup_6.jpg" width="120" alt="block loaded onto robot back">
-
-```bash
-python3 skills/robotic_arm/run_demo.py
-```
-
-The arm should pick up the block and load it onto the robot's back.
-
-If any movement is not correct, stop and re-check the arm assembly, block placement, and servo wiring before changing code.
-
-## Step 8: Test Camera
-
-```bash
 python3 skills/camera_vision/test_camera.py
 ```
 
@@ -242,7 +209,7 @@ If the page does not load, make sure the camera viewer is still running on the r
 
 ## Phase 1 Required Tests Complete
 
-After Step 8, the robot connection and hardware checks are complete. Phase 1 is complete.
+After Step 6, the robot connection and hardware checks are complete. Phase 1 is complete.
 
 Next: [Phase 2: Capabilities Exploration](../workshop/CAPABILITIES_EXPLORATION.md)
 
