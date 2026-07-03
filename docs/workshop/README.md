@@ -70,7 +70,7 @@ Start with manual web control:
 python3 web/web_control.py
 ```
 
-Open `http://<ROBOT_IP>:8080/?token=pathfinder2026` from the Pi 500, unless your facilitator gives you a different token.
+Open `http://<ROBOT_IP>:8080` from the Pi 500.
 
 Required before the Course Challenge:
 

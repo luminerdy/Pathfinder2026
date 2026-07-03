@@ -192,7 +192,7 @@
             <!-- Video Feed -->
             <div class="panel video-panel">
                 <h2>Live Camera Feed</h2>
-                <img id="video-feed" src="/video_feed?token={{ token }}" alt="Camera feed">
+                <img id="video-feed" src="/video_feed" alt="Camera feed">
             </div>
 
             <!-- Drive Controls -->
@@ -309,27 +309,18 @@
     </div>
 
     <script>
-        const authQuery = '?token={{ token }}';
-
-        function authUrl(path) {
-            return path + authQuery;
-        }
-
         function postJson(path, data) {
-            return fetch(authUrl(path), {
+            return fetch(path, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'X-Pathfinder-Token': '{{ token }}'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             });
         }
 
         function getJson(path) {
-            return fetch(authUrl(path), {
-                headers: {'X-Pathfinder-Token': '{{ token }}'}
-            });
+            return fetch(path);
         }
 
         // Drive button handlers

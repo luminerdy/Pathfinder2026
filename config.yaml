@@ -100,9 +100,7 @@ vision:
     
 # API Configuration
 api:
-  # Web control is intended for the workshop LAN and requires this shared token.
-  token_env: "PATHFINDER_WEB_TOKEN"
-  default_token: "pathfinder2026"
+  # Web control is intended for the workshop LAN.
   webserver:
     host: "0.0.0.0"
     port: 8080

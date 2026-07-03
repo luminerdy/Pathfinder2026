@@ -94,7 +94,7 @@ python3 web/web_control.py
 Then open this from the Pi 500 browser:
 
 ```text
-http://<ROBOT_IP>:8080/?token=pathfinder2026
+http://<ROBOT_IP>:8080
 ```
 
 ## Workshop Phases

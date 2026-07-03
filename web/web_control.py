@@ -11,10 +11,9 @@ Provides:
 
 Usage:
     python3 web_control.py
-    Then open: http://<ROBOT_IP>:8080/?token=<TOKEN>
+    Then open: http://<ROBOT_IP>:8080
 """
 
-from functools import wraps
 from flask import Flask, render_template, Response, jsonify, request
 import cv2
 import time
@@ -29,7 +28,6 @@ BoardController = None  # Use get_board() instead
 app = Flask(__name__)
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SAVED_POSITIONS_PATH = REPO_ROOT / 'saved_positions.json'
-WEB_TOKEN = os.environ.get('PATHFINDER_WEB_TOKEN', 'pathfinder2026')
 
 # Global state
 board = get_board()
@@ -53,27 +51,6 @@ SERVO_LIMITS = {
 def clamp(value, low, high):
     return max(low, min(high, int(value)))
 
-
-def token_from_request():
-    data = request.get_json(silent=True) or {}
-    return (
-        request.args.get('token')
-        or request.headers.get('X-Pathfinder-Token')
-        or data.get('token')
-    )
-
-
-def is_authorized():
-    return token_from_request() == WEB_TOKEN
-
-
-def require_token(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        if not is_authorized():
-            return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
-        return func(*args, **kwargs)
-    return wrapper
 
 def get_camera():
     """Get or open camera (lazy initialization)"""
@@ -137,23 +114,15 @@ def generate_frames():
 @app.route('/')
 def index():
     """Serve main control page"""
-    if not is_authorized():
-        return (
-            "Pathfinder web control requires a token. "
-            "Open http://<ROBOT_IP>:8080/?token=<TOKEN>.",
-            401,
-        )
-    return render_template('control.html', token=WEB_TOKEN)
+    return render_template('control.html')
 
 @app.route('/video_feed')
-@require_token
 def video_feed():
     """Video streaming route"""
     return Response(generate_frames(),
                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/drive', methods=['POST'])
-@require_token
 def drive():
     """Drive motor control"""
     try:
@@ -210,7 +179,6 @@ def drive():
         return jsonify({'status': 'error', 'message': 'Drive command failed'}), 500
 
 @app.route('/servo', methods=['POST'])
-@require_token
 def servo():
     """Servo control"""
     try:
@@ -236,7 +204,6 @@ def servo():
     return jsonify({'status': 'ok', 'servo': servo_id, 'position': position})
 
 @app.route('/save_position', methods=['POST'])
-@require_token
 def save_position():
     """Save current arm position"""
     data = request.json
@@ -254,7 +221,6 @@ def save_position():
     return jsonify({'status': 'ok', 'name': name, 'positions': servo_positions})
 
 @app.route('/load_position', methods=['POST'])
-@require_token
 def load_position():
     """Load saved arm position"""
     data = request.json
@@ -287,7 +253,6 @@ def load_position():
         return jsonify({'status': 'error', 'message': 'Position not found'}), 404
 
 @app.route('/get_positions', methods=['GET'])
-@require_token
 def get_positions():
     """Get all saved positions"""
     with state_lock:
@@ -295,7 +260,6 @@ def get_positions():
                        'current': servo_positions})
 
 @app.route('/battery', methods=['GET'])
-@require_token
 def battery():
     """Get battery voltage"""
     mv = board.get_battery()
@@ -305,13 +269,11 @@ def battery():
                    'status': 'good' if voltage > 8.2 else 'low' if voltage > 8.0 else 'critical'})
 
 @app.route('/motor_power', methods=['GET'])
-@require_token
 def get_motor_power():
     """Get current motor power settings"""
     return jsonify(motor_power)
 
 @app.route('/motor_power', methods=['POST'])
-@require_token
 def set_motor_power():
     """Set motor power"""
     data = request.json
@@ -370,8 +332,7 @@ if __name__ == '__main__':
 
     print()
     print("Starting web server...")
-    print("Open in browser: http://<ROBOT_IP>:8080/?token=<TOKEN>")
-    print("Default token:", WEB_TOKEN)
+    print("Open in browser: http://<ROBOT_IP>:8080")
     print()
     print("Controls:")
     print("  WASD or Arrow keys - Drive")
