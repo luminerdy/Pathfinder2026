@@ -86,6 +86,51 @@ When using VS Code Remote SSH, open this folder for student edits:
 
 Use `/home/robot/pathfinder` as the source for examples and official code, but do not edit official files unless a facilitator tells you to.
 
+### Run Starter Files In VS Code
+
+1. Open VS Code on the Pi 500.
+2. Connect with Remote SSH to `robot@<ROBOT_IP>`.
+3. Open folder `/home/robot/team_code`.
+4. Open the VS Code terminal: `Terminal` -> `New Terminal`.
+5. Confirm the terminal is on the robot. The prompt should look like `robot@pathfinder`.
+6. Run:
+
+```bash
+cd /home/robot/team_code
+python3 drive_practice.py
+```
+
+Then try:
+
+```bash
+python3 arm_practice.py
+python3 camera_practice.py
+```
+
+### Modify And Run Again
+
+Start with a small safe edit.
+
+In `drive_practice.py`, change:
+
+```python
+MOVE_SECONDS = 1.0
+```
+
+to:
+
+```python
+MOVE_SECONDS = 0.5
+```
+
+Save the file, then run it again from the VS Code terminal:
+
+```bash
+python3 drive_practice.py
+```
+
+For `arm_practice.py`, change only one gripper value at a time. For `camera_practice.py`, try changing `OUTPUT_FILE` to save a different picture name.
+
 ## Before Updating The robot
 
 Before running [C4: Update robot code](C4_UPDATE_ROBOT_CODE.md), check the official repo:

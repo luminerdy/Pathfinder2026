@@ -284,8 +284,18 @@ Recommended workflow: keep `/home/robot/pathfinder` as the official updateable r
 4. Wait for VS Code to install its server component on the robot. This happens automatically the first time and may take about a minute.
 5. Open folder: `/home/robot/team_code`
 6. You should see `README.md`, `drive_practice.py`, `arm_practice.py`, and `camera_practice.py`.
-7. Edit the starter files in `/home/robot/team_code`.
-8. Use VS Code's built-in terminal to run scripts.
+7. Open VS Code's built-in terminal: `Terminal` -> `New Terminal`.
+8. Run a starter file:
+   ```bash
+   cd /home/robot/team_code
+   python3 drive_practice.py
+   ```
+9. Open `drive_practice.py`, change one small value such as `MOVE_SECONDS`, save the file, and run it again.
+10. Try the other starter files:
+   ```bash
+   python3 arm_practice.py
+   python3 camera_practice.py
+   ```
 (See [C1 Pi 500 Setup](C1_PI500_SETUP.md) for VS Code install)
 
 If `/home/robot/team_code` is missing, open a robot terminal and run:
