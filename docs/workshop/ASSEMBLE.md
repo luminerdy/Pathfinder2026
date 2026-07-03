@@ -1,5 +1,7 @@
 # Assemble
 
+**Phase 1 of 3**
+
 Assemble is the first workshop phase. The goal is to prepare the team's Pi 500 control hub and build a robot that is mechanically ready, powered, connected, and safe to test.
 
 For the workshop, the Pi 500 and robot OS images should already be created. Teams should skip the image-build documents and start with the event-day setup guides.
@@ -146,7 +148,7 @@ python3 skills/robotic_arm/run_demo.py
 python3 skills/mecanum_drive/run_demo.py
 ```
 
-## Ready To Move On
+## Phase 1 Complete
 
 The team is ready for Capabilities Exploration when:
 

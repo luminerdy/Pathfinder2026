@@ -1,5 +1,7 @@
 # C3: Connect Pi 500 to the robot and test
 
+**Phase 1: Assemble**
+
 **Purpose:** Establish SSH connection from your Pi 500 to the robot, verify all hardware works
 
 This is the critical step — once connected, you control the robot entirely from your Pi 500.
@@ -238,9 +240,11 @@ If the page does not load, make sure the camera viewer is still running on the r
 
 ---
 
-## Required Tests Complete
+## Phase 1 Required Tests Complete
 
-After Step 8, the robot connection and hardware checks are complete.
+After Step 8, the robot connection and hardware checks are complete. Phase 1 is complete.
+
+Next: [Phase 2: Capabilities Exploration](../workshop/CAPABILITIES_EXPLORATION.md)
 
 The remaining sections are reference information for using terminals, copying files, editing code, and troubleshooting.
 

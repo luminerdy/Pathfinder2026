@@ -1,5 +1,7 @@
 # Student Troubleshooting
 
+**Use during any workshop phase**
+
 Use this page when the robot does not do what the guide says it should do.
 
 ## Getting Help

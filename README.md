@@ -33,9 +33,10 @@ For the workshop, the Pi 500 and robot images should already be created. The OS 
 | Need | Start Here |
 |------|------------|
 | Event-day team flow | [Workshop Guide](docs/workshop/README.md) |
-| Assemble phase | [Assemble](docs/workshop/ASSEMBLE.md) |
+| Phase 1: Assemble | [Assemble](docs/workshop/ASSEMBLE.md) |
 | Connect and test the robot | [C3: Connect And Test](docs/setup/C3_CONNECT_AND_TEST.md) |
-| Explore robot capabilities | [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md) |
+| Phase 2: Capabilities Exploration | [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md) |
+| Phase 3: Course Challenge | [Course Challenge](docs/workshop/COURSE_CHALLENGE.md) |
 | Troubleshooting | [Student Troubleshooting](docs/workshop/TROUBLESHOOTING.md) |
 | Safe team code edits | [C5: Team Code Workflow](docs/setup/C5_TEAM_CODE_WORKFLOW.md) |
 

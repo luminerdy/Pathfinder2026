@@ -1,5 +1,7 @@
 # C1: Pi 500 Setup
 
+**Phase 1: Assemble**
+
 **Purpose:** Connect your Pi 500 to a monitor and prepare it as your team's control hub
 
 The Pi 500 is a keyboard computer — the keyboard IS the computer. You just need a monitor and mouse.

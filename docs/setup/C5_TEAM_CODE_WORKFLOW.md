@@ -1,5 +1,7 @@
 # C5: Team code workflow
 
+**Phase 2 support: Capabilities Exploration**
+
 **Purpose:** Give teams a safe place to edit code without blocking future updates to the official Pathfinder2026 repo.
 
 ## The Rule

@@ -1,5 +1,7 @@
 # B1: robot Assembly Guide
 
+**Phase 1: Assemble**
+
 **Purpose:** Unpack and assemble the robot while another teammate sets up the Pi 500.
 
 This guide is for the event table. The robot image should already be created before the event.
@@ -90,7 +92,7 @@ This guide is for the event table. The robot image should already be created bef
 3. Extra screws are normal. Keep them in the team parts container.
 4. The cooling fan shown in some older kit photos is not needed for this event build.
 
-## Ready For C2
+## Ready For C2 In Phase 1
 
 The robot assembly path is ready for robot Pi/WiFi setup when:
 

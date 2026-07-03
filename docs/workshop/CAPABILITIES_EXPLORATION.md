@@ -1,5 +1,7 @@
 # Capabilities Exploration
 
+**Phase 2 of 3**
+
 Capabilities Exploration is where teams learn what the robot can do before they attempt the course.
 
 ## Goal
@@ -8,7 +10,7 @@ Run short demos, observe behavior, and tune only what is needed. Each capability
 
 Before editing tuning files, read [Configuration Guide](CONFIG_GUIDE.md).
 
-If something fails, use [Student Troubleshooting](TROUBLESHOOTING.md) and compare with another team before asking a facilitator, unless the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
+If something fails, use [Student Troubleshooting](TROUBLESHOOTING.md). Compare with another team first. Get help right away if the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
 
 ## Step 0: Manual Control
 
@@ -22,7 +24,7 @@ python3 web/web_control.py
 
 Open `http://<ROBOT_IP>:8080` from the Pi 500.
 
-## Required Before Course Challenge
+## Required Before Phase 3
 
 Run these demos first. They cover the robot behaviors most teams need before attempting the course.
 
@@ -56,9 +58,9 @@ For each capability, teams should record:
 - Whether the capability is reliable enough for the course
 - Which capability the team will actually use in the course
 
-## Ready To Move On
+## Phase 2 Complete
 
-The team is ready for the Course Challenge when:
+The team is ready for Phase 3: Course Challenge when:
 
 - The robot can drive forward, strafe, and turn.
 - The team can stop the robot quickly.

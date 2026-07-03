@@ -1,5 +1,7 @@
 # Configuration Guide
 
+**Phase 2 support: Capabilities Exploration**
+
 Use this guide when you want to tune robot behavior without rewriting code.
 
 ## Basic Rule

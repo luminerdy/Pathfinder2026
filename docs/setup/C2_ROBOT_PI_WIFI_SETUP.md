@@ -1,5 +1,7 @@
 # C2: robot Pi WiFi Setup
 
+**Phase 1: Assemble**
+
 **Purpose:** Power on the assembled robot, confirm it is on the workshop network, and find the robot IP address for C3.
 
 This is an event-time step. The robot SD card image should already be created before the event. Do not run [A2: robot Pi OS Build](A2_ROBOT_PI_OS_BUILD.md) during the workshop unless a facilitator tells you to rebuild a robot SD card.
@@ -107,7 +109,7 @@ Use only the robot IP for:
 
 Do not use the Pi 500 IP as a robot connection target.
 
-## Ready For C3
+## Ready For C3 In Phase 1
 
 The team is ready for connect/test when:
 
