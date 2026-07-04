@@ -1,13 +1,13 @@
 # Skill: Gamepad Remote Control (D6)
 
-**Difficulty:** ⭐ (Beginner - Plug and Play)
+**Difficulty:** Beginner - Plug and Play
 **Type:** Manual Control
 **Prerequisites:** C2 (Connected to robot)
 **Estimated Time:** 10 minutes
 
 ---
 
-> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
+> **Note - Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this - same concepts, cleaner code.
 
 ## Overview
 
@@ -33,9 +33,10 @@ The gamepad plugs into the **robot Pi** (not the Pi 500). You control from the c
 3. Set the **back switch to X** (XInput mode, not D/DirectInput)
 4. Check the green LED is on (connected)
 
-### Step 2: Install Dependencies
+### Step 2: Confirm Dependencies
 
-From your Pi 500, SSH into the robot:
+The Pathfinder2026 robot image should already include `python3-pygame` and `joystick`. For an older image only, install missing packages from the robot:
+
 ```bash
 ssh robot@<ROBOT_IP>
 sudo apt install -y python3-pygame joystick
@@ -59,16 +60,16 @@ You should see:
 Initializing robot hardware...
 Initializing gamepad...
 Gamepad: Logitech Gamepad F710
-Ready — drive with sticks, triggers, bumpers!
+Ready - drive with sticks, triggers, bumpers!
 ```
 
-If "No gamepad detected" — check USB receiver, batteries, X-mode switch.
+If "No gamepad detected" - check USB receiver, batteries, X-mode switch.
 
 ---
 
 ## Controls
 
-### Sticks — Driving
+### Sticks - Driving
 
 | Control | Action |
 |---------|--------|
@@ -80,47 +81,47 @@ Push both sticks forward = drive forward.
 Push sticks in opposite directions = spin in place.
 Push both sticks sideways = strafe.
 
-### Triggers — Precision Speed
+### Triggers - Precision Speed
 
 | Control | Action |
 |---------|--------|
-| **Right trigger** | Drive forward (analog — more pull = faster) |
+| **Right trigger** | Drive forward (analog - more pull = faster) |
 | **Left trigger** | Drive backward (analog) |
 
 Triggers override sticks when pressed. Great for smooth, controlled approach.
 
-### Bumpers — Quick Turns
+### Bumpers - Quick Turns
 
 | Control | Action |
 |---------|--------|
 | **Right bumper** | Turn right in place |
 | **Left bumper** | Turn left in place |
 
-### D-Pad — Arm Sequences (One-Press Macros)
+### D-Pad - Arm Sequences (One-Press Macros)
 
 | Control | Action |
 |---------|--------|
-| **D-pad Up** | **Front pickup** — reach down, grab block, lift |
-| **D-pad Down** | **Backward drop** — fold arm back, release into rear bin |
-| **D-pad Left** | **Left side pickup** — rotate arm left, grab, lift |
-| **D-pad Right** | **Right side pickup** — rotate arm right, grab, lift |
+| **D-pad Up** | **Front pickup** - reach down, grab block, lift |
+| **D-pad Down** | **Backward drop** - fold arm back, release into rear bin |
+| **D-pad Left** | **Left side pickup** - rotate arm left, grab, lift |
+| **D-pad Right** | **Right side pickup** - rotate arm right, grab, lift |
 
-⚠️ These are full sequences (2-4 seconds each). Motors stop automatically during arm movement. Keep people clear of the arm!
+Warning: These are full sequences (2-4 seconds each). Motors stop automatically during arm movement. Keep people clear of the arm.
 
 **Workshop challenge workflow:**
-1. Drive to block → **D-pad Up** (grab it)
-2. Block in gripper → **D-pad Down** (drop into rear bin)
+1. Drive to block, then press **D-pad Up** to grab it.
+2. With block in gripper, press **D-pad Down** to drop into rear bin.
 3. Repeat until bin is full
-4. Drive to basket → dump bin manually or push blocks in
+4. Drive to basket, then dump bin manually or push blocks in.
 
-**Side pickups** let you grab blocks that aren't directly in front — great when you can't line up perfectly.
+**Side pickups** let you grab blocks that aren't directly in front - useful when you cannot line up perfectly.
 
-### Face Buttons — Arm Expressions
+### Face Buttons - Arm Expressions
 
 | Button | Action |
 |--------|--------|
 | **A** | Look forward (reset arm to default pose) |
-| **B** | Look sad (arm droops — fun for demos!) |
+| **B** | Look sad (arm droops for demos) |
 | **Y** | Nod yes (arm bobs up/down) |
 | **X** | Shake no (arm swings side to side) |
 
@@ -201,7 +202,7 @@ gamepad:
 - Motors wired backward? Swap motor plugs or invert in code
 
 **robot creeps when sticks centered:**
-- Increase DEADZONE (0.15 → 0.20)
+- Increase DEADZONE (0.15 to 0.20)
 - Recalibrate: `sudo jscal /dev/input/js0`
 
 **Laggy response:**
@@ -212,13 +213,10 @@ gamepad:
 
 ## Files
 
-```
-gamepad_drive/
-├── SKILL.md              # This file
-├── gamepad_drive.py       # Main gamepad control script
-├── config.yaml           # Tuning parameters
-└── README.md             # Quick reference
-```
+- `SKILL.md` - this file
+- `gamepad_drive.py` - main gamepad control script
+- `config.yaml` - tuning parameters
+- `README.md` - quick reference
 
 ---
 

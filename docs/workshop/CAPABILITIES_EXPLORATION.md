@@ -31,20 +31,6 @@ ssh robot@<ROBOT_IP>
 cd /home/robot/pathfinder
 ```
 
-## Step 0: Manual Control
-
-The web control interface is useful for driving, viewing camera output, checking battery, and moving the arm.
-
-Start here before running the capability demos. Manual control gives the team a quick way to confirm that the robot is awake, connected, and responding.
-
-```bash
-python3 web/web_control.py
-```
-
-Open `http://<ROBOT_IP>:8080` from the Pi 500.
-
-If a movement button does not respond, check the drive status message under the buttons and confirm the robot battery is not low.
-
 ## Recommended Before Phase 3
 
 Run these demos first. They cover the robot behaviors most teams need before attempting the course.
@@ -84,6 +70,15 @@ python3 skills/robotic_arm/run_demo.py
 ```
 
 If any movement is not correct, stop and re-check the arm assembly, block placement, and servo wiring before changing code.
+
+## Manual Control Tools
+
+Use these after the team has explored the individual capability scripts. Manual control is useful for practice, field scouting, and testing strategy, but it should not replace understanding the code that makes each capability work.
+
+| Step | Tool | Guide |
+|------|------|-------|
+| D5 | Web manual control | [D5: Web Manual Control](D5_WEB_MANUAL_CONTROL.md) |
+| D6 | Gamepad remote control | [D6: Gamepad Remote Control](D6_GAMEPAD_REMOTE_CONTROL.md) |
 
 ## Optional If Time Allows
 

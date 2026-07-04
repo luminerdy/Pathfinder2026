@@ -41,19 +41,6 @@ Start here:
 - [Capabilities Exploration](CAPABILITIES_EXPLORATION.md)
 - [Configuration Guide](CONFIG_GUIDE.md)
 
-Manual web control:
-
-```bash
-cd /home/robot/pathfinder
-python3 web/web_control.py
-```
-
-Open this from the Pi 500 browser:
-
-```text
-http://<ROBOT_IP>:8080
-```
-
 Recommended before Phase 3:
 
 | Step | Capability | Demo |
@@ -63,6 +50,13 @@ Recommended before Phase 3:
 | D3 | robotic arm | `python3 skills/robotic_arm/run_demo.py` |
 | D4 | Camera vision | `python3 skills/camera_vision/test_camera.py` |
 | E3 | Block detection | `python3 skills/block_detection/run_demo.py` |
+
+Manual control after capability demos:
+
+| Step | Tool | Guide |
+|------|------|-------|
+| D5 | Web manual control | [D5: Web Manual Control](D5_WEB_MANUAL_CONTROL.md) |
+| D6 | Gamepad remote control | [D6: Gamepad Remote Control](D6_GAMEPAD_REMOTE_CONTROL.md) |
 
 Optional if time allows:
 

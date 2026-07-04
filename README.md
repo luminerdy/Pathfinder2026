@@ -2,7 +2,7 @@
 
 **Summer 2026 Pathfinder robotics event**
 
-**Last Updated:** July 3, 2026
+**Last Updated:** July 4, 2026
 
 Pathfinder2026 is the event repo for the 2026 Pathfinder robot workshop. It is meant to be easy for humans first: participants, facilitators, setup helpers, and whoever is editing the course.
 
@@ -79,19 +79,10 @@ If you are testing robot behavior directly:
 - Then `skills/camera_vision/`
 - Then `skills/apriltag_navigation/`, `skills/block_detection/`, `skills/visual_servoing/`, `skills/autonomous_pickup/`, and `skills/line_following/`
 
-If you are running the web controls:
+Manual control tools come after the core capability demos:
 
-```bash
-ssh robot@<ROBOT_IP>
-cd /home/robot/pathfinder
-python3 web/web_control.py
-```
-
-Then open this from the Pi 500 browser:
-
-```text
-http://<ROBOT_IP>:8080
-```
+- [D5: Web Manual Control](docs/workshop/D5_WEB_MANUAL_CONTROL.md)
+- [D6: Gamepad Remote Control](docs/workshop/D6_GAMEPAD_REMOTE_CONTROL.md)
 
 ## Facilitator Setup Links
 

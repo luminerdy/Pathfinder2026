@@ -5,8 +5,14 @@
 ## Setup
 1. Plug F710 USB receiver into **robot Pi**
 2. Gamepad on, back switch to **X**
-3. `sudo apt install python3-pygame joystick`
+3. Confirm the robot image includes `python3-pygame` and `joystick`
 4. `python3 skills/gamepad_drive/gamepad_drive.py`
+
+For an older image only, install missing packages with:
+
+```bash
+sudo apt install -y python3-pygame joystick
+```
 
 ## Controls
 

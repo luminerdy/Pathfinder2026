@@ -191,10 +191,12 @@ fuser /dev/ttyAMA0
 
 ### System Packages
 ```bash
-sudo apt-get install -y python3-pip python3-dev i2c-tools git python3-opencv
+sudo apt-get install -y python3-pip python3-dev i2c-tools git python3-opencv python3-pygame joystick
 ```
 
 > **Trixie note:** `python3-opencv` (4.10.0) is available via apt on Debian 13 Trixie and is the recommended install method â no pip needed for OpenCV.
+
+`python3-pygame` and `joystick` support Phase 2 gamepad control with the Logitech F710.
 
 ### Python Packages
 ```bash
@@ -216,6 +218,7 @@ If pip warns that `flask` was installed in `/home/robot/.local/bin` and that dir
 python3 -c "import cv2; print(f'OpenCV: {cv2.__version__}')"
 python3 -c "from pupil_apriltags import Detector; print('AprilTags: OK')"
 python3 -c "import flask; print('Flask: OK')"
+python3 -c "import pygame; print('pygame: OK')"
 python3 -c "import serial; print('PySerial: OK')"
 python3 -c "import smbus2; print('SMBus2: OK')"
 python3 -c "import yaml; print('PyYAML: OK')"
@@ -223,6 +226,13 @@ python3 -c "import numpy; print(f'NumPy: OK')"
 ```
 
 All should print without errors.
+
+If the Logitech F710 receiver is plugged into the robot Pi, you can also check:
+
+```bash
+lsusb | grep -i logitech
+ls /dev/input/js*
+```
 
 > **Flask version warning:** Flask 3.1+ shows a deprecation warning when accessing `flask.__version__`. This is harmless â Flask is working correctly.
 
@@ -561,6 +571,8 @@ sudo nmcli dev wifi connect "SSID" password "PASSWORD"
 | SMBus2 | 0.4.3 | I2C communication (Pi 4) |
 | PyYAML | 6.0.2 | Configuration files |
 | NumPy | 2.2.4 | Math operations |
+| pygame | apt package | Gamepad input |
+| joystick | apt package | `/dev/input/js*` gamepad tools |
 | Visual Studio Code | 1.119+ | Code editor |
 | Python extension (ms-python) | 2026.4+ | Python language support in VS Code |
 | Pathfinder2026 | Latest | robot framework |
