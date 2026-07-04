@@ -48,7 +48,6 @@ Run these demos first. They cover the robot behaviors most teams need before att
 | D1 | Mecanum drive | `python3 skills/mecanum_drive/run_demo.py` |
 | D2 | Sonar sensors | `python3 skills/sonar_sensors/run_demo.py` |
 | D3 | robotic arm | `python3 skills/robotic_arm/run_demo.py` |
-| D4 | Camera vision | `python3 skills/camera_vision/test_camera.py` |
 
 ## Recommended Demo Notes
 
@@ -89,18 +88,6 @@ python3 skills/robotic_arm/run_demo.py
 ```
 
 If any movement is not correct, stop and re-check the arm assembly, block placement, and servo wiring before changing code.
-
-### D4: Camera Vision
-
-This test confirms the camera can capture images and shows where camera code starts.
-
-```bash
-python3 skills/camera_vision/test_camera.py
-```
-
-The script should report the camera size and save a test image. Open the saved image in VS Code or from the file browser to confirm the camera is pointed where the team expects.
-
-If the camera test fails, go back to Phase 1 camera hardware checks before changing code.
 
 ## Manual Control Tools
 

@@ -48,7 +48,6 @@ Recommended before Phase 3:
 | D1 | Mecanum drive | `python3 skills/mecanum_drive/run_demo.py` |
 | D2 | Sonar sensors | `python3 skills/sonar_sensors/run_demo.py` |
 | D3 | robotic arm | `python3 skills/robotic_arm/run_demo.py` |
-| D4 | Camera vision | `python3 skills/camera_vision/test_camera.py` |
 
 Manual control after capability demos:
 

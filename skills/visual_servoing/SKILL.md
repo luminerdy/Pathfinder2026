@@ -2,7 +2,7 @@
 
 **Difficulty:** ⭐⭐⭐ (Advanced - Control + Vision Integration)
 **Type:** Closed-Loop Vision-Guided Motion
-**Prerequisites:** D1 (Mecanum Drive), D4 (Camera), D5 (Block Detection)
+**Prerequisites:** D1 (Mecanum Drive), camera hardware checked in C3, D5 (Block Detection)
 **Estimated Time:** 25-30 minutes
 
 ---

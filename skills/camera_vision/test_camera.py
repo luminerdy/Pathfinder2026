@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Camera Hardware Test (D4 - Level 1)
+Camera Hardware Test
 
 Quick test to verify camera is working.
 Captures a few frames and saves one as test_frame.jpg.

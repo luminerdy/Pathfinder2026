@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Color Space Demo (D4 - Level 3)
+Color Space Demo
 
 Demonstrates different color space conversions and why HSV
 is better than BGR for color detection.

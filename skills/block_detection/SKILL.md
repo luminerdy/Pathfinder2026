@@ -2,7 +2,7 @@
 
 **Difficulty:** ⭐⭐ (Intermediate - Computer Vision Application)
 **Type:** Vision + Color Detection
-**Prerequisites:** D4 (Camera Vision)
+**Prerequisites:** Camera hardware checked in C3
 **Estimated Time:** 20-25 minutes
 
 ---

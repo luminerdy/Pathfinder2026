@@ -2,7 +2,7 @@
 
 **Difficulty:** ⭐⭐⭐ (Advanced - Vision + Drive Integration)
 **Type:** Closed-Loop Path Tracking
-**Prerequisites:** D1 (Mecanum Drive), D4 (Camera Vision)
+**Prerequisites:** D1 (Mecanum Drive), camera hardware checked in C3
 **Estimated Time:** 25-30 minutes
 
 ---
