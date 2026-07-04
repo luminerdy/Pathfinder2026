@@ -15,10 +15,12 @@ This is an event-time step. The robot SD card image should already be created be
 
 ## Step 1: Power On The robot Safely
 
+**Movement warning:** When the robot powers on, the startup script may move the arm to its startup position. Keep fingers, tools, cables, and loose parts away from the arm, gripper, wheels, and linkages before turning on power.
+
 1. Put the robot on the floor or a safe test stand.
-2. Keep hands clear of wheels and arm joints.
+2. Keep hands clear of wheels, arm joints, and the gripper.
 3. Turn on robot power.
-4. Wait for the robot Pi to finish booting.
+4. Wait for the robot Pi to finish booting and for any startup arm movement to stop.
 
 ## Step 2: Open A Terminal On The robot Pi
 
@@ -71,6 +73,8 @@ nmcli dev wifi list
 ```
 
 If the robot image already has the workshop WiFi saved, rebooting the robot may be enough:
+
+Before rebooting, keep hands clear of the arm and gripper. The startup script may move the arm again after reboot.
 
 ```bash
 sudo reboot
