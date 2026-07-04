@@ -41,7 +41,6 @@ Run these demos first. They cover the robot behaviors most teams need before att
 | D2 | Sonar sensors | `python3 skills/sonar_sensors/run_demo.py` |
 | D3 | robotic arm | `python3 skills/robotic_arm/run_demo.py` |
 | D4 | Camera vision | `python3 skills/camera_vision/test_camera.py` |
-| D5 | Block detection | `python3 skills/block_detection/run_demo.py` |
 
 ## Recommended Demo Notes
 
@@ -86,6 +85,7 @@ Use these after the recommended demos are working. These are useful for stronger
 
 | Step | Capability | Demo |
 |------|------------|------|
+| D5 | Block detection | `python3 skills/block_detection/run_demo.py` |
 | E3 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
 | E4 | Visual servoing | `python3 skills/visual_servoing/run_demo.py` |
 | E5 | Autonomous pickup | `python3 skills/autonomous_pickup/run_demo.py` |
@@ -109,7 +109,8 @@ The team is ready for Phase 3: Course Challenge when:
 - The robot can drive forward, strafe, and turn.
 - The team can stop the robot quickly.
 - Battery checks are routine.
-- Camera and block detection have been tested in event lighting.
+- Camera hardware has been tested.
+- Optional vision tools have been tested in event lighting if the team plans to use them.
 - The team has a basic pickup or storage strategy.
 - The team has selected a navigation strategy.
 
