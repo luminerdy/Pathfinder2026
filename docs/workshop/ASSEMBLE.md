@@ -139,14 +139,11 @@ python3 scripts/tools/check_battery.py
 
 ## Hardware Verification
 
-Run only one robot at a time during verification.
+Use C3 for the Phase 1 hardware checks:
 
-```bash
-python3 scripts/tools/check_battery.py
-python3 skills/camera_vision/test_camera.py
-python3 skills/robotic_arm/run_demo.py
-python3 skills/mecanum_drive/run_demo.py
-```
+- [C3 Connect and Test](../setup/C3_CONNECT_AND_TEST.md)
+
+C3 checks battery, individual motors, arm servos, sonar, camera hardware, and the SSH connection. Capability demos happen in Phase 2.
 
 ## Phase 1 Complete
 
@@ -158,6 +155,10 @@ The team is ready for Capabilities Exploration when:
 - Camera and sonar are mounted.
 - Battery voltage is safe.
 - SSH works from the Pi 500.
-- Camera test passes.
-- Drive demo runs safely.
+- Camera hardware test passes.
+- Individual motor and servo checks pass.
 - Team understands how to stop the robot.
+
+## Next Phase
+
+Continue to [Phase 2: Capabilities Exploration](CAPABILITIES_EXPLORATION.md).

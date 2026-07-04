@@ -117,3 +117,7 @@ The team is ready for Phase 3: Course Challenge when:
 - Camera and block detection have been tested in event lighting.
 - The team has a basic pickup or storage strategy.
 - The team has selected a navigation strategy.
+
+## Next Phase
+
+Continue to [Phase 3: Course Challenge](COURSE_CHALLENGE.md).
