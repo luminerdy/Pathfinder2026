@@ -64,6 +64,18 @@ python3 skills/mecanum_drive/run_demo.py
 
 Watch which functions match each movement. If the movement is wrong, go back to Phase 1 motor wiring checks before changing code.
 
+### D2: Sonar Sensors
+
+This demo shows the code that reads distance from the ultrasonic sensor and uses that distance to make simple decisions.
+
+```bash
+python3 skills/sonar_sensors/run_demo.py
+```
+
+Put your hand or a block in front of the robot and watch the distance readings change. Move the object closer and farther away so the team can see how sensor input becomes numbers in the code.
+
+If the readings do not change, go back to Phase 1 sonar wiring checks before changing code.
+
 ### D3: robotic arm pickup
 
 This demo shows the code that moves the arm through a pickup-and-load sequence.
@@ -77,6 +89,18 @@ python3 skills/robotic_arm/run_demo.py
 ```
 
 If any movement is not correct, stop and re-check the arm assembly, block placement, and servo wiring before changing code.
+
+### D4: Camera Vision
+
+This test confirms the camera can capture images and shows where camera code starts.
+
+```bash
+python3 skills/camera_vision/test_camera.py
+```
+
+The script should report the camera size and save a test image. Open the saved image in VS Code or from the file browser to confirm the camera is pointed where the team expects.
+
+If the camera test fails, go back to Phase 1 camera hardware checks before changing code.
 
 ## Manual Control Tools
 
