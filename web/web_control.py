@@ -34,6 +34,11 @@ SAVED_POSITIONS_PATH = REPO_ROOT / 'saved_positions.json'
 board = get_board()
 camera = None  # Opened lazily to avoid locking camera on import
 state_lock = threading.Lock()
+board_lock = threading.Lock()
+battery_cache = {
+    'voltage': None,
+    'updated_at': 0,
+}
 
 ALLOWED_DIRECTIONS = {
     'forward', 'backward', 'left', 'right',
@@ -51,6 +56,27 @@ SERVO_LIMITS = {
 
 def clamp(value, low, high):
     return max(low, min(high, int(value)))
+
+
+def get_battery_voltage(max_age=5.0, retries=1, delay=0.0):
+    """Return a recent battery voltage without blocking drive controls."""
+    now = time.time()
+    if battery_cache['voltage'] is not None and now - battery_cache['updated_at'] <= max_age:
+        return battery_cache['voltage']
+
+    with board_lock:
+        voltage = read_voltage(board, retries=retries, delay=delay)
+
+    if voltage is not None:
+        battery_cache['voltage'] = voltage
+        battery_cache['updated_at'] = time.time()
+    return voltage
+
+
+def set_drive_motors(commands):
+    """Send drive motor commands without sharing the board port with other requests."""
+    with board_lock:
+        board.set_motor_duty(commands)
 
 
 def get_camera():
@@ -90,7 +116,7 @@ def generate_frames():
             break
 
         # Add battery voltage overlay
-        voltage = read_voltage(board, retries=2, delay=0.1)
+        voltage = get_battery_voltage(max_age=5.0, retries=1, delay=0.0)
         if voltage:
             color = (0, 255, 0) if voltage > 8.2 else (0, 165, 255) if voltage > 8.0 else (0, 0, 255)
             cv2.putText(frame, f"Battery: {voltage:.2f}V", (10, 30),
@@ -131,10 +157,14 @@ def drive():
         if direction not in ALLOWED_DIRECTIONS:
             return jsonify({'status': 'error', 'message': 'Invalid direction'}), 400
 
+        if direction == 'stop':
+            set_drive_motors([(1, 0), (2, 0), (3, 0), (4, 0)])
+            return jsonify({'status': 'ok'})
+
         # Safety check: prevent motor commands at low battery
-        voltage = read_voltage(board)
+        voltage = get_battery_voltage(max_age=10.0, retries=1, delay=0.0)
         if voltage:
-            if voltage < 7.8 and direction != 'stop':
+            if voltage < 7.8:
                 return jsonify({'status': 'error',
                               'message': f'Battery too low ({voltage:.2f}V) - Replace batteries!'})
 
@@ -146,25 +176,23 @@ def drive():
         turn_pwr = min(turn_pwr, 40)
 
         if direction == 'forward':
-            board.set_motor_duty([(1, drive_pwr), (2, drive_pwr),
+            set_drive_motors([(1, drive_pwr), (2, drive_pwr),
                                   (3, drive_pwr), (4, drive_pwr)])
         elif direction == 'backward':
-            board.set_motor_duty([(1, -drive_pwr), (2, -drive_pwr),
+            set_drive_motors([(1, -drive_pwr), (2, -drive_pwr),
                                   (3, -drive_pwr), (4, -drive_pwr)])
         elif direction == 'left':
-            board.set_motor_duty([(1, -turn_pwr), (2, turn_pwr),
+            set_drive_motors([(1, -turn_pwr), (2, turn_pwr),
                                   (3, -turn_pwr), (4, turn_pwr)])
         elif direction == 'right':
-            board.set_motor_duty([(1, turn_pwr), (2, -turn_pwr),
+            set_drive_motors([(1, turn_pwr), (2, -turn_pwr),
                                   (3, turn_pwr), (4, -turn_pwr)])
         elif direction == 'strafe_left':
-            board.set_motor_duty([(1, -drive_pwr), (2, drive_pwr),
+            set_drive_motors([(1, -drive_pwr), (2, drive_pwr),
                                   (3, drive_pwr), (4, -drive_pwr)])
         elif direction == 'strafe_right':
-            board.set_motor_duty([(1, drive_pwr), (2, -drive_pwr),
+            set_drive_motors([(1, drive_pwr), (2, -drive_pwr),
                                   (3, -drive_pwr), (4, drive_pwr)])
-        elif direction == 'stop':
-            board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
 
         return jsonify({'status': 'ok'})
 
@@ -172,7 +200,7 @@ def drive():
         # Emergency stop on any error
         print(f"Error in drive(): {e}")
         try:
-            board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+            set_drive_motors([(1, 0), (2, 0), (3, 0), (4, 0)])
         except:
             pass
         return jsonify({'status': 'error', 'message': 'Drive command failed'}), 500
@@ -198,7 +226,8 @@ def servo():
         servo_positions[servo_id] = position
 
     # Send to board
-    board.set_servo_position(500, [(servo_id, position)])
+    with board_lock:
+        board.set_servo_position(500, [(servo_id, position)])
 
     return jsonify({'status': 'ok', 'servo': servo_id, 'position': position})
 
@@ -241,7 +270,8 @@ def load_position():
 
         # Apply all servos
         servo_list = [(sid, pos) for sid, pos in clamped_positions.items()]
-        board.set_servo_position(500, servo_list)
+        with board_lock:
+            board.set_servo_position(500, servo_list)
 
         # Update state
         with state_lock:
@@ -261,7 +291,7 @@ def get_positions():
 @app.route('/battery', methods=['GET'])
 def battery():
     """Get battery voltage"""
-    voltage = read_voltage(board) or 0
+    voltage = get_battery_voltage(max_age=2.0, retries=1, delay=0.0) or 0
 
     return jsonify({'voltage': voltage,
                    'status': 'good' if voltage > 8.2 else 'low' if voltage > 8.0 else 'critical'})
@@ -305,10 +335,11 @@ if __name__ == '__main__':
     print("Positioning robot to startup position...")
     try:
         # Turn off sonar LEDs (both LEDs on the sonar)
-        board.set_rgb([(0, 0, 0, 0), (1, 0, 0, 0)])
+        with board_lock:
+            board.set_rgb([(0, 0, 0, 0), (1, 0, 0, 0)])
 
         # Stop motors
-        board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+        set_drive_motors([(1, 0), (2, 0), (3, 0), (4, 0)])
 
         # Move to camera-forward position (ONE SERVO AT A TIME to avoid power spike)
         camera_forward = [
@@ -321,7 +352,8 @@ if __name__ == '__main__':
 
         print("  Moving servos sequentially...")
         for servo_id, pwm in camera_forward:
-            board.set_servo_position(800, [(servo_id, pwm)])  # Slower speed (800ms)
+            with board_lock:
+                board.set_servo_position(800, [(servo_id, pwm)])  # Slower speed (800ms)
             time.sleep(0.5)  # Longer delay between servos
 
         print("  Robot positioned to camera-forward")

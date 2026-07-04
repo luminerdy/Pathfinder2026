@@ -43,6 +43,8 @@ python3 web/web_control.py
 
 Open `http://<ROBOT_IP>:8080` from the Pi 500.
 
+If a movement button does not respond, check the drive status message under the buttons and confirm the robot battery is not low.
+
 ## Recommended Before Phase 3
 
 Run these demos first. They cover the robot behaviors most teams need before attempting the course.
