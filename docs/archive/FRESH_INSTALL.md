@@ -234,7 +234,7 @@ python3 check_battery.py
 3. Use high-discharge 18650 cells (20A+ rating)
 4. Check physical power connections
 
-**See:** [BATTERY_SAFETY.md](../BATTERY_SAFETY.md) for details
+**See:** [BATTERY_SAFETY.md](../../BATTERY_SAFETY.md) for details
 
 ### Camera Not Working
 
@@ -317,7 +317,7 @@ Run calibration to adjust these values for your specific robot.
 
 **After successful installation:**
 
-1. **Calibrate servos** (if needed) - see [TESTING.md](../TESTING.md)
+1. **Calibrate servos** (if needed) - see [TESTING.md](TESTING.md)
 2. **Test all demos** - verify full functionality
 3. **Workshop deployment** - Pathfinder2026 is ready!
 
@@ -328,18 +328,18 @@ Run calibration to adjust these values for your specific robot.
 
 ## Reference Documentation
 
-- **[INSTALL.md](../INSTALL.md)** - Detailed installation steps
-- **[BATTERY_SAFETY.md](../BATTERY_SAFETY.md)** - Power requirements and safety
+- **[INSTALL.md](../../INSTALL.md)** - Detailed installation steps
+- **[BATTERY_SAFETY.md](../../BATTERY_SAFETY.md)** - Power requirements and safety
 - **[MOTOR_SOLUTION.md](MOTOR_SOLUTION.md)** - Motor troubleshooting
-- **[TESTING.md](../TESTING.md)** - Hardware testing procedures
-- **[README.md](../README.md)** - Project overview
+- **[TESTING.md](TESTING.md)** - Hardware testing procedures
+- **[README.md](../../README.md)** - Project overview
 
 ## Support
 
 **Issues or questions:**
 - GitHub: https://github.com/luminerdy/Pathfinder2026/issues
 - Check existing docs in `/docs` directory
-- Review [HIWONDER_SYSTEM_REFERENCE.md](reference/HIWONDER_SYSTEM_REFERENCE.md) for Hiwonder compatibility
+- Review [HIWONDER_SYSTEM_REFERENCE.md](HIWONDER_SYSTEM_REFERENCE.md) for Hiwonder compatibility
 
 ---
 

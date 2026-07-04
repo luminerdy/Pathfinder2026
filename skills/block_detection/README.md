@@ -1,4 +1,4 @@
-# Block Detection (E3) - Quick Reference
+# Block Detection (D5) - Quick Reference
 
 **Detect colored blocks using HSV color filtering**
 

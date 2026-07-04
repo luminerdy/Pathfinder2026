@@ -63,7 +63,7 @@ After mastering mecanum drive, try:
 
 - **D2: Sonar Sensors** - Add obstacle detection
 - **D3: Robotic Arm** - Control servos and gripper
-- **E2: AprilTag Navigation** - Autonomous movement!
+- **E3: AprilTag Navigation** - Autonomous movement!
 
 ---
 

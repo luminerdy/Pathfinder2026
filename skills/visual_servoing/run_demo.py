@@ -6,7 +6,7 @@ Demonstrates closed-loop approach to a colored block.
 Robot drives toward the nearest visible block using camera feedback.
 
 How it works:
-  1. Camera detects block (using E3 block detection)
+  1. Camera detects block (using D5 block detection)
   2. Lock onto target (won't switch blocks mid-approach)
   3. Calculate error (block position vs frame center)
   4. Proportional control: error * Kp = motor speed

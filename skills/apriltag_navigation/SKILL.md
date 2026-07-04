@@ -1,15 +1,15 @@
-# Skill: AprilTag Navigation
+# Skill: AprilTag Navigation (E3)
 
-**Difficulty:** ⭐⭐⭐ (Intermediate)
+**Difficulty:** Intermediate
 **Type:** Autonomous Navigation
 **Prerequisites:** Basic drive control, camera setup
 **Estimated Time:** 30-45 minutes
 
 ---
 
-> **Note — Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this — same concepts, cleaner code.
+> **Note - Raw API for learning:** The code examples in this guide use the low-level hardware API directly (`board.set_motor_duty()`, etc.) so you can see exactly what's happening inside the robot. Your **starter templates** use the `robot` class which wraps all of this - same concepts, cleaner code.
 
-##  Overview
+## Overview
 
 ### What This Skill Does
 
@@ -37,20 +37,20 @@ AprilTag Navigation enables your robot to **autonomously find and approach** fid
 ### Why AprilTags?
 
 **Advantages over other methods:**
-- ✅ More robust than QR codes (works at angles, partial occlusion)
-- ✅ Free and open-source (no licensing fees)
-- ✅ Fast detection (real-time on Raspberry Pi)
-- ✅ Provides 6-DOF pose (position + orientation in 3D space)
-- ✅ Works in varied lighting (unlike some vision systems)
+- More robust than QR codes (works at angles, partial occlusion)
+- Free and open-source (no licensing fees)
+- Fast detection (real-time on Raspberry Pi)
+- Provides 6-DOF pose (position + orientation in 3D space)
+- Works in varied lighting (unlike some vision systems)
 
 **Limitations:**
-- ❌ Requires printed tags in environment (infrastructure needed)
-- ❌ Limited range (tag size vs camera resolution trade-off)
-- ❌ Sensitive to motion blur (need to stop or use high shutter speed)
+- Requires printed tags in environment (infrastructure needed)
+- Limited range (tag size vs camera resolution trade-off)
+- Sensitive to motion blur (need to stop or use high shutter speed)
 
 ---
 
-##  Quick Start (Run the Demo)
+## Quick Start (Run the Demo)
 
 ### Step 1: Print AprilTag
 
@@ -81,7 +81,7 @@ python3 run_demo.py
 **Success looks like:**
 - robot drives straight toward tag (even if slightly off-center)
 - Smooth approach (no jerky stop-rotate-drive)
-- Stops at consistent distance (within ±2 inches)
+- Stops at consistent distance (within about 2 inches)
 
 ### Step 3: Troubleshooting
 
@@ -106,13 +106,13 @@ python3 run_demo.py
 
 ---
 
-##  Implementation Guide (For Coders)
+## Implementation Guide (For Coders)
 
 ### How It Works
 
 **Pipeline:**
 ```
-Camera Frame → Grayscale → AprilTag Detector → Pose Estimation → Control Loop → Motors
+Camera Frame -> Grayscale -> AprilTag Detector -> Pose Estimation -> Control Loop -> Motors
 ```
 
 **Key functions:**
@@ -164,10 +164,10 @@ if abs(distance_error) < DIST_TOLERANCE:
 ```
 
 **Why proportional control?**
-- Far away → fast approach
-- Close → slow approach
-- Off-center → strong correction
-- Centered → minimal correction
+- Far away -> fast approach
+- Close -> slow approach
+- Off-center -> strong correction
+- Centered -> minimal correction
 - Result: Smooth, natural-looking movement
 
 #### 4. Mecanum Drive
@@ -345,7 +345,7 @@ For each wheel:
      RL    RR
 ```
 
-**Inverse kinematics (desired velocity → wheel speeds):**
+**Inverse kinematics (desired velocity -> wheel speeds):**
 ```
 vx = strafe velocity (right is positive)
 vy = forward velocity (forward is positive)
@@ -385,7 +385,7 @@ RR = forward + strafe
 **Bottleneck:** AprilTag detection (CPU-bound)
 
 **Optimizations:**
-1. **Reduce resolution:** 640x480 → 320x240 (4x faster detection)
+1. **Reduce resolution:** 640x480 -> 320x240 (4x faster detection)
 2. **Decimate:** `detector.detect(..., decimate=2.0)` - process every 2nd pixel
 3. **ROI (Region of Interest):** Only detect in center of frame
 4. **Skip frames:** Detect every 2-3 frames, use last known pose for others
@@ -418,15 +418,15 @@ for d in detections:
 #### Accuracy
 
 **Pose estimation error:**
-- **Translation:** ±1-2 cm at 1m distance
-- **Rotation:** ±2-5° at 1m distance
+- **Translation:** about 1-2 cm at 1m distance
+- **Rotation:** about 2-5 degrees at 1m distance
 - **Improves with:** Larger tags, better camera calibration, closer distance
 - **Degrades with:** Small tags, motion blur, oblique angles (>45°)
 
 **Approach accuracy:**
-- **Lateral:** ±1-3 cm (depends on `CENTER_TOLERANCE`)
-- **Distance:** ±2-5 cm (depends on `DIST_TOLERANCE`)
-- **Repeatability:** High (±1 cm) if environment and battery consistent
+- **Lateral:** about 1-3 cm (depends on `CENTER_TOLERANCE`)
+- **Distance:** about 2-5 cm (depends on `DIST_TOLERANCE`)
+- **Repeatability:** High (about 1 cm) if environment and battery consistent
 
 ### Research Extensions
 

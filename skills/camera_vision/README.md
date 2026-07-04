@@ -66,8 +66,8 @@ After this skill, you can:
 
 ## Next Skills
 
-- **E2: AprilTag Navigation** - Uses camera for tags
-- **E3: Block Detection** - Color detection + tracking
+- **E3: AprilTag Navigation** - Uses camera for tags
+- **D5: Block Detection** - Color detection + tracking
 - **E5: Autonomous Pickup** - Vision + arm integration
 
 ---

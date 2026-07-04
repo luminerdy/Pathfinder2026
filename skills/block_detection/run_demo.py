@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Block Detection Demo (E3)
+Block Detection Demo (D5)
 
 Detect colored blocks using HSV color filtering.
 Shows detection pipeline results without driving.

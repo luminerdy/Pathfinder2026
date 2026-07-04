@@ -215,7 +215,7 @@ Restarted Pathfinder robot.service
 
 ### Short Term (1-2 hours)
 1. Run full `test_hardware.py` suite
-2. Test all demos (D1, D2, D3, E2)
+2. Test all demos (D1, D2, D3, E3)
 3. Verify battery voltage monitoring works
 4. Update INSTALL.md with boot config steps
 5. Commit fixes to GitHub

@@ -84,7 +84,7 @@ pip3 install opencv-python --break-system-packages
 - D3 Arm Basics ✅ (all positions, IK, gripper, pick/place, gestures)
 
 ⏳ **Not Yet Tested:**
-- E2 AprilTag demo (needs camera + AprilTag library)
+- E3 AprilTag demo (needs camera + AprilTag library)
 - Full integrated test_hardware.py suite
 - Vision system (YOLO object detection)
 - Web UI

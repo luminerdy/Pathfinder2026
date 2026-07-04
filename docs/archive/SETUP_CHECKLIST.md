@@ -179,9 +179,9 @@ Quick links to docs:
 
 - **Fresh install:** [FRESH_INSTALL.md](FRESH_INSTALL.md) - Complete step-by-step
 - **Motor issues:** [MOTOR_SOLUTION.md](MOTOR_SOLUTION.md) - UART configuration fix
-- **Battery:** [BATTERY_SAFETY.md](../BATTERY_SAFETY.md) - Voltage requirements
+- **Battery:** [BATTERY_SAFETY.md](../../BATTERY_SAFETY.md) - Voltage requirements
 - **Power:** [POWER_REQUIREMENTS_ANALYSIS.md](POWER_REQUIREMENTS_ANALYSIS.md) - Is 2x 18650 enough?
-- **Testing:** [TESTING.md](../TESTING.md) - Hardware test procedures
+- **Testing:** [TESTING.md](TESTING.md) - Hardware test procedures
 - **Results:** [TESTING_RESULTS.md](TESTING_RESULTS.md) - Verified working config
 
 ## Workshop Setup (Multiple Robots)

@@ -2,7 +2,7 @@
 
 **Difficulty:** ⭐⭐⭐ (Advanced - Full Integration)
 **Type:** Vision + Drive + Arm Coordination
-**Prerequisites:** D1 (Drive), D3 (Arm), D4 (Camera), E3 (Detection), E4 (Servoing)
+**Prerequisites:** D1 (Drive), D3 (Arm), D4 (Camera), D5 (Detection), E4 (Servoing)
 **Estimated Time:** 30-40 minutes
 
 ---

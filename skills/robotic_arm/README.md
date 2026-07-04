@@ -72,7 +72,7 @@ After this skill, you can:
 
 ## Next Skills
 
-- **E3: Block Detection** - Find objects to grab
+- **D5: Block Detection** - Find objects to grab
 - **E5: Autonomous Pickup** - Vision + arm integration
 
 ---

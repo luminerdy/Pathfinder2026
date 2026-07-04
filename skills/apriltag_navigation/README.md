@@ -1,4 +1,4 @@
-# AprilTag Navigation Skill
+# AprilTag Navigation (E3) - Quick Reference
 
 **Quick Reference Card**
 

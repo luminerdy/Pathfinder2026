@@ -220,7 +220,7 @@ Student can:
 ### Builds Foundation For
 - **D2: Sonar** - Add sensors to movement
 - **D3: Arm** - Coordinate arm while moving
-- **E2: AprilTag Navigation** - Autonomous mecanum control
+- **E3: AprilTag Navigation** - Autonomous mecanum control
 - **E4: Visual Servoing** - Approach targets with strafing
 - **E5: Autonomous Pickup** - Navigate + manipulate
 

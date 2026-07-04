@@ -1,4 +1,4 @@
-# Skill: Block Detection (E3)
+# Skill: Block Detection (D5)
 
 **Difficulty:** ⭐⭐ (Intermediate - Computer Vision Application)
 **Type:** Vision + Color Detection

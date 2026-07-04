@@ -19,7 +19,7 @@ python3 skills/auto_pickup.py blue      # Blue only
 - D1: Mecanum Drive (rotation, strafe, forward)
 - D3: Robotic Arm (pickup sequence)
 - D4: Camera Vision (frame capture)
-- E3: Block Detection (HSV filtering)
+- D5: Block Detection (HSV filtering)
 - E4: Visual Servoing (closed-loop approach)
 
 ## Key Parameters

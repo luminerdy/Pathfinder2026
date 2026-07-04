@@ -1,5 +1,5 @@
 """
-E2 - AprilTag Navigation
+E3 - AprilTag Navigation
 Advanced: AprilTag detection and navigation
 """
 
@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 def run(robot):
     """
-    E2 Demo: AprilTag detection and navigation
+    E3 Demo: AprilTag detection and navigation
     
     Teaches:
     - AprilTag detection
@@ -20,7 +20,7 @@ def run(robot):
     - Tag-based navigation
     - Pick and place using tags
     """
-    logger.info("=== E2: AprilTag Demo ===")
+    logger.info("=== E3: AprilTag Demo ===")
     
     if robot.camera is None or robot.vision is None:
         print("Error: Camera/Vision system not available")
@@ -207,7 +207,7 @@ def run(robot):
         robot.chassis.stop()
         cv2.destroyAllWindows()
         
-        print("\nE2 Demo complete!")
+        print("\nE3 Demo complete!")
         
     except Exception as e:
         logger.error(f"Demo error: {e}")
@@ -217,4 +217,4 @@ def run(robot):
 
 
 if __name__ == '__main__':
-    print("Run via: python pathfinder.py --demo e2_apriltag")
+    print("Run via: python pathfinder.py --demo e3_apriltag")

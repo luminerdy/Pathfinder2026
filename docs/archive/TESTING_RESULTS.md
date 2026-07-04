@@ -90,7 +90,7 @@ board.pwm_servo_set_position(0.5, [[5, 2000]]) # ✅ Gripper closed!
 - [x] D1 Basic Drive - ✅ All movement patterns working
 - [x] D2 Sonar - ✅ Code runs (sonar not connected, expected)
 - [x] D3 Arm Basics - ✅ All IK positions, pick/place, gestures working
-- [ ] E2 AprilTag - ⏳ Requires camera connection
+- [ ] E3 AprilTag - Requires camera connection
 
 ### System Configuration
 

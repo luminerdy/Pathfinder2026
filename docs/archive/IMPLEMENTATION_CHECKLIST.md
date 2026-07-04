@@ -100,7 +100,7 @@ Based on Hiwonder system analysis. Priority order.
 
 - [ ] **Advanced vision modes**
   - Face detection/recognition
-  - AprilTag navigation (have E2 demo)
+  - AprilTag navigation (have E3 demo)
   - Visual patrol
   - Color tracking/sorting
 

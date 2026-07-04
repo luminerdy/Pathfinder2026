@@ -82,7 +82,7 @@ def main():
         print("  [OK] State machine design (phases with clear transitions)")
         print("  [OK] Camera switching (forward view -> down view)")
         print("  [OK] Stop-look-drive (no motion blur for detection)")
-        print("  [OK] Full integration (D1 + D3 + D4 + E3 + E4)")
+        print("  [OK] Full integration (D1 + D3 + D4 + D5 + E4)")
     else:
         print("Tips if it failed:")
         print("  - Better lighting (avoid harsh shadows on blocks)")
