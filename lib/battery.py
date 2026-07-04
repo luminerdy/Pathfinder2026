@@ -14,6 +14,8 @@ CALIBRATED_MOVEMENT_VOLTAGE = 8.2
 # Ignore readings outside this range because they usually mean communication failed.
 VALID_MIN_MV = 5000
 VALID_MAX_MV = 20000
+DEFAULT_READ_RETRIES = 4
+DEFAULT_READ_DELAY = 0.4
 
 
 def runtime_minimum(platform=None):
@@ -30,7 +32,7 @@ def voltage_from_mv(mv):
     return None
 
 
-def read_voltage(board, retries=1, delay=0.0):
+def read_voltage(board, retries=DEFAULT_READ_RETRIES, delay=DEFAULT_READ_DELAY):
     """Read battery voltage from a board, retrying short invalid readings."""
     if delay:
         import time

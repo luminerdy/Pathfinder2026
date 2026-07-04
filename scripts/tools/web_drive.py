@@ -6,6 +6,7 @@ Provides browser-based control with camera stream
 
 from flask import Flask, render_template, Response, jsonify, request
 from lib.board import get_board as BoardController
+from lib.battery import read_voltage
 import cv2
 import time
 import threading
@@ -96,8 +97,8 @@ def set_speed():
 def status():
     """Get robot status"""
     try:
-        voltage = board.get_battery()
-        if voltage and voltage < 100:
+        voltage = read_voltage(board, retries=2, delay=0.1)
+        if voltage:
             battery = f"{voltage:.2f}V"
         else:
             battery = "Unknown"

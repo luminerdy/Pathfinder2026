@@ -115,9 +115,9 @@ try:
     print()
 
     # Battery check
-    mv = board.get_battery()
-    if mv:
-        v = mv / 1000.0
+    from lib.battery import read_voltage
+    v = read_voltage(board)
+    if v:
         print(f"  Battery: {v:.2f}V")
         if v < 8.0:
             print("  WARNING: Battery low, results may vary")

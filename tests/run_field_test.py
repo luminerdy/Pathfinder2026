@@ -95,24 +95,24 @@ def main():
     if args.battery_check:
         print("Checking battery...")
         try:
-            from lib.board import get_board  # was: from hardware import Board
-            board = Board()
+            from lib.board import get_board
+            from lib.battery import read_voltage
+            board = get_board()
             import time
             time.sleep(0.5)
-            voltage = board.get_battery()
-            if voltage:
-                v = voltage / 1000.0
+            v = read_voltage(board)
+            if v:
                 print(f"Battery: {v:.2f}V")
                 if v < 7.3:
-                    print("⚠️  Battery low! Charge recommended before testing.")
+                    print("WARNING: Battery low! Charge recommended before testing.")
                     response = input("Continue anyway? [y/N]: ")
                     if response.lower() != 'y':
                         print("Aborted.")
                         return 1
             else:
-                print("⚠️  Could not read battery voltage")
+                print("WARNING: Could not read battery voltage")
         except Exception as e:
-            print(f"⚠️  Battery check failed: {e}")
+            print(f"WARNING: Battery check failed: {e}")
             print("Continuing anyway...")
 
     # Initialize robot

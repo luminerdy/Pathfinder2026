@@ -52,12 +52,8 @@ def stop(board):
 
 def get_voltage(board):
     """Read battery voltage, retry on glitch."""
-    for _ in range(3):
-        mv = board.get_battery()
-        if mv and 5000 < mv < 20000:
-            return mv / 1000.0
-        time.sleep(0.3)
-    return 0
+    from lib.battery import read_voltage
+    return read_voltage(board) or 0
 
 
 def detect_tags(frame):

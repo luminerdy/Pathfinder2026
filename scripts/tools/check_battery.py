@@ -15,7 +15,13 @@ import time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..'))
 
 from lib.board import get_board, PLATFORM
-from lib.battery import read_voltage, runtime_minimum, status_for_voltage
+from lib.battery import (
+    DEFAULT_READ_DELAY,
+    DEFAULT_READ_RETRIES,
+    read_voltage,
+    runtime_minimum,
+    status_for_voltage,
+)
 
 
 def check_battery(strict=False, minimum_voltage=None):
@@ -24,7 +30,15 @@ def check_battery(strict=False, minimum_voltage=None):
         # The board object talks to the motor/servo controller on the robot.
         board = get_board()
         time.sleep(0.5)
-        volts = read_voltage(board)
+
+        volts = None
+        for attempt in range(DEFAULT_READ_RETRIES):
+            volts = read_voltage(board, retries=1, delay=0)
+            if volts is not None:
+                break
+            if attempt < DEFAULT_READ_RETRIES - 1:
+                print("Battery reading not ready; waiting and trying again...")
+                time.sleep(DEFAULT_READ_DELAY)
 
         if volts is None:
             print("ERROR: Cannot read battery voltage")

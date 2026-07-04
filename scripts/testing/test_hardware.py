@@ -15,6 +15,7 @@ import time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..'))
 
 from lib.board import get_board, PLATFORM
+from lib.battery import read_voltage
 
 
 def test_board():
@@ -28,12 +29,12 @@ def test_board():
         print("  Platform: %s" % PLATFORM)
         time.sleep(1)
 
-        mv = board.get_battery()
-        if mv and 5000 < mv < 20000:
-            print("  Battery: %.2fV" % (mv / 1000.0))
+        voltage = read_voltage(board)
+        if voltage:
+            print("  Battery: %.2fV" % voltage)
             print("  PASS")
         else:
-            print("  Battery reading: %s (unexpected)" % mv)
+            print("  Battery reading: no valid reading")
             print("  WARN")
         return board
     except Exception as e:

@@ -23,6 +23,7 @@ import threading
 from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from lib.board import get_board
+from lib.battery import read_voltage
 BoardController = None  # Use get_board() instead
 
 app = Flask(__name__)
@@ -89,9 +90,8 @@ def generate_frames():
             break
 
         # Add battery voltage overlay
-        mv = board.get_battery()
-        if mv:
-            voltage = mv / 1000.0
+        voltage = read_voltage(board, retries=2, delay=0.1)
+        if voltage:
             color = (0, 255, 0) if voltage > 8.2 else (0, 165, 255) if voltage > 8.0 else (0, 0, 255)
             cv2.putText(frame, f"Battery: {voltage:.2f}V", (10, 30),
                        cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
@@ -132,9 +132,8 @@ def drive():
             return jsonify({'status': 'error', 'message': 'Invalid direction'}), 400
 
         # Safety check: prevent motor commands at low battery
-        mv = board.get_battery()
-        if mv:
-            voltage = mv / 1000.0
+        voltage = read_voltage(board)
+        if voltage:
             if voltage < 7.8 and direction != 'stop':
                 return jsonify({'status': 'error',
                               'message': f'Battery too low ({voltage:.2f}V) - Replace batteries!'})
@@ -262,8 +261,7 @@ def get_positions():
 @app.route('/battery', methods=['GET'])
 def battery():
     """Get battery voltage"""
-    mv = board.get_battery()
-    voltage = mv / 1000.0 if mv else 0
+    voltage = read_voltage(board) or 0
 
     return jsonify({'voltage': voltage,
                    'status': 'good' if voltage > 8.2 else 'low' if voltage > 8.0 else 'critical'})

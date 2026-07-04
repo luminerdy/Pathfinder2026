@@ -98,6 +98,8 @@ python3 scripts/tools/check_battery.py
 
 This should print the platform, battery voltage, status, and note.
 
+If the first battery read is not ready, the script will pause and try again before reporting an error.
+
 If it prints `ERROR: Cannot read battery voltage`, check robot power, battery connection, and the motor board connection before continuing.
 
 **Battery guide:**
