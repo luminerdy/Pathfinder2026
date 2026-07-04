@@ -35,6 +35,7 @@ For the workshop, the Pi 500 and robot images should already be created. The OS 
 | Event-day team flow | [Workshop Guide](docs/workshop/README.md) |
 | Phase 1: Assemble | [Assemble](docs/workshop/ASSEMBLE.md) |
 | Connect and test the robot | [C3: Connect And Test](docs/setup/C3_CONNECT_AND_TEST.md) |
+| robot connection reference | [C6: robot Connection Reference](docs/setup/C6_ROBOT_CONNECTION_REFERENCE.md) |
 | Phase 2: Capabilities Exploration | [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md) |
 | Phase 3: Course Challenge | [Course Challenge](docs/workshop/COURSE_CHALLENGE.md) |
 | Troubleshooting | [Student Troubleshooting](docs/workshop/TROUBLESHOOTING.md) |
@@ -94,6 +95,7 @@ Use these before the event when preparing images, hardware, and setup flow:
 - [Pi 500 Setup](docs/setup/C1_PI500_SETUP.md)
 - [robot Pi WiFi Setup](docs/setup/C2_ROBOT_PI_WIFI_SETUP.md)
 - [Connect and Test](docs/setup/C3_CONNECT_AND_TEST.md)
+- [robot Connection Reference](docs/setup/C6_ROBOT_CONNECTION_REFERENCE.md)
 - [Bill of Materials](docs/setup/BILL_OF_MATERIALS.md)
 
 ## Repo Map

@@ -91,4 +91,5 @@ Before a course run:
 |------|-------|
 | Troubleshooting | [Student Troubleshooting](TROUBLESHOOTING.md) |
 | Safe team code edits | [C5: Team Code Workflow](../setup/C5_TEAM_CODE_WORKFLOW.md) |
+| Terminals, copying files, and SSH reference | [C6: robot Connection Reference](../setup/C6_ROBOT_CONNECTION_REFERENCE.md) |
 | Short team handout | [Team Start Handout](../handouts/TEAM_START_HANDOUT.md) |
