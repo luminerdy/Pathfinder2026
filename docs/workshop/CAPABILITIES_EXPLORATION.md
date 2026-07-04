@@ -41,7 +41,7 @@ Run these demos first. They cover the robot behaviors most teams need before att
 | D2 | Sonar sensors | `python3 skills/sonar_sensors/run_demo.py` |
 | D3 | robotic arm | `python3 skills/robotic_arm/run_demo.py` |
 | D4 | Camera vision | `python3 skills/camera_vision/test_camera.py` |
-| E3 | Block detection | `python3 skills/block_detection/run_demo.py` |
+| D5 | Block detection | `python3 skills/block_detection/run_demo.py` |
 
 ## Recommended Demo Notes
 
@@ -77,8 +77,8 @@ Use these after the team has explored the individual capability scripts. Manual 
 
 | Step | Tool | Guide |
 |------|------|-------|
-| D5 | Web manual control | [D5: Web Manual Control](D5_WEB_MANUAL_CONTROL.md) |
-| D6 | Gamepad remote control | [D6: Gamepad Remote Control](D6_GAMEPAD_REMOTE_CONTROL.md) |
+| E1 | Web manual control | [E1: Web Manual Control](E1_WEB_MANUAL_CONTROL.md) |
+| E2 | Gamepad remote control | [E2: Gamepad Remote Control](E2_GAMEPAD_REMOTE_CONTROL.md) |
 
 ## Optional If Time Allows
 
@@ -86,7 +86,7 @@ Use these after the recommended demos are working. These are useful for stronger
 
 | Step | Capability | Demo |
 |------|------------|------|
-| E2 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
+| E3 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
 | E4 | Visual servoing | `python3 skills/visual_servoing/run_demo.py` |
 | E5 | Autonomous pickup | `python3 skills/autonomous_pickup/run_demo.py` |
 | E6 | Line following | `python3 skills/line_following/run_demo.py` |

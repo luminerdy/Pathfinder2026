@@ -1,4 +1,4 @@
-# Gamepad Drive Configuration (D6)
+# Gamepad Drive Configuration (E2)
 
 gamepad:
   max_speed: 50        # Motor duty cycle limit (0-100)

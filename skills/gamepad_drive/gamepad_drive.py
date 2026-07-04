@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Gamepad Remote Control (D6)
+Gamepad Remote Control (E2)
 
 Drive robot with Logitech F710 wireless gamepad.
 Tank-style sticks + mecanum strafing + trigger speed + arm actions.
@@ -79,7 +79,7 @@ def clamp(value, min_val, max_val):
 
 def main():
     print("=" * 50)
-    print("GAMEPAD REMOTE CONTROL (D6)")
+    print("GAMEPAD REMOTE CONTROL (E2)")
     print("=" * 50)
     print()
     print("Initializing robot hardware...")

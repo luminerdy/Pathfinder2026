@@ -1,4 +1,4 @@
-# D6: Gamepad Remote Control
+# E2: Gamepad Remote Control
 
 **Phase 2 support: Capabilities Exploration**
 

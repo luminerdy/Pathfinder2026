@@ -1,4 +1,4 @@
-# D5: Web Manual Control
+# E1: Web Manual Control
 
 **Phase 2 support: Capabilities Exploration**
 
@@ -63,4 +63,4 @@ In the terminal running the web server, press:
 Ctrl+C
 ```
 
-Then continue with [D6: Gamepad Remote Control](D6_GAMEPAD_REMOTE_CONTROL.md) or [Phase 3: Course Challenge](COURSE_CHALLENGE.md).
+Then continue with [E2: Gamepad Remote Control](E2_GAMEPAD_REMOTE_CONTROL.md) or [Phase 3: Course Challenge](COURSE_CHALLENGE.md).

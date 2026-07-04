@@ -1,4 +1,4 @@
-# Gamepad Remote Control (D6) - Quick Reference
+# Gamepad Remote Control (E2) - Quick Reference
 
 **Drive with Logitech F710 wireless gamepad**
 

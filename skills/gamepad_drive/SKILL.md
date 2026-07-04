@@ -1,4 +1,4 @@
-# Skill: Gamepad Remote Control (D6)
+# Skill: Gamepad Remote Control (E2)
 
 **Difficulty:** Beginner - Plug and Play
 **Type:** Manual Control
