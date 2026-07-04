@@ -31,6 +31,14 @@ ssh robot@<ROBOT_IP>
 cd /home/robot/pathfinder
 ```
 
+## Before Editing Or Updating Code
+
+During this phase, teams should read code and may make small experiments. Keep the official `/home/robot/pathfinder` repo updateable, and do team edits in `/home/robot/team_code`.
+
+- To edit safely, use [C5: Team Code Workflow](../setup/C5_TEAM_CODE_WORKFLOW.md).
+- If a facilitator says new GitHub code is available, use [C4: Update robot code](../setup/C4_UPDATE_ROBOT_CODE.md).
+- For SSH, copying files, terminals, and connection troubleshooting, use [C6: robot Connection Reference](../setup/C6_ROBOT_CONNECTION_REFERENCE.md).
+
 ## Recommended Before Phase 3
 
 Run these demos first. They cover the robot behaviors most teams need before attempting the course.
