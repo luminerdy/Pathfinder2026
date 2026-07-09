@@ -18,23 +18,17 @@ Use gamepad remote control after the team has explored the individual capability
 - Keep hands clear of wheels, arm joints, and the gripper.
 - Keep a thumb near the `Back` button for emergency stop.
 
-## Confirm The Gamepad Is Detected
+## Gamepad Detection
 
 The robot image should already include `python3-pygame` and `joystick`.
 
-Run these commands while connected to the robot:
+The control script checks for the gamepad when it starts. If no gamepad is detected, the robot beeps and the program exits before moving the arm.
 
 ```bash
 ssh robot@<ROBOT_IP>
 cd /home/robot/pathfinder
-lsusb | grep -i logitech
-ls /dev/input/js*
+python3 skills/gamepad_drive/gamepad_drive.py
 ```
-
-Expected:
-
-- `lsusb` shows a Logitech receiver or gamepad.
-- `/dev/input/js0` exists.
 
 If the gamepad is not detected:
 
@@ -42,6 +36,12 @@ If the gamepad is not detected:
 - Confirm the gamepad is powered on.
 - Confirm the back switch is set to `X`, not `D`.
 - Try fresh gamepad batteries.
+- If needed, check detection manually:
+
+  ```bash
+  lsusb | grep -i logitech
+  ls /dev/input/js*
+  ```
 
 If the script says `pygame not installed`, the robot image is missing the gamepad package. Ask for help before installing packages during the event.
 
@@ -57,8 +57,9 @@ The script should print the gamepad name and say it is ready.
 
 | Control | Action |
 |---------|--------|
-| Left/right sticks Y | Tank drive |
-| Sticks X | Strafe |
+| Left stick Y | Left wheels forward/backward |
+| Right stick Y | Right wheels forward/backward |
+| Both sticks X | Strafe left/right |
 | Right trigger | Forward, analog speed |
 | Left trigger | Backward, analog speed |
 | Right bumper | Turn right |

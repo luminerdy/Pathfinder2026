@@ -9,7 +9,7 @@ Arm sequences ported from PathfinderBot V1 (pf_mecanum_gamepad_drive.py)
 with vendor-tested servo positions for reliable pickup/drop.
 
 Prerequisites:
-  - F710 USB receiver plugged into Robot Pi
+  - F710 USB receiver plugged into robot Pi
   - Gamepad on, back switch set to X (XInput)
   - pygame installed: sudo apt install python3-pygame
 
@@ -17,9 +17,9 @@ Usage:
     python3 gamepad_drive.py
 
 Controls:
-  Left stick Y:   Tank drive (right side — swapped to match wiring)
-  Right stick Y:  Tank drive (left side — swapped to match wiring)
-  Both sticks X:  Strafe left/right
+  Left stick Y:   Left wheels forward/backward
+  Right stick Y:  Right wheels forward/backward
+  Both sticks X:  Strafe left/right, each stick controls its own side
   Right trigger:  Forward (analog speed)
   Left trigger:   Backward (analog speed)
   Right bumper:   Turn right in place
@@ -59,6 +59,12 @@ MAX_SPEED = 50          # Maximum motor duty cycle (0-100)
 TURN_SPEED = 40         # In-place turn speed
 DEADZONE = 0.15         # Ignore stick values below this
 POLL_RATE = 50          # Hz (20ms per loop)
+LEFT_X_AXIS = 0         # Left stick horizontal
+LEFT_Y_AXIS = 1         # Left stick vertical
+RIGHT_Y_AXIS = 3        # Right stick vertical on the workshop F710 image
+RIGHT_X_AXIS = 4        # Right stick horizontal on the workshop F710 image
+LEFT_TRIGGER_AXIS = 2
+RIGHT_TRIGGER_AXIS = 5
 
 
 # === DRIVE HELPERS ===
@@ -75,6 +81,28 @@ def clamp(value, min_val, max_val):
     return max(min_val, min(max_val, value))
 
 
+def axis_value(gamepad, axis_index):
+    """Read an axis if it exists; return 0 for missing optional axes."""
+    if axis_index >= gamepad.get_numaxes():
+        return 0.0
+    return gamepad.get_axis(axis_index)
+
+
+def trigger_value(gamepad, axis_index):
+    """Read an analog trigger as 0 released to 1 fully pressed."""
+    if axis_index >= gamepad.get_numaxes():
+        return 0.0
+    return (gamepad.get_axis(axis_index) + 1) / 2
+
+
+def beep_missing_gamepad(board):
+    """Beep so teams know the receiver/gamepad was not detected."""
+    try:
+        board.set_buzzer(1200, 0.15, 0.1, 3)
+    except Exception:
+        pass
+
+
 # === MAIN ===
 
 def main():
@@ -84,10 +112,7 @@ def main():
     print()
     print("Initializing robot hardware...")
     board = get_board()
-    arm = Arm(board)
-
-    # Arm to forward position
-    arm.look_forward()
+    arm = None
 
     print("Initializing gamepad...")
     pygame.init()
@@ -95,7 +120,8 @@ def main():
 
     if pygame.joystick.get_count() == 0:
         print("No gamepad detected!")
-        print("  - USB receiver plugged into Robot Pi?")
+        beep_missing_gamepad(board)
+        print("  - USB receiver plugged into robot Pi?")
         print("  - Gamepad powered on (green LED)?")
         print("  - Back switch set to X (not D)?")
         pygame.quit()
@@ -104,9 +130,15 @@ def main():
     gamepad = pygame.joystick.Joystick(0)
     gamepad.init()
     print("Gamepad: %s" % gamepad.get_name())
+
+    arm = Arm(board)
+    arm.look_forward()
+
     print()
     print("Controls:")
-    print("  Sticks:     Tank drive + strafe")
+    print("  Left stick: Left wheels only")
+    print("  Right stick: Right wheels only")
+    print("  Both X axes: Strafe")
     print("  Triggers:   Forward/backward (analog)")
     print("  Bumpers:    Turn in place")
     print("  D-pad Up:   Pickup block (front)")
@@ -193,15 +225,17 @@ def main():
 
             # --- Continuous control (sticks + triggers) ---
 
-            # Read axes (V1 note: left/right sticks are swapped to match motor wiring)
-            left_y = apply_deadzone(gamepad.get_axis(1))    # Left stick Y
-            right_y = apply_deadzone(gamepad.get_axis(3))   # Right stick Y
-            left_x = apply_deadzone(gamepad.get_axis(0))    # Left stick X (strafe)
+            # Each stick controls only its own side of the robot:
+            # left stick -> motors 1 and 3, right stick -> motors 2 and 4.
+            left_x = apply_deadzone(axis_value(gamepad, LEFT_X_AXIS))
+            left_y = apply_deadzone(axis_value(gamepad, LEFT_Y_AXIS))
+            right_x = apply_deadzone(axis_value(gamepad, RIGHT_X_AXIS))
+            right_y = apply_deadzone(axis_value(gamepad, RIGHT_Y_AXIS))
 
             # Triggers (axis 2 = left trigger, axis 5 = right trigger on F710)
             # Triggers range: -1 (released) to +1 (fully pressed)
-            left_trigger = (gamepad.get_axis(2) + 1) / 2    # Normalize 0-1
-            right_trigger = (gamepad.get_axis(5) + 1) / 2   # Normalize 0-1
+            left_trigger = trigger_value(gamepad, LEFT_TRIGGER_AXIS)
+            right_trigger = trigger_value(gamepad, RIGHT_TRIGGER_AXIS)
 
             # Bumpers
             left_bumper = gamepad.get_button(4)
@@ -229,15 +263,16 @@ def main():
                 speed = left_trigger * MAX_SPEED
                 fl = fr = rl = rr = -speed
             else:
-                # Tank + strafe from sticks
-                strafe = left_x * MAX_SPEED
+                # Tank + strafe from sticks. Each stick only affects its side.
                 left_speed = -left_y * MAX_SPEED
                 right_speed = -right_y * MAX_SPEED
+                left_strafe = left_x * MAX_SPEED
+                right_strafe = right_x * MAX_SPEED
 
-                fl = left_speed + strafe
-                fr = right_speed - strafe
-                rl = left_speed - strafe
-                rr = right_speed + strafe
+                fl = left_speed + left_strafe
+                rl = left_speed - left_strafe
+                fr = right_speed - right_strafe
+                rr = right_speed + right_strafe
 
             # Clamp and send
             fl = int(clamp(fl, -MAX_SPEED, MAX_SPEED))
@@ -254,7 +289,8 @@ def main():
 
     finally:
         board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-        arm.look_forward()
+        if arm is not None:
+            arm.look_forward()
         pygame.quit()
         print("Motors stopped, gamepad released")
 

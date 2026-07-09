@@ -63,7 +63,7 @@ Gamepad: Logitech Gamepad F710
 Ready - drive with sticks, triggers, bumpers!
 ```
 
-If "No gamepad detected" - check USB receiver, batteries, X-mode switch.
+If "No gamepad detected" appears, the robot beeps. Check the USB receiver, batteries, and X-mode switch.
 
 ---
 
@@ -75,11 +75,11 @@ If "No gamepad detected" - check USB receiver, batteries, X-mode switch.
 |---------|--------|
 | **Left stick Y** | Forward / backward (tank left side) |
 | **Right stick Y** | Forward / backward (tank right side) |
-| **Both sticks X** | Strafe left / right (mecanum!) |
+| **Both sticks X** | Strafe left / right (each stick contributes to its own side) |
 
 Push both sticks forward = drive forward.
 Push sticks in opposite directions = spin in place.
-Push both sticks sideways = strafe.
+Push both sticks sideways in the same direction = strafe.
 
 ### Triggers - Precision Speed
 
@@ -146,16 +146,17 @@ while running:
     # Read gamepad state
     left_y = gamepad.get_axis(1)   # Left stick Y
     right_y = gamepad.get_axis(3)  # Right stick Y
-    strafe = gamepad.get_axis(0)   # Left stick X
+    left_x = gamepad.get_axis(0)   # Left stick X
+    right_x = gamepad.get_axis(4)  # Right stick X
 
     # Apply deadzone (ignore tiny stick drift)
     if abs(left_y) < 0.15: left_y = 0
 
-    # Calculate motor speeds (tank + strafe)
-    fl = -left_y + strafe    # Front left
-    fr = -right_y - strafe   # Front right
-    rl = -left_y - strafe    # Rear left
-    rr = -right_y + strafe   # Rear right
+    # Each stick controls only its side.
+    fl = -left_y + left_x     # Front left
+    rl = -left_y - left_x     # Rear left
+    fr = -right_y - right_x   # Front right
+    rr = -right_y + right_x   # Rear right
 
     # Scale to motor range and send
     board.set_motor_duty([(1, fl*50), (2, fr*50), (3, rl*50), (4, rr*50)])

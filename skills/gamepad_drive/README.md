@@ -18,8 +18,9 @@ sudo apt install -y python3-pygame joystick
 
 | Control | Action |
 |---------|--------|
-| Left/Right sticks Y | Tank drive |
-| Sticks X | Strafe (mecanum) |
+| Left stick Y | Left wheels forward/backward |
+| Right stick Y | Right wheels forward/backward |
+| Both sticks X | Strafe (mecanum) |
 | Right trigger | Forward (analog) |
 | Left trigger | Backward (analog) |
 | Right bumper | Turn right |
@@ -34,4 +35,4 @@ sudo apt install -y python3-pygame joystick
 | **Start** | **Quit** |
 
 ---
-*Grab the controller and drive!*
+If no gamepad is detected when the script starts, the robot beeps and exits.
