@@ -2,15 +2,10 @@
 """
 Mecanum Drive Demo (Level 1: Just Run It!)
 
-Demonstrates all 8 basic movement patterns:
-1. Forward
-2. Backward  
-3. Strafe Right
-4. Strafe Left
-5. Rotate Clockwise
-6. Rotate Counter-Clockwise
-7. Diagonal (Forward-Right)
-8. Square Pattern
+Demonstrates three square patterns:
+1. Standard square: drive forward, rotate, repeat
+2. Mecanum square: forward, strafe right, back up, strafe left
+3. Diagonal square: four diagonal movements with no rotation
 
 No code changes needed - just run and watch!
 
@@ -134,16 +129,37 @@ class MecanumDemo:
         time.sleep(duration)
         self.stop()
     
-    def diagonal(self, speed, duration):
-        """Move diagonally (forward-right)."""
-        print(f"  Moving diagonally (forward-right) at {speed}% for {duration}s...")
+    def diagonal_forward_right(self, speed, duration):
+        """Move diagonally forward and right."""
+        print(f"  Moving diagonally forward-right at {speed}% for {duration}s...")
         self.drive(speed, speed)
+        time.sleep(duration)
+        self.stop()
+
+    def diagonal_backward_right(self, speed, duration):
+        """Move diagonally backward and right."""
+        print(f"  Moving diagonally backward-right at {speed}% for {duration}s...")
+        self.drive(speed, -speed)
+        time.sleep(duration)
+        self.stop()
+
+    def diagonal_backward_left(self, speed, duration):
+        """Move diagonally backward and left."""
+        print(f"  Moving diagonally backward-left at {speed}% for {duration}s...")
+        self.drive(-speed, -speed)
+        time.sleep(duration)
+        self.stop()
+
+    def diagonal_forward_left(self, speed, duration):
+        """Move diagonally forward and left."""
+        print(f"  Moving diagonally forward-left at {speed}% for {duration}s...")
+        self.drive(-speed, speed)
         time.sleep(duration)
         self.stop()
     
     def square(self, speed, side_duration):
-        """Drive in a square pattern."""
-        print(f"  Executing square pattern...")
+        """Drive a standard square by turning at each corner."""
+        print("  Executing standard square pattern...")
         for i in range(4):
             print(f"    Side {i+1}/4")
             self.forward(speed, side_duration)
@@ -153,6 +169,40 @@ class MecanumDemo:
             time.sleep(0.5)
         self.stop()
 
+    def mecanum_square(self, speed, side_duration):
+        """Drive a square using mecanum sideways movement instead of turns."""
+        print("  Executing mecanum square pattern...")
+        print("    Side 1/4: forward")
+        self.forward(speed, side_duration)
+        time.sleep(0.5)
+        print("    Side 2/4: strafe right")
+        self.strafe_right(speed, side_duration)
+        time.sleep(0.5)
+        print("    Side 3/4: back up")
+        self.backward(speed, side_duration)
+        time.sleep(0.5)
+        print("    Side 4/4: strafe left")
+        self.strafe_left(speed, side_duration)
+        time.sleep(0.5)
+        self.stop()
+
+    def diagonal_square(self, speed, side_duration):
+        """Drive a square/diamond using diagonal mecanum movement."""
+        print("  Executing diagonal square pattern...")
+        print("    Side 1/4: diagonal forward-right")
+        self.diagonal_forward_right(speed, side_duration)
+        time.sleep(0.5)
+        print("    Side 2/4: diagonal backward-right")
+        self.diagonal_backward_right(speed, side_duration)
+        time.sleep(0.5)
+        print("    Side 3/4: diagonal backward-left")
+        self.diagonal_backward_left(speed, side_duration)
+        time.sleep(0.5)
+        print("    Side 4/4: diagonal forward-left")
+        self.diagonal_forward_left(speed, side_duration)
+        time.sleep(0.5)
+        self.stop()
+
 
 def main():
     """Run the complete demonstration."""
@@ -160,7 +210,10 @@ def main():
     print("MECANUM DRIVE DEMONSTRATION")
     print("=" * 60)
     print()
-    print("This demo shows 8 basic movement patterns.")
+    print("This demo shows three square patterns:")
+    print("  1. Standard square")
+    print("  2. Mecanum square")
+    print("  3. Diagonal square")
     print()
     print("SAFETY:")
     print("  - Clear a 4-foot by 4-foot area around the robot")
@@ -193,48 +246,20 @@ def main():
     
     try:
         # These values are intentionally conservative for a crowded workshop room.
-        duration = 2.0  # seconds per movement
-        pause = 1.5     # pause between movements
-        speed = 40      # motor speed (0-100)
-        
-        # Pattern 1: Forward
-        print("[1/8] Forward")
-        demo.forward(speed, duration)
+        side_duration = 1.4  # seconds per side
+        pause = 1.5          # pause between patterns
+        speed = 35           # motor speed (0-100)
+
+        print("[1/3] Standard Square Pattern")
+        demo.square(speed=speed, side_duration=side_duration)
         time.sleep(pause)
-        
-        # Pattern 2: Backward
-        print("[2/8] Backward")
-        demo.backward(speed, duration)
+
+        print("[2/3] Mecanum Square Pattern")
+        demo.mecanum_square(speed=speed, side_duration=side_duration)
         time.sleep(pause)
-        
-        # Pattern 3: Strafe Right
-        print("[3/8] Strafe Right")
-        demo.strafe_right(speed, duration)
-        time.sleep(pause)
-        
-        # Pattern 4: Strafe Left
-        print("[4/8] Strafe Left")
-        demo.strafe_left(speed, duration)
-        time.sleep(pause)
-        
-        # Pattern 5: Rotate Clockwise
-        print("[5/8] Rotate Clockwise")
-        demo.rotate_cw(40, 1.2)  # Turns need enough power to overcome floor friction
-        time.sleep(pause)
-        
-        # Pattern 6: Rotate Counter-Clockwise
-        print("[6/8] Rotate Counter-Clockwise")
-        demo.rotate_ccw(40, 1.2)
-        time.sleep(pause)
-        
-        # Pattern 7: Diagonal
-        print("[7/8] Diagonal (Forward-Right)")
-        demo.diagonal(speed, duration)
-        time.sleep(pause)
-        
-        # Pattern 8: Square
-        print("[8/8] Square Pattern")
-        demo.square(speed=35, side_duration=1.5)
+
+        print("[3/3] Diagonal Square Pattern")
+        demo.diagonal_square(speed=speed, side_duration=side_duration)
         
         print()
         print("=" * 60)
@@ -242,16 +267,14 @@ def main():
         print("=" * 60)
         print()
         print("What you just saw:")
-        print("  [OK] Forward/Backward - standard wheeled robot can do this")
-        print("  [OK] Strafe Left/Right - MECANUM SUPERPOWER! Pure sideways motion")
-        print("  [OK] Rotate in place - no turning radius needed")
-        print("  [OK] Diagonal - simultaneous forward + strafe")
-        print("  [OK] Square pattern - combining movements")
+        print("  [OK] Standard square - forward movement plus turns")
+        print("  [OK] Mecanum square - sideways motion without turning")
+        print("  [OK] Diagonal square - simultaneous forward/backward plus strafe")
         print()
         print("Next steps:")
         print("  - If motors did not move, re-check battery and Step 3 motor wiring.")
         print("  - If movement direction was wrong, go back to B1: robot Assembly Guide and check motor wiring before changing code.")
-        print("  - If everything looked correct, continue with the next C3 test.")
+        print("  - If everything looked correct, continue with D2 Sonar Sensors.")
         
         # Victory beep
         demo.board.set_buzzer(1000, 0.1, 0.1, 2)

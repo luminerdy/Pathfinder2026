@@ -53,7 +53,7 @@ Run these demos first. They cover the robot behaviors most teams need before att
 
 ### D1: Mecanum Drive
 
-This demo shows the code that drives forward, backward, strafes, rotates, moves diagonally, and combines moves into a square pattern.
+This demo starts with a standard square pattern, then shows a mecanum square using sideways movement, then shows a diagonal square.
 
 **Caution:** The robot will move as soon as the demo starts. Put it on the floor, not on a table. Clear at least a 4-foot by 4-foot area so it can move about 2 feet in any direction.
 
@@ -61,7 +61,7 @@ This demo shows the code that drives forward, backward, strafes, rotates, moves 
 python3 skills/mecanum_drive/run_demo.py
 ```
 
-Watch which functions match each movement. If the movement is wrong, go back to Phase 1 motor wiring checks before changing code.
+Watch which functions match each side of each square. If the movement is wrong, go back to Phase 1 motor wiring checks before changing code.
 
 ### D2: Sonar Sensors
 

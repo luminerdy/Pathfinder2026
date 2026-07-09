@@ -69,40 +69,36 @@ python3 run_demo.py
 
 **What happens:**
 
-The robot demonstrates 8 movement patterns in sequence:
+The robot demonstrates three square patterns in sequence:
 
-1. **Forward** (2 seconds)
-2. **Backward** (2 seconds)
-3. **Strafe Right** (2 seconds)
-4. **Strafe Left** (2 seconds)
-5. **Rotate Clockwise** (90°)
-6. **Rotate Counter-Clockwise** (90°)
-7. **Diagonal** (forward-right, 2 seconds)
-8. **Square Pattern** (1-meter sides)
+1. **Standard square** - drive forward, rotate, repeat
+2. **Mecanum square** - forward, strafe right, back up, strafe left
+3. **Diagonal square** - four diagonal movements with no rotation
 
 **Success looks like:**
-- robot moves smoothly in each direction
-- Strafe is truly sideways (no forward/backward component)
-- Rotation is in-place (no translation)
-- Square pattern closes (returns to start point ±6 inches)
+- robot moves smoothly through each pattern
+- Standard square shows forward driving plus turns
+- Mecanum square shows true sideways movement
+- Diagonal square shows simultaneous forward/backward and strafe
+- Patterns end close to where they started
 
 ### Step 3: Understand What You Saw
 
 **Key observations:**
 
-**Strafe (sideways movement):**
+**Mecanum square:**
 - robot moves left/right WITHOUT rotating
 - This is impossible with standard wheels!
-- Wheels spin in specific pattern to create lateral force
+- Wheels spin in a specific pattern to create lateral force
 
-**Rotation in place:**
-- robot spins without moving forward/backward
-- All 4 wheels contribute to rotation
-- Useful for aligning with targets
+**Standard square:**
+- robot drives forward, turns, and repeats
+- Turns need enough power to overcome floor friction
+- Battery level and floor surface affect how square the path looks
 
-**Diagonal movement:**
-- Combines forward + strafe simultaneously
-- Fastest path between two points (for mecanum)
+**Diagonal square:**
+- Combines forward/backward movement with strafe
+- Shows how mecanum wheels can move in two directions at once
 - Natural motion, not "drive then turn then drive"
 
 ### Step 4: Troubleshooting
