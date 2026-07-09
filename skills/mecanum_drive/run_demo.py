@@ -252,9 +252,10 @@ def main():
     try:
         # These values are intentionally conservative for a crowded workshop room.
         side_duration = 1.4  # seconds per side
-        turn_duration = 1.2  # approximate 90-degree right turn
+        turn_duration = 1.0  # approximate 90-degree right turn
         pause = 1.5          # pause between patterns
         speed = 40           # motor speed (0-100)
+        diagonal_speed = 50  # diagonal wheel-pair moves need extra power
         turn_speed = 40      # turns need enough power to overcome floor friction
 
         print("[1/3] Standard Square Pattern")
@@ -271,7 +272,7 @@ def main():
         time.sleep(pause)
 
         print("[3/3] Diagonal Square Pattern")
-        demo.diagonal_square(speed=speed, side_duration=side_duration)
+        demo.diagonal_square(speed=diagonal_speed, side_duration=side_duration)
         
         print()
         print("=" * 60)
