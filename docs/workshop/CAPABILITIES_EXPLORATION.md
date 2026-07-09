@@ -53,7 +53,7 @@ Run these demos first. They cover the robot behaviors most teams need before att
 
 ### D1: Mecanum Drive
 
-This demo starts with a standard square pattern, then shows a mecanum square using sideways movement, then shows a diagonal square.
+This demo starts with a standard square pattern, then shows a mecanum square using sideways movement, then shows a diagonal square using diagonal wheel pairs.
 
 **Caution:** The robot will move as soon as the demo starts. Put it on the floor, not on a table. Clear at least a 4-foot by 4-foot area so it can move about 2 feet in any direction.
 

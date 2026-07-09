@@ -11,7 +11,7 @@ cd /home/robot/pathfinder/skills/mecanum_drive
 python3 run_demo.py
 ```
 
-**What you'll see:** three square patterns (standard square, mecanum square, diagonal square)
+**What you'll see:** three square patterns (standard square, mecanum square, diagonal wheel-pair square)
 
 **Time:** 15-20 minutes
 

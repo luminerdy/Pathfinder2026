@@ -71,15 +71,15 @@ python3 run_demo.py
 
 The robot demonstrates three square patterns in sequence:
 
-1. **Standard square** - drive forward, rotate, repeat
+1. **Standard square** - drive forward, right turn, repeat
 2. **Mecanum square** - forward, strafe right, back up, strafe left
-3. **Diagonal square** - four diagonal movements with no rotation
+3. **Diagonal square** - four diagonal movements using opposite wheel pairs
 
 **Success looks like:**
 - robot moves smoothly through each pattern
 - Standard square shows forward driving plus turns
 - Mecanum square shows true sideways movement
-- Diagonal square shows simultaneous forward/backward and strafe
+- Diagonal square shows how opposite wheel pairs create diagonal movement
 - Patterns end close to where they started
 
 ### Step 3: Understand What You Saw
@@ -97,8 +97,8 @@ The robot demonstrates three square patterns in sequence:
 - Battery level and floor surface affect how square the path looks
 
 **Diagonal square:**
-- Combines forward/backward movement with strafe
-- Shows how mecanum wheels can move in two directions at once
+- Uses front-left plus rear-right, then front-right plus rear-left
+- Repeats those wheel pairs in reverse to return toward the start
 - Natural motion, not "drive then turn then drive"
 
 ### Step 4: Troubleshooting
