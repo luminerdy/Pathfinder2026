@@ -61,10 +61,10 @@ DEADZONE = 0.15         # Ignore stick values below this
 POLL_RATE = 50          # Hz (20ms per loop)
 LEFT_X_AXIS = 0         # Left stick horizontal
 LEFT_Y_AXIS = 1         # Left stick vertical
-RIGHT_Y_AXIS = 3        # Right stick vertical on the workshop F710 image
-RIGHT_X_AXIS = 2        # Right stick horizontal on the workshop F710 image
-LEFT_TRIGGER_AXIS = 4
-RIGHT_TRIGGER_AXIS = 5
+LEFT_TRIGGER_AXIS = 2   # Left trigger on the F710 in XInput mode
+RIGHT_X_AXIS = 3        # Right stick horizontal
+RIGHT_Y_AXIS = 4        # Right stick vertical
+RIGHT_TRIGGER_AXIS = 5  # Right trigger on the F710 in XInput mode
 
 
 # === DRIVE HELPERS ===
@@ -89,10 +89,23 @@ def axis_value(gamepad, axis_index):
 
 
 def trigger_value(gamepad, axis_index):
-    """Read an analog trigger as 0 released to 1 fully pressed."""
+    """Read an analog trigger as 0 released to 1 fully pressed.
+
+    The F710 may report trigger rest as -1, but a missing or centered axis reads
+    near 0. Treat that as released so the robot never drives by itself.
+    """
     if axis_index >= gamepad.get_numaxes():
         return 0.0
-    return (gamepad.get_axis(axis_index) + 1) / 2
+
+    raw = gamepad.get_axis(axis_index)
+    if raw <= -0.5:
+        value = (raw + 1.0) / 2.0
+    elif raw <= DEADZONE:
+        value = 0.0
+    else:
+        value = raw
+
+    return clamp(value, 0.0, 1.0)
 
 
 def beep_missing_gamepad(board):
@@ -254,8 +267,8 @@ def main():
             right_x = apply_deadzone(axis_value(gamepad, RIGHT_X_AXIS))
             right_y = apply_deadzone(axis_value(gamepad, RIGHT_Y_AXIS))
 
-            # Triggers (axis 4 = left trigger, axis 5 = right trigger on F710)
-            # Triggers range: -1 (released) to +1 (fully pressed)
+            # F710 XInput trigger axes: left trigger = 2, right trigger = 5.
+            # Some systems report released as -1; others report 0.
             left_trigger = trigger_value(gamepad, LEFT_TRIGGER_AXIS)
             right_trigger = trigger_value(gamepad, RIGHT_TRIGGER_AXIS)
 
