@@ -63,7 +63,7 @@ Gamepad: Logitech Gamepad F710
 Ready - drive with sticks, triggers, bumpers!
 ```
 
-If "No gamepad detected" appears, the robot beeps. Check the USB receiver, batteries, and X-mode switch.
+If "No gamepad detected" appears, the robot beeps and keeps checking. Connect the USB receiver or turn on the gamepad, or press Ctrl+C to quit.
 
 ---
 
@@ -75,11 +75,11 @@ If "No gamepad detected" appears, the robot beeps. Check the USB receiver, batte
 |---------|--------|
 | **Left stick Y** | Forward / backward (tank left side) |
 | **Right stick Y** | Forward / backward (tank right side) |
-| **Both sticks X** | Strafe left / right (each stick contributes to its own side) |
+| **Either stick X** | Strafe left / right using all wheels |
 
 Push both sticks forward = drive forward.
 Push sticks in opposite directions = spin in place.
-Push both sticks sideways in the same direction = strafe.
+Push either stick sideways = strafe.
 
 ### Triggers - Precision Speed
 
@@ -152,11 +152,16 @@ while running:
     # Apply deadzone (ignore tiny stick drift)
     if abs(left_y) < 0.15: left_y = 0
 
-    # Each stick controls only its side.
-    fl = -left_y + left_x     # Front left
-    rl = -left_y - left_x     # Rear left
-    fr = -right_y - right_x   # Front right
-    rr = -right_y + right_x   # Rear right
+    # Y sticks control left/right sides; either X stick strafes all wheels.
+    if left_x and right_x:
+        strafe = (left_x + right_x) / 2
+    else:
+        strafe = left_x or right_x
+
+    fl = -left_y + strafe     # Front left
+    rl = -left_y - strafe     # Rear left
+    fr = -right_y - strafe    # Front right
+    rr = -right_y + strafe    # Rear right
 
     # Scale to motor range and send
     board.set_motor_duty([(1, fl*50), (2, fr*50), (3, rl*50), (4, rr*50)])
@@ -197,6 +202,7 @@ gamepad:
 - Back switch set to **X** (not D)?
 - Try: `lsusb | grep -i logitech`
 - Try: `ls /dev/input/js*` (should show js0)
+- The script will beep and retry until the gamepad is detected.
 
 **robot drives wrong direction:**
 - Sticks inverted? Adjust axis mapping in code

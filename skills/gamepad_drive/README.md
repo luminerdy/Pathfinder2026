@@ -20,7 +20,7 @@ sudo apt install -y python3-pygame joystick
 |---------|--------|
 | Left stick Y | Left wheels forward/backward |
 | Right stick Y | Right wheels forward/backward |
-| Both sticks X | Strafe (mecanum) |
+| Either stick X | Strafe all wheels (mecanum) |
 | Right trigger | Forward (analog) |
 | Left trigger | Backward (analog) |
 | Right bumper | Turn right |
@@ -35,4 +35,4 @@ sudo apt install -y python3-pygame joystick
 | **Start** | **Quit** |
 
 ---
-If no gamepad is detected when the script starts, the robot beeps and exits.
+If no gamepad is detected when the script starts, the robot beeps and keeps checking until the gamepad is connected.

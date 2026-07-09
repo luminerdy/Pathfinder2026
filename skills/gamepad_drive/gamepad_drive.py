@@ -19,7 +19,7 @@ Usage:
 Controls:
   Left stick Y:   Left wheels forward/backward
   Right stick Y:  Right wheels forward/backward
-  Both sticks X:  Strafe left/right, each stick controls its own side
+  Either stick X: Strafe left/right with all wheels
   Right trigger:  Forward (analog speed)
   Left trigger:   Backward (analog speed)
   Right bumper:   Turn right in place
@@ -98,9 +98,36 @@ def trigger_value(gamepad, axis_index):
 def beep_missing_gamepad(board):
     """Beep so teams know the receiver/gamepad was not detected."""
     try:
-        board.set_buzzer(1200, 0.15, 0.1, 3)
+        board.set_buzzer(1200, 0.15, 0.1, 1)
     except Exception:
         pass
+
+
+def wait_for_gamepad(board):
+    """Keep beeping and checking until a gamepad is detected."""
+    while pygame.joystick.get_count() == 0:
+        print("No gamepad detected!")
+        beep_missing_gamepad(board)
+        print("  - USB receiver plugged into robot Pi?")
+        print("  - Gamepad powered on (green LED)?")
+        print("  - Back switch set to X (not D)?")
+        print("  Waiting for gamepad. Press Ctrl+C to quit.")
+        time.sleep(1.0)
+        pygame.joystick.quit()
+        pygame.joystick.init()
+
+    gamepad = pygame.joystick.Joystick(0)
+    gamepad.init()
+    return gamepad
+
+
+def combined_strafe(left_x, right_x):
+    """Use either stick X to strafe all four wheels."""
+    if left_x and right_x:
+        return (left_x + right_x) / 2
+    if left_x:
+        return left_x
+    return right_x
 
 
 # === MAIN ===
@@ -118,17 +145,13 @@ def main():
     pygame.init()
     pygame.joystick.init()
 
-    if pygame.joystick.get_count() == 0:
-        print("No gamepad detected!")
-        beep_missing_gamepad(board)
-        print("  - USB receiver plugged into robot Pi?")
-        print("  - Gamepad powered on (green LED)?")
-        print("  - Back switch set to X (not D)?")
+    try:
+        gamepad = wait_for_gamepad(board)
+    except KeyboardInterrupt:
+        print("\nStopped while waiting for gamepad")
         pygame.quit()
-        sys.exit(1)
+        return
 
-    gamepad = pygame.joystick.Joystick(0)
-    gamepad.init()
     print("Gamepad: %s" % gamepad.get_name())
 
     arm = Arm(board)
@@ -136,9 +159,9 @@ def main():
 
     print()
     print("Controls:")
-    print("  Left stick: Left wheels only")
-    print("  Right stick: Right wheels only")
-    print("  Both X axes: Strafe")
+    print("  Left stick Y: Left wheels")
+    print("  Right stick Y: Right wheels")
+    print("  Either X axis: Strafe all wheels")
     print("  Triggers:   Forward/backward (analog)")
     print("  Bumpers:    Turn in place")
     print("  D-pad Up:   Pickup block (front)")
@@ -225,8 +248,7 @@ def main():
 
             # --- Continuous control (sticks + triggers) ---
 
-            # Each stick controls only its own side of the robot:
-            # left stick -> motors 1 and 3, right stick -> motors 2 and 4.
+            # Stick Y controls each side. Stick X controls strafe for all wheels.
             left_x = apply_deadzone(axis_value(gamepad, LEFT_X_AXIS))
             left_y = apply_deadzone(axis_value(gamepad, LEFT_Y_AXIS))
             right_x = apply_deadzone(axis_value(gamepad, RIGHT_X_AXIS))
@@ -263,16 +285,15 @@ def main():
                 speed = left_trigger * MAX_SPEED
                 fl = fr = rl = rr = -speed
             else:
-                # Tank + strafe from sticks. Each stick only affects its side.
+                # Tank drive from stick Y; strafe all wheels from either stick X.
                 left_speed = -left_y * MAX_SPEED
                 right_speed = -right_y * MAX_SPEED
-                left_strafe = left_x * MAX_SPEED
-                right_strafe = right_x * MAX_SPEED
+                strafe = combined_strafe(left_x, right_x) * MAX_SPEED
 
-                fl = left_speed + left_strafe
-                rl = left_speed - left_strafe
-                fr = right_speed - right_strafe
-                rr = right_speed + right_strafe
+                fl = left_speed + strafe
+                rl = left_speed - strafe
+                fr = right_speed - strafe
+                rr = right_speed + strafe
 
             # Clamp and send
             fl = int(clamp(fl, -MAX_SPEED, MAX_SPEED))

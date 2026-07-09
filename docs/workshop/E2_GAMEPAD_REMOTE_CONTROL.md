@@ -22,7 +22,7 @@ Use gamepad remote control after the team has explored the individual capability
 
 The robot image should already include `python3-pygame` and `joystick`.
 
-The control script checks for the gamepad when it starts. If no gamepad is detected, the robot beeps and the program exits before moving the arm.
+The control script checks for the gamepad when it starts. If no gamepad is detected, the robot beeps and keeps checking until the gamepad is connected. Press `Ctrl+C` to quit.
 
 ```bash
 ssh robot@<ROBOT_IP>
@@ -59,7 +59,7 @@ The script should print the gamepad name and say it is ready.
 |---------|--------|
 | Left stick Y | Left wheels forward/backward |
 | Right stick Y | Right wheels forward/backward |
-| Both sticks X | Strafe left/right |
+| Either stick X | Strafe left/right using all wheels |
 | Right trigger | Forward, analog speed |
 | Left trigger | Backward, analog speed |
 | Right bumper | Turn right |
@@ -84,7 +84,7 @@ When the program exits, it stops the drive motors and returns the arm to the for
 ## If It Does Not Work
 
 - If `pygame not installed` appears, the robot image is missing the gamepad package.
-- If `No gamepad detected` appears, check the USB receiver, gamepad power, batteries, and `X` mode.
+- If `No gamepad detected` repeats, check the USB receiver, gamepad power, batteries, and `X` mode.
 - If the robot drives the wrong direction, stop and compare with Phase 1 motor wiring checks before changing code.
 
 Next: [Phase 3: Course Challenge](COURSE_CHALLENGE.md).
