@@ -62,8 +62,8 @@ POLL_RATE = 50          # Hz (20ms per loop)
 LEFT_X_AXIS = 0         # Left stick horizontal
 LEFT_Y_AXIS = 1         # Left stick vertical
 RIGHT_Y_AXIS = 3        # Right stick vertical on the workshop F710 image
-RIGHT_X_AXIS = 4        # Right stick horizontal on the workshop F710 image
-LEFT_TRIGGER_AXIS = 2
+RIGHT_X_AXIS = 2        # Right stick horizontal on the workshop F710 image
+LEFT_TRIGGER_AXIS = 4
 RIGHT_TRIGGER_AXIS = 5
 
 
@@ -254,7 +254,7 @@ def main():
             right_x = apply_deadzone(axis_value(gamepad, RIGHT_X_AXIS))
             right_y = apply_deadzone(axis_value(gamepad, RIGHT_Y_AXIS))
 
-            # Triggers (axis 2 = left trigger, axis 5 = right trigger on F710)
+            # Triggers (axis 4 = left trigger, axis 5 = right trigger on F710)
             # Triggers range: -1 (released) to +1 (fully pressed)
             left_trigger = trigger_value(gamepad, LEFT_TRIGGER_AXIS)
             right_trigger = trigger_value(gamepad, RIGHT_TRIGGER_AXIS)

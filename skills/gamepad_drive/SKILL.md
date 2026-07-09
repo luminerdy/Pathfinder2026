@@ -147,7 +147,7 @@ while running:
     left_y = gamepad.get_axis(1)   # Left stick Y
     right_y = gamepad.get_axis(3)  # Right stick Y
     left_x = gamepad.get_axis(0)   # Left stick X
-    right_x = gamepad.get_axis(4)  # Right stick X
+    right_x = gamepad.get_axis(2)  # Right stick X
 
     # Apply deadzone (ignore tiny stick drift)
     if abs(left_y) < 0.15: left_y = 0
