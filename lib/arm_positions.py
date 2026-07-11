@@ -93,6 +93,10 @@ class Arm:
         self.move_servo(4, 2425, 1000)
         self.move_servo(5, 790, 1000)
         self.move_servo(6, 1500, 1000)
+
+    def look_forward_all(self, duration_ms=1200):
+        """Move all arm servos to the forward pose at the same time."""
+        self.move(POS_LOOK_FORWARD, duration_ms)
     
     # === GRIPPER ===
     
@@ -203,7 +207,7 @@ class Arm:
         self.board.set_servo_position(2000, [(1, 2020)])
         time.sleep(2.1)
         
-        self.look_forward()
+        self.look_forward_all()
     
     def gentle_place(self):
         """
