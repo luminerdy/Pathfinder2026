@@ -16,7 +16,7 @@
 
 After completing these steps you will have an SD card that can be cloned for all workshop robots. Each robot gets an identical image; WiFi credentials are included, and the robot IP is confirmed at event time.
 
-**Materials:** see [BILL_OF_MATERIALS.md](BILL_OF_MATERIALS.md) in this folder for the robot/setup BOM.
+**Materials:** see [BOM_TEAM_KIT.md](BOM_TEAM_KIT.md) in this folder for the robot/setup BOM.
 
 ---
 

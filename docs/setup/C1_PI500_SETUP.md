@@ -14,7 +14,7 @@ For a short team-facing checklist, use [Team Start Handout](../handouts/TEAM_STA
 
 ## Materials Needed
 
-- Full setup BOM: [BILL_OF_MATERIALS.md](BILL_OF_MATERIALS.md)
+- Team kit BOM: [BOM_TEAM_KIT.md](BOM_TEAM_KIT.md)
 - Raspberry Pi 500 with SD card already imaged
 - Portable monitor
 - Micro HDMI to HDMI adapter
