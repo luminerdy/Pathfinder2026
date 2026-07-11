@@ -29,8 +29,8 @@ sudo apt install -y python3-pygame joystick
 | B | Open claw |
 | Y | Nod yes |
 | X | Shake no |
-| D-pad Up | Pickup block |
-| D-pad Down | Drop block |
+| D-pad Up | Front pickup |
+| D-pad Down | Drop into rear bin |
 | **Back** | **EMERGENCY STOP** |
 | **Start** | **Quit** |
 
