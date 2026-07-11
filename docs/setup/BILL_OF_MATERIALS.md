@@ -24,19 +24,6 @@
 
 ---
 
-## Team Build Materials
-
-| Item | Qty | Notes |
-|------|-----|-------|
-| Cardboard sheets | 2-3 | Building mods |
-| Foam board | 1 sheet | Sturdier mods |
-| Masking tape | 1 roll (shared per house) | |
-| Zip ties (assorted) | 10 | Structural |
-| Rubber bands | 10 | Flexible attachments |
-| Scissors | 1 pair (shared per house) | |
-
----
-
 ## Competition Field
 
 | Item | Qty | Notes |
