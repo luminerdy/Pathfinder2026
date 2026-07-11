@@ -73,6 +73,8 @@ Use the robot capabilities to complete a course.
 Start here:
 
 - [Course Challenge](COURSE_CHALLENGE.md)
+- [Competition Field Layout](../competition/FIELD_LAYOUT.md)
+- [Competition Scoring](../competition/SCORING.md)
 
 Keep the first strategy simple, then improve it.
 

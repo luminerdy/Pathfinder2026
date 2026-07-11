@@ -8,6 +8,12 @@ The Course Challenge is the event capstone. Teams combine the Assemble phase, dr
 
 Build a course that rewards reliable robot behavior, quick iteration, and smart teamwork. The course should be challenging, but simple enough that teams can improve during the event.
 
+For the current draft competition field, see:
+
+- [Competition field layout](../competition/FIELD_LAYOUT.md)
+- [Competition scoring](../competition/SCORING.md)
+- [Competition field BOM](../setup/BOM_COMPETITION_FIELD.md)
+
 ## Suggested Course Elements
 
 - AprilTags for navigation or checkpoints
