@@ -110,44 +110,36 @@ class Arm:
         """
         Front pickup — reach down, grab block, lift.
         
-        Vendor-tested sequence from PathfinderBot V1.
-        Robot must be positioned with block directly in front.
+        Robot must be positioned with one block directly in front of the claw.
         """
-        # Start from forward pose
-        self.board.set_servo_position(2000, [(1, 1550)])
-        self.board.set_servo_position(2000, [(3, 590)])
-        self.board.set_servo_position(2000, [(4, 2500)])
-        self.board.set_servo_position(2000, [(5, 700)])
-        self.board.set_servo_position(2000, [(6, 1500)])
-        
-        # Lower shoulder toward ground
-        self.board.set_servo_position(1000, [(5, 1818)])
-        time.sleep(1)
-        
-        # Position for grab
-        self.board.set_servo_position(300, [(4, 2023)])
-        self.board.set_servo_position(300, [(5, 2091)])
-        time.sleep(0.3)
-        
-        # Open gripper wide
-        self.board.set_servo_position(400, [(1, 1932)])
-        time.sleep(0.4)
-        
-        # Adjust wrist and shoulder, extend to block
-        self.board.set_servo_position(800, [(3, 750)])
-        self.board.set_servo_position(800, [(5, 2364)])
-        time.sleep(0.8)
-        
-        # Close gripper
-        self.board.set_servo_position(300, [(1, 1550)])
-        self.board.set_servo_position(300, [(5, 2318)])
-        time.sleep(0.3)
-        
-        # Lift
+        # Open first so the claw can fit around the block.
+        self.board.set_servo_position(500, [(1, 2500)])
+        time.sleep(0.6)
+
+        # Move the arm to the tested right-in-front pickup pose.
+        # Servo 1 is intentionally not included here; it closes last.
+        self.board.set_servo_position(1200, [
+            (6, 1500),
+            (5, 2120),
+            (4, 2500),
+            (3, 940),
+        ])
+        time.sleep(1.3)
+
+        # Close on the block after the arm is in position.
+        self.board.set_servo_position(500, [(1, 1680)])
+        time.sleep(0.6)
+
+        # Lift and return the arm while keeping the claw at the tested grip.
         self.board.set_servo_position(1000, [(5, 1841)])
-        time.sleep(1)
-        
-        self.look_forward()
+        time.sleep(1.1)
+        self.board.set_servo_position(1200, [
+            (3, 700),
+            (4, 2425),
+            (5, 790),
+            (6, 1500),
+        ])
+        time.sleep(1.3)
     
     def pickup_left(self):
         """Pick up block from left side (base rotates left)."""
