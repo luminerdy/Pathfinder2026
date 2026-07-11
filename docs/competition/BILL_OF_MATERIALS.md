@@ -1,9 +1,7 @@
-# BOM: Competition Field
+# Bill of Materials: Competition Field
 
 **Last Updated:** July 11, 2026
 **Purpose:** Materials for one Supply Chain Scramble competition field.
-
-Competition docs also include this BOM at [../competition/BILL_OF_MATERIALS.md](../competition/BILL_OF_MATERIALS.md).
 
 ---
 

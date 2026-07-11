@@ -9,7 +9,7 @@ The Pathfinder2026 event capstone is a course challenge where teams combine driv
 |-----|----------|----------|
 | [Field Layout](FIELD_LAYOUT.md) | Facilitators and field builders | Field areas, AprilTag IDs, block zones, start area, and delivery zone |
 | [Scoring](SCORING.md) | Teams and judges | Draft point values, penalties, and score sheet |
-| [Competition Field BOM](../setup/BOM_COMPETITION_FIELD.md) | Setup team | Materials for one field |
+| [Competition Field BOM](BILL_OF_MATERIALS.md) | Setup team | Materials for one field |
 
 ## Field Direction
 

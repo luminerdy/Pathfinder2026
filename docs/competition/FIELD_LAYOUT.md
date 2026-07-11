@@ -2,7 +2,7 @@
 
 **Last Updated:** July 11, 2026
 **Status:** Draft layout notes
-**Companion docs:** [Scoring](SCORING.md) · [Competition Field BOM](../setup/BOM_COMPETITION_FIELD.md)
+**Companion docs:** [Scoring](SCORING.md) · [Competition Field BOM](BILL_OF_MATERIALS.md)
 
 ---
 
