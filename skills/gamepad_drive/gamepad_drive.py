@@ -31,7 +31,7 @@ Controls:
   D-pad Right:    Right side pickup
 
   A:              Look forward (reset arm)
-  B:              Look sad
+  B:              Open claw
   Y:              Nod yes
   X:              Shake no
 
@@ -181,7 +181,9 @@ def main():
     print("  D-pad Down: Drop into rear bin")
     print("  D-pad Left: Left side pickup")
     print("  D-pad Right:Right side pickup")
-    print("  A/B/X/Y:   Arm expressions")
+    print("  A:         Look forward")
+    print("  B:         Open claw")
+    print("  X/Y:       Shake no / nod yes")
     print("  Back:       STOP  |  Start: Quit")
     print()
     print("Ready -- drive!")
@@ -216,10 +218,10 @@ def main():
                         print("Look forward")
                         arm.look_forward()
 
-                    # B = look sad
+                    # B = open claw
                     elif button == 1:
-                        print("Sad")
-                        arm.look_sad()
+                        print("Open claw")
+                        arm.gripper_open()
 
                     # Y = nod yes
                     elif button == 3:

@@ -26,7 +26,7 @@ sudo apt install -y python3-pygame joystick
 | Right bumper | Turn right |
 | Left bumper | Turn left |
 | A | Camera forward |
-| B | Camera down |
+| B | Open claw |
 | Y | Nod yes |
 | X | Shake no |
 | D-pad Up | Pickup block |

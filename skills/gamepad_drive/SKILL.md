@@ -121,7 +121,7 @@ Warning: These are full sequences (2-4 seconds each). Motors stop automatically 
 | Button | Action |
 |--------|--------|
 | **A** | Look forward (reset arm to default pose) |
-| **B** | Look sad (arm droops for demos) |
+| **B** | Open claw |
 | **Y** | Nod yes (arm bobs up/down) |
 | **X** | Shake no (arm swings side to side) |
 

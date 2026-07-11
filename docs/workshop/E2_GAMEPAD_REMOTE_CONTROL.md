@@ -69,7 +69,7 @@ The script should print the gamepad name and say it is ready.
 | D-pad Left | Left side pickup |
 | D-pad Right | Right side pickup |
 | A | Look forward, reset arm |
-| B | Look sad |
+| B | Open claw |
 | Y | Nod yes |
 | X | Shake no |
 | Back | Emergency stop |
