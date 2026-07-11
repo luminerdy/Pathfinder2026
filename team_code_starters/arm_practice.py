@@ -22,12 +22,12 @@ from lib.board import get_board
 # Servo positions are pulse-width values used by the motor/servo board.
 # Small changes can make large physical movements, so adjust slowly.
 GRIPPER_OPEN = 2500
-GRIPPER_CLOSED = 1455
+GRIPPER_CLOSED = 1550
 
 # Each tuple is (servo_number, target_position).
 # Servo 2 is not used on this robot.
 READY_POSITION = [
-    (1, 1500),  # Gripper partly open
+    (1, 1550),  # Gripper closed
     (3, 590),   # Wrist
     (4, 2500),  # Elbow
     (5, 700),   # Shoulder

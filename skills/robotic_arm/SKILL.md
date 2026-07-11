@@ -59,7 +59,7 @@ Learn to control a **5-servo robotic arm** to position, grab, and manipulate obj
 ### Step 1: Understand the Hardware
 
 **Your arm has 5 servos:**
-1. **Servo 1:** Gripper/Claw (1475=closed, 2500=open)
+1. **Servo 1:** Gripper/Claw (1550=closed, 2500=open)
 2. **Servo 3:** Wrist (rotation up/down)
 3. **Servo 4:** Elbow (bend joint)
 4. **Servo 5:** Shoulder (raise/lower arm)
@@ -158,7 +158,7 @@ board = get_board()
 
 # Ready position for pickup demo
 board.set_servo_position(2000, [
-    (1, 1500),  # Gripper partly open
+    (1, 1550),  # Gripper closed
     (3, 590),   # Wrist forward
     (4, 2500),  # Elbow forward
     (5, 700),   # Shoulder raised
@@ -168,7 +168,7 @@ board.set_servo_position(2000, [
 # Example pickup actions
 board.set_servo_position(1000, [(5, 1818)])  # Lower shoulder
 board.set_servo_position(500, [(1, 2500)])
-board.set_servo_position(300, [(1, 1455)])   # Close gripper
+board.set_servo_position(300, [(1, 1550)])   # Close gripper
 ```
 
 Use only positions that have been tested on the event robot. Do not add new reach, pickup, or carry positions to the workshop path until they are mechanically verified.
@@ -293,7 +293,7 @@ pick_and_place((0, 200, 30), (80, 180, 30))
 
 **Our mapping:**
 - PWM 500-2500 = about 0-180 degrees (servo dependent)
-- Some servos have different ranges (gripper: 1475-2500)
+- Some servos have different ranges (gripper: 1550-2500)
 
 ### Forward Kinematics
 
@@ -379,7 +379,7 @@ CREATE TABLE ActionGroup (
 ```
 Frame 1: (1500ms, 2500, 695, 2415, 780, 1500)  -- Start position
 Frame 2: (1000ms, 2500, 800, 2200, 900, 1500)  -- Mid-motion
-Frame 3: (1200ms, 1475, 590, 2450, 700, 1500)  -- End (gripper closed)
+Frame 3: (1200ms, 1550, 590, 2450, 700, 1500)  -- End (gripper closed)
 ```
 
 **Playback:** Linear interpolation between frames (moves at constant speed)

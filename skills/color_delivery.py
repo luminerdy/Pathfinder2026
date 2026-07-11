@@ -301,7 +301,7 @@ def _color_delivery_robot(robot, target_color=None):
 
     # Arm to carry-but-camera-visible pose (gripper closed, arm up for camera view)
     board = _get_board(robot)
-    _move_arm(board, [(1, 1475), (3, 590), (4, 2450), (5, 700), (6, 1500)], 800)
+    _move_arm(board, [(1, 1550), (3, 590), (4, 2450), (5, 700), (6, 1500)], 800)
     time.sleep(1.0)
 
     reached = navigate_to_basket(robot, robot.camera, target_tag)
@@ -406,7 +406,7 @@ def _color_delivery_standalone(target_color=None):
     # PHASE 3: Navigate
     arm.carry()
     time.sleep(0.5)
-    _move_arm(board, [(1, 1475), (3, 590), (4, 2450), (5, 700), (6, 1500)], 800)
+    _move_arm(board, [(1, 1550), (3, 590), (4, 2450), (5, 700), (6, 1500)], 800)
     time.sleep(1.0)
 
     camera2 = cv2.VideoCapture(0)

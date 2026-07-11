@@ -22,8 +22,8 @@ arm_positions:
   camera_forward: [2500, 590, 2450, 700, 1500]
   camera_down:    [2500, 590, 2450, 1214, 1500]
   pickup_ready:   [1558, 830, 2170, 2410, 1500]
-  pickup_grab:    [1475, 830, 2170, 2410, 1500]
-  pickup_lift:    [1475, 590, 2450, 700, 1500]
+  pickup_grab:    [1550, 830, 2170, 2410, 1500]
+  pickup_lift:    [1550, 590, 2450, 700, 1500]
   carry:          [1558, 569, 2400, 809, 1500]
 
 # Arm timing (milliseconds)

@@ -17,7 +17,7 @@ board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
 # Move servos to camera-ready position
 # These are starting guesses - adjust with find_camera_position.py
 positions = [
-    (1, 1500),  # Base - centered
+    (1, 1550),  # Gripper closed
     (5, 1000),  # Gripper - open (don't block camera)
     (2, 1100),  # Shoulder - adjust this
     (3, 1600),  # Elbow - adjust this  

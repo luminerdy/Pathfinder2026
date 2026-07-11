@@ -43,7 +43,7 @@ After this skill, you can:
 ## Hardware Reference
 
 **5 Servos:**
-1. Gripper (1475=closed, 2500=open)
+1. Gripper (1550=closed, 2500=open)
 3. Wrist (500-2500)
 4. Elbow (500-2500)
 5. Shoulder (500-2500)

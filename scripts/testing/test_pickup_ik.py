@@ -83,8 +83,8 @@ def main():
     # Step 4: Close gripper
     print("\n[Step 4] CLOSE GRIPPER (grasp block)")
     print("-" * 60)
-    print("Servo 1: 1475 (fully closed)")
-    board.set_servo_position(500, [(1, 1475)])
+    print("Servo 1: 1550 (closed)")
+    board.set_servo_position(500, [(1, 1550)])
     time.sleep(1)
     print("Block is now held!")
     

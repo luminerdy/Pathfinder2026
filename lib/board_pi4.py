@@ -173,8 +173,12 @@ class BoardController:
             deviation = self._deviations.get(servo_id, 0)
             pulse += deviation
 
-            # Keep servo pulse width in the normal hobby-servo range.
-            pulse = max(500, min(2500, pulse))
+            # Keep servo pulse width in the safe range for this robot.
+            # Servo 1 is the claw: 1550 is closed, 2500 is open.
+            if servo_id == 1:
+                pulse = max(1550, min(2500, pulse))
+            else:
+                pulse = max(500, min(2500, pulse))
 
             buf.append(servo_id)
             buf += list(pulse.to_bytes(2, 'little'))

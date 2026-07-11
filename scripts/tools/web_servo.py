@@ -16,7 +16,7 @@ lock = threading.Lock()
 # Current servo positions
 # NOTE: Servo 2 is empty/unused
 servo_positions = {
-    1: 2500,  # Gripper (2500=open, 1475=closed - never go below 1475!)
+    1: 2500,  # Gripper (2500=open, 1550=closed - never go below 1550!)
     3: 1500,  # Wrist
     4: 1500,  # Elbow
     5: 1500,  # Shoulder
@@ -37,9 +37,9 @@ def set_servo():
         position = int(data.get('position'))
         
         # Clamp to valid range
-        # Special case: Gripper (servo 1) must not go below 1475 (fully closed)
+        # Special case: Gripper (servo 1) must not go below 1550 (closed)
         if servo_id == 1:
-            position = max(1475, min(2500, position))
+            position = max(1550, min(2500, position))
         else:
             position = max(500, min(2500, position))
         

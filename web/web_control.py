@@ -46,7 +46,7 @@ ALLOWED_DIRECTIONS = {
 }
 
 SERVO_LIMITS = {
-    1: (1475, 2500),  # Claw/gripper. Do not go below safe closed position.
+    1: (1550, 2500),  # Claw/gripper. 1550=closed, 2500=open.
     3: (500, 2500),   # Wrist
     4: (500, 2500),   # Elbow
     5: (500, 2500),   # Shoulder

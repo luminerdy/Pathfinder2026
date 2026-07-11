@@ -4,7 +4,7 @@
 servos:
   gripper:
     id: 1
-    min: 1475  # Closed
+    min: 1550  # Closed
     max: 2500  # Open
     default: 2500  # Start open
     description: "Claw/gripper"
@@ -73,7 +73,7 @@ named_positions:
     description: "Low, ready to grab"
   
   carry:
-    gripper: 1475  # Closed
+    gripper: 1550  # Closed
     wrist: 1000
     elbow: 1800
     shoulder: 800
@@ -127,7 +127,7 @@ safety:
 # Gripper won't close:
 #   - Check if object too large
 #   - Try grip(force=1.0) for maximum force
-#   - Verify PWM 1475 (closed) vs 2500 (open)
+#   - Verify PWM 1550 (closed) vs 2500 (open)
 #
 # Position unreachable:
 #   - Check workspace limits above

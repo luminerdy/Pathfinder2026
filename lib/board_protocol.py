@@ -237,6 +237,11 @@ class BoardController:
         for servo_id, pulse in servos:
             # Servos are 1-based (unlike motors which are 0-based)
             # Pulse width controls angle; 1500 is roughly center for many servos.
+            # Servo 1 is the claw: 1550 is closed, 2500 is open.
+            if servo_id == 1:
+                pulse = max(1550, min(2500, pulse))
+            else:
+                pulse = max(500, min(2500, pulse))
             data += struct.pack("<BH", servo_id, pulse)
             
         self.protocol.send_command(Function.SERVO, data)

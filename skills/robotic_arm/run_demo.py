@@ -9,7 +9,7 @@ Place the robot on the floor and put one block directly in front of
 the gripper before starting.
 
 Servo mapping:
-  Servo 1: Gripper/Claw  (1455=closed, 2500=open)
+  Servo 1: Gripper/Claw  (1550=closed, 2500=open)
   Servo 3: Wrist         (500-2500)
   Servo 4: Elbow         (500-2500)
   Servo 5: Shoulder      (500-2500)
@@ -32,7 +32,7 @@ from lib.board import get_board
 
 # A known safe pose used at the beginning and end of the demo.
 READY_POSITION = [
-    (1, 1500),  # Gripper partly open
+    (1, 1550),  # Gripper closed
     (3, 590),   # Wrist forward
     (4, 2500),  # Elbow forward
     (5, 700),   # Shoulder raised
@@ -49,9 +49,9 @@ PICKUP_AND_LOAD_STEPS = [
     ("Open gripper near block", 500, [(1, 2400)], 1.0),
     ("Open gripper fully", 500, [(1, 2500)], 0.3),
     ("Reach to block", 800, [(3, 750), (4, 2150), (5, 2364)], 0.8),
-    ("Close gripper on block", 300, [(1, 1455), (5, 2318)], 0.3),
+    ("Close gripper on block", 300, [(1, 1550), (5, 2318)], 0.3),
     ("Lift block", 1000, [(5, 1841)], 1.0),
-    ("Move block over rear storage area", 2000, [(1, 1500), (3, 2500), (4, 500), (5, 1636)], 2.0),
+    ("Move block over rear storage area", 2000, [(1, 1550), (3, 2500), (4, 500), (5, 1636)], 2.0),
     ("Release block onto back", 2000, [(1, 2000)], 1.5),
     ("Return to ready position", 2000, READY_POSITION, 0.3),
 ]

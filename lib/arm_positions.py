@@ -5,7 +5,7 @@ All servo positions and arm sequences in one place.
 Vendor-tested positions from PathfinderBot V1 + our own calibrations.
 
 Servo IDs:
-    1 = Gripper      (1475=closed, 2500=open)
+    1 = Gripper      (1550=closed, 2500=open)
     3 = Wrist         (500-2500)
     4 = Elbow         (500-2500)
     5 = Shoulder      (500-2500)
@@ -30,23 +30,23 @@ POS_CAMERA_FORWARD = [(1, 2500), (3, 590), (4, 2450), (5, 700), (6, 1500)]
 POS_CAMERA_DOWN    = [(1, 2500), (3, 590), (4, 2450), (5, 1214), (6, 1500)]
 
 # Carry (block in gripper, arm up)
-POS_CARRY = [(1, 1475), (3, 569), (4, 2400), (5, 809), (6, 1500)]
+POS_CARRY = [(1, 1550), (3, 569), (4, 2400), (5, 809), (6, 1500)]
 
 # Pickup from ground (gripper open, arm down)
 POS_PICKUP_DOWN = [(1, 2500), (3, 830), (4, 2170), (5, 2410), (6, 1500)]
-POS_PICKUP_GRAB = [(1, 1475), (3, 830), (4, 2170), (5, 2410), (6, 1500)]
-POS_LIFT        = [(1, 1475), (3, 590), (4, 2450), (5, 700), (6, 1500)]
+POS_PICKUP_GRAB = [(1, 1550), (3, 830), (4, 2170), (5, 2410), (6, 1500)]
+POS_LIFT        = [(1, 1550), (3, 590), (4, 2450), (5, 700), (6, 1500)]
 
 # Gentle place (lower block to floor, release)
-POS_PLACE_DOWN = [(1, 1475), (3, 830), (4, 2170), (5, 2410), (6, 1500)]
+POS_PLACE_DOWN = [(1, 1550), (3, 830), (4, 2170), (5, 2410), (6, 1500)]
 POS_PLACE_OPEN = [(1, 2500), (3, 830), (4, 2170), (5, 2410), (6, 1500)]
 
 # Backward drop into bin (folds arm over chassis)
-POS_BACKWARD_FOLD = [(1, 1500), (3, 2400), (4, 700), (5, 1700), (6, 1500)]
+POS_BACKWARD_FOLD = [(1, 1550), (3, 2400), (4, 700), (5, 1700), (6, 1500)]
 POS_BACKWARD_DROP = [(1, 2020), (3, 2400), (4, 700), (5, 1700), (6, 1500)]
 
 # Look forward (V1 vendor reset pose)
-POS_LOOK_FORWARD = [(1, 1500), (3, 700), (4, 2425), (5, 790), (6, 1500)]
+POS_LOOK_FORWARD = [(1, 1550), (3, 700), (4, 2425), (5, 790), (6, 1500)]
 
 # Expressions
 POS_LOOK_SAD = [(3, 800), (4, 2500), (5, 1900), (6, 1500)]
@@ -88,7 +88,7 @@ class Arm:
     
     def look_forward(self):
         """V1 vendor forward pose (slightly different from camera_forward)."""
-        self.move_servo(1, 1500, 500)
+        self.move_servo(1, 1550, 500)
         self.move_servo(3, 700, 1000)
         self.move_servo(4, 2425, 1000)
         self.move_servo(5, 790, 1000)
@@ -102,7 +102,7 @@ class Arm:
     
     def gripper_close(self, duration_ms=400):
         """Close gripper on block."""
-        self.move_servo(1, 1475, duration_ms)
+        self.move_servo(1, 1550, duration_ms)
     
     # === PICKUP SEQUENCES ===
     
@@ -114,7 +114,7 @@ class Arm:
         Robot must be positioned with block directly in front.
         """
         # Start from forward pose
-        self.board.set_servo_position(2000, [(1, 1500)])
+        self.board.set_servo_position(2000, [(1, 1550)])
         self.board.set_servo_position(2000, [(3, 590)])
         self.board.set_servo_position(2000, [(4, 2500)])
         self.board.set_servo_position(2000, [(5, 700)])
@@ -139,7 +139,7 @@ class Arm:
         time.sleep(0.8)
         
         # Close gripper
-        self.board.set_servo_position(300, [(1, 1455)])
+        self.board.set_servo_position(300, [(1, 1550)])
         self.board.set_servo_position(300, [(5, 2318)])
         time.sleep(0.3)
         
@@ -162,7 +162,7 @@ class Arm:
         self.board.set_servo_position(800, [(5, 2364)])
         time.sleep(0.8)
         
-        self.board.set_servo_position(500, [(1, 1455)])
+        self.board.set_servo_position(500, [(1, 1550)])
         self.board.set_servo_position(300, [(5, 2300)])
         time.sleep(0.3)
         
@@ -184,7 +184,7 @@ class Arm:
         self.board.set_servo_position(800, [(5, 2450)])
         time.sleep(0.8)
         
-        self.board.set_servo_position(500, [(1, 1455)])
+        self.board.set_servo_position(500, [(1, 1550)])
         self.board.set_servo_position(300, [(5, 2318)])
         time.sleep(0.3)
         
@@ -202,7 +202,7 @@ class Arm:
         Folds arm backward over chassis. No base rotation needed.
         Vendor-tested from PathfinderBot V1.
         """
-        self.board.set_servo_position(2000, [(1, 1500)])
+        self.board.set_servo_position(2000, [(1, 1550)])
         self.board.set_servo_position(2000, [(3, 2400)])
         self.board.set_servo_position(2000, [(4, 700)])
         self.board.set_servo_position(2000, [(5, 1700)])

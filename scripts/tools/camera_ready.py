@@ -14,7 +14,7 @@ time.sleep(0.3)
 # Camera-ready position: arm extended forward, angled down to see floor
 # This should give camera a good view of blocks in front of robot
 positions = [
-    (1, 1500),  # Base - centered (camera points forward)
+    (1, 1550),  # Gripper closed
     (5, 1000),  # Gripper - open (so it doesn't block camera)
     (2, 1400),  # Shoulder - forward and down
     (3, 1600),  # Elbow - extended forward

@@ -6,7 +6,7 @@ Moves all arm servos simultaneously for smooth, coordinated motion.
 Supports named positions, action sequences, and interpolated transitions.
 
 Servo Mapping (verified):
-    1: Claw/Gripper (1475=closed, 2500=open)
+    1: Claw/Gripper (1550=closed, 2500=open)
     3: Wrist
     4: Elbow
     5: Shoulder
@@ -30,11 +30,11 @@ POSITIONS = {
     'camera_down':    {1: 2500, 3: 590, 4: 2450, 5: 1214, 6: 1500},
     'block_close':    {1: 2500, 3: 590, 4: 2450, 5: 1694, 6: 1500},
     'pickup_ready':   {1: 1558, 3: 830, 4: 2170, 5: 2410, 6: 1500},
-    'pickup_grab':    {1: 1475, 3: 830, 4: 2170, 5: 2410, 6: 1500},
-    'pickup_lift':    {1: 1475, 3: 590, 4: 2450, 5: 700, 6: 1500},
+    'pickup_grab':    {1: 1550, 3: 830, 4: 2170, 5: 2410, 6: 1500},
+    'pickup_lift':    {1: 1550, 3: 590, 4: 2450, 5: 700, 6: 1500},
     'carry':          {1: 1558, 3: 569, 4: 2400, 5: 809, 6: 1500},
     'gripper_open':   {1: 2500},
-    'gripper_closed': {1: 1475},
+    'gripper_closed': {1: 1550},
     'rest':           {1: 2500, 3: 1500, 4: 1500, 5: 1500, 6: 1500},
 }
 
@@ -46,21 +46,21 @@ SEQUENCES = {
         ({1: 1558, 3: 830, 4: 2170, 5: 2410, 6: 1500}, 300),   # Partially close around block
     ],
     'pickup_grab': [
-        ({1: 1475, 3: 830, 4: 2170, 5: 2410, 6: 1500}, 400),  # Grip tight
+        ({1: 1550, 3: 830, 4: 2170, 5: 2410, 6: 1500}, 400),  # Grip tight
     ],
     'pickup_lift': [
-        ({1: 1475, 3: 590, 4: 2450, 5: 700, 6: 1500}, 1000),  # Lift to camera forward (carrying)
+        ({1: 1550, 3: 590, 4: 2450, 5: 700, 6: 1500}, 1000),  # Lift to camera forward (carrying)
     ],
     'drop': [
         ({1: 2500}, 400),  # Open gripper
     ],
     'wave': [
-        ({1: 1475, 3: 590, 4: 2000, 5: 500, 6: 1500}, 500),
-        ({1: 1475, 3: 590, 4: 2000, 5: 500, 6: 1200}, 300),
-        ({1: 1475, 3: 590, 4: 2000, 5: 500, 6: 1800}, 300),
-        ({1: 1475, 3: 590, 4: 2000, 5: 500, 6: 1200}, 300),
-        ({1: 1475, 3: 590, 4: 2000, 5: 500, 6: 1800}, 300),
-        ({1: 1475, 3: 590, 4: 2450, 5: 700, 6: 1500}, 500),
+        ({1: 1550, 3: 590, 4: 2000, 5: 500, 6: 1500}, 500),
+        ({1: 1550, 3: 590, 4: 2000, 5: 500, 6: 1200}, 300),
+        ({1: 1550, 3: 590, 4: 2000, 5: 500, 6: 1800}, 300),
+        ({1: 1550, 3: 590, 4: 2000, 5: 500, 6: 1200}, 300),
+        ({1: 1550, 3: 590, 4: 2000, 5: 500, 6: 1800}, 300),
+        ({1: 1550, 3: 590, 4: 2450, 5: 700, 6: 1500}, 500),
     ],
     'nod_yes': [
         ({3: 590, 4: 2450, 5: 700}, 300),
@@ -220,7 +220,7 @@ class ArmController:
 
     def gripper_close(self, duration_ms=400):
         """Close gripper"""
-        self.move_to({1: 1475}, duration_ms)
+        self.move_to({1: 1550}, duration_ms)
 
     def pickup(self):
         """Full pickup sequence: lower arm → grab → lift

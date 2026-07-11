@@ -253,8 +253,8 @@ def custom_pickup(board, camera, detector, target_color):
     # Tune these positions for your block size/shape:
     POSITIONS = {
         'ready':  [(1, 2500), (3, 830), (4, 2170), (5, 2410), (6, 1500)],
-        'grab':   [(1, 1475), (3, 830), (4, 2170), (5, 2410), (6, 1500)],
-        'lift':   [(1, 1475), (3, 590), (4, 2450), (5, 700), (6, 1500)],
+        'grab':   [(1, 1550), (3, 830), (4, 2170), (5, 2410), (6, 1500)],
+        'lift':   [(1, 1550), (3, 590), (4, 2450), (5, 700), (6, 1500)],
         'carry':  [(1, 1558), (3, 569), (4, 2400), (5, 809), (6, 1500)],
     }
 
@@ -395,8 +395,8 @@ autonomous_pickup:
   camera_forward: [2500, 590, 2450, 700, 1500]   # [grip, wrist, elbow, shoulder, base]
   camera_down:    [2500, 590, 2450, 1214, 1500]
   pickup_ready:   [1558, 830, 2170, 2410, 1500]
-  pickup_grab:    [1475, 830, 2170, 2410, 1500]
-  pickup_lift:    [1475, 590, 2450, 700, 1500]
+  pickup_grab:    [1550, 830, 2170, 2410, 1500]
+  pickup_lift:    [1550, 590, 2450, 700, 1500]
   carry:          [1558, 569, 2400, 809, 1500]
 
   # Safety

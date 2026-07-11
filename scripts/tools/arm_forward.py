@@ -18,7 +18,7 @@ time.sleep(0.3)
 board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
 
 # Base centered
-board.set_servo_position(300, [(1, 1500)])
+board.set_servo_position(300, [(1, 1550)])
 time.sleep(0.3)
 
 # From original code: position (0, 6, 18) in cm

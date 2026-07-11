@@ -16,8 +16,8 @@ hardware:
     # Arm servo IDs and ranges
     gripper:
       id: 1
-      pulse: [1475, 2500]
-      notes: "1475=closed, 2500=open"
+      pulse: [1550, 2500]
+      notes: "1550=closed, 2500=open"
     wrist:
       id: 3
       pulse: [500, 2500]

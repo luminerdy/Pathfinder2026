@@ -19,7 +19,7 @@ from lib.board import get_board
 # Each row is (servo number, name, first position, second position, return position).
 # The small two-position movement makes it clear which joint is plugged into each port.
 SERVOS = [
-    (1, "gripper", 2500, 1475, 2500),
+    (1, "gripper", 2500, 1550, 2500),
     (6, "base rotation", 1300, 1700, 1500),
     (3, "wrist", 590, 900, 590),
     (4, "elbow", 2450, 2200, 2450),

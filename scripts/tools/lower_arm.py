@@ -17,7 +17,7 @@ positions = [
     (2, 1700),  # Shoulder - lowered
     (3, 1300),  # Elbow - bent
     (4, 1500),  # Wrist - neutral
-    (1, 1500),  # Base - centered
+    (1, 1550),  # Gripper closed
     (5, 1000),  # Gripper - open
 ]
 

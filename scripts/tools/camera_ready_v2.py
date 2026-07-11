@@ -16,7 +16,7 @@ time.sleep(0.3)
 # Since camera faces backward, we need arm to angle back/up
 # Camera should look over robot toward floor in front
 positions = [
-    (1, 1500),  # Base - centered
+    (1, 1550),  # Gripper closed
     (5, 1000),  # Gripper - open
     (2, 800),   # Shoulder - RAISED (camera on back of arm)
     (3, 800),   # Elbow - RAISED

@@ -34,7 +34,7 @@ python3 -c "from lib.board import get_board, PLATFORM; print('Platform:', PLATFO
 
 | Servo | Function | Range |
 |-------|----------|-------|
-| 1 | Claw/Gripper | 1475 (closed) – 2500 (open) |
+| 1 | Claw/Gripper | 1550 (closed) – 2500 (open) |
 | 2 | Does not exist | — |
 | 3 | Wrist | 500 – 2500 |
 | 4 | Elbow | 500 – 2500 |

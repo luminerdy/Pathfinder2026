@@ -70,7 +70,7 @@ class AprilTagFinder:
 
         # Set gripper based on whether holding block
         if holding_block:
-            gripper_pos = 1475  # Closed - maintain grip
+            gripper_pos = 1550  # Closed - maintain grip
             print("  [!] Gripper staying CLOSED (holding block)")
         else:
             gripper_pos = 2500  # Open - no block

@@ -60,7 +60,7 @@ def main():
     time.sleep(2)
     
     print("\n[Step 3] Closing gripper...")
-    board.set_servo_position(500, [(1, 1475)])  # Close
+    board.set_servo_position(500, [(1, 1550)])  # Close
     time.sleep(1.5)
     
     print("\n[Step 4] Lifting block...")

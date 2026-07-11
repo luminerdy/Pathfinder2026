@@ -19,7 +19,7 @@
 - `z` = Height above ground
 
 **Output:** Servo positions (pulse widths)
-- Servo 1: Gripper (1475=closed, 2500=open)
+- Servo 1: Gripper (1550=closed, 2500=open)
 - Servo 3: Wrist
 - Servo 4: Elbow
 - Servo 5: Shoulder
@@ -52,7 +52,7 @@ for servo_id, pulse in solution:
 
 ### 4. Close Gripper
 ```python
-board.set_servo_position(500, [(1, 1475)])  # 1475 = fully closed
+board.set_servo_position(500, [(1, 1550)])  # 1550 = closed
 ```
 
 ### 5. Lift Block
@@ -130,7 +130,7 @@ try:
         robot.arm.move_to_pose(solution)
 
         # Grasp
-        robot.arm.set_gripper(1475)
+        robot.arm.set_gripper(1550)
 
         # Lift
         solution = robot.arm.ik.set_position(x, y, 150)
