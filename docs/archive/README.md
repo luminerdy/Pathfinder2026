@@ -9,6 +9,7 @@ Current event documents begin at the repository [README](../../README.md).
 ## What Is Archived
 
 - Root development notes, status reports, and architecture references
+- Unused root configuration, packaging, and installation helpers under `root_legacy/`
 - Superseded setup and troubleshooting documents
 - Deprecated robot entry points
 - Older demo, navigation, hardware test, and retired skill code under `code/`

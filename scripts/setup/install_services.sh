@@ -11,17 +11,18 @@ echo ""
 # Check if running as root or with sudo
 if [ "$EUID" -ne 0 ]; then 
     echo "Please run with sudo:"
-    echo "  sudo bash install_services.sh"
+    echo "  sudo bash scripts/setup/install_services.sh"
     exit 1
 fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+REPO_ROOT="$( cd "${SCRIPT_DIR}/../.." && pwd )"
 SERVICE_DIR="/etc/systemd/system"
 
 echo "Installing services..."
 
 # Copy boot startup service. Web control is started manually during the event.
-cp "${SCRIPT_DIR}/systemd/pathfinder-startup.service" "$SERVICE_DIR/"
+cp "${REPO_ROOT}/systemd/pathfinder-startup.service" "$SERVICE_DIR/"
 
 echo "[OK] Service file copied"
 

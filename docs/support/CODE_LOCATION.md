@@ -33,7 +33,9 @@ Use `/home/robot/pathfinder` for official examples and updates. Use `/home/robot
 | `scripts/tools/` | Useful utilities like battery checks, camera checks, and web helpers. |
 | `lib/` | Shared robot control code used by the demos. |
 | `web/` | Browser-based robot control interface. |
-| `config.yaml` | Shared robot configuration. |
+| `robot.py` | Shared high-level robot interface used by combined skills. |
+| `start_robot.py` | Boot-time hardware initialization and status checks. |
+| `Deviation.yaml` | Servo calibration offsets; facilitator-only. |
 
 Most participants should run scripts from `skills/`. Most code changes should start in `/home/robot/team_code`.
 

@@ -510,13 +510,11 @@ python3 start_robot.py
 
 ### Install the Service
 
-The service file is included in the repo at `systemd/pathfinder-startup.service`.
+The installer copies the included service file, reloads systemd, and enables the service.
 
 ```bash
-sudo cp /home/robot/pathfinder/systemd/pathfinder-startup.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable pathfinder-startup.service
-sudo systemctl start pathfinder-startup.service
+cd /home/robot/pathfinder
+sudo bash scripts/setup/install_services.sh
 ```
 
 ### Check Last Run
