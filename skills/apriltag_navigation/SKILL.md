@@ -74,7 +74,7 @@ python3 run_demo.py
 **What happens:**
 1. Camera opens and the robot turns in small steps while looking for the closest visible event tag: 582, 583, 584, or 585
 2. When found, robot calculates distance and angle
-3. robot approaches using mecanum strafe (smooth!)
+3. robot turns gently toward the tag while approaching
 4. Stops about 20 inches from the tag
 5. Beeps when complete
 

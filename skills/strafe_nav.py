@@ -2,11 +2,11 @@
 """
 Strafe Navigation -- Mecanum-Based AprilTag Navigation
 
-Uses mecanum wheels properly: simultaneous strafe + forward to
-approach targets smoothly instead of stop-rotate-drive.
+Uses camera heading to approach targets smoothly instead of sliding
+sideways into field barriers.
 
-Navigation uses proportional control with deadbands, simultaneous lateral
-and forward movement, min/max speed clamps, and sonar safety integration.
+Navigation uses proportional control with deadbands, forward movement,
+gentle heading correction, min/max speed clamps, and sonar safety integration.
 
 Usage (with Robot):
     from robot import Robot
@@ -31,10 +31,10 @@ from lib.camera import PROCESS_SIZE
 
 class StrafeNavigator:
     """
-    Navigate to AprilTags using mecanum strafe + forward simultaneously.
+    Navigate to AprilTags using forward drive plus heading correction.
 
-    Instead of: rotate to center -> drive forward -> repeat
-    Does: strafe to center WHILE driving forward (smooth, fast)
+    The robot turns toward the tag as it approaches instead of using large
+    lateral strafes that can push it into a side barrier.
     """
 
     # Camera parameters at 640x480 capture resolution
@@ -42,8 +42,9 @@ class StrafeNavigator:
     TAG_SIZE = 0.254  # meters (10-inch Pathfinder2026 event tags)
 
     # Proportional control gains
-    Kx = 120        # Lateral gain
+    Kx = 120        # Lateral gain used by older strafe-based experiments
     Kz = 100        # Forward gain
+    Ktheta = 1.2    # Heading gain: degrees off-center to turn correction
 
     # Deadbands
     CENTER_TOLERANCE = 0.10   # meters; small offsets are fine while approaching
@@ -65,9 +66,11 @@ class StrafeNavigator:
     # Tag loss timeout
     TAG_TIMEOUT = 1.5    # seconds
 
-    # Angle limit — beyond this, rotate first before strafing
+    # Angle limit — beyond this, rotate first before driving toward the tag
     MAX_STRAFE_ANGLE = 20  # degrees
     MAX_STRAFE_SPEED = 35     # nonzero strafe must still overcome friction
+    HEADING_TOLERANCE = 6      # degrees; drive straight inside this window
+    MAX_TURN_CORRECTION = 15   # differential turn while also driving forward
 
     def __init__(self, robot=None):
         """
@@ -148,6 +151,25 @@ class StrafeNavigator:
             self._robot.drive(fl, fr, rl, rr)
         else:
             self.board.set_motor_duty([(1, fl), (2, fr), (3, rl), (4, rr)])
+
+    def _drive_arc(self, forward, turn):
+        """Drive forward while gently turning toward the tag."""
+        fl = float(forward + turn)
+        fr = float(forward - turn)
+        rl = float(forward + turn)
+        rr = float(forward - turn)
+
+        max_wheel = max(abs(fl), abs(fr), abs(rl), abs(rr))
+        if max_wheel > self.MAX_SPEED:
+            scale = self.MAX_SPEED / max_wheel
+            fl *= scale
+            fr *= scale
+            rl *= scale
+            rr *= scale
+
+        self.board.set_motor_duty([
+            (1, int(fl)), (2, int(fr)), (3, int(rl)), (4, int(rr))
+        ])
 
     def _get_sonar_distance(self):
         """Get sonar distance in cm, or None."""
@@ -344,16 +366,22 @@ class StrafeNavigator:
                     self._stop()
                     continue
 
-                strafe = error_x * self.Kx if abs(error_x) > self.CENTER_TOLERANCE else 0
                 forward = error_z * self.Kz if abs(error_z) > self.DIST_TOLERANCE else 0
+                turn = angle * self.Ktheta if abs(angle) > self.HEADING_TOLERANCE else 0
 
                 if sonar_dist and 0 < sonar_dist < self.SONAR_SLOW:
                     forward = min(forward, self.MIN_SPEED)
 
-                strafe = self._clamp_strafe(strafe)
                 forward = self._clamp_speed(forward)
+                if forward == 0:
+                    turn = self._clamp_speed(turn)
+                else:
+                    turn = max(
+                        -self.MAX_TURN_CORRECTION,
+                        min(self.MAX_TURN_CORRECTION, turn)
+                    )
 
-                if strafe == 0 and forward == 0:
+                if turn == 0 and forward == 0:
                     self._stop()
                     if callback:
                         callback(tag_id, dist, angle, 'REACHED')
@@ -363,12 +391,12 @@ class StrafeNavigator:
                         'iterations': iteration, 'reason': 'reached'
                     }
 
-                self._drive(strafe, forward)
+                self._drive_arc(forward, turn)
 
                 if callback and iteration % 10 == 0:
                     parts = []
                     if forward != 0: parts.append('fwd=%.0f' % forward)
-                    if strafe != 0: parts.append('strafe=%.0f' % strafe)
+                    if turn != 0: parts.append('turn=%.0f' % turn)
                     callback(tag_id, dist, angle, ' '.join(parts))
 
                 time.sleep(0.03)
