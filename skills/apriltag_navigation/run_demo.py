@@ -13,7 +13,7 @@ Usage:
 What it does:
     1. Opens camera
     2. Looks for AprilTag ID 582
-    3. When found, approaches to ~22 inches
+    3. When found, approaches to ~35 inches
     4. Stops and beeps when complete
 
 Press Ctrl+C to stop at any time.
@@ -27,12 +27,18 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
 from skills.strafe_nav import StrafeNavigator
 
+
+TARGET_TAG_ID = 582
+TARGET_DISTANCE_METERS = 0.90
+NAVIGATION_TIMEOUT_SECONDS = 30.0
+
+
 def main():
     print("=" * 60)
     print("APRILTAG NAVIGATION DEMO")
     print("=" * 60)
     print()
-    print("Looking for AprilTag ID 582...")
+    print(f"Looking for AprilTag ID {TARGET_TAG_ID}...")
     print("Make sure:")
     print("  - Tag is printed and mounted on wall")
     print("  - Tag is at robot's camera height (~8-10 inches)")
@@ -47,17 +53,18 @@ def main():
     nav = StrafeNavigator()
     
     try:
-        # Navigate to the Area 1 tag.
-        success = nav.navigate_to_tag(
-            tag_id=582,
-            target_distance=0.55,  # ~22 inches
-            timeout=30.0           # Give up after 30 seconds
+        # Navigate to the Area 1 tag and inspect the structured result.
+        result = nav.navigate_to_tag(
+            target_id=TARGET_TAG_ID,
+            target_distance=TARGET_DISTANCE_METERS,
+            timeout=NAVIGATION_TIMEOUT_SECONDS,
         )
         
-        if success:
+        if result['success']:
             print()
             print("=" * 60)
-            print("SUCCESS! Reached tag 582")
+            print(f"SUCCESS! Reached tag {result['tag_id']}")
+            print(f"Final distance: {result['final_distance']:.2f}m")
             print("=" * 60)
             
             # Victory beep
@@ -66,14 +73,15 @@ def main():
         else:
             print()
             print("=" * 60)
-            print("TIMEOUT: Could not reach tag 582")
+            print(f"STOPPED: Could not reach tag {TARGET_TAG_ID}")
+            print(f"Reason: {result['reason']}")
             print("=" * 60)
             print()
             print("Troubleshooting:")
             print("  - Is tag visible in camera view?")
             print("  - Try moving robot closer")
             print("  - Check lighting (no glare)")
-            print("  - Verify tag is ID 582")
+            print(f"  - Verify tag is ID {TARGET_TAG_ID}")
     
     except KeyboardInterrupt:
         print()
@@ -87,8 +95,7 @@ def main():
     
     finally:
         # Always stop motors and close camera
-        nav._stop()
-        nav._close_camera()
+        nav.cleanup()
         print()
         print("Demo complete.")
 

@@ -5,9 +5,9 @@
 target_tag_id: 582
 
 # How close to get (meters)
-# 0.55m = ~22 inches (safe distance)
-# Try: 0.40 (closer), 0.70 (farther)
-target_distance: 0.55
+# 0.90m = ~35 inches and keeps the full tag in the camera view.
+# Test camera visibility before choosing a closer distance.
+target_distance: 0.90
 
 # Camera calibration
 # Use scripts/calibration/calibrate_camera_intrinsics.py for camera calibration.

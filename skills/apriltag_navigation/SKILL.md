@@ -75,7 +75,7 @@ python3 run_demo.py
 1. Camera opens and starts looking for tag 582
 2. When found, robot calculates distance and angle
 3. robot approaches using mecanum strafe (smooth!)
-4. Stops about 22 inches from the tag
+4. Stops about 35 inches from the tag so it remains in camera view
 5. Beeps when complete
 
 **Success looks like:**
@@ -222,7 +222,7 @@ apriltag_navigation:
   min_speed: 28   # Minimum to overcome friction
 
   # Target approach distance
-  target_distance: 0.55  # meters (~22 inches)
+  target_distance: 0.90  # meters (~35 inches)
 
   # Safety (sonar)
   sonar_stop_distance: 15   # cm - emergency stop

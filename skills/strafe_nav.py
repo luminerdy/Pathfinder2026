@@ -39,7 +39,7 @@ class StrafeNavigator:
 
     # Camera parameters at 640x480 capture resolution
     CAMERA_PARAMS = [525, 533, 325, 116]  # fx, fy, cx, cy
-    TAG_SIZE = 0.165  # meters (16.5cm tags)
+    TAG_SIZE = 0.254  # meters (10-inch Pathfinder2026 event tags)
 
     # Proportional control gains
     Kx = 120        # Lateral gain
@@ -228,7 +228,7 @@ class StrafeNavigator:
                 time.sleep(0.1)
                 v = self._robot.battery
             if v is None:
-                return 0, True  # can't read — don't block navigation
+                return None, False
             if min_voltage is None:
                 min_voltage = self._robot.battery_min
             return v, v >= min_voltage
@@ -237,7 +237,7 @@ class StrafeNavigator:
             min_voltage = runtime_minimum(PLATFORM)
         v = read_voltage(self.board)
         if v is None:
-            return 0, True  # can't read — don't block navigation
+            return None, False
         return v, v >= min_voltage
 
     def navigate_to_tag(self, target_id=None, target_distance=None,
@@ -259,10 +259,15 @@ class StrafeNavigator:
 
         voltage, ok = self.check_battery()
         if not ok:
+            reason = (
+                'battery_unavailable'
+                if voltage is None
+                else 'battery_low (%.2fV)' % voltage
+            )
             return {
                 'success': False, 'tag_id': None,
                 'final_distance': 0, 'final_angle': 0,
-                'iterations': 0, 'reason': 'battery_low (%.2fV)' % voltage
+                'iterations': 0, 'reason': reason
             }
 
         self._open_camera()
@@ -572,7 +577,10 @@ if __name__ == '__main__':
 
     try:
         voltage, ok = nav.check_battery()
-        print("Battery: %.2fV %s" % (voltage, "" if ok else "(LOW)"))
+        if voltage is None:
+            print("Battery: unavailable (navigation disabled)")
+        else:
+            print("Battery: %.2fV %s" % (voltage, "" if ok else "(LOW)"))
         print()
         print("Searching for any tag...")
         print()

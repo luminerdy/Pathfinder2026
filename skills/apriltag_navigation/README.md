@@ -22,6 +22,8 @@ python3 run_demo.py
 
 Use this file only while completing `apriltag_nav_template.py`. To change the one-click demo, edit the target and movement values in `run_demo.py`.
 
+The event demo uses a 10-inch (`0.254m`) tag and stops about `0.90m` away so the camera can keep the full tag in view.
+
 ###  Level 3: Fill in the Blanks (Learning to Code)
 **File:** `apriltag_nav_template.py`
 **What:** Complete the TODO sections
