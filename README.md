@@ -36,10 +36,10 @@ Use these when a phase tells you to, or when something is not working:
 
 | Need | Guide |
 |------|-------|
-| Troubleshooting | [Student Troubleshooting](docs/workshop/TROUBLESHOOTING.md) |
-| Safe team code edits | [C5: Team Code Workflow](docs/setup/C5_TEAM_CODE_WORKFLOW.md) |
-| robot connection reference | [C6: robot Connection Reference](docs/setup/C6_ROBOT_CONNECTION_REFERENCE.md) |
-| Update robot code | [C4: Update robot Code](docs/setup/C4_UPDATE_ROBOT_CODE.md) |
+| Troubleshooting | [Student troubleshooting](docs/support/TROUBLESHOOTING.md) |
+| Safe team code edits | [Team code workflow](docs/support/TEAM_CODE_WORKFLOW.md) |
+| robot connection reference | [robot connection reference](docs/support/ROBOT_CONNECTION_REFERENCE.md) |
+| Update robot code | [Update robot code](docs/support/UPDATE_ROBOT_CODE.md) |
 
 ## Where Does The Code Live?
 
@@ -95,15 +95,16 @@ Use these before the event when preparing images, hardware, and setup flow:
 - [Pi 500 Setup](docs/setup/C1_PI500_SETUP.md)
 - [robot Pi WiFi Setup](docs/setup/C2_ROBOT_PI_WIFI_SETUP.md)
 - [Connect and Test](docs/setup/C3_CONNECT_AND_TEST.md)
-- [robot Connection Reference](docs/setup/C6_ROBOT_CONNECTION_REFERENCE.md)
+- [robot connection reference](docs/support/ROBOT_CONNECTION_REFERENCE.md)
 - [Bill of Materials](docs/setup/BILL_OF_MATERIALS.md)
 
 ## Repo Map
 
 | Folder/File | What It Is For |
 |-------------|----------------|
-| `docs/workshop/` | The three event phases and their support pages. |
+| `docs/workshop/` | The three event phases. |
 | `docs/setup/` | Pre-event Pi 500, robot Pi, SD card, and connection setup. |
+| `docs/support/` | Troubleshooting, team code workflow, robot connection reference, and update instructions. |
 | `docs/handouts/` | Short printable team handouts. |
 | `docs/calibration/` | Calibration and tuning notes. |
 | `docs/archive/` | Historical development notes. |

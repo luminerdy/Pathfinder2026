@@ -1,4 +1,4 @@
-# C5: Team code workflow
+# Team code workflow
 
 **Phase 2 support: Capabilities Exploration**
 
@@ -131,11 +131,11 @@ python3 drive_practice.py
 
 For `arm_practice.py`, change only one gripper value at a time.
 
-Camera testing is handled in [C3: Connect And Test](C3_CONNECT_AND_TEST.md). Keep the starter folder focused on drive and arm code students can safely modify first.
+Camera testing is handled in [C3: Connect And Test](../setup/C3_CONNECT_AND_TEST.md). Keep the starter folder focused on drive and arm code students can safely modify first.
 
 ## Before Updating The robot
 
-Before running [C4: Update robot code](C4_UPDATE_ROBOT_CODE.md), check the official repo:
+Before running [Update robot code](UPDATE_ROBOT_CODE.md), check the official repo:
 
 ```bash
 cd /home/robot/pathfinder

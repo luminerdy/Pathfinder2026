@@ -216,4 +216,4 @@ After Step 6, the robot connection and hardware checks are complete. Phase 1 is 
 Next:
 
 - [Phase 2: Capabilities Exploration](../workshop/CAPABILITIES_EXPLORATION.md)
-- [C6: robot Connection Reference](C6_ROBOT_CONNECTION_REFERENCE.md) for terminals, copying files, editing code, and connection troubleshooting
+- [robot connection reference](../support/ROBOT_CONNECTION_REFERENCE.md) for terminals, copying files, editing code, and connection troubleshooting

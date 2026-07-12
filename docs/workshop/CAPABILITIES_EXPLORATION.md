@@ -20,7 +20,7 @@ By the end of this phase, the team should know:
 
 Before editing tuning files, read [Configuration Guide](CONFIG_GUIDE.md).
 
-If something fails, use [Student Troubleshooting](TROUBLESHOOTING.md). Compare with another team first. Get help right away if the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
+If something fails, use [Student troubleshooting](../support/TROUBLESHOOTING.md). Compare with another team first. Get help right away if the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
 
 ## Where To Run Commands
 
@@ -35,9 +35,9 @@ cd /home/robot/pathfinder
 
 During this phase, teams should read code and may make small experiments. Keep the official `/home/robot/pathfinder` repo updateable, and do team edits in `/home/robot/team_code`.
 
-- To edit safely, use [C5: Team Code Workflow](../setup/C5_TEAM_CODE_WORKFLOW.md).
-- If a facilitator says new GitHub code is available, use [C4: Update robot code](../setup/C4_UPDATE_ROBOT_CODE.md).
-- For SSH, copying files, terminals, and connection troubleshooting, use [C6: robot Connection Reference](../setup/C6_ROBOT_CONNECTION_REFERENCE.md).
+- To edit safely, use [Team code workflow](../support/TEAM_CODE_WORKFLOW.md).
+- If a facilitator says new GitHub code is available, use [Update robot code](../support/UPDATE_ROBOT_CODE.md).
+- For SSH, copying files, terminals, and connection troubleshooting, use [robot connection reference](../support/ROBOT_CONNECTION_REFERENCE.md).
 
 ## Recommended Before Phase 3
 

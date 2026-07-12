@@ -1,8 +1,8 @@
-# C6: robot Connection Reference
+# robot connection reference
 
 **Phase 1 support: Assemble**
 
-Use this page after [C3: Connect and Test](C3_CONNECT_AND_TEST.md), or anytime a team needs help with terminals, copying files, editing code, or connection troubleshooting.
+Use this page after [C3: Connect and Test](../setup/C3_CONNECT_AND_TEST.md), or anytime a team needs help with terminals, copying files, editing code, or connection troubleshooting.
 
 This page is reference material. It is not part of the required Phase 1 hardware test sequence.
 
@@ -38,7 +38,7 @@ scp robot@<ROBOT_IP>:/home/robot/pathfinder/test_frame.jpg ~/
 
 ## Editing Code
 
-Recommended workflow: keep `/home/robot/pathfinder` as the official updateable repo, and edit starter files in `/home/robot/team_code`. See [C5: Team code workflow](C5_TEAM_CODE_WORKFLOW.md).
+Recommended workflow: keep `/home/robot/pathfinder` as the official updateable repo, and edit starter files in `/home/robot/team_code`. See [Team code workflow](TEAM_CODE_WORKFLOW.md).
 
 ### Option A: VS Code + Remote SSH
 
@@ -63,7 +63,7 @@ Recommended workflow: keep `/home/robot/pathfinder` as the official updateable r
     python3 arm_practice.py
     ```
 
-See [C1: Pi 500 Setup](C1_PI500_SETUP.md) for VS Code install and extension checks.
+See [C1: Pi 500 Setup](../setup/C1_PI500_SETUP.md) for VS Code install and extension checks.
 
 If `/home/robot/team_code` is missing, open a robot terminal and run:
 
@@ -93,7 +93,7 @@ nano /home/robot/team_code/my_script.py
 
 ## Troubleshooting
 
-For a shorter student checklist, see [Student Troubleshooting](../workshop/TROUBLESHOOTING.md).
+For a shorter student checklist, see [Student troubleshooting](TROUBLESHOOTING.md).
 
 **Connection refused:**
 
@@ -107,7 +107,7 @@ For a shorter student checklist, see [Student Troubleshooting](../workshop/TROUB
 - Confirm you are using the robot IP, not the Pi 500 IP.
 - Confirm the Pi 500 and robot are on the same workshop network.
 - Compare with another team that can connect.
-- Repeat [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md) on the robot Pi if it still fails.
+- Repeat [C2: robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md) on the robot Pi if it still fails.
 - If the robot was rebooted or moved to another network, its IP may have changed.
 - Try: `ping <ROBOT_IP>` from the Pi 500.
 
@@ -178,9 +178,9 @@ python3 web/camera_view.py
 # Open browser: http://<ROBOT_IP>:8080
 ```
 
-Need the latest code on the robot? Use [C4: Update robot code](C4_UPDATE_ROBOT_CODE.md).
+Need the latest code on the robot? Use [Update robot code](UPDATE_ROBOT_CODE.md).
 
 ## Next
 
-- For safe team edits, use [C5: Team Code Workflow](C5_TEAM_CODE_WORKFLOW.md).
+- For safe team edits, use [Team code workflow](TEAM_CODE_WORKFLOW.md).
 - For capability demos, continue to [Phase 2: Capabilities Exploration](../workshop/CAPABILITIES_EXPLORATION.md).

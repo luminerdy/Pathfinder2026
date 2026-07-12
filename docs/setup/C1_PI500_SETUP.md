@@ -131,7 +131,7 @@ You should see files like `README.md`, the `docs/` folder, and `docs/workshop/AS
 - Help the robot assembly team with the checklist.
 - Read [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md) so you know how the robot IP will be found.
 - Read [C3: Connect and Test](C3_CONNECT_AND_TEST.md) so you know what will happen after the robot IP is known.
-- Open [Student Troubleshooting](../workshop/TROUBLESHOOTING.md) in another browser tab.
+- Open [Student troubleshooting](../support/TROUBLESHOOTING.md) in another browser tab.
 - Do not try to SSH into the robot until the robot is powered on and the robot IP is known.
 
 When the robot is assembled and powered on, use [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md), then [C3: Connect and Test](C3_CONNECT_AND_TEST.md).

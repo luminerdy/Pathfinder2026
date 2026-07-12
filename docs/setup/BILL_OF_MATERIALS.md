@@ -32,4 +32,4 @@ Includes floor tiles, boundary materials, AprilTags, blocks, barriers, movable o
 - [Pi 500 setup](C1_PI500_SETUP.md)
 - [robot Pi WiFi setup](C2_ROBOT_PI_WIFI_SETUP.md)
 - [Connect and test](C3_CONNECT_AND_TEST.md)
-- [robot connection reference](C6_ROBOT_CONNECTION_REFERENCE.md)
+- [robot connection reference](../support/ROBOT_CONNECTION_REFERENCE.md)

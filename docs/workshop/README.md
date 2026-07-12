@@ -10,4 +10,4 @@ Start with Phase 1 and work down the list.
 
 For the workshop, the Pi 500 and robot images should already be created. Skip image-build documents during the event.
 
-If something fails, use [Student Troubleshooting](TROUBLESHOOTING.md). Compare with another team first. Get help right away if the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
+If something fails, use [Student troubleshooting](../support/TROUBLESHOOTING.md). Compare with another team first. Get help right away if the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.

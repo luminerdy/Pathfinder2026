@@ -1,10 +1,10 @@
-# C4: Update robot code
+# Update robot code
 
 **Purpose:** Pull the latest Pathfinder2026 code onto the robot when workshop fixes or updates are published.
 
 Use this only when a facilitator tells the team to update, or when a GitHub change needs to reach the robot.
 
-Student edits should be saved outside the official repo before updating. Use [C5: Team code workflow](C5_TEAM_CODE_WORKFLOW.md) for the copy-first editing pattern.
+Student edits should be saved outside the official repo before updating. Use [Team code workflow](TEAM_CODE_WORKFLOW.md) for the copy-first editing pattern.
 
 ## Where To Run These Commands
 

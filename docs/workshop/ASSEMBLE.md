@@ -102,9 +102,9 @@ Relevant setup docs:
 - [C2 robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md) - event-day guide
 - [C3 Connect and Test](../setup/C3_CONNECT_AND_TEST.md) - event-day guide
 - [robot Pi OS build](../setup/A2_ROBOT_PI_OS_BUILD.md) - facilitator pre-event image build, skip during workshop
-- [C4 Update robot code](../setup/C4_UPDATE_ROBOT_CODE.md)
-- [C5 Team code workflow](../setup/C5_TEAM_CODE_WORKFLOW.md)
-- [C6 robot Connection Reference](../setup/C6_ROBOT_CONNECTION_REFERENCE.md)
+- [Update robot code](../support/UPDATE_ROBOT_CODE.md)
+- [Team code workflow](../support/TEAM_CODE_WORKFLOW.md)
+- [robot connection reference](../support/ROBOT_CONNECTION_REFERENCE.md)
 
 ## Where The Code Lives
 
@@ -146,7 +146,7 @@ Use C3 for the Phase 1 hardware checks:
 
 C3 checks battery, individual motors, arm servos, sonar, camera hardware, and the SSH connection. Capability demos happen in Phase 2.
 
-For terminals, copying files, editing code, and connection troubleshooting, use [C6 robot Connection Reference](../setup/C6_ROBOT_CONNECTION_REFERENCE.md).
+For terminals, copying files, editing code, and connection troubleshooting, use [robot connection reference](../support/ROBOT_CONNECTION_REFERENCE.md).
 
 ## Phase 1 Complete
 
