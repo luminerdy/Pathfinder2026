@@ -174,7 +174,7 @@ class StrafeNavigator:
         magnitude = min(max(abs(speed), self.MIN_SPEED), self.MAX_SPEED)
         return sign * magnitude
 
-    def _detect_tags(self, frame, target_id=None, exclude_ids=None):
+    def _detect_tags(self, frame, target_id=None, target_ids=None, exclude_ids=None):
         """Detect AprilTags and return closest or specific tag with pose."""
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         tags = self.detector.detect(
@@ -189,6 +189,12 @@ class StrafeNavigator:
 
         if target_id is not None:
             tags = [t for t in tags if t.tag_id == target_id]
+            if not tags:
+                return None, 0, 0, 0, 0, 0
+
+        if target_ids is not None:
+            allowed = set(target_ids)
+            tags = [t for t in tags if t.tag_id in allowed]
             if not tags:
                 return None, 0, 0, 0, 0, 0
 
@@ -240,13 +246,14 @@ class StrafeNavigator:
             return None, False
         return v, v >= min_voltage
 
-    def navigate_to_tag(self, target_id=None, target_distance=None,
+    def navigate_to_tag(self, target_id=None, target_ids=None, target_distance=None,
                         timeout=30, callback=None):
         """
         Navigate to an AprilTag using strafe + forward simultaneously.
 
         Args:
             target_id: Specific tag to navigate to (None = closest)
+            target_ids: Optional list/set of allowed tag IDs when target_id is None
             target_distance: How close to get (meters)
             timeout: Max time in seconds
             callback: Optional function(tag_id, dist, angle, action)
@@ -295,7 +302,9 @@ class StrafeNavigator:
                 if frame is None:
                     continue
 
-                tag_id, x, y, z, dist, angle = self._detect_tags(frame, target_id)
+                tag_id, x, y, z, dist, angle = self._detect_tags(
+                    frame, target_id, target_ids
+                )
 
                 if tag_id is None:
                     if time.time() - self._last_tag_time > self.TAG_TIMEOUT:
@@ -429,7 +438,9 @@ class StrafeNavigator:
             if frame is None:
                 continue
 
-            tag_id, x, y, z, dist, angle = self._detect_tags(frame, target_id, exclude_ids)
+            tag_id, x, y, z, dist, angle = self._detect_tags(
+                frame, target_id=target_id, exclude_ids=exclude_ids
+            )
 
             if tag_id is not None:
                 self._stop()

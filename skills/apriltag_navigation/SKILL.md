@@ -54,10 +54,10 @@ AprilTag Navigation enables your robot to **autonomously find and approach** fid
 
 ### Step 1: Print AprilTag
 
-Download and print tag36h11 family tags:
-- **Tag:** Use the printed event tag for Area 1.
-- **Print size:** 8.5" x 11" (tag will be ~6-8 inches)
-- **Tag ID:** 582 (Area 1)
+Download and print the Pathfinder2026 tag36h11 family tags:
+- **Tags:** Use the printed event tags for Areas 1-4.
+- **Print size:** 13" x 19" paper with a 10-inch black square.
+- **Tag IDs:** 582, 583, 584, and 585.
 
 **Mounting:**
 - Tape to wall at robot's camera height (~8-10 inches off ground)
@@ -72,7 +72,7 @@ python3 run_demo.py
 ```
 
 **What happens:**
-1. Camera opens and starts looking for tag 582
+1. Camera opens and starts looking for the closest visible event tag: 582, 583, 584, or 585
 2. When found, robot calculates distance and angle
 3. robot approaches using mecanum strafe (smooth!)
 4. Stops about 35 inches from the tag so it remains in camera view
@@ -232,7 +232,7 @@ apriltag_navigation:
 ### Customization Ideas
 
 **Beginner:**
-- Change `target_tag_id` to navigate to different tags
+- Change `target_tag_id` in the learning template to navigate to one specific tag
 - Adjust `target_distance` (closer or farther approach)
 - Tune `max_speed` (slower for testing, faster for workshop challenges)
 

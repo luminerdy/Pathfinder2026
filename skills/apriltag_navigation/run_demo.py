@@ -3,7 +3,8 @@
 AprilTag Navigation Demo (Level 1: Just Run It!)
 
 This is the simplest way to use AprilTag navigation.
-Just run this script and watch the robot find and approach tag 582.
+Just run this script and watch the robot find and approach one of the
+Pathfinder2026 event AprilTags: 582, 583, 584, or 585.
 
 No code changes needed - everything is pre-configured.
 
@@ -12,7 +13,7 @@ Usage:
 
 What it does:
     1. Opens camera
-    2. Looks for AprilTag ID 582
+    2. Looks for event AprilTag IDs 582-585
     3. When found, approaches to ~35 inches
     4. Stops and beeps when complete
 
@@ -28,7 +29,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 from skills.strafe_nav import StrafeNavigator
 
 
-TARGET_TAG_ID = 582
+EVENT_TAG_IDS = (582, 583, 584, 585)
 TARGET_DISTANCE_METERS = 0.90
 NAVIGATION_TIMEOUT_SECONDS = 30.0
 
@@ -38,7 +39,7 @@ def main():
     print("APRILTAG NAVIGATION DEMO")
     print("=" * 60)
     print()
-    print(f"Looking for AprilTag ID {TARGET_TAG_ID}...")
+    print("Looking for event AprilTags: %s" % ", ".join(str(t) for t in EVENT_TAG_IDS))
     print("Make sure:")
     print("  - Tag is printed and mounted on wall")
     print("  - Tag is at robot's camera height (~8-10 inches)")
@@ -53,9 +54,9 @@ def main():
     nav = StrafeNavigator()
     
     try:
-        # Navigate to the Area 1 tag and inspect the structured result.
+        # Navigate to the closest visible event tag and inspect the structured result.
         result = nav.navigate_to_tag(
-            target_id=TARGET_TAG_ID,
+            target_ids=EVENT_TAG_IDS,
             target_distance=TARGET_DISTANCE_METERS,
             timeout=NAVIGATION_TIMEOUT_SECONDS,
         )
@@ -73,7 +74,7 @@ def main():
         else:
             print()
             print("=" * 60)
-            print(f"STOPPED: Could not reach tag {TARGET_TAG_ID}")
+            print("STOPPED: Could not reach an event AprilTag")
             print(f"Reason: {result['reason']}")
             print("=" * 60)
             print()
@@ -81,7 +82,7 @@ def main():
             print("  - Is tag visible in camera view?")
             print("  - Try moving robot closer")
             print("  - Check lighting (no glare)")
-            print(f"  - Verify tag is ID {TARGET_TAG_ID}")
+            print("  - Verify the tag is one of: %s" % ", ".join(str(t) for t in EVENT_TAG_IDS))
     
     except KeyboardInterrupt:
         print()
