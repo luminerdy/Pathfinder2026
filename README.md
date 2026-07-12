@@ -42,19 +42,6 @@ Use these when a phase tells you to, or when something is not working:
 | robot connection reference | [robot connection reference](docs/support/ROBOT_CONNECTION_REFERENCE.md) |
 | Update robot code | [Update robot code](docs/support/UPDATE_ROBOT_CODE.md) |
 
-## Facilitator Setup Links
-
-Use these before the event when preparing images, hardware, and setup flow:
-
-- [Pi 500 OS Build](docs/setup/A1_PI500_OS_BUILD.md) - pre-event image build
-- [robot Assembly Guide](docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md)
-- [robot Pi OS build](docs/setup/A2_ROBOT_PI_OS_BUILD.md) - pre-event image build
-- [Pi 500 Setup](docs/setup/C1_PI500_SETUP.md)
-- [robot Pi WiFi Setup](docs/setup/C2_ROBOT_PI_WIFI_SETUP.md)
-- [Connect and Test](docs/setup/C3_CONNECT_AND_TEST.md)
-- [robot connection reference](docs/support/ROBOT_CONNECTION_REFERENCE.md)
-- [Bill of Materials](docs/setup/BILL_OF_MATERIALS.md)
-
 ## Repo Map
 
 | Folder/File | What It Is For |
