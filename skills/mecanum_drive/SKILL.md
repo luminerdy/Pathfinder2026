@@ -37,16 +37,16 @@ Mecanum drive gives your robot **omnidirectional movement** - it can move forwar
 ### Why Mecanum Wheels?
 
 **Advantages:**
-- ✅ Omnidirectional (move any direction instantly)
-- ✅ No turning radius needed (great for tight spaces)
-- ✅ Simultaneous translation + rotation (approach while facing target)
-- ✅ Precise positioning (fine adjustments in any axis)
+- [OK] Omnidirectional (move any direction instantly)
+- [OK] No turning radius needed (great for tight spaces)
+- [OK] Simultaneous translation + rotation (approach while facing target)
+- [OK] Precise positioning (fine adjustments in any axis)
 
 **Trade-offs:**
-- ❌ ~30% efficiency loss (roller slip compared to standard wheels)
-- ❌ More complex mechanics (more parts, higher friction)
-- ❌ Sensitive to floor surface (smooth floors best)
-- ❌ Requires perfect weight distribution (uneven weight = drift)
+- [ERROR] ~30% efficiency loss (roller slip compared to standard wheels)
+- [ERROR] More complex mechanics (more parts, higher friction)
+- [ERROR] Sensitive to floor surface (smooth floors best)
+- [ERROR] Requires perfect weight distribution (uneven weight = drift)
 
 ---
 
@@ -104,8 +104,8 @@ The robot demonstrates three square patterns in sequence:
 ### Step 4: Troubleshooting
 
 **"robot doesn't move":**
-- Check battery: `python3 ../../tests/battery_check.py`
-- Verify motors: `python3 ../../tests/test_motors.py`
+- Check battery: `python3 scripts/tools/check_battery.py`
+- Verify motors: `python3 scripts/tools/check_motors.py`
 - Look for red LED on board (low voltage warning)
 
 **"robot moves but in wrong direction":**

@@ -40,16 +40,16 @@ Learn to **capture, display, and process** camera images for computer vision tas
 ### Why Computer Vision?
 
 **Advantages:**
-- ✅ Rich information (color, shape, texture, depth)
-- ✅ Passive sensing (doesn't emit signals like sonar)
-- ✅ Works at distance (see far objects)
-- ✅ Human-interpretable (we see the same image)
+- [OK] Rich information (color, shape, texture, depth)
+- [OK] Passive sensing (doesn't emit signals like sonar)
+- [OK] Works at distance (see far objects)
+- [OK] Human-interpretable (we see the same image)
 
 **Limitations:**
-- ❌ Lighting dependent (dark = blind, glare = washed out)
-- ❌ Computationally expensive (image processing is slow)
-- ❌ Requires calibration (camera distortion, perspective)
-- ❌ Ambiguity (2D image, lost depth information)
+- [ERROR] Lighting dependent (dark = blind, glare = washed out)
+- [ERROR] Computationally expensive (image processing is slow)
+- [ERROR] Requires calibration (camera distortion, perspective)
+- [ERROR] Ambiguity (2D image, lost depth information)
 
 ---
 

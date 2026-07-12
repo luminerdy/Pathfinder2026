@@ -345,14 +345,14 @@ time.sleep(2)
 board.set_motor_duty([[1, 0]])
 ```
 
-**Result:** Motor 1 ran for 2 seconds ✅
+**Result:** Motor 1 ran for 2 seconds [OK]
 
 ## Key Differences from Our Pathfinder2026
 
 | Aspect | Hiwonder | Pathfinder2026 |
 |--------|----------|--------------|
 | UART device | /dev/ttyAMA0 | /dev/ttyAMA10 (before fix) |
-| Boot config | dtparam=uart0=on ✅ | Missing ❌ |
+| Boot config | dtparam=uart0=on [OK] | Missing [ERROR] |
 | Structure | Flat imports | Nested sdk/ |
 | Startup | systemd service | Manual run |
 | RPC server | Built-in | Not implemented |

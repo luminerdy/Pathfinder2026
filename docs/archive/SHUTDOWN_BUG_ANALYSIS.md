@@ -67,11 +67,11 @@ volt = board.get_battery()
 if volt:
     print(f"Battery: {volt}mV = {volt/1000.0:.2f}V")
     if volt < 7000:
-        print("⚠️ LOW BATTERY - CHARGE NOW!")
+        print("[WARN] LOW BATTERY - CHARGE NOW!")
     elif volt < 7500:
-        print("⚠️ Battery getting low")
+        print("[WARN] Battery getting low")
     else:
-        print("✓ Battery OK")
+        print("[OK] Battery OK")
 ```
 
 **Note:** Can't run this while vendor_robot.py service is running (serial port conflict).
@@ -88,9 +88,9 @@ key2.request(consumer="test", type=gpiod.LINE_REQ_DIR_IN,
 
 for i in range(10):
     if key2.get_value() == 0:
-        print(f"⚠️ KEY2 is PRESSED (or shorted to ground!)")
+        print(f"[WARN] KEY2 is PRESSED (or shorted to ground!)")
     else:
-        print(f"✓ KEY2 is released")
+        print(f"[OK] KEY2 is released")
     time.sleep(0.5)
 ```
 
@@ -124,7 +124,7 @@ for i in range(5):
         v = volt/1000.0
         print(f"During motor: {v:.2f}V")
         if v < 6.5:
-            print("⚠️ VOLTAGE SAG DETECTED!")
+            print("[WARN] VOLTAGE SAG DETECTED!")
     time.sleep(0.5)
 
 board.set_motor_duty([[1, 0]])

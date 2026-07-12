@@ -162,7 +162,7 @@ class AutonomousTestSuite:
         }
         
         self.results.append(result)
-        logger.info(f"    Result: {'✅ PASS' if found_all else '❌ FAIL'}")
+        logger.info(f"    Result: {'[OK] PASS' if found_all else '[ERROR] FAIL'}")
         logger.info(f"    Tags seen: {sorted(tags_seen)}")
         logger.info(f"    Time: {result['time']:.1f}s")
         
@@ -250,7 +250,7 @@ class AutonomousTestSuite:
         }
         
         self.results.append(result)
-        logger.info(f"    Result: {'✅ PASS' if success else '❌ FAIL'}")
+        logger.info(f"    Result: {'[OK] PASS' if success else '[ERROR] FAIL'}")
         logger.info(f"    Distance: {initial_distance:.0f}mm → {final_distance:.0f}mm (target: {stop_distance}mm)")
         logger.info(f"    Time: {nav_result.time_taken:.1f}s")
         
@@ -292,7 +292,7 @@ class AutonomousTestSuite:
         }
         
         self.results.append(result)
-        logger.info(f"    Result: {'✅ PASS' if success else '❌ FAIL'}")
+        logger.info(f"    Result: {'[OK] PASS' if success else '[ERROR] FAIL'}")
         logger.info(f"    Total time: {path_result['total_time']:.1f}s")
         logger.info(f"    Waypoints completed: {sum(1 for w in path_result['waypoints'] if w['success'])}/{len(tag_sequence)}")
         
@@ -323,7 +323,7 @@ class AutonomousTestSuite:
         }
         
         self.results.append(result)
-        logger.info(f"    Result: {'✅ PASS' if nav_result.success else '❌ FAIL'}")
+        logger.info(f"    Result: {'[OK] PASS' if nav_result.success else '[ERROR] FAIL'}")
         logger.info(f"    Time: {nav_result.time_taken:.1f}s")
         
         return result
@@ -365,13 +365,13 @@ class AutonomousTestSuite:
             f.write(f"**Duration:** {total_time:.1f} seconds\n\n")
             f.write(f"## Summary\n\n")
             f.write(f"- **Total tests:** {total_tests}\n")
-            f.write(f"- **Passed:** {passed} ✅\n")
-            f.write(f"- **Failed:** {failed} ❌\n")
+            f.write(f"- **Passed:** {passed} [OK]\n")
+            f.write(f"- **Failed:** {failed} [ERROR]\n")
             f.write(f"- **Success rate:** {100*passed/total_tests:.1f}%\n\n")
             
             f.write(f"## Test Results\n\n")
             for i, result in enumerate(self.results, 1):
-                status = "✅ PASS" if result['success'] else "❌ FAIL"
+                status = "[OK] PASS" if result['success'] else "[ERROR] FAIL"
                 f.write(f"### {i}. {result['test']} - {status}\n\n")
                 f.write(f"- **Time:** {result['time']:.1f}s\n")
                 f.write(f"- **Reason:** {result['reason']}\n")

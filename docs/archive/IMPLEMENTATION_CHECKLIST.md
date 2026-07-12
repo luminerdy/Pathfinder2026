@@ -14,7 +14,7 @@ Based on Hiwonder system analysis. Priority order.
   ls -la /dev/ttyAMA0  # Should exist
   ls -la /dev/i2c-1    # Should exist
   ```
-- [ ] **⚠️ CHECK BATTERY FIRST:**
+- [ ] **[WARN] CHECK BATTERY FIRST:**
   ```python
   from lib.ros_robot_controller_sdk import Board
   board = Board()
@@ -157,22 +157,22 @@ Based on Hiwonder system analysis. Priority order.
 
 | Feature | Hiwonder | Pathfinder2026 | Status |
 |---------|----------|--------------|--------|
-| Motor control | ✅ | ❌ Blocked by UART | Fix pending |
-| Servo control | ✅ | ❌ Same issue | Fix pending |
-| Sonar (I2C) | ✅ | ❌ Needs I2C enable | Fix pending |
-| Camera | ✅ | ✅ Works | Done |
-| Battery voltage | ✅ | ❌ Same issue | Fix pending |
-| RGB LEDs | ✅ | ✅ Works | Done |
-| Buzzer | ✅ | ❓ Not tested | Test pending |
-| Servo calibration | ✅ | ❌ | Not implemented |
-| Auto-start | ✅ | ❌ | Not implemented |
-| GPIO buttons | ✅ | ❌ | Not implemented |
-| Remote control | ✅ | ❌ | Not implemented |
-| MJPEG streaming | ✅ | ❌ | Not implemented |
-| Color detection | ✅ | ✅ Code ready | Config needed |
-| AprilTag | ❓ | ✅ Demo exists | Not tested |
-| YOLOv11 | ✅ | ✅ Installed | Not tested |
-| Documentation | ⚠️ Chinese/English | ✅ English | Better |
+| Motor control | [OK] | [ERROR] Blocked by UART | Fix pending |
+| Servo control | [OK] | [ERROR] Same issue | Fix pending |
+| Sonar (I2C) | [OK] | [ERROR] Needs I2C enable | Fix pending |
+| Camera | [OK] | [OK] Works | Done |
+| Battery voltage | [OK] | [ERROR] Same issue | Fix pending |
+| RGB LEDs | [OK] | [OK] Works | Done |
+| Buzzer | [OK] | [UNKNOWN] Not tested | Test pending |
+| Servo calibration | [OK] | [ERROR] | Not implemented |
+| Auto-start | [OK] | [ERROR] | Not implemented |
+| GPIO buttons | [OK] | [ERROR] | Not implemented |
+| Remote control | [OK] | [ERROR] | Not implemented |
+| MJPEG streaming | [OK] | [ERROR] | Not implemented |
+| Color detection | [OK] | [OK] Code ready | Config needed |
+| AprilTag | [UNKNOWN] | [OK] Demo exists | Not tested |
+| YOLOv11 | [OK] | [OK] Installed | Not tested |
+| Documentation | [WARN] Chinese/English | [OK] English | Better |
 
 ## Timeline Estimate
 
@@ -203,26 +203,26 @@ Based on Hiwonder system analysis. Priority order.
 ## Success Criteria
 
 **Minimum Viable robot:**
-- ✅ Motors move
-- ✅ Servos move
-- ✅ Battery reads correctly
-- ✅ All demos run (D1, D2, D3)
-- ✅ Documentation complete
+- [OK] Motors move
+- [OK] Servos move
+- [OK] Battery reads correctly
+- [OK] All demos run (D1, D2, D3)
+- [OK] Documentation complete
 
 **Production Ready:**
-- ✅ All above
-- ✅ Auto-starts on boot
-- ✅ Self-test button works
-- ✅ Remote control API
-- ✅ Camera streaming
-- ✅ Calibration tools
+- [OK] All above
+- [OK] Auto-starts on boot
+- [OK] Self-test button works
+- [OK] Remote control API
+- [OK] Camera streaming
+- [OK] Calibration tools
 
 **Workshop Ready:**
-- ✅ All above
-- ✅ Student-friendly documentation
-- ✅ Troubleshooting guide
-- ✅ Example projects
-- ✅ Web UI for non-coders
+- [OK] All above
+- [OK] Student-friendly documentation
+- [OK] Troubleshooting guide
+- [OK] Example projects
+- [OK] Web UI for non-coders
 
 ---
 

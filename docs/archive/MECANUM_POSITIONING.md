@@ -470,11 +470,11 @@ Total for 10 blocks: ~130s = 2:10
 
 **Mecanum positioning:**
 
-✅ **Omnidirectional movement** - Strafe directly to target
-✅ **Precise centering** - ±5mm accuracy
-✅ **Fast convergence** - 1-2 iterations typical
-✅ **No rotation drift** - Move laterally without turning
-✅ **Better success rate** - +26% in testing
+[OK] **Omnidirectional movement** - Strafe directly to target
+[OK] **Precise centering** - ±5mm accuracy
+[OK] **Fast convergence** - 1-2 iterations typical
+[OK] **No rotation drift** - Move laterally without turning
+[OK] **Better success rate** - +26% in testing
 
 **Usage:**
 ```bash

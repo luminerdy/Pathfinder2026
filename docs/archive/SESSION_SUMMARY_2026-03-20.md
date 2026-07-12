@@ -25,7 +25,7 @@ dtparam=uart0=on      # For motor controller (CRITICAL!)
 **Verification:**
 - Investigated working Hiwonder robot (10.10.10.137)
 - Confirmed `/dev/ttyAMA0` exists on their system
-- Tested motor command - **motors worked!** ✅
+- Tested motor command - **motors worked!** [OK]
 - Simple test code executed successfully
 
 **Testing Pending:**
@@ -101,7 +101,7 @@ Fully charged: 8.4V
 from common.ros_robot_controller_sdk import Board
 board = Board()
 board.enable_reception()
-board.set_motor_duty([[1, 60]])  # ✅ WORKED!
+board.set_motor_duty([[1, 60]])  # [OK] WORKED!
 ```
 
 **Battery voltage check:**
@@ -237,16 +237,16 @@ Restarted Pathfinder robot.service
 ## Success Metrics
 
 **Before this session:**
-- Motors: ❌ Not working
-- Cause: ❌ Unknown
-- Battery safety: ⚠️ Not documented
-- Reference docs: ⚠️ Incomplete
+- Motors: [ERROR] Not working
+- Cause: [ERROR] Unknown
+- Battery safety: [WARN] Not documented
+- Reference docs: [WARN] Incomplete
 
 **After this session:**
-- Motors: ✅ Solution identified (config pending)
-- Cause: ✅ Fully understood (UART + battery)
-- Battery safety: ✅ Comprehensive documentation
-- Reference docs: ✅ Complete system analysis
+- Motors: [OK] Solution identified (config pending)
+- Cause: [OK] Fully understood (UART + battery)
+- Battery safety: [OK] Comprehensive documentation
+- Reference docs: [OK] Complete system analysis
 
 **Next milestone:**
 - Apply UART config on robot Pi
@@ -284,7 +284,7 @@ Restarted Pathfinder robot.service
 - Protection circuit behavior verified
 - Thresholds from Hiwonder docs + testing
 
-**Ready for testing:** ✅
+**Ready for testing:** [OK]
 - All information gathered
 - All docs created
 - Battery safety understood

@@ -4,7 +4,7 @@
 # No code changes needed - just save this file and run again!
 
 # Which tag to navigate to
-target_tag_id: 581
+target_tag_id: 582
 
 # How close to get (meters)
 # 0.55m = ~22 inches (safe distance)

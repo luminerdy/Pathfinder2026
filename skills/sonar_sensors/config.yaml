@@ -69,7 +69,7 @@ advanced:
 # RGB LEDs don't light up:
 #   - Check RGB cable connection
 #   - Verify GPIO pins correct
-#   - Test with: python3 ../../tests/test_rgb.py
+#   - Verify sonar with: python3 scripts/tools/check_sonar.py
 #
 # Robot doesn't stop for obstacles:
 #   - Increase stop_distance (give more reaction time)

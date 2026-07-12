@@ -3,7 +3,7 @@
 AprilTag Navigation Demo (Level 1: Just Run It!)
 
 This is the simplest way to use AprilTag navigation.
-Just run this script and watch the robot find and approach tag 581.
+Just run this script and watch the robot find and approach tag 582.
 
 No code changes needed - everything is pre-configured.
 
@@ -12,7 +12,7 @@ Usage:
 
 What it does:
     1. Opens camera
-    2. Looks for AprilTag ID 581
+    2. Looks for AprilTag ID 582
     3. When found, approaches to ~22 inches
     4. Stops and beeps when complete
 
@@ -32,7 +32,7 @@ def main():
     print("APRILTAG NAVIGATION DEMO")
     print("=" * 60)
     print()
-    print("Looking for AprilTag ID 581...")
+    print("Looking for AprilTag ID 582...")
     print("Make sure:")
     print("  - Tag is printed and mounted on wall")
     print("  - Tag is at robot's camera height (~8-10 inches)")
@@ -47,9 +47,9 @@ def main():
     nav = StrafeNavigator()
     
     try:
-        # Navigate to tag 581
+        # Navigate to the Area 1 tag.
         success = nav.navigate_to_tag(
-            tag_id=581,
+            tag_id=582,
             target_distance=0.55,  # ~22 inches
             timeout=30.0           # Give up after 30 seconds
         )
@@ -57,7 +57,7 @@ def main():
         if success:
             print()
             print("=" * 60)
-            print("SUCCESS! Reached tag 581")
+            print("SUCCESS! Reached tag 582")
             print("=" * 60)
             
             # Victory beep
@@ -66,14 +66,14 @@ def main():
         else:
             print()
             print("=" * 60)
-            print("TIMEOUT: Could not reach tag 581")
+            print("TIMEOUT: Could not reach tag 582")
             print("=" * 60)
             print()
             print("Troubleshooting:")
             print("  - Is tag visible in camera view?")
             print("  - Try moving robot closer")
             print("  - Check lighting (no glare)")
-            print("  - Verify tag is ID 581")
+            print("  - Verify tag is ID 582")
     
     except KeyboardInterrupt:
         print()

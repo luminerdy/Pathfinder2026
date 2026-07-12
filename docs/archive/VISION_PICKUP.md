@@ -533,11 +533,11 @@ Benefits: Better distance estimation without AprilTag
 
 **Vision-guided pickup with AprilTag assistance:**
 
-✅ **No hardcoded positions** - All IK-based
-✅ **Accurate positioning** - ±5mm with tag
-✅ **Autonomous approach** - Visual servoing
-✅ **Color detection** - HSV-based
-✅ **Ready for competition** - Integrates with navigation
+[OK] **No hardcoded positions** - All IK-based
+[OK] **Accurate positioning** - ±5mm with tag
+[OK] **Autonomous approach** - Visual servoing
+[OK] **Color detection** - HSV-based
+[OK] **Ready for competition** - Integrates with navigation
 
 **Usage:**
 ```bash

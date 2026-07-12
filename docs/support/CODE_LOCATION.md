@@ -31,7 +31,6 @@ Use `/home/robot/pathfinder` for official examples and updates. Use `/home/robot
 |-------------|----------------|
 | `skills/` | Main workshop demos. Start here when testing robot capabilities. |
 | `scripts/tools/` | Useful utilities like battery checks, camera checks, and web helpers. |
-| `scripts/testing/` | Hardware and field test scripts. |
 | `lib/` | Shared robot control code used by the demos. |
 | `web/` | Browser-based robot control interface. |
 | `config.yaml` | Shared robot configuration. |

@@ -57,8 +57,8 @@ python3 run_demo.py
 
 **Problem:** "robot doesn't move"
 **Solution:**
-- Check battery: `python3 ../../tests/battery_check.py`
-- Test motors: `python3 ../../tests/test_drive.py`
+- Check battery: `python3 scripts/tools/check_battery.py`
+- Test motors: `python3 scripts/tools/check_motors.py`
 
 **Problem:** "ImportError: cannot import name 'get_board'"
 **Solution:** Run from correct directory or fix Python path

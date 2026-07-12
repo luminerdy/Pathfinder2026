@@ -60,7 +60,7 @@ python3 tools/calibrate_motors.py --full
 $ python3 tools/calibrate_motors.py --full
 
 Initializing robot...
-✓ robot ready
+[OK] robot ready
 
 SAFETY NOTES:
   - Keep robot on floor (not table!)
@@ -76,7 +76,7 @@ Testing speed 5... Did robot move forward? [y/n]: n
 Testing speed 10... Did robot move forward? [y/n]: n
 Testing speed 15... Did robot move forward? [y/n]: n
 Testing speed 20... Did robot move forward? [y/n]: y
-✓ Minimum forward speed: 20
+[OK] Minimum forward speed: 20
 
 --- Testing STRAFE (sideways) minimum speed ---
 Testing speed 5... Did robot strafe right? [y/n]: n
@@ -84,12 +84,12 @@ Testing speed 10... Did robot strafe right? [y/n]: n
 Testing speed 15... Did robot strafe right? [y/n]: n
 Testing speed 20... Did robot strafe right? [y/n]: n
 Testing speed 25... Did robot strafe right? [y/n]: y
-✓ Minimum strafe speed: 25
+[OK] Minimum strafe speed: 25
 
 --- Testing ROTATION minimum speed ---
 Testing rotation 0.1... Did robot rotate? [y/n]: n
 Testing rotation 0.15... Did robot rotate? [y/n]: y
-✓ Minimum rotation speed: 0.15
+[OK] Minimum rotation speed: 0.15
 
 === MAXIMUM SPEED TEST ===
 
@@ -101,7 +101,7 @@ Testing speed 60... Still stable? [y/n]: y
 Testing speed 70... Still stable? [y/n]: y
 Testing speed 80... Still stable? [y/n]: y
 Testing speed 90... Still stable? [y/n]: n
-✓ Maximum forward speed: 80
+[OK] Maximum forward speed: 80
 
 (Similar for strafe and rotation...)
 
@@ -291,8 +291,8 @@ speed = min(max_speed, calculated_speed)
 ## Current Code Status
 
 **Speed limits already added to:**
-- ✅ `capabilities/pickup.py` (min/max enforced)
-- ✅ `capabilities/navigation.py` (min/max enforced)
+- [OK] `capabilities/pickup.py` (min/max enforced)
+- [OK] `capabilities/navigation.py` (min/max enforced)
 
 **Default values (conservative):**
 ```python
@@ -386,10 +386,10 @@ def auto_calibrate_minimum(chassis):
 
 **Motor speed calibration:**
 
-✅ **Find dead zone** - Speed below which motors don't move
-✅ **Find safe maximum** - Speed above which robot unstable
-✅ **Update code** - Enforce limits in navigation and pickup
-✅ **Test and refine** - Adjust based on real performance
+[OK] **Find dead zone** - Speed below which motors don't move
+[OK] **Find safe maximum** - Speed above which robot unstable
+[OK] **Update code** - Enforce limits in navigation and pickup
+[OK] **Test and refine** - Adjust based on real performance
 
 **Tools:**
 ```bash

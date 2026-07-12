@@ -2,66 +2,22 @@
 
 **Phase 3 of 3**
 
-The Course Challenge is the event capstone. Teams combine the Assemble phase, driving, sensing, vision, arm control, and strategy into a course run.
+Phase 3 is where teams combine the capabilities they tested in Phase 2 and apply them on the event course.
 
-## Goal
+The course structure is still being finalized through physical testing. Facilitators will provide the final event instructions before Phase 3 begins.
 
-Build a course that rewards reliable robot behavior, quick iteration, and smart teamwork. The course should be challenging, but simple enough that teams can improve during the event.
+## Current Course Documents
 
-For the current draft competition field, see:
+- [Field layout](../competition/FIELD_LAYOUT.md)
+- [Scoring](../competition/SCORING.md)
+- [Competition field materials](../competition/BILL_OF_MATERIALS.md)
 
-- [Competition field layout](../competition/FIELD_LAYOUT.md)
-- [Competition scoring](../competition/SCORING.md)
-- [Competition field BOM](../setup/BOM_COMPETITION_FIELD.md)
+## Prepare A Reliable Strategy
 
-## Suggested Course Elements
+1. Choose only the capabilities the team has tested successfully.
+2. Start with the simplest working route.
+3. Test with a charged robot battery.
+4. Change one behavior at a time.
+5. Keep a manual stop method ready.
 
-- AprilTags for navigation or checkpoints
-- Lime green tape for line following
-- Obstacles that sonar can detect
-- Colored blocks for camera detection
-- A pickup area
-- A delivery or storage area
-
-## robot Tasks
-
-Teams can choose a strategy that fits their robot:
-
-- Follow the main path.
-- Use AprilTags to orient or navigate.
-- Avoid obstacles.
-- Detect a colored block.
-- Pick up, push, or store a block.
-- Deliver blocks to the target area.
-- Return to a safe stop.
-
-## Reliability First
-
-Encourage teams to start with the simplest working plan:
-
-1. Drive the course manually or semi-manually.
-2. Add one autonomous capability.
-3. Test with fresh batteries.
-4. Tune speed down before tuning it up.
-5. Add block pickup or storage after navigation is reliable.
-
-## Field Setup Notes
-
-- Keep lighting consistent.
-- Tape down loose cables.
-- Leave enough space for mecanum strafing.
-- Keep AprilTags flat and visible.
-- Test sonar obstacles before the event.
-- Avoid course elements that only one team can use at a time unless the schedule allows it.
-
-## Scoring Placeholder
-
-Final event scoring can be adjusted once the course is built. A simple first scoring model:
-
-- Complete navigation checkpoints.
-- Collect or store blocks.
-- Deliver blocks to the target area.
-- Avoid distractor paths or obstacles.
-- Finish within the time limit.
-
-Keep the first version easy to judge by eye. Add detailed scoring only after the physical course is proven.
+Final rules and scoring in the competition documents take priority over this planning page.

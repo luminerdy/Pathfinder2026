@@ -180,7 +180,7 @@ async function capture() {
     const d = await r.json();
     if (d.ok) {
       setCount(d.count);
-      const boardMsg = d.board_found ? '✓ board detected' : '⚠ board NOT detected in this frame';
+      const boardMsg = d.board_found ? '[OK] board detected' : '[WARN] board NOT detected in this frame';
       log(`[${String(d.count).padStart(2,'0')}/20] Captured  ${boardMsg}`);
     } else {
       log('Capture failed: ' + d.error);
@@ -202,7 +202,7 @@ async function runCalibration() {
         `  fx = ${d.fx.toFixed(2)}   fy = ${d.fy.toFixed(2)}\n` +
         `  cx = ${d.cx.toFixed(2)}   cy = ${d.cy.toFixed(2)}\n` +
         `  reprojection error: ${d.error.toFixed(4)} px` +
-        (d.error < 0.5 ? '  ✓ excellent' : d.error < 1.0 ? '  ✓ acceptable' : '  ⚠ re-run with more varied angles') +
+        (d.error < 0.5 ? '  [OK] excellent' : d.error < 1.0 ? '  [OK] acceptable' : '  [WARN] re-run with more varied angles') +
         `\n\nSaved → lib/camera_calibration.npz`
       );
     } else {
@@ -225,7 +225,7 @@ setInterval(async () => {
     const d = await (await fetch('/status')).json();
     const badge = document.getElementById('badge');
     if (d.board_found) {
-      badge.textContent = 'Board detected ✓';
+      badge.textContent = 'Board detected [OK]';
       badge.classList.add('found');
     } else {
       badge.textContent = 'No board';

@@ -23,19 +23,19 @@
 ### Observed Behavior
 
 **At 8.21V (Fresh batteries):**
-- ✅ Power 30 rotation: 103 deg/sec
-- ✅ Pi throttling: 0x0 (clean)
-- ✅ Motors responsive and reliable
+- [OK] Power 30 rotation: 103 deg/sec
+- [OK] Pi throttling: 0x0 (clean)
+- [OK] Motors responsive and reliable
 
 **At 7.96V (Declining):**
-- ⚠️ Power 28 rotation: 0-1 deg/sec (fails)
-- ⚠️ Pi throttling: 0x50000 (under-voltage occurred)
-- ⚠️ Motors unreliable, high power needed
+- [WARN] Power 28 rotation: 0-1 deg/sec (fails)
+- [WARN] Pi throttling: 0x50000 (under-voltage occurred)
+- [WARN] Motors unreliable, high power needed
 
 **At 7.73V (Current - Low):**
-- ❌ Expected: Power 30 may be insufficient
-- ⚠️ Pi may throttle under sustained motor load
-- ⚠️ 5-15 minutes runtime remaining
+- [ERROR] Expected: Power 30 may be insufficient
+- [WARN] Pi may throttle under sustained motor load
+- [WARN] 5-15 minutes runtime remaining
 
 ---
 

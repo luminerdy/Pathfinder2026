@@ -134,20 +134,20 @@ Quick reference checklist for setting up a new robot.
 ## Success Criteria
 
 **Minimum working robot:**
-- ✅ Battery voltage reads correctly (> 7.5V)
-- ✅ At least one motor moves
-- ✅ At least one servo moves
-- ✅ No Python errors during tests
-- ✅ One demo runs successfully
+- [OK] Battery voltage reads correctly (> 7.5V)
+- [OK] At least one motor moves
+- [OK] At least one servo moves
+- [OK] No Python errors during tests
+- [OK] One demo runs successfully
 
 **Fully operational robot:**
-- ✅ All 4 motors working
-- ✅ All 5 servos working
-- ✅ Battery monitoring functional
-- ✅ Buzzer and LEDs working
-- ✅ All demos run without errors
-- ✅ Camera working (if connected)
-- ✅ Sonar working (if connected)
+- [OK] All 4 motors working
+- [OK] All 5 servos working
+- [OK] Battery monitoring functional
+- [OK] Buzzer and LEDs working
+- [OK] All demos run without errors
+- [OK] Camera working (if connected)
+- [OK] Sonar working (if connected)
 
 ## Troubleshooting Quick Fixes
 
@@ -179,7 +179,7 @@ Quick links to docs:
 
 - **Fresh install:** [FRESH_INSTALL.md](FRESH_INSTALL.md) - Complete step-by-step
 - **Motor issues:** [MOTOR_SOLUTION.md](MOTOR_SOLUTION.md) - UART configuration fix
-- **Battery:** [BATTERY_SAFETY.md](../../BATTERY_SAFETY.md) - Voltage requirements
+- **Battery:** [current battery safety guide](../support/BATTERY_SAFETY.md) - Voltage requirements
 - **Power:** [POWER_REQUIREMENTS_ANALYSIS.md](POWER_REQUIREMENTS_ANALYSIS.md) - Is 2x 18650 enough?
 - **Testing:** [TESTING.md](TESTING.md) - Hardware test procedures
 - **Results:** [TESTING_RESULTS.md](TESTING_RESULTS.md) - Verified working config
@@ -209,4 +209,4 @@ Quick links to docs:
 
 **Version:** 1.0
 **Last Updated:** March 20, 2026
-**Status:** ✅ Verified on Pi 5 + Debian 13
+**Status:** [OK] Verified on Pi 5 + Debian 13

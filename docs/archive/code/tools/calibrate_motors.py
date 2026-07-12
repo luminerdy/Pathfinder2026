@@ -52,13 +52,13 @@ def test_minimum_speed(chassis: Chassis):
         response = input("Did robot move forward? [y/n]: ")
         if response.lower() == 'y':
             results['forward'] = speed
-            print(f"✓ Minimum forward speed: {speed}")
+            print(f"[OK] Minimum forward speed: {speed}")
             break
         
         time.sleep(0.5)
     
     if not results['forward']:
-        print("⚠️  No movement detected up to speed 50!")
+        print("[WARN]  No movement detected up to speed 50!")
     
     # Test strafe (mecanum)
     print("\n--- Testing STRAFE (sideways) minimum speed ---")
@@ -71,13 +71,13 @@ def test_minimum_speed(chassis: Chassis):
         response = input("Did robot strafe right? [y/n]: ")
         if response.lower() == 'y':
             results['strafe'] = speed
-            print(f"✓ Minimum strafe speed: {speed}")
+            print(f"[OK] Minimum strafe speed: {speed}")
             break
         
         time.sleep(0.5)
     
     if not results['strafe']:
-        print("⚠️  No strafe movement detected up to speed 50!")
+        print("[WARN]  No strafe movement detected up to speed 50!")
     
     # Test rotation
     print("\n--- Testing ROTATION minimum speed ---")
@@ -90,13 +90,13 @@ def test_minimum_speed(chassis: Chassis):
         response = input("Did robot rotate? [y/n]: ")
         if response.lower() == 'y':
             results['rotate'] = speed
-            print(f"✓ Minimum rotation speed: {speed}")
+            print(f"[OK] Minimum rotation speed: {speed}")
             break
         
         time.sleep(0.5)
     
     if not results['rotate']:
-        print("⚠️  No rotation detected up to 0.5!")
+        print("[WARN]  No rotation detected up to 0.5!")
     
     # Summary
     print("\n" + "="*60)
@@ -126,7 +126,7 @@ def test_maximum_speed(chassis: Chassis):
     print("MAXIMUM SPEED TEST")
     print("="*60)
     print("\nThis test will increase speed until robot is unstable.")
-    print("⚠️  CAUTION: Robot may move fast! Keep clear!")
+    print("[WARN]  CAUTION: Robot may move fast! Keep clear!")
     print()
     
     input("Ensure large clear area. Press Enter to start...")
@@ -157,12 +157,12 @@ def test_maximum_speed(chassis: Chassis):
         response = input("Still stable? [y/n]: ")
         if response.lower() == 'n':
             results['forward'] = speed - 10  # Previous speed was max
-            print(f"✓ Maximum forward speed: {results['forward']}")
+            print(f"[OK] Maximum forward speed: {results['forward']}")
             break
     
     if not results['forward']:
         results['forward'] = 100
-        print(f"✓ Maximum forward speed: 100 (no issues found)")
+        print(f"[OK] Maximum forward speed: 100 (no issues found)")
     
     # Test strafe
     print("\n--- Testing STRAFE maximum speed ---")
@@ -178,12 +178,12 @@ def test_maximum_speed(chassis: Chassis):
         response = input("Still stable? [y/n]: ")
         if response.lower() == 'n':
             results['strafe'] = speed - 10
-            print(f"✓ Maximum strafe speed: {results['strafe']}")
+            print(f"[OK] Maximum strafe speed: {results['strafe']}")
             break
     
     if not results['strafe']:
         results['strafe'] = 100
-        print(f"✓ Maximum strafe speed: 100 (no issues found)")
+        print(f"[OK] Maximum strafe speed: 100 (no issues found)")
     
     # Test rotation
     print("\n--- Testing ROTATION maximum speed ---")
@@ -202,12 +202,12 @@ def test_maximum_speed(chassis: Chassis):
             prev_speed = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
             idx = prev_speed.index(speed)
             results['rotate'] = prev_speed[idx-1] if idx > 0 else 0.3
-            print(f"✓ Maximum rotation speed: {results['rotate']}")
+            print(f"[OK] Maximum rotation speed: {results['rotate']}")
             break
     
     if not results['rotate']:
         results['rotate'] = 1.0
-        print(f"✓ Maximum rotation speed: 1.0 (no issues found)")
+        print(f"[OK] Maximum rotation speed: 1.0 (no issues found)")
     
     # Summary
     print("\n" + "="*60)
@@ -242,7 +242,7 @@ def main():
     board = Board()
     chassis = Chassis(board)
     
-    print("✓ Robot ready")
+    print("[OK] Robot ready")
     print()
     print("SAFETY NOTES:")
     print("  - Keep robot on floor (not table!)")
@@ -282,7 +282,7 @@ def main():
         return 0
         
     except KeyboardInterrupt:
-        print("\n\n⚠️  Test interrupted by user")
+        print("\n\n[WARN]  Test interrupted by user")
         chassis.stop()
         board.close()
         return 130

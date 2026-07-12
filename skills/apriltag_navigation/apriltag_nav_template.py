@@ -258,7 +258,7 @@ def main():
     print()
     print("TODO: Complete the template code above!")
     print()
-    print("Once complete, this will navigate to tag 581.")
+    print("Once complete, this will navigate to tag 582.")
     print("Press Ctrl+C to stop.")
     print("-" * 60)
 

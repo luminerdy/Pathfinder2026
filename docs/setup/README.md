@@ -21,9 +21,8 @@ Use these pages before the event when preparing images, hardware, and setup flow
 
 | Need | Guide |
 |------|-------|
-| Full bill of materials | [Bill of Materials](BILL_OF_MATERIALS.md) |
 | Team kit materials | [Team Kit BOM](BOM_TEAM_KIT.md) |
-| Competition field materials | [Competition Field BOM](BOM_COMPETITION_FIELD.md) |
+| Competition field materials | [Competition Field BOM](../competition/BILL_OF_MATERIALS.md) |
 
 ## Related Pages
 

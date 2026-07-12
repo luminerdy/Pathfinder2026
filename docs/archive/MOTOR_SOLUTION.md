@@ -171,7 +171,7 @@ When back on the robot:
 - [ ] Run full `test_hardware.py`
 - [ ] Test all demos (D1, D2, D3)
 
-## ⚠️ CRITICAL: Battery Requirements
+## [WARN] CRITICAL: Battery Requirements
 
 **ALWAYS check battery voltage before running motors!**
 
@@ -199,10 +199,10 @@ When back on the robot:
 ## Success Criteria
 
 When properly configured:
-✅ Battery voltage reads correctly (not None)
-✅ Motors respond to `set_motor_duty()`
-✅ Servos respond to `pwm_servo_set_position()`
-✅ All hardware tests pass
+[OK] Battery voltage reads correctly (not None)
+[OK] Motors respond to `set_motor_duty()`
+[OK] Servos respond to `pwm_servo_set_position()`
+[OK] All hardware tests pass
 
 ---
 

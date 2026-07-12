@@ -20,11 +20,11 @@ python3 run_demo.py
 ## Learning Outcomes
 
 After this skill, you can:
-- ✅ **Explain** how ultrasonic sensors work (sound echo timing)
-- ✅ **Read** distance values in centimeters
-- ✅ **Implement** threshold logic (stop/slow/go)
-- ✅ **Use** RGB LEDs for visual feedback
-- ✅ **Filter** noisy sensor data (median, average)
+- [OK] **Explain** how ultrasonic sensors work (sound echo timing)
+- [OK] **Read** distance values in centimeters
+- [OK] **Implement** threshold logic (stop/slow/go)
+- [OK] **Use** RGB LEDs for visual feedback
+- [OK] **Filter** noisy sensor data (median, average)
 
 **Assessment:** robot stops before hitting obstacle, RGB shows correct colors
 

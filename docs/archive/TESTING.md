@@ -210,7 +210,7 @@ nano /home/robot/code/pathfinder/Deviation.yaml
 
 ## Expected Test Results
 
-### ✓ All Tests Pass
+### [OK] All Tests Pass
 
 ```
 PASS - board
@@ -226,7 +226,7 @@ Results: 7/7 tests passed
  All tests passed! robot is ready.
 ```
 
-### ⚠ Partial Pass
+### [WARN] Partial Pass
 
 If some tests fail:
 1. Note which test failed

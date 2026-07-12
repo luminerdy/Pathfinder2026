@@ -29,11 +29,11 @@ Saves BGR, RGB, Grayscale, HSV examples
 ## Learning Outcomes
 
 After this skill, you can:
-- ✅ **Capture** images from camera
-- ✅ **Display** live video feed
-- ✅ **Convert** between color spaces (BGR, RGB, HSV, Gray)
-- ✅ **Detect** colors using HSV thresholding
-- ✅ **Process** images (blur, edges, threshold)
+- [OK] **Capture** images from camera
+- [OK] **Display** live video feed
+- [OK] **Convert** between color spaces (BGR, RGB, HSV, Gray)
+- [OK] **Detect** colors using HSV thresholding
+- [OK] **Process** images (blur, edges, threshold)
 
 **Assessment:** Capture image, detect red object, explain HSV
 

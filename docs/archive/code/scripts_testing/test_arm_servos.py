@@ -13,7 +13,7 @@ import time
 print("=" * 60)
 print("PATHFINDER ARM SERVO TEST")
 print("=" * 60)
-print("\n⚠️  WARNING: Servo protocol currently broken!")
+print("\n[WARN]  WARNING: Servo protocol currently broken!")
 print("Servo commands may trigger motors instead of servos")
 print("This is a known issue being debugged\n")
 

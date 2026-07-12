@@ -35,11 +35,11 @@ python3 robot_startup.py
 ```
 
 **Expected output:**
-- Control board connected ✓
-- Motors stopped ✓
-- Battery voltage displayed ✓
-- Arm positioned safely ✓
-- Camera detected ✓
+- Control board connected [OK]
+- Motors stopped [OK]
+- Battery voltage displayed [OK]
+- Arm positioned safely [OK]
+- Camera detected [OK]
 - Double beep when ready
 
 ---

@@ -234,7 +234,7 @@ python3 check_battery.py
 3. Use high-discharge 18650 cells (20A+ rating)
 4. Check physical power connections
 
-**See:** [BATTERY_SAFETY.md](../../BATTERY_SAFETY.md) for details
+**See:** [current battery safety guide](../support/BATTERY_SAFETY.md) for details
 
 ### Camera Not Working
 
@@ -328,8 +328,8 @@ Run calibration to adjust these values for your specific robot.
 
 ## Reference Documentation
 
-- **[INSTALL.md](../../INSTALL.md)** - Detailed installation steps
-- **[BATTERY_SAFETY.md](../../BATTERY_SAFETY.md)** - Power requirements and safety
+- **[Archived INSTALL.md](INSTALL.md)** - Retired installation steps
+- **[Current battery safety guide](../support/BATTERY_SAFETY.md)** - Power requirements and safety
 - **[MOTOR_SOLUTION.md](MOTOR_SOLUTION.md)** - Motor troubleshooting
 - **[TESTING.md](TESTING.md)** - Hardware testing procedures
 - **[README.md](../../README.md)** - Project overview
@@ -345,4 +345,4 @@ Run calibration to adjust these values for your specific robot.
 
 **Last Updated:** March 20, 2026
 **Tested On:** Raspberry Pi 5 8GB, Debian 13 (Trixie)
-**Status:** ✅ Verified working
+**Status:** [OK] Verified working

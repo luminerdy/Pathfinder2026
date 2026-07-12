@@ -5,6 +5,7 @@ Use these pages when a phase guide tells you to, or when something is not workin
 | Need | Guide |
 |------|-------|
 | Troubleshooting | [Student troubleshooting](TROUBLESHOOTING.md) |
+| Battery handling and voltage limits | [Battery safety](BATTERY_SAFETY.md) |
 | Where code lives | [Where the code lives](CODE_LOCATION.md) |
 | Safe team code edits | [Team code workflow](TEAM_CODE_WORKFLOW.md) |
 | robot connection help | [robot connection reference](ROBOT_CONNECTION_REFERENCE.md) |

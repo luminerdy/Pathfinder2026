@@ -140,22 +140,22 @@ Student can:
 ## Success Criteria
 
 ### Minimum (Pass)
-- ✅ Demo runs without crashing
-- ✅ robot moves in at least 6/8 patterns correctly
-- ✅ Student can explain mecanum wheel basics
-- ✅ Student aware of safety (battery check, clear space)
+- [OK] Demo runs without crashing
+- [OK] robot moves in at least 6/8 patterns correctly
+- [OK] Student can explain mecanum wheel basics
+- [OK] Student aware of safety (battery check, clear space)
 
 ### Target (Proficient)
-- ✅ All 8 patterns work correctly
-- ✅ Square pattern closes within 6 inches
-- ✅ Student can tune config and see results
-- ✅ Student can debug one common problem (motor inversion)
+- [OK] All 8 patterns work correctly
+- [OK] Square pattern closes within 6 inches
+- [OK] Student can tune config and see results
+- [OK] Student can debug one common problem (motor inversion)
 
 ### Stretch (Advanced)
-- ✅ Student explains force vectors and kinematics
-- ✅ Student designs custom movement pattern (triangle, circle)
-- ✅ Student optimizes for specific goal (speed vs accuracy)
-- ✅ Student helps peer troubleshoot their robot
+- [OK] Student explains force vectors and kinematics
+- [OK] Student designs custom movement pattern (triangle, circle)
+- [OK] Student optimizes for specific goal (speed vs accuracy)
+- [OK] Student helps peer troubleshoot their robot
 
 ---
 

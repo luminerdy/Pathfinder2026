@@ -143,7 +143,7 @@ When the robot is assembled and powered on, use [C2: robot Pi WiFi Setup](C2_ROB
 | Action | How |
 |--------|-----|
 | Open terminal | Ctrl+Alt+T |
-| Edit code | `nano filename.py` or use Thonny (GUI editor) |
+| Edit code | Use VS Code with Remote SSH after C3 |
 | Run Python | `python3 script.py` |
 | Stop a running script | Ctrl+C |
 

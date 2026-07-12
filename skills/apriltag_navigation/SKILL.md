@@ -55,9 +55,9 @@ AprilTag Navigation enables your robot to **autonomously find and approach** fid
 ### Step 1: Print AprilTag
 
 Download and print tag36h11 family tags:
-- **PDF:** `/home/robot/code/pathfinder/apriltags/tag36h11_singles.pdf`
+- **Tag:** Use the printed event tag for Area 1.
 - **Print size:** 8.5" x 11" (tag will be ~6-8 inches)
-- **Tag ID:** 581 (we'll use this for the demo)
+- **Tag ID:** 582 (Area 1)
 
 **Mounting:**
 - Tape to wall at robot's camera height (~8-10 inches off ground)
@@ -72,7 +72,7 @@ python3 run_demo.py
 ```
 
 **What happens:**
-1. Camera opens and starts looking for tag 581
+1. Camera opens and starts looking for tag 582
 2. When found, robot calculates distance and angle
 3. robot approaches using mecanum strafe (smooth!)
 4. Stops about 22 inches from the tag
@@ -207,7 +207,7 @@ apriltag_navigation:
 
   # Tag specification
   tag_size: 0.254  # meters (10 inches = 0.254m)
-  target_tag_id: 581  # Which tag to navigate to
+  target_tag_id: 582  # Area 1 tag
 
   # Control gains (higher = stronger response)
   gain_lateral: 120   # Kx - strafe correction strength

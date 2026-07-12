@@ -7,7 +7,7 @@
 
 ## What's Proven (Tested and Working)
 
-### Autonomous Navigation ✅
+### Autonomous Navigation [OK]
 - **100% success** on 8-tag tour (578-585, tag36h11)
 - Proportional centering with damping (any angle/offset)
 - Speed control (fast when far, slow when close)
@@ -16,20 +16,20 @@
 - 360° sonar scan (field mapping, wall detection)
 - Calibrated 90° turns (0.87s at power 30, verified by sonar)
 
-### Vision ✅
+### Vision [OK]
 - AprilTag detection with pose estimation (distance in meters, angle in degrees)
 - Camera params: fx=500, fy=500, cx=320, cy=240
 - Tag size: 254mm (10 inches)
 - Red block detection (HSV filtering)
 - Real-time processing at 640×480
 
-### Manual Control ✅
+### Manual Control [OK]
 - Web interface: live video + drive + arm + battery monitoring
 - Adjustable motor power (0-50)
 - Save/load arm positions
 - Battery safety checks
 
-### Hardware ✅
+### Hardware [OK]
 - Mecanum omnidirectional drive
 - 5-DOF arm (Claw=1, Wrist=3, Elbow=4, Shoulder=5, Base=6)
 - Sonar (94 Hz sample rate, I2C address 0x77)
@@ -39,13 +39,13 @@
 
 ## What's In Progress
 
-### Block Detection ⚠️
+### Block Detection [WARN]
 - Red/Blue/Yellow: All working via HSV pipeline (Day 10)
 - Confidence scoring filters false positives
 - Distance estimation from known block size
 - HSV ranges may need tuning per lighting environment
 
-### Workshop Integration ⚠️
+### Workshop Integration [WARN]
 - Block pickup and line following are available as separate skills
 - Autonomous approach still inconsistent (~50% from distance)
 - Pre-positioned pickup reliable (100%)
@@ -122,10 +122,10 @@
 
 ## Workshop Integration Path
 
-1. ✅ Navigate reliably (100% tag tour)
-2. ✅ Drive to block (visual servoing with target lock)
-3. ✅ Pick up block (bump-grab from sweet spot, 3-phase autonomous)
-4. ✅ Follow line to zone (lime green tape, weighted scan, curves)
-5. ✅ Deliver to zone (gentle place — lower arm, release at floor)
-6. ✅ Color-matched delivery (block → matching colored basket via AprilTag)
+1. [OK] Navigate reliably (100% tag tour)
+2. [OK] Drive to block (visual servoing with target lock)
+3. [OK] Pick up block (bump-grab from sweet spot, 3-phase autonomous)
+4. [OK] Follow line to zone (lime green tape, weighted scan, curves)
+5. [OK] Deliver to zone (gentle place — lower arm, release at floor)
+6. [OK] Color-matched delivery (block → matching colored basket via AprilTag)
 7. → Reliable autonomous approach from any distance

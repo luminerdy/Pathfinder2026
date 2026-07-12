@@ -254,22 +254,22 @@ Adjust these based on testing!
 
 ## Advantages of IK Approach
 
-### ✅ Flexibility
+### [OK] Flexibility
 - Works for **any** block position
 - Easy to adjust heights and offsets
 - Can pick from different angles
 
-### ✅ No Calibration Hell
+### [OK] No Calibration Hell
 - Don't need to manually find 20 servo positions
 - Just specify target coordinates
 - Math does the rest
 
-### ✅ Adaptability
+### [OK] Adaptability
 - Works with different block sizes (just change `z`)
 - Works with different approach angles
 - Easy to add new pickup patterns
 
-### ✅ Understandable
+### [OK] Understandable
 - Positions are in **real-world units** (mm)
 - Easy to debug ("block at 200mm, arm should be at 200mm")
 - Can visualize what the arm is doing

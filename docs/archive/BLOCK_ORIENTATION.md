@@ -15,7 +15,7 @@ Gripper limitations:
 ```
 Aligned (0°):          Misaligned (45°):      Extreme (60°):
 ┌─────┐               ╱─────╲                ╱────╲
-│Block│    ✅         ╱ Block ╲    ⚠️        ╱Block╲    ❌
+│Block│    [OK]         ╱ Block ╲    [WARN]        ╱Block╲    [ERROR]
 └─────┘              ╲       ╱              ╲     ╱
   ║ ║                 ╲─────╱                ╲───╱
   ║ ║                   ║ ║                   ║║
@@ -409,11 +409,11 @@ For better angle accuracy:
 
 **Block orientation handling:**
 
-✅ **Detects** block rotation angle
-✅ **Decides** if alignment needed
-✅ **Aligns** robot base to match
-✅ **Adapts** to gripper limitations
-✅ **Configurable** max angles and tolerance
+[OK] **Detects** block rotation angle
+[OK] **Decides** if alignment needed
+[OK] **Aligns** robot base to match
+[OK] **Adapts** to gripper limitations
+[OK] **Configurable** max angles and tolerance
 
 **Usage:**
 ```bash

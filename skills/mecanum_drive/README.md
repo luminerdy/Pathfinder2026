@@ -20,11 +20,11 @@ python3 run_demo.py
 ## Learning Outcomes
 
 After this skill, you can:
-- ✅ **Explain** why mecanum wheels have 45° rollers
-- ✅ **Control** robot in all directions
-- ✅ **Implement** movement patterns
-- ✅ **Tune** speed limits for your floor
-- ✅ **Debug** motor direction issues
+- [OK] **Explain** why mecanum wheels have 45° rollers
+- [OK] **Control** robot in all directions
+- [OK] **Implement** movement patterns
+- [OK] **Tune** speed limits for your floor
+- [OK] **Debug** motor direction issues
 
 **Assessment:** Drive square pattern successfully
 
@@ -44,8 +44,8 @@ After this skill, you can:
 ## Troubleshooting
 
 **robot doesn't move:**
-- Check battery: `python3 ../../tests/battery_check.py`
-- Test motors: `python3 ../../tests/test_motors.py`
+- Check battery: `python3 scripts/tools/check_battery.py`
+- Test motors: `python3 scripts/tools/check_motors.py`
 
 **Wrong direction:**
 - Edit `config.yaml` → `motor_directions`

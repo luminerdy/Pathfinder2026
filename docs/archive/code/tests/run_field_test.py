@@ -126,13 +126,13 @@ def main():
 
         # Navigator should be initialized automatically if camera is enabled
         if not hasattr(robot, 'navigator') or robot.navigator is None:
-            print("⚠️  Navigator not initialized (camera may be disabled)")
+            print("[WARN]  Navigator not initialized (camera may be disabled)")
             return 1
 
-        print("✅ Robot initialized")
+        print("[OK] Robot initialized")
 
     except Exception as e:
-        print(f"❌ Failed to initialize robot: {e}")
+        print(f"[ERROR] Failed to initialize robot: {e}")
         import traceback
         traceback.print_exc()
         return 1
@@ -154,7 +154,7 @@ def main():
     print("  2. Navigate to each tag individually")
     print("  3. Complete a full waypoint tour")
     print("  4. Return to home position")
-    print("\n⚠️  Make sure field is clear and robot has room to move!")
+    print("\n[WARN]  Make sure field is clear and robot has room to move!")
     print()
 
     response = input("Start testing? [Y/n]: ")
@@ -173,8 +173,8 @@ def main():
         print("TEST SUMMARY")
         print("="*60)
         print(f"Total tests: {summary['total_tests']}")
-        print(f"Passed: {summary['passed']} ✅")
-        print(f"Failed: {summary['failed']} ❌")
+        print(f"Passed: {summary['passed']} [OK]")
+        print(f"Failed: {summary['failed']} [ERROR]")
         print(f"Success rate: {100*summary['passed']/summary['total_tests']:.1f}%")
         print(f"Total time: {summary['total_time']:.1f}s")
         print(f"\nResults: {test_suite.run_dir}")
@@ -187,13 +187,13 @@ def main():
         return 0 if summary['failed'] == 0 else 1
 
     except KeyboardInterrupt:
-        print("\n\n⚠️  Testing interrupted by user")
+        print("\n\n[WARN]  Testing interrupted by user")
         robot.chassis.stop()
         robot.shutdown()
         return 130
 
     except Exception as e:
-        print(f"\n❌ Test suite failed: {e}")
+        print(f"\n[ERROR] Test suite failed: {e}")
         import traceback
         traceback.print_exc()
         robot.chassis.stop()

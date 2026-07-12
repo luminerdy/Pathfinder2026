@@ -92,18 +92,18 @@ def main():
         # Configure alignment
         if args.no_align:
             pickup.align_to_block = False
-            print("⚠️  Block alignment disabled")
+            print("[WARN]  Block alignment disabled")
         pickup.max_misalignment_degrees = args.max_angle
 
         # Configure mecanum positioning
         if args.no_mecanum_position:
             pickup.use_mecanum_positioning = False
-            print("⚠️  Mecanum fine positioning disabled")
+            print("[WARN]  Mecanum fine positioning disabled")
 
-        print("✅ Robot ready!\n")
+        print("[OK] Robot ready!\n")
 
     except Exception as e:
-        print(f"❌ Failed to initialize robot: {e}")
+        print(f"[ERROR] Failed to initialize robot: {e}")
         return 1
 
     # Setup instructions
@@ -132,7 +132,7 @@ def main():
         print("\n" + "="*60)
         print("PICKUP RESULT")
         print("="*60)
-        print(f"Success: {'✅ YES' if result.success else '❌ NO'}")
+        print(f"Success: {'[OK] YES' if result.success else '[ERROR] NO'}")
         print(f"Reason: {result.reason}")
         if result.block_position:
             x, y, z = result.block_position
@@ -149,13 +149,13 @@ def main():
         return 0 if result.success else 1
 
     except KeyboardInterrupt:
-        print("\n\n⚠️  Interrupted by user")
+        print("\n\n[WARN]  Interrupted by user")
         robot.chassis.stop()
         robot.shutdown()
         return 130
 
     except Exception as e:
-        print(f"\n❌ Pickup failed: {e}")
+        print(f"\n[ERROR] Pickup failed: {e}")
         import traceback
         traceback.print_exc()
         robot.chassis.stop()

@@ -20,8 +20,8 @@
 - Same behavior as power 15, 20
 
 **Power 25:** THRESHOLD (unreliable)
-- Test 1 (9:22 AM): 117.0 deg/sec ✅
-- Test 2 (9:22 AM): 24.3 deg/sec ⚠️
+- Test 1 (9:22 AM): 117.0 deg/sec [OK]
+- Test 2 (9:22 AM): 24.3 deg/sec [WARN]
 - Inconsistent performance
 - Too close to friction threshold
 
@@ -43,8 +43,8 @@
 
 | Time     | Battery | Power 28 Performance |
 |----------|---------|---------------------|
-| 9:22 AM  | ~8.0V   | 105 deg/sec ✅      |
-| 9:32 AM  | 7.85V   | 0-1.3 deg/sec ⚠️    |
+| 9:22 AM  | ~8.0V   | 105 deg/sec [OK]      |
+| 9:32 AM  | 7.85V   | 0-1.3 deg/sec [WARN]    |
 
 **In just 10 minutes:**
 - Battery dropped from ~8.0V → 7.85V
@@ -110,8 +110,8 @@
 - Pattern repeats after 360°
 
 **Actual observations:**
-- When NOT rotating (power 15-24): constant 81cm ✅
-- When rotating (power 25+): 77-122cm range ✅
+- When NOT rotating (power 15-24): constant 81cm [OK]
+- When rotating (power 25+): 77-122cm range [OK]
 - Variation confirms actual rotation occurring
 - Single-wall reading = not rotating
 
@@ -185,10 +185,10 @@ elif battery_v < 8.0:
 - 360° requires **3-3.4 seconds** at power 28
 
 ### **False Assumptions Corrected:**
-1. ❌ "360° scan at power 15 worked" → Actually rotated 0°
-2. ❌ "Sonar 68-69cm = centered" → Was just facing one wall
-3. ❌ "Power 15 good for slow rotation" → Can't overcome friction
-4. ❌ "Centering at power 25 is safe" → Too close to threshold
+1. [ERROR] "360° scan at power 15 worked" → Actually rotated 0°
+2. [ERROR] "Sonar 68-69cm = centered" → Was just facing one wall
+3. [ERROR] "Power 15 good for slow rotation" → Can't overcome friction
+4. [ERROR] "Centering at power 25 is safe" → Too close to threshold
 
 ---
 
@@ -243,17 +243,17 @@ elif battery_v < 8.0:
 ## Summary
 
 **What Worked:**
-✅ Visual calibration method using AprilTags
-✅ Identified minimum rotation power (25 threshold, 28 safe)
-✅ Measured rotation rates (~105-120 deg/sec)
-✅ Discovered battery effect on performance
-✅ Corrected false assumptions about previous "360° scan"
+[OK] Visual calibration method using AprilTags
+[OK] Identified minimum rotation power (25 threshold, 28 safe)
+[OK] Measured rotation rates (~105-120 deg/sec)
+[OK] Discovered battery effect on performance
+[OK] Corrected false assumptions about previous "360° scan"
 
 **What Needs Work:**
-⚠️ Update all scripts to use power 28 minimum
-⚠️ Add battery monitoring everywhere
-⚠️ Re-test with full battery
-⚠️ Calibrate forward movement similarly
+[WARN] Update all scripts to use power 28 minimum
+[WARN] Add battery monitoring everywhere
+[WARN] Re-test with full battery
+[WARN] Calibrate forward movement similarly
 
 **Key Insight:**
 Battery voltage affects motor performance more than expected. The difference between 8.0V and 7.85V was enough to make rotation fail completely. Must build in power headroom and battery monitoring.

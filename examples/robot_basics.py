@@ -125,7 +125,7 @@ def example_compose():
         #     robot.arm.backward_drop()
         #
         #     # Navigate to red basket
-        #     strafe_nav(robot, tag_id=580)
+        #     strafe_nav(robot, tag_id=582)
         #
         #     # Dump
         #     robot.arm.gentle_place()

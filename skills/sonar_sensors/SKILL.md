@@ -39,18 +39,18 @@ Sonar sensors use **ultrasonic sound waves** to measure distance, just like bats
 ### Why Ultrasonic Sensors?
 
 **Advantages:**
-- ✅ Simple and cheap (~$2-5 per sensor)
-- ✅ Works in any lighting (day, night, total darkness)
-- ✅ Measures actual distance (not just "something there")
-- ✅ Good range (2cm to 4+ meters)
-- ✅ No calibration needed (works out of box)
+- [OK] Simple and cheap (~$2-5 per sensor)
+- [OK] Works in any lighting (day, night, total darkness)
+- [OK] Measures actual distance (not just "something there")
+- [OK] Good range (2cm to 4+ meters)
+- [OK] No calibration needed (works out of box)
 
 **Limitations:**
-- ❌ Narrow beam angle (~15°, can miss small objects)
-- ❌ Soft/angled surfaces reflect poorly (foam, carpet)
-- ❌ Slow update rate (~20-50ms per reading)
-- ❌ Interference from other ultrasonic sources
-- ❌ Minimum range (can't see <2cm, too close)
+- [ERROR] Narrow beam angle (~15°, can miss small objects)
+- [ERROR] Soft/angled surfaces reflect poorly (foam, carpet)
+- [ERROR] Slow update rate (~20-50ms per reading)
+- [ERROR] Interference from other ultrasonic sources
+- [ERROR] Minimum range (can't see <2cm, too close)
 
 ---
 

@@ -18,19 +18,19 @@ Live testing results on actual hardware (Pi 5, Pathfinder robot robot).
 ```bash
 pip3 install opencv-python --break-system-packages
 ```
-**Status:** ✅ Installed and working
+**Status:** [OK] Installed and working
 
 #### 2. matplotlib
 **Error:** `ModuleNotFoundError: No module named 'matplotlib'`
 **Location:** `sdk/kinematics/arm_move_ik.py`
 **Solution:** Commented out - not actually needed for robot operation
-**Status:** ✅ Fixed by commenting imports
+**Status:** [OK] Fixed by commenting imports
 
 #### 3. mpl_toolkits (matplotlib 3D)
 **Error:** Would have occurred after matplotlib
 **Location:** `sdk/kinematics/arm_move_ik.py`
 **Solution:** Commented out - not needed
-**Status:** ✅ Fixed by commenting imports
+**Status:** [OK] Fixed by commenting imports
 
 ### Code Bugs Found
 
@@ -38,25 +38,25 @@ pip3 install opencv-python --break-system-packages
 **Error:** `NameError: name 'Path' is not defined`
 **Location:** `hardware/board.py`
 **Issue:** `from pathlib import Path` came after using `Path()`
-**Status:** ✅ Fixed - moved import to top
+**Status:** [OK] Fixed - moved import to top
 
 #### 2. SDK creating Board at module import
 **Error:** Serial port error during import
 **Location:** `sdk/common/mecanum.py`
 **Issue:** `board = Board()` executed at module load time
 **Solution:** Changed to `board = None`
-**Status:** ✅ Fixed
+**Status:** [OK] Fixed
 
 #### 3. Missing Tuple import
 **Error:** `NameError: name 'Tuple' is not defined`
 **Location:** `hardware/sonar.py`
 **Issue:** Used `Tuple` in type hints without importing
-**Status:** ✅ Fixed - added to imports
+**Status:** [OK] Fixed - added to imports
 
 #### 4. Unicode characters in output
 **Error:** `UnicodeEncodeError: 'latin-1' codec can't encode character '\u2713'`
 **Location:** `start_robot.py` and other scripts
-**Issue:** Checkmark characters (✓✗) don't work in some terminals
+**Issue:** Checkmark characters ([OK][ERROR]) don't work in some terminals
 **Status:** ⏳ To be fixed
 
 #### 5. RGB LED method name
@@ -64,11 +64,11 @@ pip3 install opencv-python --break-system-packages
 **Location:** `hardware/board.py` line 122
 **Issue:** Method name doesn't match actual SDK (should be `set_rgb`)
 **Solution:** Changed to `board.set_rgb([(1, r, g, b), (2, r, g, b)])`
-**Status:** ✅ Fixed and tested working
+**Status:** [OK] Fixed and tested working
 
 ### Hardware Tests Completed
 
-✅ **Working:**
+[OK] **Working:**
 - Board serial connection
 - Battery voltage reading (7.52V measured)
 - Buzzer (beep confirmed)
@@ -78,10 +78,10 @@ pip3 install opencv-python --break-system-packages
 - Camera (640x480 capture working, first frame often fails - normal)
 - Sonar (distance readings 369-372cm, RGB indicators working)
 
-✅ **Demos Tested:**
-- D1 Basic Drive ✅ (forward, backward, strafe, rotate, square pattern)
-- D2 Sonar ✅ (distance readings, obstacle detection - minor format fix needed)
-- D3 Arm Basics ✅ (all positions, IK, gripper, pick/place, gestures)
+[OK] **Demos Tested:**
+- D1 Basic Drive [OK] (forward, backward, strafe, rotate, square pattern)
+- D2 Sonar [OK] (distance readings, obstacle detection - minor format fix needed)
+- D3 Arm Basics [OK] (all positions, IK, gripper, pick/place, gestures)
 
 ⏳ **Not Yet Tested:**
 - E3 AprilTag demo (needs camera + AprilTag library)
@@ -93,16 +93,16 @@ pip3 install opencv-python --break-system-packages
 ### Libraries Verified
 
 From `requirements.txt`:
-- [x] numpy ✅ (working - used by IK)
-- [x] pyyaml ✅ (working - config loading)
-- [x] opencv-python ✅ (working - camera + IK)
+- [x] numpy [OK] (working - used by IK)
+- [x] pyyaml [OK] (working - config loading)
+- [x] opencv-python [OK] (working - camera + IK)
 - [ ] opencv-contrib-python (not tested yet)
-- [x] ultralytics ✅ (YOLOv11 installed, made optional)
+- [x] ultralytics [OK] (YOLOv11 installed, made optional)
 - [ ] dt-apriltags or pupil-apriltags (not tested yet)
 - [ ] flask, flask-cors (not tested yet - web UI)
 - [ ] pygame (not tested yet - gamepad)
 - [ ] inputs (not tested yet - gamepad)
-- [x] pyserial ✅ (working - board communication)
+- [x] pyserial [OK] (working - board communication)
 - [ ] pillow (not tested yet)
 
 ### Next Testing Steps

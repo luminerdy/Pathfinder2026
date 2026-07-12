@@ -166,13 +166,13 @@ board.set_motor_duty(1, 0)
 
 Linear voltage drop from battery to Pi:
 ```
-8.4V battery → ~5.0V at Pi (0.4V headroom)  ✅ Good
-7.4V battery → ~5.0V at Pi (2.4V headroom)  ✅ OK
-6.8V battery → ~4.8V at Pi (1.8V headroom)  ⚠️ Marginal
-6.5V battery → ~4.5V at Pi (1.5V headroom)  ❌ Under-voltage
+8.4V battery → ~5.0V at Pi (0.4V headroom)  [OK] Good
+7.4V battery → ~5.0V at Pi (2.4V headroom)  [OK] OK
+6.8V battery → ~4.8V at Pi (1.8V headroom)  [WARN] Marginal
+6.5V battery → ~4.5V at Pi (1.5V headroom)  [ERROR] Under-voltage
 
 Add motor load:
-6.8V battery drops to 6.5V → Pi sees 4.5V → ❌ Warning!
+6.8V battery drops to 6.5V → Pi sees 4.5V → [ERROR] Warning!
 ```
 
 **Voltage regulator efficiency:**
@@ -216,12 +216,12 @@ Add motor load:
 ## Expected Results
 
 **With fresh batteries (8.0-8.4V):**
-- ✅ No under-voltage warnings
-- ✅ `vcgencmd get_throttled` shows `0x0`
-- ✅ Stable operation even with motors
+- [OK] No under-voltage warnings
+- [OK] `vcgencmd get_throttled` shows `0x0`
+- [OK] Stable operation even with motors
 
 **If warnings persist even with full battery:**
-- ⚠️ Voltage regulator issue on expansion board
+- [WARN] Voltage regulator issue on expansion board
 - Consider hardware modification (separate Pi power)
 - Or reduce load (fewer motors simultaneously)
 
@@ -229,27 +229,27 @@ Add motor load:
 
 | Battery Voltage | Expected Pi Voltage | Status |
 |----------------|---------------------|--------|
-| 8.4V (full) | 5.0V | ✅ Excellent |
-| 8.0V | 4.95-5.0V | ✅ Good |
-| 7.5V | 4.9-5.0V | ✅ OK |
-| 7.0V | 4.8-4.9V | ⚠️ Marginal |
-| 6.8V (your test) | 4.7-4.8V | ⚠️ Warning likely |
-| 6.5V | 4.5-4.7V | ❌ Under-voltage |
+| 8.4V (full) | 5.0V | [OK] Excellent |
+| 8.0V | 4.95-5.0V | [OK] Good |
+| 7.5V | 4.9-5.0V | [OK] OK |
+| 7.0V | 4.8-4.9V | [WARN] Marginal |
+| 6.8V (your test) | 4.7-4.8V | [WARN] Warning likely |
+| 6.5V | 4.5-4.7V | [ERROR] Under-voltage |
 
 **With motor load:** Subtract 0.2-0.5V from above values.
 
 ## Hiwonder System Comparison
 
 **Their system (no warnings):**
-- `usb_max_current_enable=1` ✅
-- Fully charged battery ✅
-- Quality 18650 cells ✅
-- `vcgencmd get_throttled` = `0x0` ✅
+- `usb_max_current_enable=1` [OK]
+- Fully charged battery [OK]
+- Quality 18650 cells [OK]
+- `vcgencmd get_throttled` = `0x0` [OK]
 
 **Your system (warnings):**
-- `usb_max_current_enable` missing ❌
-- Battery at 6.87V ❌
-- Same hardware otherwise ✅
+- `usb_max_current_enable` missing [ERROR]
+- Battery at 6.87V [ERROR]
+- Same hardware otherwise [OK]
 
 **Conclusion:** Low battery is likely the main cause!
 

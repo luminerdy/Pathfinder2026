@@ -10,7 +10,7 @@ Most teams should begin with folders that contain `run_demo.py`:
 |--------|---------------|
 | `mecanum_drive/` | Driving, strafing, and turning |
 | `sonar_sensors/` | Distance sensing and obstacle checks |
-| `robotic_arm/` | Arm home position, gripper, and base movement |
+| `robotic_arm/` | Tested pickup-and-load arm sequence |
 | `camera_vision/` | Camera capture and basic vision |
 | `block_detection/` | Colored block detection |
 | `apriltag_navigation/` | AprilTag detection and navigation |
@@ -35,7 +35,6 @@ Examples:
 | File | Purpose |
 |------|---------|
 | `bump_grab.py` | Find, approach, and grab a block |
-| `color_delivery.py` | Pick up a block and deliver it by color |
 | `strafe_nav.py` | AprilTag navigation with mecanum strafing |
 | `block_approach.py` | Vision-guided block approach |
 | `block_pursue.py` | Continuous block pursuit |
