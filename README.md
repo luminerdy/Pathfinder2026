@@ -37,53 +37,10 @@ Use these when a phase tells you to, or when something is not working:
 | Need | Guide |
 |------|-------|
 | Troubleshooting | [Student troubleshooting](docs/support/TROUBLESHOOTING.md) |
+| Where code lives | [Where the code lives](docs/support/CODE_LOCATION.md) |
 | Safe team code edits | [Team code workflow](docs/support/TEAM_CODE_WORKFLOW.md) |
 | robot connection reference | [robot connection reference](docs/support/ROBOT_CONNECTION_REFERENCE.md) |
 | Update robot code | [Update robot code](docs/support/UPDATE_ROBOT_CODE.md) |
-
-## Where Does The Code Live?
-
-On the robot, the code should live here:
-
-```bash
-/home/robot/pathfinder
-```
-
-You usually reach it from the Pi 500:
-
-```bash
-ssh robot@<ROBOT_IP>
-cd /home/robot/pathfinder
-```
-
-In this repo, the robot code is organized like this:
-
-| Folder/File | What It Is For |
-|-------------|----------------|
-| `skills/` | Main workshop demos. Start here when testing robot capabilities. |
-| `scripts/tools/` | Useful utilities like battery checks, camera checks, and web helpers. |
-| `scripts/testing/` | Hardware and field test scripts. |
-| `lib/` | Shared robot control code used by the demos. |
-| `web/` | Browser-based robot control interface. |
-| `config.yaml` | Shared robot configuration. |
-
-Most participants should run scripts from `skills/`. Most code changes should also start there.
-
-## Testing Robot Behavior
-
-If you are testing robot behavior directly:
-
-- Start with `skills/README.md`
-- Then `skills/mecanum_drive/`
-- Then `skills/sonar_sensors/`
-- Then `skills/robotic_arm/`
-- Then `skills/camera_vision/`
-- Then `skills/apriltag_navigation/`, `skills/block_detection/`, `skills/visual_servoing/`, `skills/autonomous_pickup/`, and `skills/line_following/`
-
-Manual control tools come after the core capability demos:
-
-- [E1: Web Manual Control](docs/workshop/E1_WEB_MANUAL_CONTROL.md)
-- [E2: Gamepad Remote Control](docs/workshop/E2_GAMEPAD_REMOTE_CONTROL.md)
 
 ## Facilitator Setup Links
 
@@ -104,7 +61,7 @@ Use these before the event when preparing images, hardware, and setup flow:
 |-------------|----------------|
 | `docs/workshop/` | The three event phases. |
 | `docs/setup/` | Pre-event Pi 500, robot Pi, SD card, and connection setup. |
-| `docs/support/` | Troubleshooting, team code workflow, robot connection reference, and update instructions. |
+| `docs/support/` | Troubleshooting, code location, team code workflow, robot connection reference, and update instructions. |
 | `docs/handouts/` | Short printable team handouts. |
 | `docs/calibration/` | Calibration and tuning notes. |
 | `docs/archive/` | Historical development notes. |
