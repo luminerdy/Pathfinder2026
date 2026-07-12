@@ -2,7 +2,7 @@
 
 Pi 500 setup photos used by `docs/setup/C1_PI500_SETUP.md`.
 
-Migrated from `stemoutreach/PathfinderBot`:
+Photos in this folder:
 
 - `01_pi500_connection.jpg`
 - `02_pi500_connection_closeup.jpg`

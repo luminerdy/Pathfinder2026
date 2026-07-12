@@ -1,7 +1,7 @@
 """
 Wall-Centered Field Configuration
 4 AprilTags, one per wall, centered
-PathfinderBot standard: tag36h11 family, IDs 583-586
+tag36h11 family, IDs 582-585
 """
 
 from field_config import FieldConfig, WallConfig
@@ -18,25 +18,25 @@ WALL_CENTERED_6X6 = FieldConfig(
         WallConfig(
             name="north",
             length_ft=6,
-            tags=[582],  # Home/Start
+            tags=[582],  # Area 1: start square and blue blocks
             position="top"
         ),
         WallConfig(
             name="east",
             length_ft=6,
-            tags=[583],  # Pickup Zone 1
+            tags=[583],  # Area 2: red blocks
             position="right"
         ),
         WallConfig(
             name="south",
             length_ft=6,
-            tags=[584],  # Pickup Zone 2
+            tags=[584],  # Area 3: yellow blocks
             position="bottom"
         ),
         WallConfig(
             name="west",
             length_ft=6,
-            tags=[585],  # Delivery Zone
+            tags=[585],  # Area 4: delivery zone
             position="left"
         )
     ]

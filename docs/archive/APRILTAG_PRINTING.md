@@ -1,47 +1,38 @@
 # AprilTag Printing Guide
 
-**Updated:** March 22, 2026 - PathfinderBot standard configuration
+**Updated:** March 22, 2026
 
 ## What to Print
 
 You need **4 AprilTags** for the wall-centered field configuration:
 
-**PathfinderBot Standard IDs:**
-- **Tag ID: 583** (North wall) - Home/Start position
-- **Tag ID: 584** (East wall) - Pickup Zone 1
-- **Tag ID: 585** (South wall) - Pickup Zone 2
-- **Tag ID: 586** (West wall) - Delivery Zone
+**Field IDs:**
+- **Tag ID: 582** - Area 1: start square and blue blocks
+- **Tag ID: 583** - Area 2: red blocks
+- **Tag ID: 584** - Area 3: yellow blocks
+- **Tag ID: 585** - Area 4: delivery zone
 
-**Tag Family:** tag36h11 (PathfinderBot standard)
+**Tag Family:** tag36h11
 **Size:** 10 inches x 10 inches (upgraded from 6" for better detection)
 **Paper:** 11" x 17" or tile across multiple 8.5" x 11" sheets
 
 ## Download Pre-Generated Tags
 
-### Option 1: PathfinderBot PDF (Recommended)
-**Complete tag36h11 family PDF:**
-https://github.com/stemoutreach/PathfinderBot/blob/main/Reference/Tech/AprilTag-tag36h11.pdf
-
-**Also saved locally:** `/home/robot/apriltag_tag36h11.pdf`
-
-**Tags to print from PDF:**
-- Pages with Tag 583, 584, 585, 586
-
-### Option 2: MIT AprilTag Images
+### Option 1: MIT AprilTag Images
 https://github.com/AprilRobotics/apriltag-imgs/tree/master/tag36h11
 
 **Direct links for our IDs:**
+- Tag 582: https://raw.githubusercontent.com/AprilRobotics/apriltag-imgs/master/tag36h11/tag36_11_00582.png
 - Tag 583: https://raw.githubusercontent.com/AprilRobotics/apriltag-imgs/master/tag36h11/tag36_11_00583.png
 - Tag 584: https://raw.githubusercontent.com/AprilRobotics/apriltag-imgs/master/tag36h11/tag36_11_00584.png
 - Tag 585: https://raw.githubusercontent.com/AprilRobotics/apriltag-imgs/master/tag36h11/tag36_11_00585.png
-- Tag 586: https://raw.githubusercontent.com/AprilRobotics/apriltag-imgs/master/tag36h11/tag36_11_00586.png
 
 ### Option 2: Online Generator
 https://chev.me/arucogen/
 
 **Settings:**
 - Dictionary: AprilTag (tag36h11)
-- Marker ID: 0, 1, 2, 3
+- Marker ID: 582, 583, 584, 585
 - Marker size: 150mm (6 inches)
 - Download as PNG or PDF
 
@@ -87,7 +78,7 @@ After printing, **measure the tag!**
              ↓
       ┌──────────────┐
       │              │
-TAG 3 →  FIELD    ← TAG 1
+TAG 3 -> FIELD <- TAG 1
 (West)│              │(East)
       │              │
       └──────────────┘
@@ -189,4 +180,4 @@ Once tags are mounted:
 
 ---
 
-**Ready to give your robot eyes!** ️
+**Ready to give your robot eyes!**

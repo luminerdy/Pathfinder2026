@@ -5,8 +5,7 @@ Gamepad Remote Control (E2)
 Drive robot with Logitech F710 wireless gamepad.
 Tank-style sticks + mecanum strafing + trigger speed + arm actions.
 
-Arm sequences ported from PathfinderBot V1 (pf_mecanum_gamepad_drive.py)
-with vendor-tested servo positions for reliable pickup/drop.
+Arm sequences use tested servo positions for reliable pickup/drop.
 
 Prerequisites:
   - F710 USB receiver plugged into robot Pi

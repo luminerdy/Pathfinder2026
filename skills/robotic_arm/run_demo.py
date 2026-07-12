@@ -2,8 +2,8 @@
 """
 Robotic Arm Demo: Pick Up A Block And Load It Onto The Back
 
-This is the C3 arm capability demo. It is based on the original
-PathfinderBot arm pickup movement sequence.
+This is the C3 arm capability demo. It uses the Pathfinder2026
+pickup movement sequence.
 
 Place the robot on the floor and put one block directly in front of
 the gripper before starting.

@@ -2,8 +2,8 @@
 
 ## TL;DR
 
-**For educational/workshop use: YES** ✅
-**For competitive robotics/heavy duty: MARGINAL** ⚠️
+**For educational/workshop use: YES**
+**For competitive robotics/heavy duty: MARGINAL**
 
 ## Power Budget Breakdown
 
@@ -89,19 +89,19 @@
 
 ## Is 2x 18650 Enough?
 
-### ✅ YES for:
+### YES for:
 - **Educational workshops** (15-20 min sessions)
 - **Demonstrations** (short bursts)
 - **Development/testing** (can recharge between tests)
 - **Light autonomous operation** (gentle movements)
 
-### ⚠️ MARGINAL for:
+### MARGINAL for:
 - **Extended operation** (>20 minutes continuous)
 - **Aggressive driving** (high speed, quick turns)
 - **Heavy loads** (lifting objects with arm)
 - **Competitive robotics** (needs more headroom)
 
-### ❌ NOT ENOUGH for:
+### NOT ENOUGH for:
 - **All components at max simultaneously** (26A exceeds 20A rating)
 - **Continuous heavy operation** (< 10 min runtime)
 - **Hot/cold environments** (reduces battery capacity)
@@ -215,18 +215,18 @@
 **Why Hiwonder uses 2x 18650:**
 
 **Pros:**
-- ✅ Sufficient for 15-20 min sessions
-- ✅ Removable/swappable (vs built-in LiPo)
-- ✅ Standard cells (easy to replace)
-- ✅ Safer than LiPo (for education)
-- ✅ Cost-effective
-- ✅ Readily available worldwide
+- Sufficient for 15-20 min sessions
+- Removable/swappable (vs built-in LiPo)
+- Standard cells (easy to replace)
+- Safer than LiPo (for education)
+- Cost-effective
+- Readily available worldwide
 
 **Cons:**
-- ⚠️ Limited runtime
-- ⚠️ Voltage sag under heavy load
-- ⚠️ Must use quality cells
-- ⚠️ Need charging between sessions
+- Limited runtime
+- Voltage sag under heavy load
+- Must use quality cells
+- Need charging between sessions
 
 **For educational workshops: Good trade-off!**
 
@@ -270,13 +270,13 @@ print(f"4. Recovery: {v4:.2f}V (recovered: {v4-v3:.2f}V)")
 
 print("\nAnalysis:")
 if v1-v3 < 0.3:
-    print("✅ Excellent - minimal voltage sag")
+    print("Excellent - minimal voltage sag")
 elif v1-v3 < 0.5:
-    print("✅ Good - acceptable voltage sag")
+    print("Good - acceptable voltage sag")
 elif v1-v3 < 0.8:
-    print("⚠️  Moderate - consider higher capacity")
+    print("Moderate - consider higher capacity")
 else:
-    print("❌ Excessive sag - need better batteries")
+    print("Excessive sag - need better batteries")
 ```
 
 **Expected results with good cells:**
@@ -292,7 +292,7 @@ else:
 
 **Is 2x 18650 enough?**
 
-**For PathfinderBot workshop use: YES** ✅
+**For Pathfinder workshop use: YES**
 
 **Requirements:**
 - Use HIGH-DISCHARGE cells (20A+ rating)

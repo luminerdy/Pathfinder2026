@@ -16,14 +16,14 @@ def test_new_tags():
     """Test new 10-inch tag36h11 tags"""
     
     print("="*70)
-    print("NEW APRILTAG TEST - 10\" tag36h11 (PathfinderBot Standard)")
+    print("APRILTAG TEST - 10\" tag36h11")
     print("="*70)
     print()
     print("Expected tags on field:")
-    print("  Tag 583: Home/Start (North wall)")
-    print("  Tag 584: Pickup Zone 1 (East wall)")
-    print("  Tag 585: Pickup Zone 2 (South wall)")
-    print("  Tag 586: Delivery Zone (West wall)")
+    print("  Tag 582: Area 1 start and blue blocks")
+    print("  Tag 583: Area 2 red blocks")
+    print("  Tag 584: Area 3 yellow blocks")
+    print("  Tag 585: Area 4 delivery zone")
     print()
     print("Camera opening...")
     
@@ -193,25 +193,25 @@ def test_new_tags():
             print("="*70)
             print("ASSESSMENT:")
             
-            expected = {583, 584, 585, 586}
+            expected = {582, 583, 584, 585}
             detected_ids = set(detected_tags.keys())
             
             if expected.issubset(detected_ids):
-                print("✅ All expected tags detected!")
+                print("[OK] All expected tags detected!")
             else:
                 missing = expected - detected_ids
-                print(f"⚠️  Missing tags: {missing}")
+                print(f"[WARN] Missing tags: {missing}")
             
             # Detection quality
             avg_max_area = sum(t['max_area'] for t in detected_tags.values()) / len(detected_tags)
             if avg_max_area > 50000:
-                print("✅ Excellent detection quality (large tag areas)")
+                print("[OK] Excellent detection quality (large tag areas)")
             elif avg_max_area > 20000:
-                print("✅ Good detection quality")
+                print("[OK] Good detection quality")
             elif avg_max_area > 5000:
-                print("⚠️  Fair detection quality")
+                print("[WARN] Fair detection quality")
             else:
-                print("❌ Poor detection quality (tags may be too far)")
+                print("[WARN] Poor detection quality (tags may be too far)")
             
             print()
             print("COMPARISON TO OLD 6\" TAGS:")
@@ -220,11 +220,11 @@ def test_new_tags():
             
             if avg_max_area > 20000:
                 improvement = (avg_max_area / 15000) * 100
-                print(f"  ✅ ~{improvement:.0f}% better detection!")
+                print(f"  [OK] ~{improvement:.0f}% better detection!")
             
         else:
-            print("❌ No tags detected")
-            print("   - Check tag IDs (should be 583-586)")
+            print("[WARN] No tags detected")
+            print("   - Check tag IDs (should be 582-585)")
             print("   - Check tag family (should be tag36h11)")
             print("   - Check lighting")
             print("   - Check camera position/orientation")
@@ -232,10 +232,10 @@ def test_new_tags():
 def get_tag_name(tag_id):
     """Get tag name from ID"""
     names = {
-        583: "Home/Start",
-        584: "Pickup_1",
-        585: "Pickup_2",
-        586: "Delivery"
+        582: "Area_1_Start_Blue",
+        583: "Area_2_Red",
+        584: "Area_3_Yellow",
+        585: "Area_4_Delivery"
     }
     return names.get(tag_id, "Unknown")
 

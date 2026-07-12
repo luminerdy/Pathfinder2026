@@ -3,10 +3,9 @@
 Point and Drive - AprilTag Edition
 
 Point the robot at any AprilTag and it will drive toward it!
-Similar to PathfinderBot's Follow Me, but for navigation tags.
 
 How it works:
-1. Robot continuously scans for AprilTags
+1. robot continuously scans for AprilTags
 2. Drives toward the largest/closest visible tag
 3. Stops when close enough
 4. Waits for you to point at next tag
@@ -29,15 +28,15 @@ print("="*70)
 print()
 print("How to use:")
 print("  1. Point robot at any AprilTag")
-print("  2. Robot will drive toward it automatically")
-print("  3. Robot stops when close enough")
+print("  2. robot will drive toward it automatically")
+print("  3. robot stops when close enough")
 print("  4. Point at another tag to continue")
 print()
 print("Controls:")
-print("  - Robot auto-drives to visible tags")
+print("  - robot auto-drives to visible tags")
 print("  - Press Ctrl+C to stop anytime")
 print()
-print("Expected tags: 582 (Home), 583 (Pickup_1), 584 (Pickup_2), 585 (Delivery)")
+print("Expected tags: 582 (Area 1), 583 (Area 2), 584 (Area 3), 585 (Area 4)")
 print()
 
 # Configuration
@@ -49,10 +48,10 @@ CENTER_TOLERANCE = 100  # Pixels from center (horizontal)
 
 # Tag names
 TAG_NAMES = {
-    582: "Home/Start",
-    583: "Pickup_1", 
-    584: "Pickup_2",
-    585: "Delivery"
+    582: "Area_1_Start_Blue",
+    583: "Area_2_Red",
+    584: "Area_3_Yellow",
+    585: "Area_4_Delivery"
 }
 
 # Initialize

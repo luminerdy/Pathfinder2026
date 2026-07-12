@@ -236,7 +236,7 @@ If some tests fail:
 
 ## Workshop Usage
 
-For PathfinderBot workshops, run tests in this order:
+For Pathfinder workshops, run tests in this order:
 
 1. **Assembly complete** → `start_robot.py`
 2. **Verify connections** → `test_hardware.py` (motors and servos only)

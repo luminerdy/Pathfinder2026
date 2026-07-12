@@ -58,45 +58,29 @@ hardware:
 # Vision Configuration
 vision:
   apriltag:
-    family: "tag36h11"  # PathfinderBot standard (was tag16h5)
+    family: "tag36h11"
     size: 0.254  # 254mm = 10 inches (larger for better detection)
     quad_decimate: 2.0
     quad_sigma: 0.0
     decode_sharpening: 0.25
-    # Tag assignments (actual tags on field: 578-585, 2 per wall, clockwise)
+    # Competition field tags, numbered counter-clockwise from Area 1.
     tags:
-      578:
-        name: "home_left"
-        description: "Home/Start - Left"
-        location: "North wall, 12\" left of center"
-      579:
-        name: "home_right"
-        description: "Home/Start - Right"
-        location: "North wall, 12\" right of center"
-      580:
-        name: "pickup1_left"
-        description: "Pickup Zone 1 - Left"
-        location: "East wall, 12\" left of center"
-      581:
-        name: "pickup1_right"
-        description: "Pickup Zone 1 - Right"
-        location: "East wall, 12\" right of center"
       582:
-        name: "pickup2_left"
-        description: "Pickup Zone 2 - Left"
-        location: "South wall, 12\" left of center"
+        name: "area_1_start_blue"
+        description: "Area 1 - start square and blue blocks"
+        location: "Bottom-right corner"
       583:
-        name: "pickup2_right"
-        description: "Pickup Zone 2 - Right"
-        location: "South wall, 12\" right of center"
+        name: "area_2_red"
+        description: "Area 2 - red block area"
+        location: "Top-right corner"
       584:
-        name: "delivery_left"
-        description: "Delivery Zone - Left"
-        location: "West wall, 12\" left of center"
+        name: "area_3_yellow"
+        description: "Area 3 - yellow block area"
+        location: "Top-left corner"
       585:
-        name: "delivery_right"
-        description: "Delivery Zone - Right"
-        location: "West wall, 12\" right of center"
+        name: "area_4_delivery"
+        description: "Area 4 - delivery zone"
+        location: "Bottom-left corner"
     
 # API Configuration
 api:

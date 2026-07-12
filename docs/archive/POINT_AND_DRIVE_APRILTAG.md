@@ -16,11 +16,11 @@ This script makes the robot:
 5. **Automatically rotate** to find the next tag
 
 Perfect for:
-- ✅ Testing all field tags quickly
-- ✅ Verifying tag detection ranges
-- ✅ Demonstrating autonomous navigation
-- ✅ Field setup validation
-- ✅ Workshop demonstrations
+- Testing all field tags quickly
+- Verifying tag detection ranges
+- Demonstrating autonomous navigation
+- Field setup validation
+- Workshop demonstrations
 
 ---
 
@@ -45,7 +45,7 @@ How to use:
   3. robot stops when close enough
   4. Point at another tag to continue
 
-Expected tags: 582 (Home), 583 (Pickup_1), 584 (Pickup_2), 585 (Delivery)
+Expected tags: 582 (Area 1), 583 (Area 2), 584 (Area 3), 585 (Area 4)
 
 Positioning camera...
 Ready!
@@ -60,10 +60,10 @@ Scanning for tags... (point robot at any tag)
 
 **The robot will:**
 - Detect the tag
-- Show status: `Tag 583 (Pickup_1): 5000px² | > Driving forward`
+- Show status: `Tag 583 (Area_2_Red): 5000px² | > Driving forward`
 - Drive toward it
 - Auto-center if needed: `< Rotating left to center`
-- Stop when close: `SUCCESS: REACHED Tag 583 (Pickup_1)! Area=27000px²`
+- Stop when close: `SUCCESS: REACHED Tag 583 (Area_2_Red)! Area=27000px²`
 - **Automatically rotate** to find next tag
 
 ### **Step 3: robot Finds Next Tag Automatically**
@@ -85,27 +85,27 @@ Press **Ctrl+C** to stop the script.
 ### **Normal Operation:**
 
 ```
-Tag 583 (Pickup_1   ): 3500px² | → Driving forward
-Tag 583 (Pickup_1   ): 5200px² | → Driving forward
-Tag 583 (Pickup_1   ): 8900px² | ↻ Rotating right to center
-Tag 583 (Pickup_1   ): 12000px² | → Driving forward
-Tag 583 (Pickup_1   ): 18500px² | → Driving forward
-Tag 583 (Pickup_1   ): 24200px² | → Driving forward
+Tag 583 (Area_2_Red ): 3500px² | Driving forward
+Tag 583 (Area_2_Red ): 5200px² | Driving forward
+Tag 583 (Area_2_Red ): 8900px² | Rotating right to center
+Tag 583 (Area_2_Red ): 12000px² | Driving forward
+Tag 583 (Area_2_Red ): 18500px² | Driving forward
+Tag 583 (Area_2_Red ): 24200px² | Driving forward
 
-✅ REACHED Tag 583 (Pickup_1)! Area=27500px²
+REACHED Tag 583 (Area_2_Red)! Area=27500px²
    Point at another tag to continue...
 
-[Stopped at Tag 583 (Pickup_1)] Point at different tag to continue
+[Stopped at Tag 583 (Area_2_Red)] Point at different tag to continue
 ```
 
 ### **When You Point at New Tag:**
 
 ```
-Tag 584 (Pickup_2   ): 6200px² | → Driving forward
-Tag 584 (Pickup_2   ): 9800px² | ↺ Rotating left to center
-Tag 584 (Pickup_2   ): 14500px² | → Driving forward
+Tag 584 (Area_3_Yellow): 6200px² | Driving forward
+Tag 584 (Area_3_Yellow): 9800px² | Rotating left to center
+Tag 584 (Area_3_Yellow): 14500px² | Driving forward
 
-✅ REACHED Tag 584 (Pickup_2)! Area=26400px²
+REACHED Tag 584 (Area_3_Yellow)! Area=26400px²
    Point at another tag to continue...
 ```
 
@@ -124,28 +124,28 @@ No tags visible... (point at a tag)
 **1. Start in center of field**
 - Point at Tag 582 (North wall)
 - robot drives there
-- ✅ Tag 582 tested
+- Tag 582 tested
 
 **2. Rotate 90° clockwise**
 - Point at Tag 583 (East wall)
 - robot drives there
-- ✅ Tag 583 tested
+- Tag 583 tested
 
 **3. Rotate 90° clockwise**
 - Point at Tag 584 (South wall)
 - robot drives there
-- ✅ Tag 584 tested
+- Tag 584 tested
 
 **4. Rotate 90° clockwise**
 - Point at Tag 585 (West wall)
 - robot drives there
-- ✅ Tag 585 tested
+- Tag 585 tested
 
 **Total time:** ~2-3 minutes to test all 4 tags!
 
 ---
 
-## ⚙️ How It Works (Behind the Scenes)
+## How It Works (Behind the Scenes)
 
 ### **Detection:**
 ```python
@@ -177,7 +177,7 @@ else:
 
 ---
 
-## ️ Configuration (Advanced)
+## Configuration (Advanced)
 
 You can adjust these values in the script:
 
@@ -204,10 +204,10 @@ TARGET_AREA = 15000  # Stops at medium distance
 ##  Troubleshooting
 
 ### **robot doesn't move:**
-- ✅ Check battery voltage (needs >7.5V)
-- ✅ Verify tag is visible in camera view
-- ✅ Make sure tag is tag36h11 family (IDs 582-585)
-- ✅ Tag might be too small (too far away)
+- Check battery voltage (needs >7.5V)
+- Verify tag is visible in camera view
+- Make sure tag is tag36h11 family (IDs 582-585)
+- Tag might be too small (too far away)
 
 ### **robot rotates but doesn't drive forward:**
 - Tag is off-center (this is normal)
@@ -238,18 +238,18 @@ TARGET_AREA = 15000  # Stops at medium distance
 **This demo shows:**
 1. **Computer vision** - Real-time tag detection
 2. **Feedback control** - Centering and distance control
-3. **State machines** - Searching → Centering → Approaching → Stopped
+3. **State machines** - Searching -> Centering -> Approaching -> Stopped
 4. **Autonomous behavior** - No human driving needed
 5. **Sensor-based navigation** - Uses only camera input
 
 ### **For Workshops:**
 
 **Great for:**
-- ✅ First autonomous demo (very visual)
-- ✅ Testing field setup quickly
-- ✅ Showing tag detection range
-- ✅ Comparing old vs new tags
-- ✅ Debugging navigation issues
+- First autonomous demo (very visual)
+- Testing field setup quickly
+- Showing tag detection range
+- Checking tag detection behavior
+- Debugging navigation issues
 
 ---
 
@@ -267,25 +267,13 @@ TARGET_AREA = 15000  # Stops at medium distance
 
 ---
 
-## 🆚 Comparison to PathfinderBot "Follow Me"
+## Behavior
 
-### **PathfinderBot Follow Me:**
-- Follows **people** (YOLO person detection)
-- Tracks largest person in view
-- Continuous following behavior
-- For demonstrations and fun
-
-### **Point and Drive AprilTag:**
-- Drives to **navigation markers** (AprilTags)
-- Seeks largest tag in view
-- Stops at target (not continuous)
-- For navigation testing and field validation
-
-### **Both:**
-- ✅ Auto-drive toward target
-- ✅ Auto-center target
-- ✅ No manual control needed
-- ✅ Great for demos
+- Drives to navigation markers (AprilTags)
+- Seeks the largest tag in view
+- Stops at target
+- Auto-centers the target while approaching
+- Works well for navigation testing and field validation
 
 ---
 
@@ -351,18 +339,17 @@ Verify:
 
 ---
 
-## ✅ Summary
+## Summary
 
 **Point and Drive** is the easiest way to:
-- ✅ Test all AprilTags on field
-- ✅ Verify navigation working
-- ✅ Demonstrate autonomous behavior
-- ✅ Validate field setup
+- Test all AprilTags on field
+- Verify navigation working
+- Demonstrate autonomous behavior
+- Validate field setup
 
 **Just point and watch it go!**
 
 ---
 
 *Created: March 23, 2026*
-*Based on PathfinderBot Follow Me concept*
 *Adapted for AprilTag navigation*

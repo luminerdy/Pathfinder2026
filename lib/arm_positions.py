@@ -2,7 +2,7 @@
 Arm Positions — Single Source of Truth
 
 All servo positions and arm sequences in one place.
-Vendor-tested positions from PathfinderBot V1 + our own calibrations.
+Tested positions for reliable workshop pickup and delivery movements.
 
 Servo IDs:
     1 = Gripper      (1550=closed, 2500=open)
@@ -196,7 +196,6 @@ class Arm:
         Drop block into rear-mounted bin.
         
         Folds arm backward over chassis. No base rotation needed.
-        Vendor-tested from PathfinderBot V1.
         """
         self.board.set_servo_position(2000, [(1, 1550)])
         self.board.set_servo_position(2000, [(3, 2400)])

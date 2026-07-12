@@ -5,18 +5,15 @@ Strafe Navigation -- Mecanum-Based AprilTag Navigation
 Uses mecanum wheels properly: simultaneous strafe + forward to
 approach targets smoothly instead of stop-rotate-drive.
 
-Inspired by PathfinderBot's pf_follow_me.py:
-- Proportional control with deadbands
-- Simultaneous lateral + forward movement
-- Min/max speed clamps to overcome friction
-- Sonar safety integration
+Navigation uses proportional control with deadbands, simultaneous lateral
+and forward movement, min/max speed clamps, and sonar safety integration.
 
 Usage (with Robot):
     from robot import Robot
     from skills.strafe_nav import StrafeNavigator
     robot = Robot()
     nav = StrafeNavigator(robot)
-    result = nav.navigate_to_tag(target_id=580)
+    result = nav.navigate_to_tag(target_id=582)
 
 Usage (standalone):
     python3 strafe_nav.py

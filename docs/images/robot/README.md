@@ -1,6 +1,6 @@
 # robot Assembly Photos
 
-These photos were migrated from `stemoutreach/PathfinderBot` and renamed for Pathfinder2026.
+These photos support the Pathfinder2026 robot assembly and connect/test guides.
 
 Used in `docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md`:
 

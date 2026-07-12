@@ -6,13 +6,11 @@
 
 Pathfinder2026 is the event repo for the 2026 Pathfinder robot workshop. It is meant to be easy for humans first: participants, facilitators, setup helpers, and whoever is editing the course.
 
-The workshop flow follows the original PathfinderBot event shape:
+The workshop flow has three phases:
 
 1. Assemble
 2. Capabilities Exploration
 3. Course Challenge
-
-The robot software underneath comes from PathfinderV2.
 
 ## Start Here
 
@@ -108,7 +106,7 @@ Use these before the event when preparing images, hardware, and setup flow:
 | `docs/setup/` | Pre-event Pi 500, robot Pi, SD card, and connection setup. |
 | `docs/handouts/` | Short printable team handouts. |
 | `docs/calibration/` | Calibration and tuning notes. |
-| `docs/archive/` | Historical development notes from PathfinderV2. |
+| `docs/archive/` | Historical development notes. |
 | `skills/` | Main workshop demos and robot capabilities. |
 | `scripts/tools/` | Utilities like battery, motor, servo, sonar, and camera checks. |
 | `lib/` | Shared robot control code used by the demos. |

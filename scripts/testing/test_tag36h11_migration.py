@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Test tag36h11 migration
-Verifies new tag family detection after migration
+Test tag36h11 AprilTag detection
+Verifies the current field tags can be detected.
 """
 
 import sys
@@ -12,15 +12,14 @@ import cv2
 import time
 from pupil_apriltags import Detector
 
-def test_migration():
+def test_field_tags():
     """Test tag36h11 detection"""
 
     print("="*60)
-    print("APRILTAG MIGRATION TEST - tag36h11")
+    print("APRILTAG FIELD TEST - tag36h11")
     print("="*60)
     print()
-    print("Expected tags: 583, 584, 585, 586")
-    print("(PathfinderBot standard)")
+    print("Expected tags: 582, 583, 584, 585")
     print()
     print("Point robot at tags on field...")
     print("Press ESC or Ctrl+C to exit")
@@ -61,10 +60,10 @@ def test_migration():
 
                 # Tag name mapping
                 tag_names = {
-                    583: "Home/Start",
-                    584: "Pickup_1",
-                    585: "Pickup_2",
-                    586: "Delivery"
+                    582: "Area_1_Start_Blue",
+                    583: "Area_2_Red",
+                    584: "Area_3_Yellow",
+                    585: "Area_4_Delivery"
                 }
 
                 name = tag_names.get(tag_id, "Unknown")
@@ -89,7 +88,7 @@ def test_migration():
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
 
             # Show frame
-            cv2.imshow("AprilTag Migration Test", frame)
+            cv2.imshow("AprilTag Field Test", frame)
 
             if cv2.waitKey(1) & 0xFF == 27:  # ESC
                 break
@@ -103,20 +102,20 @@ def test_migration():
 
         # Summary
         print("\n" + "="*60)
-        print("MIGRATION TEST SUMMARY")
+        print("FIELD TAG TEST SUMMARY")
         print("="*60)
         if detected_tags:
             print(f"[OK] Detected tags: {sorted(detected_tags)}")
 
-            expected = {583, 584, 585, 586}
+            expected = {582, 583, 584, 585}
             if detected_tags & expected:
-                print(f"[OK] Migration successful! tag36h11 working!")
+                print("[OK] Field tag detection working")
             else:
-                print(f"[!!] Detected tags but not PathfinderBot IDs")
+                print(f"[!!] Detected tags but not expected field IDs")
                 print(f"   Expected: {sorted(expected)}")
         else:
             print("[!!] No tags detected")
-            print("   Make sure you're holding a tag36h11 tag (IDs 583-586)")
+            print("   Make sure you're holding a tag36h11 tag (IDs 582-585)")
 
 if __name__ == "__main__":
-    test_migration()
+    test_field_tags()

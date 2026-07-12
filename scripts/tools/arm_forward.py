@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 Move arm to forward-facing camera position
-Based on original PathfinderBot code: AK.setPitchRangeMoving((0, 6, 18), ...)
 Position: x=0, y=60mm, z=180mm (camera points forward and down)
 """
 
@@ -9,7 +8,7 @@ from lib.board import get_board as BoardController
 import time
 
 print("Moving arm to forward-facing camera position...")
-print("Position: (0, 60mm, 180mm) - same as original PathfinderBot")
+print("Position: (0, 60mm, 180mm)")
 
 board = BoardController()
 time.sleep(0.3)
@@ -21,12 +20,7 @@ board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
 board.set_servo_position(300, [(1, 1550)])
 time.sleep(0.3)
 
-# From original code: position (0, 6, 18) in cm
-# This worked for backward-facing camera on Pi 4 PathfinderBot
-# Servo positions calculated via IK for this target position
-
-# These servo positions should give us (0, 60mm, 180mm):
-# Based on typical arm geometry and the target position
+# These servo positions should give the camera a forward/down floor view.
 positions = [
     (5, 1000),  # Gripper open (don't block camera)
     (2, 1200),  # Shoulder - raised and forward
