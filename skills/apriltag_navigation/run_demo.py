@@ -13,8 +13,8 @@ Usage:
 
 What it does:
     1. Opens camera
-    2. Looks for event AprilTag IDs 582-585
-    3. When found, approaches to ~35 inches
+    2. Turns a little at a time until it finds event AprilTag IDs 582-585
+    3. When found, approaches to ~20 inches
     4. Stops and beeps when complete
 
 Press Ctrl+C to stop at any time.
@@ -30,7 +30,8 @@ from skills.strafe_nav import StrafeNavigator
 
 
 EVENT_TAG_IDS = (582, 583, 584, 585)
-TARGET_DISTANCE_METERS = 0.90
+TARGET_DISTANCE_METERS = 0.50
+SEARCH_TIMEOUT_SECONDS = 20.0
 NAVIGATION_TIMEOUT_SECONDS = 30.0
 
 
@@ -40,6 +41,7 @@ def main():
     print("=" * 60)
     print()
     print("Looking for event AprilTags: %s" % ", ".join(str(t) for t in EVENT_TAG_IDS))
+    print("The robot will turn in small steps while searching.")
     print("Make sure:")
     print("  - Tag is printed and mounted on wall")
     print("  - Tag is at robot's camera height (~8-10 inches)")
@@ -54,11 +56,12 @@ def main():
     nav = StrafeNavigator()
     
     try:
-        # Navigate to the closest visible event tag and inspect the structured result.
-        result = nav.navigate_to_tag(
+        # Search for the closest visible event tag, then approach it.
+        result = nav.search_and_navigate(
             target_ids=EVENT_TAG_IDS,
             target_distance=TARGET_DISTANCE_METERS,
-            timeout=NAVIGATION_TIMEOUT_SECONDS,
+            search_timeout=SEARCH_TIMEOUT_SECONDS,
+            nav_timeout=NAVIGATION_TIMEOUT_SECONDS,
         )
         
         if result['success']:

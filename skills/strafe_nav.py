@@ -415,8 +415,9 @@ class StrafeNavigator:
             self._stop()
         self._stop()
 
-    def search_and_navigate(self, target_id=None, exclude_ids=None,
-                            search_timeout=15, nav_timeout=30, callback=None):
+    def search_and_navigate(self, target_id=None, target_ids=None, exclude_ids=None,
+                            target_distance=None, search_timeout=15,
+                            nav_timeout=30, callback=None):
         """Search for a tag by rotating, then face it and navigate to it."""
         self._open_camera()
 
@@ -439,7 +440,8 @@ class StrafeNavigator:
                 continue
 
             tag_id, x, y, z, dist, angle = self._detect_tags(
-                frame, target_id=target_id, exclude_ids=exclude_ids
+                frame, target_id=target_id, target_ids=target_ids,
+                exclude_ids=exclude_ids
             )
 
             if tag_id is not None:
@@ -448,13 +450,14 @@ class StrafeNavigator:
                 if callback:
                     callback(tag_id, dist, angle, 'FOUND at %.2fm' % dist)
                 return self.navigate_to_tag(
-                    target_id=tag_id, timeout=nav_timeout, callback=callback
+                    target_id=tag_id, target_distance=target_distance,
+                    timeout=nav_timeout, callback=callback
                 )
 
             if time.time() - start > half and clockwise:
                 clockwise = False  # reverse direction for second half
 
-            p = 40 if clockwise else -40
+            p = self.MIN_SPEED if clockwise else -self.MIN_SPEED
             self.board.set_motor_duty([(1, p), (2, -p), (3, p), (4, -p)])
             time.sleep(0.08)
             self._stop()
