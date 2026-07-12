@@ -67,7 +67,7 @@ class StrafeNavigator:
 
     # Angle limit — beyond this, rotate first before strafing
     MAX_STRAFE_ANGLE = 20  # degrees
-    MAX_STRAFE_SPEED = 20     # keep centering gentle so forward motion continues
+    MAX_STRAFE_SPEED = 35     # nonzero strafe must still overcome friction
 
     def __init__(self, robot=None):
         """
@@ -176,11 +176,11 @@ class StrafeNavigator:
         return sign * magnitude
 
     def _clamp_strafe(self, speed):
-        """Clamp lateral correction without forcing it to full drive power."""
+        """Clamp lateral correction so motors do not hum below movement power."""
         if abs(speed) < 1:
             return 0
         sign = 1 if speed > 0 else -1
-        magnitude = min(abs(speed), self.MAX_STRAFE_SPEED)
+        magnitude = min(max(abs(speed), self.MIN_SPEED), self.MAX_STRAFE_SPEED)
         return sign * magnitude
 
     def _detect_tags(self, frame, target_id=None, target_ids=None, exclude_ids=None):
