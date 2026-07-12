@@ -1,4 +1,5 @@
-# Camera Vision Configuration
+# Camera Vision Configuration Reference
+# REFERENCE ONLY: the current demo does not load this file.
 
 # Hardware
 camera:

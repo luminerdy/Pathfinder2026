@@ -110,7 +110,7 @@ python3 run_demo.py
 ### Step 3: Tuning
 
 If robot oscillates (wobbles back and forth):
-- Decrease `Kp` in config.yaml (less aggressive steering)
+- Decrease `Kp` in `line_follower.py` (less aggressive steering)
 
 If robot loses the line on curves:
 - Increase `Kp` (more aggressive steering)
@@ -370,7 +370,7 @@ Sweet spot: speed=25, Kp=0.15 (tune from here)
 
 ## Configuration
 
-See `config.yaml` for all tunable parameters.
+The current code does not load `config.yaml`. Tune the named constants in `line_follower.py`.
 
 ---
 
@@ -382,7 +382,7 @@ line_following/
   run_demo.py           # Follow the line (with safety)
   test_line_detect.py   # Test detection only (no driving)
   line_follower.py      # LineFollower class
-  config.yaml           # Tunable parameters
+  config.yaml           # Reference values; not loaded by the current code
   README.md             # Quick reference
 ```
 

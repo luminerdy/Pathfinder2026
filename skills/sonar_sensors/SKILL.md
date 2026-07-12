@@ -366,9 +366,9 @@ def is_valid_reading(distance, min_range=2, max_range=400):
     return distance and min_range <= distance <= max_range
 ```
 
-### Configuration (config.yaml)
+### Workshop Tuning (`run_demo.py`)
 
-Tune for your environment:
+The workshop demo does not load `config.yaml`. Tune the named constants in the `TEAM TUNING` section near the top of `run_demo.py`.
 
 ```yaml
 sonar:
@@ -658,7 +658,7 @@ v_robot = F_attractive + sum(F_repulsive)
 sonar_sensors/
 ├── SKILL.md                # This file (all 4 sections)
 ├── run_demo.py             # Level 1: One-click demo
-├── config.yaml             # Level 2: Configuration tuning
+├── config.yaml             # Reference values; not loaded by run_demo.py
 ├── LEARNING_OUTCOMES.md    # Observable outcomes + assessment
 ├── README.md               # Quick reference
 └── diagrams/               # Visual aids

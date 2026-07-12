@@ -1,7 +1,6 @@
-# Mecanum Drive Configuration (Level 2: Tune Parameters)
-#
-# Edit these values to customize robot behavior.
-# No code changes needed - just save and run again!
+# Mecanum Drive Configuration Reference
+# REFERENCE ONLY: run_demo.py does not load this file.
+# Tune the named constants in run_demo.py for the workshop demo.
 
 # Speed limits (motor duty cycle 0-100)
 # Higher = faster, but may lose traction

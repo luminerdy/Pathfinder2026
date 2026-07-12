@@ -15,13 +15,12 @@
 python3 run_demo.py
 ```
 
-###  Level 2: Tune Parameters (Non-Coders)
+### Level 2: Template Configuration Reference
 **File:** `config.yaml`
-**What:** Edit configuration values, no coding
+**What:** Values used by the learning template, not by `run_demo.py`
 **Time:** 15 minutes
 
-1. Edit `config.yaml` (change target_tag_id, speeds, etc.)
-2. Run `run_demo.py` again to see changes
+Use this file only while completing `apriltag_nav_template.py`. To change the one-click demo, edit the target and movement values in `run_demo.py`.
 
 ###  Level 3: Fill in the Blanks (Learning to Code)
 **File:** `apriltag_nav_template.py`
@@ -33,17 +32,6 @@ python3 run_demo.py
 3. Search for `???` and fill in your code
 4. Run and test
 
-###  Level 4: Full Implementation (Advanced)
-**File:** `apriltag_nav.py`
-**What:** Read and understand the complete implementation
-**Time:** 1-2 hours
-
-1. Study `SKILL.md` Engineering Deep Dive
-2. Read `apriltag_nav.py` (full implementation)
-3. Modify and extend for your needs
-
----
-
 ## Quick Troubleshooting
 
 **Problem:** "No module named 'pupil_apriltags'"
@@ -51,7 +39,7 @@ python3 run_demo.py
 
 **Problem:** "No tag detected"
 **Solution:**
-- Print tag from `apriltags/tag36h11_singles.pdf`
+- Use the print-ready tags in [../../apriltags/README.md](../../apriltags/README.md)
 - Ensure tag is flat, well-lit, in camera view
 - Start 3-5 feet away
 
@@ -71,10 +59,8 @@ python3 run_demo.py
 |------|-------|---------|
 | `SKILL.md` | All | Complete documentation (4 sections) |
 | `run_demo.py` | 1 | One-click demo |
-| `config.yaml` | 2 | Tune parameters |
+| `config.yaml` | 2 | Learning-template configuration; not loaded by `run_demo.py` |
 | `apriltag_nav_template.py` | 3 | Learning template |
-| `apriltag_nav.py` | 4 | Full implementation |
-| `calibrate_camera.py` | Util | Camera calibration tool |
 | `README.md` | - | This file |
 
 ---

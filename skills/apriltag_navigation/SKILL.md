@@ -195,11 +195,11 @@ def drive(strafe, forward):
 
 ### Configuration (config.yaml)
 
-Tune these parameters to match your setup:
+This file supports `apriltag_nav_template.py`; the one-click `run_demo.py` does not load it. Change demo values in `run_demo.py`.
 
 ```yaml
 apriltag_navigation:
-  # Camera calibration (run calibrate_camera.py to get these)
+  # Camera calibration (use scripts/calibration/calibrate_camera_intrinsics.py)
   camera_fx: 500  # Focal length X (pixels)
   camera_fy: 500  # Focal length Y (pixels)
   camera_cx: 320  # Principal point X (image center)
@@ -469,10 +469,8 @@ for d in detections:
 apriltag_navigation/
 ├── SKILL.md                    # This file (all 4 sections)
 ├── run_demo.py                 # Level 1: One-click demo
-├── config.yaml                 # Level 2: Configuration tuning
+├── config.yaml                 # Learning-template configuration
 ├── apriltag_nav_template.py    # Level 3: Fill-in-the-blanks
-├── apriltag_nav.py             # Level 4: Full implementation
-├── calibrate_camera.py         # Utility: Camera calibration
 └── README.md                   # Quick reference
 ```
 

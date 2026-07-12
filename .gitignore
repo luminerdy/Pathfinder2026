@@ -57,6 +57,7 @@ temp/
 !docs/images/*.jpg
 !docs/images/**/*.png
 !docs/images/**/*.jpg
+!apriltags/**/*.png
 images/debug/
 
 # Web control state

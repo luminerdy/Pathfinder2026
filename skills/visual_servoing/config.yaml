@@ -1,4 +1,5 @@
-# Visual Servoing Configuration (E4)
+# Visual Servoing Configuration Reference (E4)
+# REFERENCE ONLY: the current demo does not load this file.
 
 # Control gains
 control:

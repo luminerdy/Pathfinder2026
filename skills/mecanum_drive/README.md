@@ -36,7 +36,8 @@ After this skill, you can:
 |------|-------|---------|
 | `SKILL.md` | All | Complete documentation (4 sections) |
 | `run_demo.py` | 1 | One-click demo (no code changes) |
-| `config.yaml` | 2 | Tune parameters (speeds, timing) |
+| `run_demo.py` `TEAM TUNING` section | 2 | Tune speeds and timing |
+| `config.yaml` | Reference | Planned/reference values; not loaded by the demo |
 | `README.md` | - | This file |
 
 ---
@@ -48,8 +49,8 @@ After this skill, you can:
 - Test motors: `python3 scripts/tools/check_motors.py`
 
 **Wrong direction:**
-- Edit `config.yaml` → `motor_directions`
-- Set problem motors to `-1` (inverted)
+- Return to the Phase 1 individual-motor test.
+- Re-check motor ports and wiring before changing code.
 
 **Strafe is crooked:**
 - Check wheel mounting (45° roller angle)

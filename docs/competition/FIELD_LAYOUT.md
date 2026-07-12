@@ -60,6 +60,8 @@ Left side |                                   | Right side
 
 Mount tags flat, visible, and at a consistent height. Keep the printed family as `tag36h11`.
 
+Use the [print-ready Pathfinder2026 AprilTags](../../apriltags/README.md) and verify the 10-inch black-square measurement before mounting.
+
 ## Area 1: Start And Blue Blocks
 
 - Location: bottom right.

@@ -5,7 +5,7 @@ Robot Basics — How to use the Robot class
 Shows the new pattern: create ONE robot, pass it around.
 No more scattered board/camera/sonar creation in every file.
 
-Run on Buddy:
+Run on the robot:
     cd /home/robot/pathfinder
     python3 examples/robot_basics.py
 """

@@ -15,10 +15,10 @@ from lib.i2c_sonar import I2CSonar
 
 
 # Distance zones (mm) for LED feedback
-ZONE_SAFE = 610       # > 24 inches = green
+ZONE_SAFE = 610       # 24 inches or farther = green
 ZONE_CAUTION = 305    # 12-24 inches = yellow
-ZONE_DANGER = 150     # < 6 inches = red
-# Below ZONE_DANGER = critical (flashing red)
+ZONE_DANGER = 150     # 6-12 inches = red
+# Below 6 inches is also red (critical distance).
 
 
 class Sonar:

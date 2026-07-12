@@ -78,13 +78,13 @@ Learn to control a **5-servo robotic arm** to position, grab, and manipulate obj
 
 **Start the web server:**
 ```bash
-cd /home/robot/pathfinder/web
-python3 app.py
+cd /home/robot/pathfinder
+python3 web/web_control.py
 ```
 
 **Open in browser:**
 ```
-http://<ROBOT_IP>:5000/servo
+http://<ROBOT_IP>:8080
 ```
 
 **What you'll see:**
@@ -393,10 +393,8 @@ robotic_arm/
 SKILL.md                # This file
 run_demo.py             # Level 2: Block pickup and load demo
 play_action.py          # Level 1.5: Action group playback
-config.yaml             # Configuration (positions, limits)
-pick_place_template.py  # Level 4: Template for custom sequences
+config.yaml             # Reference values; not loaded by run_demo.py
 README.md               # Quick reference
-action_groups/          # Pre-recorded sequences
   stand.d6a
   shake_head.d6a
   wave.d6a

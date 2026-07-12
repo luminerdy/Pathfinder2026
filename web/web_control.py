@@ -23,7 +23,7 @@ import threading
 from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from lib.board import get_board
-from lib.battery import read_voltage
+from lib.battery import is_runtime_safe, read_voltage, status_for_voltage
 BoardController = None  # Use get_board() instead
 
 app = Flask(__name__)
@@ -39,6 +39,13 @@ battery_cache = {
     'voltage': None,
     'updated_at': 0,
 }
+drive_state_lock = threading.Lock()
+drive_state = {
+    'active': False,
+    'last_command_at': 0.0,
+}
+DRIVE_COMMAND_TIMEOUT = 0.75
+DRIVE_WATCHDOG_INTERVAL = 0.10
 
 ALLOWED_DIRECTIONS = {
     'forward', 'backward', 'left', 'right',
@@ -77,6 +84,46 @@ def set_drive_motors(commands):
     """Send drive motor commands without sharing the board port with other requests."""
     with board_lock:
         board.set_motor_duty(commands)
+
+
+def stop_drive():
+    """Stop all drive motors and clear the active-drive state."""
+    set_drive_motors([(1, 0), (2, 0), (3, 0), (4, 0)])
+    with drive_state_lock:
+        drive_state['active'] = False
+        drive_state['last_command_at'] = 0.0
+
+
+def mark_drive_command():
+    """Record a movement heartbeat received from the browser."""
+    with drive_state_lock:
+        drive_state['active'] = True
+        drive_state['last_command_at'] = time.monotonic()
+
+
+def drive_watchdog():
+    """Stop motion when movement heartbeats stop arriving."""
+    while True:
+        time.sleep(DRIVE_WATCHDOG_INTERVAL)
+        with drive_state_lock:
+            expired = (
+                drive_state['active']
+                and time.monotonic() - drive_state['last_command_at']
+                > DRIVE_COMMAND_TIMEOUT
+            )
+        if expired:
+            try:
+                stop_drive()
+                print("Drive watchdog stopped the robot after command timeout.")
+            except Exception as error:
+                print(f"Drive watchdog stop failed: {error}")
+
+
+def battery_display(voltage):
+    """Return CSS status and participant-facing battery details."""
+    status, message, safe = status_for_voltage(voltage)
+    css_status = 'good' if status in ('OK', 'EXCELLENT') else 'low' if status == 'CAUTION' else 'critical'
+    return status, message, safe, css_status
 
 
 def get_camera():
@@ -118,7 +165,8 @@ def generate_frames():
         # Add battery voltage overlay
         voltage = get_battery_voltage(max_age=5.0, retries=1, delay=0.0)
         if voltage:
-            color = (0, 255, 0) if voltage > 8.2 else (0, 165, 255) if voltage > 8.0 else (0, 0, 255)
+            _, _, _, css_status = battery_display(voltage)
+            color = (0, 255, 0) if css_status == 'good' else (0, 165, 255) if css_status == 'low' else (0, 0, 255)
             cv2.putText(frame, f"Battery: {voltage:.2f}V", (10, 30),
                        cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
 
@@ -158,15 +206,19 @@ def drive():
             return jsonify({'status': 'error', 'message': 'Invalid direction'}), 400
 
         if direction == 'stop':
-            set_drive_motors([(1, 0), (2, 0), (3, 0), (4, 0)])
+            stop_drive()
             return jsonify({'status': 'ok'})
 
         # Safety check: prevent motor commands at low battery
-        voltage = get_battery_voltage(max_age=10.0, retries=1, delay=0.0)
-        if voltage:
-            if voltage < 7.8:
-                return jsonify({'status': 'error',
-                              'message': f'Battery too low ({voltage:.2f}V) - Replace batteries!'})
+        voltage = get_battery_voltage(max_age=10.0, retries=3, delay=0.2)
+        if not is_runtime_safe(voltage):
+            _, message, _, _ = battery_display(voltage)
+            voltage_text = f'{voltage:.2f}V' if voltage is not None else 'unavailable'
+            stop_drive()
+            return jsonify({
+                'status': 'error',
+                'message': f'Battery {voltage_text}: {message}',
+            })
 
         drive_pwr = motor_power['drive']
         turn_pwr = motor_power['turn']
@@ -194,13 +246,14 @@ def drive():
             set_drive_motors([(1, drive_pwr), (2, -drive_pwr),
                                   (3, -drive_pwr), (4, drive_pwr)])
 
+        mark_drive_command()
         return jsonify({'status': 'ok'})
 
     except Exception as e:
         # Emergency stop on any error
         print(f"Error in drive(): {e}")
         try:
-            set_drive_motors([(1, 0), (2, 0), (3, 0), (4, 0)])
+            stop_drive()
         except:
             pass
         return jsonify({'status': 'error', 'message': 'Drive command failed'}), 500
@@ -291,10 +344,15 @@ def get_positions():
 @app.route('/battery', methods=['GET'])
 def battery():
     """Get battery voltage"""
-    voltage = get_battery_voltage(max_age=2.0, retries=1, delay=0.0) or 0
-
-    return jsonify({'voltage': voltage,
-                   'status': 'good' if voltage > 8.2 else 'low' if voltage > 8.0 else 'critical'})
+    voltage = get_battery_voltage(max_age=2.0, retries=2, delay=0.2)
+    status, message, safe, css_status = battery_display(voltage)
+    return jsonify({
+        'voltage': voltage,
+        'status': css_status,
+        'battery_status': status,
+        'message': message,
+        'safe_to_drive': safe,
+    })
 
 @app.route('/motor_power', methods=['GET'])
 def get_motor_power():
@@ -339,7 +397,7 @@ if __name__ == '__main__':
             board.set_rgb([(0, 0, 0, 0), (1, 0, 0, 0)])
 
         # Stop motors
-        set_drive_motors([(1, 0), (2, 0), (3, 0), (4, 0)])
+        stop_drive()
 
         # Move to camera-forward position (ONE SERVO AT A TIME to avoid power spike)
         camera_forward = [
@@ -372,4 +430,9 @@ if __name__ == '__main__':
     print("  Save/Load - Store arm positions")
     print()
 
-    app.run(host='0.0.0.0', port=8080, threaded=True)
+    threading.Thread(target=drive_watchdog, daemon=True).start()
+    try:
+        app.run(host='0.0.0.0', port=8080, threaded=True)
+    finally:
+        stop_drive()
+        print("Web control stopped. Drive motors are off.")

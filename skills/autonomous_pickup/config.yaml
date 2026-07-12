@@ -1,4 +1,5 @@
-# Autonomous Pickup Configuration (E5)
+# Autonomous Pickup Configuration Reference (E5)
+# REFERENCE ONLY: the current demo does not load this file.
 
 # Phase 1: Scan
 scan:

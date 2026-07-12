@@ -1,7 +1,5 @@
-# AprilTag Navigation Configuration (Level 2: Tune Parameters)
-#
-# Edit these values to customize robot behavior.
-# No code changes needed - just save this file and run again!
+# AprilTag Navigation Template Configuration
+# The learning template reads this file. run_demo.py does not load it.
 
 # Which tag to navigate to
 target_tag_id: 582
@@ -12,7 +10,7 @@ target_tag_id: 582
 target_distance: 0.55
 
 # Camera calibration
-# Run calibrate_camera.py to get accurate values for your camera
+# Use scripts/calibration/calibrate_camera_intrinsics.py for camera calibration.
 # These are estimates that work "good enough" for most setups
 camera:
   fx: 500  # Focal length X (pixels)

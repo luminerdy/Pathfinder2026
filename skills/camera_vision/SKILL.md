@@ -288,7 +288,9 @@ upper = np.array([10, 255, 255])  # Red upper bound
 mask = cv2.inRange(hsv, lower, upper)
 ```
 
-### Configuration (config.yaml)
+### Configuration Reference
+
+The current camera demo does not load `config.yaml`. These values document common camera settings; change the matching constants in the Python code when experimenting.
 
 ```yaml
 camera:
@@ -508,7 +510,7 @@ camera_vision/
 ├── test_camera.py     # Level 1: Test hardware
 ├── run_demo.py        # Level 2: Live video + save
 ├── color_spaces.py    # Level 3: Color conversions
-├── config.yaml        # Configuration
+├── config.yaml        # Reference values; not loaded by the current demo
 └── README.md          # Quick reference
 ```
 

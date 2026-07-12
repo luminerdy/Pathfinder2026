@@ -18,7 +18,7 @@ By the end of this phase, the team should know:
 - Which scripts move the arm.
 - Which settings might need small tuning.
 
-Before editing tuning files, read [Configuration Guide](CONFIG_GUIDE.md).
+Before changing a demo, read the [Demo Tuning Guide](CONFIG_GUIDE.md).
 
 If something fails, use [Student troubleshooting](../support/TROUBLESHOOTING.md). Compare with another team first. Get help right away if the issue involves wiring, batteries, heat, smoke, broken parts, or `sudo` commands.
 

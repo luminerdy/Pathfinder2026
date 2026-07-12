@@ -110,8 +110,8 @@ The robot demonstrates three square patterns in sequence:
 
 **"robot moves but in wrong direction":**
 - Motor wiring might be reversed (common on assembly)
-- Check `config.yaml` → `motor_directions` settings
-- Some motors may need inversion (1 → -1)
+- Return to the Phase 1 individual-motor test
+- Re-check motor ports and wiring before changing code
 
 **"Strafe is crooked (robot rotates while strafing)":**
 - Wheels not mounted correctly (45° angle matters!)
@@ -235,9 +235,9 @@ drive_mecanum(0, 0, 30)    # Rotate CCW at 30%
 drive_mecanum(50, 50, 0)   # Diagonal (forward-right) at 50%
 ```
 
-### Configuration (config.yaml)
+### Workshop Tuning (`run_demo.py`)
 
-Tune these for your robot:
+The workshop demo does not load `config.yaml`. Tune the named constants in the `TEAM TUNING` section near the top of `run_demo.py`.
 
 ```yaml
 mecanum_drive:
@@ -528,7 +528,7 @@ def drive_field_centric(field_vx, field_vy, omega, robot_heading):
 mecanum_drive/
 ├── SKILL.md                # This file (all 4 sections)
 ├── run_demo.py             # Level 1: One-click demo
-├── config.yaml             # Level 2: Configuration tuning
+├── config.yaml             # Reference values; not loaded by run_demo.py
 ├── README.md               # Quick reference
 └── diagrams/               # Visual aids
     ├── wheel_forces.png    # Force vector diagrams

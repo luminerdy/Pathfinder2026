@@ -21,3 +21,13 @@ Use these docs as the main entry points:
 - [docs/workshop/ASSEMBLE.md](docs/workshop/ASSEMBLE.md)
 - [docs/workshop/CAPABILITIES_EXPLORATION.md](docs/workshop/CAPABILITIES_EXPLORATION.md)
 - [docs/workshop/COURSE_CHALLENGE.md](docs/workshop/COURSE_CHALLENGE.md)
+
+## Before Pushing
+
+Run the hardware-free repository check:
+
+```bash
+python3 scripts/smoke_check.py
+```
+
+This checks Python syntax, current Markdown links and images, documented Python paths, stale participant references, emoji markers, and inline JavaScript syntax when Node.js is installed.

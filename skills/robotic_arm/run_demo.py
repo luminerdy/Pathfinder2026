@@ -30,6 +30,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 from lib.board import get_board
 
 
+# TEAM TUNING: These are tested event poses. Change only one servo target at a
+# time, keep values inside the documented limits, and keep hands clear.
 # A known safe pose used at the beginning and end of the demo.
 READY_POSITION = [
     (1, 1550),  # Gripper closed

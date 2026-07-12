@@ -36,7 +36,8 @@ After this skill, you can:
 |------|-------|---------|
 | `SKILL.md` | All | Complete documentation (4 sections) |
 | `run_demo.py` | 1 | One-click 6-demo showcase |
-| `config.yaml` | 2 | Tune thresholds, colors, safety |
+| `run_demo.py` `TEAM TUNING` section | 2 | Tune thresholds, speed, and timing |
+| `config.yaml` | Reference | Planned/reference values; not loaded by the demo |
 | `README.md` | - | This file |
 
 ---
@@ -48,14 +49,12 @@ After this skill, you can:
 - Object too far away (>4 meters)
 
 **Noisy readings:**
-- Increase filter_samples in config
-- Use filtered reading instead of single
+- Use the filtered-reading part of the demo instead of one sample.
+- Re-check sensor mounting and nearby ultrasonic interference.
 
 **RGB doesn't light:**
-- Check cable connections
-- Quick test: `cd /home/robot/pathfinder && python3 -c "from hardware.sonar import Sonar; import time; s = Sonar(); s.set_both_rgb((255,0,0)); time.sleep(2); s.rgb_off()"`
-- Should see RED for 2 seconds then off
-- If error about `setPixelColor`, method name needs to be `set_pixel_color` (snake_case)
+- Check the sonar cable connection.
+- Return to the Phase 1 sonar test before changing code.
 
 ---
 

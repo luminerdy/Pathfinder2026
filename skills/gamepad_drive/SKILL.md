@@ -222,7 +222,7 @@ gamepad:
 
 - `SKILL.md` - this file
 - `gamepad_drive.py` - main gamepad control script
-- `config.yaml` - tuning parameters
+- `config.yaml` - reference values; `gamepad_drive.py` does not load it
 - `README.md` - quick reference
 
 ---

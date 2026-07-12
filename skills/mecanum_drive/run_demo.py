@@ -32,6 +32,16 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 from lib.board import get_board, PLATFORM
 from lib.battery import read_voltage, status_for_voltage
 
+
+# TEAM TUNING: Change one value at a time, save, and run this demo again.
+MAX_MOTOR_SPEED = 50
+DRIVE_SPEED = 40
+DIAGONAL_SPEED = 50
+TURN_SPEED = 40
+SIDE_DURATION_SECONDS = 1.4
+TURN_DURATION_SECONDS = 1.0
+PATTERN_PAUSE_SECONDS = 1.5
+
 class MecanumDemo:
     """Simple mecanum drive demonstration."""
     
@@ -231,7 +241,7 @@ def main():
     print()
     
     # Check battery before driving so a weak battery does not look like bad code.
-    demo = MecanumDemo(max_speed=50)
+    demo = MecanumDemo(max_speed=MAX_MOTOR_SPEED)
     print("Checking battery...")
     v = read_voltage(demo.board)
     if v is not None:
@@ -250,29 +260,21 @@ def main():
     print()
     
     try:
-        # These values are intentionally conservative for a crowded workshop room.
-        side_duration = 1.4  # seconds per side
-        turn_duration = 1.0  # approximate 90-degree right turn
-        pause = 1.5          # pause between patterns
-        speed = 40           # motor speed (0-100)
-        diagonal_speed = 50  # diagonal wheel-pair moves need extra power
-        turn_speed = 40      # turns need enough power to overcome floor friction
-
         print("[1/3] Standard Square Pattern")
         demo.square(
-            speed=speed,
-            side_duration=side_duration,
-            turn_speed=turn_speed,
-            turn_duration=turn_duration,
+            speed=DRIVE_SPEED,
+            side_duration=SIDE_DURATION_SECONDS,
+            turn_speed=TURN_SPEED,
+            turn_duration=TURN_DURATION_SECONDS,
         )
-        time.sleep(pause)
+        time.sleep(PATTERN_PAUSE_SECONDS)
 
         print("[2/3] Mecanum Square Pattern")
-        demo.mecanum_square(speed=speed, side_duration=side_duration)
-        time.sleep(pause)
+        demo.mecanum_square(speed=DRIVE_SPEED, side_duration=SIDE_DURATION_SECONDS)
+        time.sleep(PATTERN_PAUSE_SECONDS)
 
         print("[3/3] Diagonal Square Pattern")
-        demo.diagonal_square(speed=diagonal_speed, side_duration=side_duration)
+        demo.diagonal_square(speed=DIAGONAL_SPEED, side_duration=SIDE_DURATION_SECONDS)
         
         print()
         print("=" * 60)

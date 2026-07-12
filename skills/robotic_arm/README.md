@@ -8,9 +8,9 @@
 
 ### Level 1A: Web UI (Visual, No Code)
 ```bash
-cd /home/robot/pathfinder/web
-python3 app.py
-# Open browser: http://<ROBOT_IP>:5000/servo
+cd /home/robot/pathfinder
+python3 web/web_control.py
+# Open browser: http://<ROBOT_IP>:8080
 ```
 Move sliders, see arm respond!
 

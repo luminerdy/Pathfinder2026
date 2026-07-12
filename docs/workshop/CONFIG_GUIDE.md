@@ -1,130 +1,77 @@
-# Configuration Guide
+# Demo Tuning Guide
 
 **Phase 2 support: Capabilities Exploration**
 
-Use this guide when you want to tune robot behavior without rewriting code.
+The recommended D1-D3 demos are tuned by changing named constants in the Python file that the team runs. Their nearby `config.yaml` files are reference material and are not loaded by these demos.
 
 ## Basic Rule
 
-Change one setting at a time, test it, and write down what happened.
+Change one value at a time, save the file, run the same demo again, and write down what happened.
 
-Before asking a facilitator, check:
+Do team experiments in `/home/robot/team_code`. Use [Team code workflow](../support/TEAM_CODE_WORKFLOW.md) before editing.
 
-1. Your team's notes.
-2. The troubleshooting page.
-3. Another team that has the same part working.
+## D1: Mecanum Drive
 
-Ask a facilitator right away for battery wiring, motor wiring, servo wiring, smoke, heat, broken parts, or commands that require `sudo`.
-
-## Safe For Teams To Edit
-
-These files are intended for workshop tuning:
-
-| File | What To Tune |
-|------|--------------|
-| `skills/mecanum_drive/config.yaml` | Demo speed, rotation time, square timing, motor direction notes |
-| `skills/block_detection/config.yaml` | HSV color ranges, minimum block area, detection confidence |
-| `skills/line_following/config.yaml` | Line color range, forward speed, steering gain |
-| `skills/sonar_sensors/config.yaml` | Sonar thresholds and demo behavior |
-| `skills/camera_vision/config.yaml` | Camera demo settings |
-| `skills/robotic_arm/config.yaml` | Arm demo positions if a facilitator has verified the pose is safe |
-
-Use the skill README before editing a config:
-
-```bash
-cd /home/robot/pathfinder
-cat skills/mecanum_drive/README.md
-```
-
-## Facilitator-Only Or Advanced
-
-Do not edit these during normal team work unless a facilitator tells you to:
-
-| File | Why |
-|------|-----|
-| `Deviation.yaml` | Servo calibration offsets |
-| `lib/battery.py` | Shared voltage thresholds used by robot code |
-| Files in `lib/` | Lower-level board communication |
-
-If a team wants to experiment with advanced code, copy the file into `/home/robot/team_code` first.
-
-## Common Tuning Tasks
-
-### Drive Demo Too Fast Or Too Slow
-
-Edit:
+File:
 
 ```text
-skills/mecanum_drive/config.yaml
+skills/mecanum_drive/run_demo.py
 ```
 
-Useful fields:
+Find the `TEAM TUNING` section near the top:
 
-- `speeds.max`
-- `speeds.rotation`
-- `demo.duration`
-- `demo.rotation_time`
+| Constant | Effect |
+|----------|--------|
+| `DRIVE_SPEED` | Forward, backward, and strafe power |
+| `DIAGONAL_SPEED` | Diagonal wheel-pair power |
+| `TURN_SPEED` | Turning power |
+| `SIDE_DURATION_SECONDS` | Length of each square side |
+| `TURN_DURATION_SECONDS` | Approximate 90-degree turn time |
+| `PATTERN_PAUSE_SECONDS` | Pause between square patterns |
 
-If turns do not complete, try a slightly higher rotation speed or longer rotation time. Record battery voltage before comparing tests.
+Battery voltage and floor surface affect every movement. Record both when comparing results.
 
-### Block Detection Misses Blocks
+## D2: Sonar Sensors
 
-Edit:
+File:
 
 ```text
-skills/block_detection/config.yaml
+skills/sonar_sensors/run_demo.py
 ```
 
-Useful fields:
+Find the `TEAM TUNING` section near the top:
 
-- `colors`
-- `detection.min_area`
-- `detection.min_confidence`
+| Constant | Effect |
+|----------|--------|
+| `DANGER_DISTANCE_CM` | Stop distance and red zone |
+| `CAUTION_DISTANCE_CM` | Yellow-zone boundary |
+| `OBSTACLE_DISTANCE_CM` | Distance that triggers avoidance |
+| `SAFE_MOVE_SPEED` | Forward speed during the stop test |
+| `AVOID_MOVE_SPEED` | Movement power during avoidance |
+| `BACKUP_DURATION_SECONDS` | How long the robot backs away |
+| `TURN_DURATION_SECONDS` | How long the avoidance turn lasts |
 
-If the robot misses a real block, widen the HSV range slightly or reduce `min_area`.
+Test with a person ready to press `Ctrl+C`. Keep the robot on the floor in a clear area.
 
-If the robot detects the floor or shadows, narrow the HSV range or increase `min_area`.
+## D3: Robotic Arm
 
-### Line Following Wobbles
-
-Edit:
+File:
 
 ```text
-skills/line_following/config.yaml
+skills/robotic_arm/run_demo.py
 ```
 
-Useful fields:
+The tested targets are in `READY_POSITION` and `PICKUP_AND_LOAD_STEPS`.
 
-- `control.Kp`
-- `control.forward_speed`
-- `control.max_steer`
-- `roi.top_ratio`
+Arm changes can cause collisions. Change only one servo target at a time, stay within the documented limits, and stop immediately if any movement is not correct. Re-check assembly and wiring before assuming a code value is wrong.
 
-If the robot wobbles, lower `Kp` or slow down.
+## What Teams Should Not Edit
 
-If it misses curves, slow down or adjust the region of interest to see farther ahead.
+Do not change these during normal workshop tuning unless a facilitator directs it:
 
-### Arm Position Looks Unsafe
+- `Deviation.yaml`
+- `lib/battery.py`
+- Files in `lib/`
+- Servo targets that have not been physically tested
 
-Stop the demo with `Ctrl+C`.
-
-Do not guess new arm positions quickly. Compare with another working team and ask a facilitator before saving a pose that moves near the table, chassis, camera, or gripper limits.
-
-## How To Test A Change
-
-1. Copy the file to team code if you are experimenting:
-   ```bash
-   mkdir -p /home/robot/team_code
-   cp skills/mecanum_drive/config.yaml /home/robot/team_code/mecanum_config_test.yaml
-   ```
-2. Make one change.
-3. Run the matching demo.
-4. Record:
-   - File changed
-   - Setting changed
-   - Old value
-   - New value
-   - Battery voltage
-   - What happened
-
-Good tuning notes make it easier for another team to help.
+Ask a facilitator immediately for battery or wiring problems, heat, smoke, broken parts, or commands requiring `sudo`.

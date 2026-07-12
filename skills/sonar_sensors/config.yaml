@@ -1,4 +1,6 @@
-# Sonar Sensors Configuration (Level 2: Tune Parameters)
+# Sonar Sensors Configuration Reference
+# REFERENCE ONLY: run_demo.py does not load this file.
+# Tune the named constants in run_demo.py for the workshop demo.
 
 # Distance thresholds (centimeters)
 # Adjust based on your robot's speed and reaction time

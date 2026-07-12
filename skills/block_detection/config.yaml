@@ -1,4 +1,5 @@
-# Block Detection Configuration (D5)
+# Block Detection Configuration Reference (D5)
+# REFERENCE ONLY: the current demo does not load this file.
 
 # Color ranges (HSV format)
 # H: 0-180, S: 0-255, V: 0-255

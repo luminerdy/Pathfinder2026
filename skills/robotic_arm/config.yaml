@@ -1,4 +1,6 @@
-# Robotic Arm Configuration
+# Robotic Arm Configuration Reference
+# REFERENCE ONLY: run_demo.py does not load this file.
+# The tested workshop poses are defined in run_demo.py.
 
 # Servo mappings and ranges
 servos:
@@ -96,15 +98,6 @@ workspace:
   y_max: 250
   z_min: 10
   z_max: 200
-
-# Action groups directory
-action_groups:
-  directory: "/home/robot/code/ActionGroups"
-  available:
-    - stand
-    - shake_head
-    - move_to_the_left_front
-    - move_to_the_right_front
 
 # Safety
 safety:

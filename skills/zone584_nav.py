@@ -2,7 +2,7 @@
 Zone 584 Navigator — Barrier Slalom to AT584
 
 Robot behavior:
-  1. Lock heading to AT584 (top-right corner) via AprilTag angle correction
+  1. Lock heading to AT584 (top-left corner) via AprilTag angle correction
   2. Drive forward
   3. When sonar < BARRIER_STOP_CM (~3 inches): stop, probe left/right for gap
   4. Strafe through gap, applying heading correction every N ticks
@@ -176,7 +176,7 @@ class Zone584Navigator:
                           brings it back. Covers 90% of loss events.
 
           Stage 2 (wider): Sweep opposite direction in case we overshot.
-                           AT584 is fixed in top-right corner — it won't
+                           AT584 is fixed in the top-left corner - it won't
                            move, so a ±25deg sweep always finds it if in range.
 
           Stage 3 (fallback): Hold last_angle. Robot continues strafing on

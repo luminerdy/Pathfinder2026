@@ -33,6 +33,18 @@ from lib.board import get_board
 from lib.sonar import Sonar
 
 
+# TEAM TUNING: Change one value at a time, save, and run this demo again.
+DANGER_DISTANCE_CM = 15
+CAUTION_DISTANCE_CM = 30
+OBSTACLE_DISTANCE_CM = 20
+SAFE_MOVE_SPEED = 35
+SAFE_MOVE_DURATION_SECONDS = 5.0
+AVOID_MOVE_SPEED = 30
+AVOID_DEMO_DURATION_SECONDS = 10.0
+BACKUP_DURATION_SECONDS = 0.5
+TURN_DURATION_SECONDS = 0.6
+
+
 def stop_motors(board):
     """Stop all drive motors."""
     board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
@@ -64,9 +76,9 @@ def set_zone_led(sonar, distance_cm):
     """Set sonar LEDs based on distance in centimeters."""
     if distance_cm is None:
         sonar.off()
-    elif distance_cm < 15:
+    elif distance_cm < DANGER_DISTANCE_CM:
         sonar.set_led_color(255, 0, 0)
-    elif distance_cm < 30:
+    elif distance_cm < CAUTION_DISTANCE_CM:
         sonar.set_led_color(255, 255, 0)
     else:
         sonar.set_led_color(0, 255, 0)
@@ -114,10 +126,10 @@ def main():
         # Demo 3: Obstacle Detection
         print("\n[3/6] Obstacle Detection Test")
         print("  Wave hand in front of sensor...")
-        print("  Red LED = obstacle <20cm, Green = clear")
+        print(f"  Red LED = obstacle <{OBSTACLE_DISTANCE_CM}cm, Green = clear")
         for i in range(15):
             dist = read_cm(sonar)
-            if dist is not None and dist < 20:
+            if dist is not None and dist < OBSTACLE_DISTANCE_CM:
                 print(f"    OBSTACLE at {dist:.1f} cm!" if dist else "    OBSTACLE!")
                 sonar.set_led_color(255, 0, 0)
             else:
@@ -129,16 +141,16 @@ def main():
 
         # Demo 4: Range Zones
         print("\n[4/6] Range Zones (red/yellow/green)")
-        print("  Red (<15cm) = DANGER")
-        print("  Yellow (15-30cm) = CAUTION")
-        print("  Green (>30cm) = SAFE")
+        print(f"  Red (<{DANGER_DISTANCE_CM}cm) = DANGER")
+        print(f"  Yellow ({DANGER_DISTANCE_CM}-{CAUTION_DISTANCE_CM}cm) = CAUTION")
+        print(f"  Green (>{CAUTION_DISTANCE_CM}cm) = SAFE")
         print("  Move hand to see zones...")
         for i in range(15):
             dist = read_cm(sonar)
             if dist is not None:
-                if dist < 15:
+                if dist < DANGER_DISTANCE_CM:
                     zone = "DANGER"
-                elif dist < 30:
+                elif dist < CAUTION_DISTANCE_CM:
                     zone = "CAUTION"
                 else:
                     zone = "SAFE"
@@ -150,15 +162,15 @@ def main():
 
         # Demo 5: Safe Movement
         print("\n[5/6] Safe Movement Test")
-        print("  Robot will drive forward at 35% speed")
-        print("  Will STOP if obstacle detected <15cm")
+        print(f"  Robot will drive forward at {SAFE_MOVE_SPEED}% speed")
+        print(f"  Will STOP if obstacle detected <{DANGER_DISTANCE_CM}cm")
         print("  Try blocking its path...")
         time.sleep(2)
 
         start_time = time.time()
-        max_duration = 5.0
-        speed = 35
-        stop_threshold = 15
+        max_duration = SAFE_MOVE_DURATION_SECONDS
+        speed = SAFE_MOVE_SPEED
+        stop_threshold = DANGER_DISTANCE_CM
 
         while time.time() - start_time < max_duration:
             dist = read_cm(sonar)
@@ -184,22 +196,22 @@ def main():
         time.sleep(2)
 
         start_time = time.time()
-        max_duration = 10.0
-        speed = 30
+        max_duration = AVOID_DEMO_DURATION_SECONDS
+        speed = AVOID_MOVE_SPEED
 
         while time.time() - start_time < max_duration:
             dist = read_cm(sonar)
 
-            if dist is not None and dist < 20:
+            if dist is not None and dist < OBSTACLE_DISTANCE_CM:
                 # Obstacle! Back up and turn
                 print(f"    Obstacle at {dist:.1f} cm - backing up...")
                 # Back up
-                board.set_motor_duty([(1, -30), (2, -30), (3, -30), (4, -30)])
-                time.sleep(0.5)
+                board.set_motor_duty([(1, -speed), (2, -speed), (3, -speed), (4, -speed)])
+                time.sleep(BACKUP_DURATION_SECONDS)
                 # Turn right
                 print("    Turning right...")
-                board.set_motor_duty([(1, 30), (2, -30), (3, 30), (4, -30)])
-                time.sleep(0.6)
+                board.set_motor_duty([(1, speed), (2, -speed), (3, speed), (4, -speed)])
+                time.sleep(TURN_DURATION_SECONDS)
                 stop_motors(board)
                 time.sleep(0.3)
             else:
@@ -225,7 +237,7 @@ def main():
         print("  [OK] Avoidance behavior (backs up and turns)")
         print()
         print("Next steps:")
-        print("  - Try editing config.yaml to change thresholds")
+        print("  - Try editing the TEAM TUNING constants near the top of run_demo.py")
         print("  - Read SKILL.md to understand how ultrasonic works")
         print("  - Integrate with D1 (mecanum + sonar = safe navigation)")
 

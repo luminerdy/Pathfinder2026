@@ -131,7 +131,7 @@ Given intentional problem, student can:
 
 **Configuration task:**
 Student can:
-- Edit `config.yaml` to change speed from 50 to 35
+- Edit `DRIVE_SPEED` in `run_demo.py` to change speed from 40 to 35
 - Run demo and observe difference
 - Explain what changed (slower movement)
 
@@ -244,7 +244,7 @@ Student can:
 A: "The 45° rollers let force push sideways, not just forward. That's how strafe works!"
 
 **Q: "Can we make it go faster?"**
-A: "Yes! Edit config.yaml, change max speed. But too fast = loses traction."
+A: "Yes! Edit the `TEAM TUNING` constants in `run_demo.py`. Too fast can cause the wheels to lose traction."
 
 **Q: "Why doesn't the square close perfectly?"**
 A: "No sensors measuring position, so small errors add up. That's what encoders/vision fix!"

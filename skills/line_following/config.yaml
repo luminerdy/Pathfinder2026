@@ -1,4 +1,5 @@
-# Line Following Configuration (E6)
+# Line Following Configuration Reference (E6)
+# REFERENCE ONLY: the current demo does not load this file.
 
 # Lime green tape HSV range
 # Tune these if detection is unreliable

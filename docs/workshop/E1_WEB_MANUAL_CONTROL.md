@@ -43,6 +43,8 @@ Use the robot IP from Phase 1, C2. Do not use the Pi 500 IP.
 - Q/E: strafe left/right
 - Space: stop
 - Drive buttons: press and hold to move, release to stop
+- The page repeats movement commands only while a control is held.
+- The robot stops automatically if movement commands stop arriving.
 - Motor power sliders: adjust speed
 - Arm sliders: move individual servos
 - Save/load positions: store arm poses for testing
@@ -50,7 +52,7 @@ Use the robot IP from Phase 1, C2. Do not use the Pi 500 IP.
 ## If A Movement Button Does Not Respond
 
 - Check the drive status message under the buttons.
-- Confirm the robot battery is not low.
+- Confirm the robot battery status says it is safe to drive.
 - Confirm the terminal running `web_control.py` is still active.
 - Refresh the browser page.
 - Stop and restart the web server if needed.

@@ -1,4 +1,5 @@
-# Gamepad Drive Configuration (E2)
+# Gamepad Drive Configuration Reference (E2)
+# REFERENCE ONLY: gamepad_drive.py does not load this file.
 
 gamepad:
   max_speed: 50        # Motor duty cycle limit (0-100)
