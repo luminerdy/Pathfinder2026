@@ -46,7 +46,7 @@ class StrafeNavigator:
     Kz = 100        # Forward gain
 
     # Deadbands
-    CENTER_TOLERANCE = 0.05   # meters; center before driving close to a tag
+    CENTER_TOLERANCE = 0.10   # meters; small offsets are fine while approaching
     DIST_TOLERANCE = 0.05     # meters
 
     # Speed limits (motor duty)
@@ -66,8 +66,8 @@ class StrafeNavigator:
     TAG_TIMEOUT = 1.5    # seconds
 
     # Angle limit — beyond this, rotate first before strafing
-    MAX_STRAFE_ANGLE = 30  # degrees
-    FORWARD_ANGLE_TOLERANCE = 8  # degrees; center tag before moving forward
+    MAX_STRAFE_ANGLE = 20  # degrees
+    MAX_STRAFE_SPEED = 20     # keep centering gentle so forward motion continues
 
     def __init__(self, robot=None):
         """
@@ -173,6 +173,14 @@ class StrafeNavigator:
             return 0
         sign = 1 if speed > 0 else -1
         magnitude = min(max(abs(speed), self.MIN_SPEED), self.MAX_SPEED)
+        return sign * magnitude
+
+    def _clamp_strafe(self, speed):
+        """Clamp lateral correction without forcing it to full drive power."""
+        if abs(speed) < 1:
+            return 0
+        sign = 1 if speed > 0 else -1
+        magnitude = min(abs(speed), self.MAX_STRAFE_SPEED)
         return sign * magnitude
 
     def _detect_tags(self, frame, target_id=None, target_ids=None, exclude_ids=None):
@@ -339,19 +347,10 @@ class StrafeNavigator:
                 strafe = error_x * self.Kx if abs(error_x) > self.CENTER_TOLERANCE else 0
                 forward = error_z * self.Kz if abs(error_z) > self.DIST_TOLERANCE else 0
 
-                # For close approaches, line up with the tag before driving in.
-                # This keeps the robot from arriving beside a tag that was visible
-                # near the edge of the camera frame.
-                if forward > 0 and (
-                    abs(angle) > self.FORWARD_ANGLE_TOLERANCE
-                    or abs(error_x) > self.CENTER_TOLERANCE
-                ):
-                    forward = 0
-
                 if sonar_dist and 0 < sonar_dist < self.SONAR_SLOW:
                     forward = min(forward, self.MIN_SPEED)
 
-                strafe = self._clamp_speed(strafe)
+                strafe = self._clamp_strafe(strafe)
                 forward = self._clamp_speed(forward)
 
                 if strafe == 0 and forward == 0:
