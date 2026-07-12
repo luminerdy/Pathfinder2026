@@ -69,6 +69,7 @@ class StrafeNavigator:
     # Angle limit — beyond this, rotate first before driving toward the tag
     MAX_STRAFE_ANGLE = 20  # degrees
     MAX_STRAFE_SPEED = 35     # nonzero strafe must still overcome friction
+    LEFT_STRAFE_ASSIST = 35   # left correction needs enough power to move
     HEADING_TOLERANCE = 6      # degrees; drive straight inside this window
     MAX_TURN_CORRECTION = 15   # differential turn while also driving forward
 
@@ -152,12 +153,12 @@ class StrafeNavigator:
         else:
             self.board.set_motor_duty([(1, fl), (2, fr), (3, rl), (4, rr)])
 
-    def _drive_arc(self, forward, turn):
-        """Drive forward while gently turning toward the tag."""
-        fl = float(forward + turn)
-        fr = float(forward - turn)
-        rl = float(forward + turn)
-        rr = float(forward - turn)
+    def _drive_arc(self, forward, turn, strafe=0):
+        """Drive forward while gently turning and optionally shifting sideways."""
+        fl = float(forward + strafe + turn)
+        fr = float(forward - strafe - turn)
+        rl = float(forward - strafe + turn)
+        rr = float(forward + strafe - turn)
 
         max_wheel = max(abs(fl), abs(fr), abs(rl), abs(rr))
         if max_wheel > self.MAX_SPEED:
@@ -368,6 +369,11 @@ class StrafeNavigator:
 
                 forward = error_z * self.Kz if abs(error_z) > self.DIST_TOLERANCE else 0
                 turn = angle * self.Ktheta if abs(angle) > self.HEADING_TOLERANCE else 0
+                strafe = (
+                    -self.LEFT_STRAFE_ASSIST
+                    if error_x < -self.CENTER_TOLERANCE
+                    else 0
+                )
 
                 if sonar_dist and 0 < sonar_dist < self.SONAR_SLOW:
                     forward = min(forward, self.MIN_SPEED)
@@ -381,7 +387,7 @@ class StrafeNavigator:
                         min(self.MAX_TURN_CORRECTION, turn)
                     )
 
-                if turn == 0 and forward == 0:
+                if strafe == 0 and turn == 0 and forward == 0:
                     self._stop()
                     if callback:
                         callback(tag_id, dist, angle, 'REACHED')
@@ -391,11 +397,12 @@ class StrafeNavigator:
                         'iterations': iteration, 'reason': 'reached'
                     }
 
-                self._drive_arc(forward, turn)
+                self._drive_arc(forward, turn, strafe)
 
                 if callback and iteration % 10 == 0:
                     parts = []
                     if forward != 0: parts.append('fwd=%.0f' % forward)
+                    if strafe != 0: parts.append('strafe=%.0f' % strafe)
                     if turn != 0: parts.append('turn=%.0f' % turn)
                     callback(tag_id, dist, angle, ' '.join(parts))
 
