@@ -1,6 +1,6 @@
-# Pathfinder2026 Workshop Guide
+# Pathfinder2026 Phase Index
 
-This is the main event guide for Pathfinder2026.
+This page is an index for the three Pathfinder2026 workshop phases.
 
 Work through the phases in order:
 

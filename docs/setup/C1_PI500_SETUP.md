@@ -113,7 +113,7 @@ Use the GitHub repo as the main source:
 https://github.com/luminerdy/Pathfinder2026
 ```
 
-Open `docs/workshop/README.md` from the repo page.
+Open `README.md` from the repo page and start with the three phase links.
 
 Optional: if you cloned the repo locally during image setup, verify it:
 
@@ -122,7 +122,7 @@ cd ~/Pathfinder2026
 ls
 ```
 
-You should see files like `README.md`, the `docs/` folder, and `docs/workshop/README.md`.
+You should see files like `README.md`, the `docs/` folder, and `docs/workshop/ASSEMBLE.md`.
 
 ---
 

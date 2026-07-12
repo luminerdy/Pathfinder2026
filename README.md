@@ -16,30 +16,32 @@ The robot software underneath comes from PathfinderV2.
 
 ## Start Here
 
-If you are at the event, start here:
+If you are at the event, work through the three phases in order:
 
-- [Workshop Guide](docs/workshop/README.md)
-
-The Workshop Guide is the main event path. It walks teams through:
-
-1. Assemble
-2. Capabilities Exploration
-3. Course Challenge
+1. [Phase 1: Assemble](docs/workshop/ASSEMBLE.md)
+2. [Phase 2: Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md)
+3. [Phase 3: Course Challenge](docs/workshop/COURSE_CHALLENGE.md)
 
 For the workshop, the Pi 500 and robot images should already be created. The OS build documents are for facilitators preparing equipment before the event.
 
 ## Quick Event Links
 
-| Need | Start Here |
-|------|------------|
-| Event-day team flow | [Workshop Guide](docs/workshop/README.md) |
+| Phase | Start Here |
+|-------|------------|
 | Phase 1: Assemble | [Assemble](docs/workshop/ASSEMBLE.md) |
-| Connect and test the robot | [C3: Connect And Test](docs/setup/C3_CONNECT_AND_TEST.md) |
-| robot connection reference | [C6: robot Connection Reference](docs/setup/C6_ROBOT_CONNECTION_REFERENCE.md) |
 | Phase 2: Capabilities Exploration | [Capabilities Exploration](docs/workshop/CAPABILITIES_EXPLORATION.md) |
 | Phase 3: Course Challenge | [Course Challenge](docs/workshop/COURSE_CHALLENGE.md) |
+
+## Support Links
+
+Use these when a phase tells you to, or when something is not working:
+
+| Need | Guide |
+|------|-------|
 | Troubleshooting | [Student Troubleshooting](docs/workshop/TROUBLESHOOTING.md) |
 | Safe team code edits | [C5: Team Code Workflow](docs/setup/C5_TEAM_CODE_WORKFLOW.md) |
+| robot connection reference | [C6: robot Connection Reference](docs/setup/C6_ROBOT_CONNECTION_REFERENCE.md) |
+| Update robot code | [C4: Update robot Code](docs/setup/C4_UPDATE_ROBOT_CODE.md) |
 
 ## Where Does The Code Live?
 
@@ -102,7 +104,7 @@ Use these before the event when preparing images, hardware, and setup flow:
 
 | Folder/File | What It Is For |
 |-------------|----------------|
-| `docs/workshop/` | Main human-facing workshop flow. Start here when editing the event. |
+| `docs/workshop/` | The three event phases and their support pages. |
 | `docs/setup/` | Pre-event Pi 500, robot Pi, SD card, and connection setup. |
 | `docs/handouts/` | Short printable team handouts. |
 | `docs/calibration/` | Calibration and tuning notes. |
