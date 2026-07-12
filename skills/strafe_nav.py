@@ -46,7 +46,7 @@ class StrafeNavigator:
     Kz = 100        # Forward gain
 
     # Deadbands
-    CENTER_TOLERANCE = 0.10   # meters (~6 deg at 1m — drive straight inside this)
+    CENTER_TOLERANCE = 0.05   # meters; center before driving close to a tag
     DIST_TOLERANCE = 0.05     # meters
 
     # Speed limits (motor duty)
@@ -67,6 +67,7 @@ class StrafeNavigator:
 
     # Angle limit — beyond this, rotate first before strafing
     MAX_STRAFE_ANGLE = 30  # degrees
+    FORWARD_ANGLE_TOLERANCE = 8  # degrees; center tag before moving forward
 
     def __init__(self, robot=None):
         """
@@ -303,7 +304,7 @@ class StrafeNavigator:
                     continue
 
                 tag_id, x, y, z, dist, angle = self._detect_tags(
-                    frame, target_id, target_ids
+                    frame, target_id=target_id, target_ids=target_ids
                 )
 
                 if tag_id is None:
@@ -337,6 +338,15 @@ class StrafeNavigator:
 
                 strafe = error_x * self.Kx if abs(error_x) > self.CENTER_TOLERANCE else 0
                 forward = error_z * self.Kz if abs(error_z) > self.DIST_TOLERANCE else 0
+
+                # For close approaches, line up with the tag before driving in.
+                # This keeps the robot from arriving beside a tag that was visible
+                # near the edge of the camera frame.
+                if forward > 0 and (
+                    abs(angle) > self.FORWARD_ANGLE_TOLERANCE
+                    or abs(error_x) > self.CENTER_TOLERANCE
+                ):
+                    forward = 0
 
                 if sonar_dist and 0 < sonar_dist < self.SONAR_SLOW:
                     forward = min(forward, self.MIN_SPEED)

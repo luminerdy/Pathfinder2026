@@ -31,7 +31,7 @@ from skills.strafe_nav import StrafeNavigator
 
 EVENT_TAG_IDS = (582, 583, 584, 585)
 TARGET_DISTANCE_METERS = 0.50
-SEARCH_TIMEOUT_SECONDS = 20.0
+SEARCH_TIMEOUT_SECONDS = 40.0
 NAVIGATION_TIMEOUT_SECONDS = 30.0
 
 
@@ -42,6 +42,7 @@ def main():
     print()
     print("Looking for event AprilTags: %s" % ", ".join(str(t) for t in EVENT_TAG_IDS))
     print("The robot will turn in small steps while searching.")
+    print("Search may take up to %.0f seconds." % SEARCH_TIMEOUT_SECONDS)
     print("Make sure:")
     print("  - Tag is printed and mounted on wall")
     print("  - Tag is at robot's camera height (~8-10 inches)")
