@@ -52,86 +52,7 @@ When the robot is connected to WiFi, hover the mouse cursor over the active WiFi
 
 Use the workshop network IPv4 address.
 
-Example:
-
-```text
-10.10.10.142
-```
-
-Do not use:
-
-- `127.0.0.1`
-- `169.254.x.x`
-- the Pi 500 IP
-
 Write the robot IP on the team handout or a piece of tape near the Pi 500.
-
-## Step 5: Terminal Fallback
-
-If you cannot read the IP from the WiFi icon, open a terminal on the robot Pi and run:
-
-```bash
-hostname -I
-```
-
-The prompt should look something like:
-
-```text
-robot@pathfinder:~ $
-```
-
-You may see one or more addresses. Use the workshop network IPv4 address.
-
-## Step 6: If The robot Has No Workshop IP
-
-If the WiFi hover or `hostname -I` returns nothing, or only shows an address that starts with `169.254`, the robot is probably not on the workshop WiFi yet.
-
-Re-check:
-
-- the robot Pi is connected to the correct workshop WiFi
-- the WiFi password was typed correctly
-- `GuestWifi.pdf` on the robot Pi desktop was followed
-
-If the robot image already has the workshop WiFi saved, rebooting the robot may be enough.
-
-Before rebooting, keep hands clear of the arm and gripper. The startup script may move the arm again after reboot.
-
-```bash
-sudo reboot
-```
-
-After the robot boots again, repeat Step 4.
-
-## Step 7: Confirm Network From The Pi 500
-
-Move the mouse back to the Pi 500.
-
-On the Pi 500 terminal, run:
-
-```bash
-ping <ROBOT_IP>
-```
-
-Stop the ping with `Ctrl+C`.
-
-Success means the Pi 500 can see the robot on the workshop network.
-
-If ping fails:
-
-- Confirm you typed the robot IP from Step 4 or Step 5.
-- Confirm the Pi 500 is on the workshop WiFi.
-- Repeat Step 4 on the robot Pi in case the IP changed.
-- Compare with another team before asking a facilitator.
-
-## Step 8: Keep The Team On One Address
-
-Use only the robot IP for:
-
-- SSH
-- VS Code Remote SSH
-- Web controls
-
-Do not use the Pi 500 IP as a robot connection target.
 
 ## Ready For C3 In Phase 1
 
@@ -140,7 +61,5 @@ The team is ready for connect/test when:
 - robot is powered on.
 - robot Pi is connected to the workshop WiFi.
 - robot IP was found from the robot Pi.
-- Pi 500 can ping the robot IP.
-- Team knows to use `robot@<ROBOT_IP>`.
 
 Next: [C3: Connect and Test](C3_CONNECT_AND_TEST.md)
