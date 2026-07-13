@@ -35,23 +35,7 @@ There are two robot power switches: one on the motor controller and one on the b
 3. Turn on both robot power switches.
 4. Wait for the robot Pi to finish booting and for any startup arm movement to stop.
 
-## Step 3: Check The robot Pi Password
-
-If the robot image asks you to change the default password, use the Raspberry Pi Configuration tool.
-
-Open:
-
-```text
-Pi menu -> Preferences -> Raspberry Pi Configuration
-```
-
-Do not change the hostname during the workshop.
-
-<img src="../images/robot/24_robot_pi_config_password.jpg" width="500" alt="Raspberry Pi Configuration password screen">
-
-If the robot image does not ask for a password change, continue to Step 4.
-
-## Step 4: Connect The robot Pi To WiFi
+## Step 3: Connect The robot Pi To WiFi
 
 Use the Pi 500 mouse to make the WiFi changes on the robot Pi. Use the on-screen keyboard if one appears.
 
@@ -63,7 +47,7 @@ Check the network icon at the top-right of the taskbar. If the network icon look
 
 Type the WiFi password using the on-screen keyboard if needed.
 
-## Step 5: Find The robot IP
+## Step 4: Find The robot IP
 
 When the robot is connected to WiFi, hover the mouse cursor over the active WiFi icon. Write down the assigned IPv4 address.
 
@@ -85,7 +69,7 @@ Do not use:
 
 Write the robot IP on the team handout or a piece of tape near the Pi 500.
 
-## Step 6: Terminal Fallback
+## Step 5: Terminal Fallback
 
 If you cannot read the IP from the WiFi icon, open a terminal on the robot Pi and run:
 
@@ -101,7 +85,7 @@ robot@pathfinder:~ $
 
 You may see one or more addresses. Use the workshop network IPv4 address.
 
-## Step 7: If The robot Has No Workshop IP
+## Step 6: If The robot Has No Workshop IP
 
 If the WiFi hover or `hostname -I` returns nothing, or only shows an address that starts with `169.254`, the robot is probably not on the workshop WiFi yet.
 
@@ -119,9 +103,9 @@ Before rebooting, keep hands clear of the arm and gripper. The startup script ma
 sudo reboot
 ```
 
-After the robot boots again, repeat Step 5.
+After the robot boots again, repeat Step 4.
 
-## Step 8: Confirm Network From The Pi 500
+## Step 7: Confirm Network From The Pi 500
 
 Move the mouse back to the Pi 500.
 
@@ -137,12 +121,12 @@ Success means the Pi 500 can see the robot on the workshop network.
 
 If ping fails:
 
-- Confirm you typed the robot IP from Step 5 or Step 6.
+- Confirm you typed the robot IP from Step 4 or Step 5.
 - Confirm the Pi 500 is on the workshop WiFi.
-- Repeat Step 5 on the robot Pi in case the IP changed.
+- Repeat Step 4 on the robot Pi in case the IP changed.
 - Compare with another team before asking a facilitator.
 
-## Step 9: Keep The Team On One Address
+## Step 8: Keep The Team On One Address
 
 Use only the robot IP for:
 

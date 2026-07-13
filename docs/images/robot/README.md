@@ -30,7 +30,6 @@ Used in `docs/setup/C3_CONNECT_AND_TEST.md`:
 Used in `docs/setup/C2_ROBOT_PI_WIFI_SETUP.md`:
 
 - `23_robot_power_switches.jpg`
-- `24_robot_pi_config_password.jpg`
 - `25_robot_wifi_icon_disconnected.jpg`
 - `26_robot_wifi_ip_hover.jpg`
 
