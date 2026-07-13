@@ -35,9 +35,9 @@
 
 ## Related Setup Docs
 
-- [Pi 500 OS build](A1_PI500_OS_BUILD.md)
-- [robot Pi OS build](A2_ROBOT_PI_OS_BUILD.md)
-- [Pi 500 setup](C1_PI500_SETUP.md)
-- [robot Pi WiFi setup](C2_ROBOT_PI_WIFI_SETUP.md)
-- [Connect and test](C3_CONNECT_AND_TEST.md)
+- [Pi 500 OS build](PI500_OS_BUILD.md)
+- [robot Pi OS build](ROBOT_PI_OS_BUILD.md)
+- [Pi 500 setup](PI500_SETUP.md)
+- [robot Pi WiFi setup](ROBOT_PI_WIFI_SETUP.md)
+- [Connect and test](CONNECT_AND_TEST.md)
 - [robot connection reference](../support/ROBOT_CONNECTION_REFERENCE.md)

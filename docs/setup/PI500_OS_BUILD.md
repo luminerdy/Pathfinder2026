@@ -1,4 +1,4 @@
-# A1: Pi 500 OS Build
+# Pi 500 OS Build
 
 **Purpose:** Create the SD card image for the Raspberry Pi 500 (team control hub)
 
@@ -103,7 +103,7 @@ If that command cannot find `code`, use **Raspberry Pi menu -> Preferences -> Re
 
 ## Step 7: Install VS Code Extensions
 
-Install the VS Code extensions needed later during the event. Teams will connect the Pi 500 to the robot in [C3_CONNECT_AND_TEST.md](C3_CONNECT_AND_TEST.md).
+Install the VS Code extensions needed later during the event. Teams will connect the Pi 500 to the robot in [CONNECT_AND_TEST.md](CONNECT_AND_TEST.md).
 
 **Install required Pi 500 VS Code extensions:**
 
@@ -159,4 +159,4 @@ This skips 15-20 minutes of setup per team.
 
 ---
 
-**Next:** [C1: Pi 500 Setup](C1_PI500_SETUP.md) (connect to monitor and configure)
+**Next:** [Pi 500 Setup](PI500_SETUP.md) (connect to monitor and configure)

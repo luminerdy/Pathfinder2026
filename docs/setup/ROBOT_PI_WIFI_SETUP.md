@@ -1,14 +1,14 @@
-# C2: robot Pi WiFi Setup
+# robot Pi WiFi Setup
 
 **Phase 1: Assemble**
 
-**Purpose:** Power on the assembled robot, connect the robot Pi to the workshop WiFi, and find the robot IP address for C3.
+**Purpose:** Power on the assembled robot, connect the robot Pi to the workshop WiFi, and find the robot IP address for connect/test.
 
-This is an event-time step. The robot SD card image should already be created before the event. Do not run [A2: robot Pi OS Build](A2_ROBOT_PI_OS_BUILD.md) during the workshop unless a facilitator tells you to rebuild a robot SD card.
+This is an event-time step. The robot SD card image should already be created before the event. Do not run [robot Pi OS Build](ROBOT_PI_OS_BUILD.md) during the workshop unless a facilitator tells you to rebuild a robot SD card.
 
 ## Prerequisites
 
-- robot is assembled: [B1 robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md)
+- robot is assembled: [robot Assembly Guide](../workshop/ROBOT_ASSEMBLY_GUIDE.md)
 - robot batteries are installed and charged
 - `GuestWifi.pdf` is available on the robot Pi desktop
 
@@ -54,7 +54,7 @@ Use the workshop network IPv4 address.
 
 Write the robot IP on the team handout or a piece of tape near the Pi 500.
 
-## Ready For C3 In Phase 1
+## Ready For Connect And Test In Phase 1
 
 The team is ready for connect/test when:
 
@@ -62,4 +62,4 @@ The team is ready for connect/test when:
 - robot Pi is connected to the workshop WiFi.
 - robot IP was found from the robot Pi.
 
-Next: [C3: Connect and Test](C3_CONNECT_AND_TEST.md)
+Next: [Connect and Test](CONNECT_AND_TEST.md)

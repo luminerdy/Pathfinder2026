@@ -17,7 +17,7 @@ Use these docs as the main entry points:
 
 - [README.md](README.md)
 - [docs/handouts/TEAM_START_HANDOUT.md](docs/handouts/TEAM_START_HANDOUT.md)
-- [docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md](docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md)
+- [docs/workshop/ROBOT_ASSEMBLY_GUIDE.md](docs/workshop/ROBOT_ASSEMBLY_GUIDE.md)
 - [docs/workshop/ASSEMBLE.md](docs/workshop/ASSEMBLE.md)
 - [docs/workshop/CAPABILITIES_EXPLORATION.md](docs/workshop/CAPABILITIES_EXPLORATION.md)
 - [docs/workshop/COURSE_CHALLENGE.md](docs/workshop/COURSE_CHALLENGE.md)

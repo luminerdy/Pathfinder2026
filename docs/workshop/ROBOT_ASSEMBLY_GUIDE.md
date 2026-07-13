@@ -1,4 +1,4 @@
-# B1: robot Assembly Guide
+# robot Assembly Guide
 
 **Phase 1: Assemble**
 
@@ -77,7 +77,7 @@ This guide is for the event table. The robot image should already be created bef
 2. Confirm the battery holder is secure.
 3. Confirm no cable can touch a wheel.
 4. Confirm no cable can snag on the arm.
-5. Do not drive until C3 battery check passes.
+5. Do not drive until the connect/test battery check passes.
 
 ## Step 7: Covers And Final Notes
 
@@ -92,7 +92,7 @@ This guide is for the event table. The robot image should already be created bef
 3. Extra screws are normal. Keep them in the team parts container.
 4. The cooling fan shown in some older kit photos is not needed for this event build.
 
-## Ready For C2 In Phase 1
+## Ready For robot Pi WiFi Setup In Phase 1
 
 The robot assembly path is ready for robot Pi/WiFi setup when:
 
@@ -103,4 +103,4 @@ The robot assembly path is ready for robot Pi/WiFi setup when:
 - Batteries are installed and safe.
 - Power switch is accessible.
 
-Next: [C2: robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md)
+Next: [robot Pi WiFi Setup](../setup/ROBOT_PI_WIFI_SETUP.md)

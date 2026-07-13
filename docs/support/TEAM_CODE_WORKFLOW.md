@@ -131,7 +131,7 @@ python3 drive_practice.py
 
 For `arm_practice.py`, change only one gripper value at a time.
 
-Camera testing is handled in [C3: Connect And Test](../setup/C3_CONNECT_AND_TEST.md). Keep the starter folder focused on drive and arm code students can safely modify first.
+Camera testing is handled in [Connect And Test](../setup/CONNECT_AND_TEST.md). Keep the starter folder focused on drive and arm code students can safely modify first.
 
 ## Before Updating The robot
 

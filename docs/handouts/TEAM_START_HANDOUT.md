@@ -60,7 +60,7 @@ Goal: get the Pi 500 ready as the team's coding and control hub.
 Detailed guide:
 
 ```text
-docs/setup/C1_PI500_SETUP.md
+docs/setup/PI500_SETUP.md
 ```
 
 ## robot Assembly Track
@@ -78,21 +78,21 @@ Goal: build a robot that is safe to power and test.
 Detailed guide:
 
 ```text
-docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md
+docs/workshop/ROBOT_ASSEMBLY_GUIDE.md
 ```
 
 ## Meet Back Together
 
 When the Pi 500 is ready and the robot is assembled:
 
-1. Find the robot IP using C2 on the robot Pi.
+1. Find the robot IP using the robot Pi/WiFi guide.
 2. Open the robot Pi/WiFi guide:
    ```text
-   docs/setup/C2_ROBOT_PI_WIFI_SETUP.md
+   docs/setup/ROBOT_PI_WIFI_SETUP.md
    ```
 3. Open the connect/test guide:
    ```text
-   docs/setup/C3_CONNECT_AND_TEST.md
+   docs/setup/CONNECT_AND_TEST.md
    ```
 4. Connect from the Pi 500 to the robot:
    ```bash

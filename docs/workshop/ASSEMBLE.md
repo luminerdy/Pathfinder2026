@@ -12,8 +12,8 @@ A three-person team can begin both tracks at the same time:
 
 | Team Members | Track | Guide | Finish With |
 |--------------|-------|-------|-------------|
-| Person 1 | Pi 500 | [Pi 500 Setup](../setup/C1_PI500_SETUP.md) | Pi 500 powered, online, and ready for VS Code |
-| Persons 2 and 3 | robot | [robot Assembly Guide](B1_ROBOT_ASSEMBLY_GUIDE.md) | robot assembled and safe to power on |
+| Person 1 | Pi 500 | [Pi 500 Setup](../setup/PI500_SETUP.md) | Pi 500 powered, online, and ready for VS Code |
+| Persons 2 and 3 | robot | [robot Assembly Guide](ROBOT_ASSEMBLY_GUIDE.md) | robot assembled and safe to power on |
 
 Talk to the other team members as you work. The Pi 500 track may finish first; use that time to help check the robot assembly.
 
@@ -21,8 +21,8 @@ Talk to the other team members as you work. The Pi 500 track may finish first; u
 
 When both tracks are complete, the whole team continues in this order:
 
-1. [robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md) - power on safely and find the robot IP.
-2. [Connect and Test](../setup/C3_CONNECT_AND_TEST.md) - connect from the Pi 500 and verify the battery, motors, servos, sonar, and camera.
+1. [robot Pi WiFi Setup](../setup/ROBOT_PI_WIFI_SETUP.md) - power on safely and find the robot IP.
+2. [Connect and Test](../setup/CONNECT_AND_TEST.md) - connect from the Pi 500 and verify the battery, motors, servos, sonar, and camera.
 
 These checks confirm that the robot is assembled and wired correctly. Capability demonstrations belong in Phase 2.
 

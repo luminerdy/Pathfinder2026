@@ -52,5 +52,5 @@ If you are testing robot behavior directly:
 
 Manual control tools come after the core capability demos:
 
-- [E1: Web Manual Control](../workshop/E1_WEB_MANUAL_CONTROL.md)
-- [E2: Gamepad Remote Control](../workshop/E2_GAMEPAD_REMOTE_CONTROL.md)
+- [Web Manual Control](../workshop/WEB_MANUAL_CONTROL.md)
+- [Gamepad Remote Control](../workshop/GAMEPAD_REMOTE_CONTROL.md)

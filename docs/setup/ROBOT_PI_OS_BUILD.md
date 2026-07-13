@@ -1,4 +1,4 @@
-# A2 - robot Pi OS build steps
+# robot Pi OS Build Steps
 
 **Purpose:** Create an SD card image for a Pathfinder2026 workshop robot.
 **Platform:** Raspberry Pi 4 (4GB+)
@@ -71,7 +71,7 @@ Click **Write** and wait for completion.
    ssh robot@<ROBOT_IP>
    ```
 
-> **Remote development:** With SSH enabled here, the Pi 500 can connect to this robot using VSCode Remote SSH. See [A1_PI500_OS_BUILD.md](A1_PI500_OS_BUILD.md) for Pi 500 configuration.
+> **Remote development:** With SSH enabled here, the Pi 500 can connect to this robot using VSCode Remote SSH. See [PI500_OS_BUILD.md](PI500_OS_BUILD.md) for Pi 500 configuration.
 
 ---
 

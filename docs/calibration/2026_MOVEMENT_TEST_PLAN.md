@@ -80,7 +80,7 @@ After choosing reliable values, update:
 
 - `skills/mecanum_drive/config.yaml`
 - `skills/mecanum_drive/run_demo.py` if the demo has hardcoded timing
-- `docs/setup/C3_CONNECT_AND_TEST.md` if participant expectations change
+- `docs/setup/CONNECT_AND_TEST.md` if participant expectations change
 - `lib/movement.py` only after repeatable calibration is confirmed
 
 Keep old test notes. Battery voltage and floor surface explain many differences.

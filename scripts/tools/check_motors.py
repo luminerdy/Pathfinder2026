@@ -58,7 +58,7 @@ def main():
         print()
         print("If the wrong wheel moved, check the motor cable port.")
         print("If a wheel did not move or spun backward, stop before running drive patterns.")
-        print("If this test fails, go back to B1: robot Assembly Guide and check the motor wiring photos before changing code.")
+        print("If this test fails, go back to robot Assembly Guide and check the motor wiring photos before changing code.")
 
     finally:
         # Safety cleanup: no motor should keep running after the test exits.

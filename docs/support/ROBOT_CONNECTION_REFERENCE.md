@@ -2,7 +2,7 @@
 
 **Phase 1 support: Assemble**
 
-Use this page after [C3: Connect and Test](../setup/C3_CONNECT_AND_TEST.md), or anytime a team needs help with terminals, copying files, editing code, or connection troubleshooting.
+Use this page after [Connect and Test](../setup/CONNECT_AND_TEST.md), or anytime a team needs help with terminals, copying files, editing code, or connection troubleshooting.
 
 This page is reference material. It is not part of the required Phase 1 hardware test sequence.
 
@@ -44,7 +44,7 @@ Recommended workflow: keep `/home/robot/pathfinder` as the official updateable r
 
 1. Open VS Code on Pi 500.
 2. `Ctrl+Shift+P` -> "Remote-SSH: Connect to Host" -> `robot@<ROBOT_IP>`.
-3. If you set up the SSH key in [C3: Connect and Test](../setup/C3_CONNECT_AND_TEST.md), VS Code should connect without asking for the robot password. If not, enter the robot password when prompted.
+3. If you set up the SSH key in [Connect and Test](../setup/CONNECT_AND_TEST.md), VS Code should connect without asking for the robot password. If not, enter the robot password when prompted.
 4. Wait for VS Code to install its server component on the robot. This happens automatically the first time and may take about a minute.
 5. Open folder: `/home/robot/team_code`.
 6. You should see `README.md`, `drive_practice.py`, and `arm_practice.py`.
@@ -63,7 +63,7 @@ Recommended workflow: keep `/home/robot/pathfinder` as the official updateable r
     python3 arm_practice.py
     ```
 
-See [C1: Pi 500 Setup](../setup/C1_PI500_SETUP.md) for VS Code install and extension checks.
+See [Pi 500 Setup](../setup/PI500_SETUP.md) for VS Code install and extension checks.
 
 If `/home/robot/team_code` is missing, open a robot terminal and run:
 
@@ -107,7 +107,7 @@ For a shorter student checklist, see [Student troubleshooting](TROUBLESHOOTING.m
 - Confirm you are using the robot IP, not the Pi 500 IP.
 - Confirm the Pi 500 and robot are on the same workshop network.
 - Compare with another team that can connect.
-- Repeat [C2: robot Pi WiFi Setup](../setup/C2_ROBOT_PI_WIFI_SETUP.md) on the robot Pi if it still fails.
+- Repeat [robot Pi WiFi Setup](../setup/ROBOT_PI_WIFI_SETUP.md) on the robot Pi if it still fails.
 - If the robot was rebooted or moved to another network, its IP may have changed.
 - Try: `ping <ROBOT_IP>` from the Pi 500.
 
@@ -124,13 +124,13 @@ For a shorter student checklist, see [Student troubleshooting](TROUBLESHOOTING.m
 **robot does not move:**
 
 - Check battery: `python3 scripts/tools/check_battery.py`.
-- Re-check motor wiring against [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md).
+- Re-check motor wiring against [robot Assembly Guide](../workshop/ROBOT_ASSEMBLY_GUIDE.md).
 - Try a higher motor power with fresh batteries.
 - Confirm the robot is on the floor, not lifted by a cable or stand.
 
 **Arm or sonar check fails:**
 
-- Re-check assembly wiring against [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md).
+- Re-check assembly wiring against [robot Assembly Guide](../workshop/ROBOT_ASSEMBLY_GUIDE.md).
 - Confirm the correct cable is connected before changing code.
 
 **Camera not working:**

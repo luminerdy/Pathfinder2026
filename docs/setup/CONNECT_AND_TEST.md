@@ -1,4 +1,4 @@
-# C3: Connect Pi 500 to the robot and test
+# Connect Pi 500 To The robot And Test
 
 **Phase 1: Assemble**
 
@@ -10,12 +10,12 @@ This is the critical step — once connected, you control the robot entirely fro
 
 ## Prerequisites
 
-- Pi 500 is powered on, connected to WiFi ([C1](C1_PI500_SETUP.md))
-- robot is assembled ([B1](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md))
-- robot Pi is powered on and on the workshop network ([C2](C2_ROBOT_PI_WIFI_SETUP.md))
+- Pi 500 is powered on, connected to WiFi ([Pi 500 Setup](PI500_SETUP.md))
+- robot is assembled ([robot Assembly Guide](../workshop/ROBOT_ASSEMBLY_GUIDE.md))
+- robot Pi is powered on and on the workshop network ([robot Pi WiFi Setup](ROBOT_PI_WIFI_SETUP.md))
 - robot is powered on with charged batteries
 - Both devices on the same WiFi network
-- You have the robot IP address from [C2](C2_ROBOT_PI_WIFI_SETUP.md)
+- You have the robot IP address from [robot Pi WiFi Setup](ROBOT_PI_WIFI_SETUP.md)
 
 ## Architecture
 
@@ -39,7 +39,7 @@ This is the critical step — once connected, you control the robot entirely fro
 
 ## Step 1: SSH Connection
 
-Use the robot IP confirmed in [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md).
+Use the robot IP confirmed in [robot Pi WiFi Setup](ROBOT_PI_WIFI_SETUP.md).
 
 Open a terminal on your Pi 500:
 
@@ -132,7 +132,7 @@ Expected:
 
 Each wheel should move when its motor number is tested. If the wrong wheel moves, the motor cables are connected to the wrong port. If a wheel does not move or spins backward during this single-motor test, stop before running drive patterns.
 
-If this test fails, go back to [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) and check the motor wiring photos before changing code.
+If this test fails, go back to [robot Assembly Guide](../workshop/ROBOT_ASSEMBLY_GUIDE.md) and check the motor wiring photos before changing code.
 
 ## Step 4: Test Arm Servos
 
@@ -159,7 +159,7 @@ Servo 2 is not used on this robot.
 
 If a drive motor moves during a servo test, stop and ask a facilitator to check the board connection and software image.
 
-If the wrong arm joint moves, or a servo does not move, go back to [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) and check the arm and servo wiring before changing code.
+If the wrong arm joint moves, or a servo does not move, go back to [robot Assembly Guide](../workshop/ROBOT_ASSEMBLY_GUIDE.md) and check the arm and servo wiring before changing code.
 
 ## Step 5: Test Sonar
 
@@ -174,7 +174,7 @@ Put your hand in front of the robot and run the test again. The distance should 
 
 If you see `no reading`, check that I2C is enabled, the sonar cable is connected, and `sudo i2cdetect -y 1` shows address `77`.
 
-If the sonar check fails, go back to [B1: robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md) and check the sonar mounting and wiring before changing code.
+If the sonar check fails, go back to [robot Assembly Guide](../workshop/ROBOT_ASSEMBLY_GUIDE.md) and check the sonar mounting and wiring before changing code.
 
 ## Step 6: Test Camera Hardware
 

@@ -1,4 +1,4 @@
-# E2: Gamepad Remote Control
+# Gamepad Remote Control
 
 **Phase 2 support: Capabilities Exploration**
 

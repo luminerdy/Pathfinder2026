@@ -43,15 +43,15 @@ During this phase, teams should read code and may make small experiments. Keep t
 
 Run these demos first. They cover the robot behaviors most teams need before attempting the course.
 
-| Step | Capability | Demo |
-|------|------------|------|
-| D1 | Mecanum drive | `python3 skills/mecanum_drive/run_demo.py` |
-| D2 | Sonar sensors | `python3 skills/sonar_sensors/run_demo.py` |
-| D3 | robotic arm | `python3 skills/robotic_arm/run_demo.py` |
+| Capability | Demo |
+|------------|------|
+| Mecanum drive | `python3 skills/mecanum_drive/run_demo.py` |
+| Sonar sensors | `python3 skills/sonar_sensors/run_demo.py` |
+| robotic arm | `python3 skills/robotic_arm/run_demo.py` |
 
 ## Recommended Demo Notes
 
-### D1: Mecanum Drive
+### Mecanum Drive
 
 This demo starts with a standard square pattern, then shows a mecanum square using sideways movement, then shows a diagonal square using diagonal wheel pairs.
 
@@ -63,7 +63,7 @@ python3 skills/mecanum_drive/run_demo.py
 
 Watch which functions match each side of each square. If the movement is wrong, go back to Phase 1 motor wiring checks before changing code.
 
-### D2: Sonar Sensors
+### Sonar Sensors
 
 This demo shows the code that reads distance from the ultrasonic sensor and uses that distance to make simple decisions.
 
@@ -75,7 +75,7 @@ Put your hand or a block in front of the robot and watch the distance readings c
 
 If the readings do not change, go back to Phase 1 sonar wiring checks before changing code.
 
-### D3: robotic arm pickup
+### robotic arm pickup
 
 This demo shows the code that moves the arm through a pickup-and-load sequence.
 
@@ -93,22 +93,22 @@ If any movement is not correct, stop and re-check the arm assembly, block placem
 
 Use these after the team has explored the individual capability scripts. Manual control is useful for practice, field scouting, and testing strategy, but it should not replace understanding the code that makes each capability work.
 
-| Step | Tool | Guide |
-|------|------|-------|
-| E1 | Web manual control | [E1: Web Manual Control](E1_WEB_MANUAL_CONTROL.md) |
-| E2 | Gamepad remote control | [E2: Gamepad Remote Control](E2_GAMEPAD_REMOTE_CONTROL.md) |
+| Tool | Guide |
+|------|-------|
+| Web manual control | [Web Manual Control](WEB_MANUAL_CONTROL.md) |
+| Gamepad remote control | [Gamepad Remote Control](GAMEPAD_REMOTE_CONTROL.md) |
 
 ## Optional If Time Allows
 
 Use these after the recommended demos are working. These are useful for stronger autonomous runs, but teams should not get stuck here before they have a simple course strategy.
 
-| Step | Capability | Demo |
-|------|------------|------|
-| D5 | Block detection | `python3 skills/block_detection/run_demo.py` |
-| E3 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
-| E4 | Visual servoing | `python3 skills/visual_servoing/run_demo.py` |
-| E5 | Autonomous pickup | `python3 skills/autonomous_pickup/run_demo.py` |
-| E6 | Line following | `python3 skills/line_following/run_demo.py` |
+| Capability | Demo |
+|------------|------|
+| Block detection | `python3 skills/block_detection/run_demo.py` |
+| AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
+| Visual servoing | `python3 skills/visual_servoing/run_demo.py` |
+| Autonomous pickup | `python3 skills/autonomous_pickup/run_demo.py` |
+| Line following | `python3 skills/line_following/run_demo.py` |
 
 ## Team Notes
 

@@ -2,7 +2,7 @@
 
 **Phase 2 support: Capabilities Exploration**
 
-The recommended D1-D3 demos are tuned by changing named constants in the Python file that the team runs. Their nearby `config.yaml` files are reference material and are not loaded by these demos.
+The recommended demos are tuned by changing named constants in the Python file that the team runs. Their nearby `config.yaml` files are reference material and are not loaded by these demos.
 
 ## Basic Rule
 
@@ -10,7 +10,7 @@ Change one value at a time, save the file, run the same demo again, and write do
 
 Do team experiments in `/home/robot/team_code`. Use [Team code workflow](../support/TEAM_CODE_WORKFLOW.md) before editing.
 
-## D1: Mecanum Drive
+## Mecanum Drive
 
 File:
 
@@ -31,7 +31,7 @@ Find the `TEAM TUNING` section near the top:
 
 Battery voltage and floor surface affect every movement. Record both when comparing results.
 
-## D2: Sonar Sensors
+## Sonar Sensors
 
 File:
 
@@ -53,7 +53,7 @@ Find the `TEAM TUNING` section near the top:
 
 Test with a person ready to press `Ctrl+C`. Keep the robot on the floor in a clear area.
 
-## D3: Robotic Arm
+## Robotic Arm
 
 File:
 

@@ -1,4 +1,4 @@
-# C1: Pi 500 Setup
+# Pi 500 Setup
 
 **Phase 1: Assemble**
 
@@ -6,7 +6,7 @@
 
 The Pi 500 is a keyboard computer — the keyboard IS the computer. You just need a monitor and mouse.
 
-Workshop note: the Pi 500 OS image should already be created before the event. Do not run [A1: Pi 500 OS Build](A1_PI500_OS_BUILD.md) during the workshop unless a facilitator tells you to rebuild an SD card.
+Workshop note: the Pi 500 OS image should already be created before the event. Do not run [Pi 500 OS Build](PI500_OS_BUILD.md) during the workshop unless a facilitator tells you to rebuild an SD card.
 
 For a short team-facing checklist, use [Team Start Handout](../handouts/TEAM_START_HANDOUT.md).
 
@@ -99,7 +99,7 @@ VS Code should already be installed on the Pi 500 image. This step only verifies
    - `ms-python.python`
    - `ms-vscode-remote.remote-ssh`
 
-If VS Code or either extension is missing, ask a facilitator. Facilitators can use [A1: Pi 500 OS Build](A1_PI500_OS_BUILD.md), Step 6 and Step 7, to repair the image.
+If VS Code or either extension is missing, ask a facilitator. Facilitators can use [Pi 500 OS Build](PI500_OS_BUILD.md), Step 6 and Step 7, to repair the image.
 
 The Pi 500 control hub is now ready. You may not be ready to connect to the robot yet. Wait until the robot assembly team has the robot built, powered, and safe to test.
 
@@ -129,12 +129,12 @@ You should see files like `README.md`, the `docs/` folder, and `docs/workshop/AS
 ## What To Do While The robot Is Still Being Built
 
 - Help the robot assembly team with the checklist.
-- Read [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md) so you know how the robot IP will be found.
-- Read [C3: Connect and Test](C3_CONNECT_AND_TEST.md) so you know what will happen after the robot IP is known.
+- Read [robot Pi WiFi Setup](ROBOT_PI_WIFI_SETUP.md) so you know how the robot IP will be found.
+- Read [Connect and Test](CONNECT_AND_TEST.md) so you know what will happen after the robot IP is known.
 - Open [Student troubleshooting](../support/TROUBLESHOOTING.md) in another browser tab.
 - Do not try to SSH into the robot until the robot is powered on and the robot IP is known.
 
-When the robot is assembled and powered on, use [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md), then [C3: Connect and Test](C3_CONNECT_AND_TEST.md).
+When the robot is assembled and powered on, use [robot Pi WiFi Setup](ROBOT_PI_WIFI_SETUP.md), then [Connect and Test](CONNECT_AND_TEST.md).
 
 ---
 
@@ -143,12 +143,12 @@ When the robot is assembled and powered on, use [C2: robot Pi WiFi Setup](C2_ROB
 | Action | How |
 |--------|-----|
 | Open terminal | Ctrl+Alt+T |
-| Edit code | Use VS Code with Remote SSH after C3 |
+| Edit code | Use VS Code with Remote SSH after connect/test |
 | Run Python | `python3 script.py` |
 | Stop a running script | Ctrl+C |
 
-Robot SSH, file copy, and camera web links start after [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md), when the robot IP is known.
+Robot SSH, file copy, and camera web links start after [robot Pi WiFi Setup](ROBOT_PI_WIFI_SETUP.md), when the robot IP is known.
 
 ---
 
-**Next when the robot is ready:** [C2: robot Pi WiFi Setup](C2_ROBOT_PI_WIFI_SETUP.md)
+**Next when the robot is ready:** [robot Pi WiFi Setup](ROBOT_PI_WIFI_SETUP.md)

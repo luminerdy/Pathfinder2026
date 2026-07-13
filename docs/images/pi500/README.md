@@ -1,6 +1,6 @@
 # Pi 500 Setup Photos
 
-Pi 500 setup photos used by `docs/setup/C1_PI500_SETUP.md`.
+Pi 500 setup photos used by `docs/setup/PI500_SETUP.md`.
 
 Photos in this folder:
 

@@ -1,4 +1,4 @@
-# E1: Web Manual Control
+# Web Manual Control
 
 **Phase 2 support: Capabilities Exploration**
 
@@ -35,7 +35,7 @@ From the Pi 500 browser, open:
 http://<ROBOT_IP>:8080
 ```
 
-Use the robot IP from Phase 1, C2. Do not use the Pi 500 IP.
+Use the robot IP from Phase 1. Do not use the Pi 500 IP.
 
 ## Controls
 
@@ -65,4 +65,4 @@ In the terminal running the web server, press:
 Ctrl+C
 ```
 
-Then continue with [E2: Gamepad Remote Control](E2_GAMEPAD_REMOTE_CONTROL.md) or [Phase 3: Course Challenge](COURSE_CHALLENGE.md).
+Then continue with [Gamepad Remote Control](GAMEPAD_REMOTE_CONTROL.md) or [Phase 3: Course Challenge](COURSE_CHALLENGE.md).

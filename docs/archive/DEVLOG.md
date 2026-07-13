@@ -80,7 +80,7 @@ Built full end-to-end capability for navigating the "Zone 584" field challenge: 
 ### buddy2 Setup
 - buddy2 confirmed running Debian 13.4 Trixie (not Bookworm), Python 3.13.5
 - Discovered: `i2cdetect` does not show motor board at 0x7A on buddy2 — confirmed normal; use Python battery read test instead
-- Updated the robot Pi OS build guide for Trixie and pushed to GitHub; this guide now lives at `docs/setup/A2_ROBOT_PI_OS_BUILD.md`
+- Updated the robot Pi OS build guide for Trixie and pushed to GitHub; this guide now lives at `docs/setup/ROBOT_PI_OS_BUILD.md`
 
 ### Open Priorities Identified
 - Camera calibration: `fx=500` is hardcoded estimate across 9 files; real `.npz` from V1 needed (top priority)

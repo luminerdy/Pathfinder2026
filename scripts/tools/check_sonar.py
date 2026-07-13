@@ -47,7 +47,7 @@ def main():
         else:
             print("ERROR: No valid sonar readings")
             print("Check I2C, sonar cable, and address 77 with: sudo i2cdetect -y 1")
-            print("If the sonar check fails, go back to B1: robot Assembly Guide and check the sonar mounting and wiring before changing code.")
+            print("If the sonar check fails, go back to robot Assembly Guide and check the sonar mounting and wiring before changing code.")
             sys.exit(1)
 
     finally:

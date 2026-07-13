@@ -65,7 +65,7 @@ def main():
         print("  Servo 6: base rotation")
         print()
         print("If a drive motor moved during this test, stop and ask a facilitator to check the board connection and software image.")
-        print("If the wrong arm joint moved, or a servo did not move, go back to B1: robot Assembly Guide and check the arm and servo wiring before changing code.")
+        print("If the wrong arm joint moved, or a servo did not move, go back to robot Assembly Guide and check the arm and servo wiring before changing code.")
 
     finally:
         # If the user presses Ctrl+C, make sure the drive motors are still off.

@@ -2,7 +2,7 @@
 
 These photos support the Pathfinder2026 robot assembly and connect/test guides.
 
-Used in `docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md`:
+Used in `docs/workshop/ROBOT_ASSEMBLY_GUIDE.md`:
 
 - `01_robot_unpacked.jpg`
 - `02_wheels.jpg`
@@ -18,7 +18,7 @@ Used in `docs/workshop/B1_ROBOT_ASSEMBLY_GUIDE.md`:
 - `15_hdmi_connection.jpg`
 - `16_extra_screws.jpg`
 
-Used in `docs/setup/C3_CONNECT_AND_TEST.md`:
+Used in `docs/setup/CONNECT_AND_TEST.md`:
 
 - `17_pickup_1.jpg`
 - `18_pickup_2.jpg`
@@ -27,7 +27,7 @@ Used in `docs/setup/C3_CONNECT_AND_TEST.md`:
 - `21_pickup_5.jpg`
 - `22_pickup_6.jpg`
 
-Used in `docs/setup/C2_ROBOT_PI_WIFI_SETUP.md`:
+Used in `docs/setup/ROBOT_PI_WIFI_SETUP.md`:
 
 - `23_robot_power_switches.jpg`
 - `25_robot_wifi_icon_disconnected.jpg`

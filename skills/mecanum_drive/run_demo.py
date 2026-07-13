@@ -288,8 +288,8 @@ def main():
         print()
         print("Next steps:")
         print("  - If motors did not move, re-check battery and Step 3 motor wiring.")
-        print("  - If movement direction was wrong, go back to B1: robot Assembly Guide and check motor wiring before changing code.")
-        print("  - If everything looked correct, continue with D2 Sonar Sensors.")
+        print("  - If movement direction was wrong, go back to robot Assembly Guide and check motor wiring before changing code.")
+        print("  - If everything looked correct, continue with Sonar Sensors.")
         
         # Victory beep
         demo.board.set_buzzer(1000, 0.1, 0.1, 2)
