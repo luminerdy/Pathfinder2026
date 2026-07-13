@@ -1,4 +1,4 @@
-# Line Following (E6) - Quick Reference
+# Line Following - Quick Reference
 
 **Follow a lime green tape line using camera + mecanum drive**
 
@@ -30,17 +30,19 @@ detection = follower.detect_line(frame)
 
 ## How It Works
 1. Camera points down (arm repositioned)
-2. Crop to bottom third of frame (ROI)
-3. HSV threshold for lime green (H=40-75)
-4. Find centroid of green pixels
-5. Proportional steering (error * Kp)
-6. Stop when line ends (green ratio drops)
+2. Crop to the visible tape area (ROI)
+3. HSV threshold for lime green (H=35-85)
+4. Split the line into near, middle, and far bands
+5. Strafe to stay centered over the near line
+6. Add a small turn correction for curves
+7. Stop when line ends (green ratio drops)
 
 ## Key Parameters
-- HSV: [40,100,100] to [75,255,255] (lime green)
-- Kp: 0.15 (steering gain)
-- Forward speed: 25
-- ROI: Bottom 35% of frame
+- HSV: [35,50,50] to [85,255,255] (lime green)
+- Strafe gain: 0.14
+- Turn gain: 0.08
+- Forward speed: 38
+- ROI: Top 65% of frame
 
 ## Why Lime Green?
 - Far from red (H=0-10), blue (H=100-130), yellow (H=20-40)

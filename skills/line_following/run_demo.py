@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Line Following Demo (E6)
+Line Following Demo
 
 Follow a lime green tape line on the floor.
 
@@ -17,9 +17,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
 from skills.line_following.line_follower import LineFollower
 
-def callback(detection, steer):
-    print("  line at x=%d, err=%+d, steer=%+.1f, green=%.1f%%" % (
-        detection['cx'], detection['error'], steer, detection['ratio'] * 100))
+def callback(detection, strafe, turn):
+    print("  line x=%d, err=%+d, heading=%+d, strafe=%+.1f, turn=%+.1f, green=%.1f%%" % (
+        detection['cx'], detection['error'], detection['heading_error'],
+        strafe, turn, detection['ratio'] * 100))
 
 def main():
     print("=" * 60)
@@ -62,7 +63,8 @@ def main():
         print("What you learned:")
         print("  [OK] HSV thresholding detects colored line on floor")
         print("  [OK] Centroid calculation finds line center")
-        print("  [OK] Proportional control steers to follow line")
+        print("  [OK] Mecanum strafe keeps the robot centered over the line")
+        print("  [OK] Small turn corrections help follow curves")
         print("  [OK] End-of-line detection stops when tape ends")
 
     except KeyboardInterrupt:

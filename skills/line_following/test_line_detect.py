@@ -61,9 +61,9 @@ for i in range(5):
             print("    Green ratio: %.2f%%" % (detection['ratio'] * 100))
             
             if detection['error'] < -50:
-                print("    Position: LINE IS LEFT (robot should steer left)")
+                print("    Position: LINE IS LEFT (robot should strafe left)")
             elif detection['error'] > 50:
-                print("    Position: LINE IS RIGHT (robot should steer right)")
+                print("    Position: LINE IS RIGHT (robot should strafe right)")
             else:
                 print("    Position: LINE IS CENTERED (go straight)")
         else:

@@ -1,4 +1,4 @@
-# Line Following Configuration Reference (E6)
+# Line Following Configuration Reference
 # REFERENCE ONLY: the current demo does not load this file.
 
 # Lime green tape HSV range
@@ -10,16 +10,20 @@ color:
 
 # Region of Interest
 roi:
-  top_ratio: 0.65  # Start ROI at 65% down frame (bottom 35%)
+  top_ratio: 0.0
+  bottom_ratio: 0.65
   # Lower value = see further ahead (better for fast speeds)
   # Higher value = see closer (better for tight curves)
 
 # Control parameters
 control:
-  Kp: 0.15              # Proportional gain (steer = error * Kp)
-  forward_speed: 25      # Base forward speed (duty cycle 0-100)
-  max_steer: 35          # Maximum steering correction
-  min_motor: 15          # Minimum motor speed (overcome friction)
+  k_strafe: 0.14         # Pixel error -> sideways correction
+  k_turn: 0.08           # Line angle estimate -> heading correction
+  forward_speed: 38      # Base forward speed (duty cycle 0-100)
+  max_strafe: 14         # Maximum sideways correction
+  max_turn: 10           # Maximum heading correction
+  center_deadband: 10    # Pixels from center before strafing
+  heading_deadband: 18   # Pixel difference before turning
 
 # Line detection thresholds
 detection:
@@ -38,13 +42,15 @@ safety:
 # Tuning guide:
 #
 # Robot oscillates (wobbles):
-#   - Decrease Kp (e.g., 0.10)
+#   - Decrease k_strafe
+#   - Decrease k_turn
 #   - Decrease forward_speed (slower = smoother)
 #
 # Robot loses line on curves:
-#   - Increase Kp (e.g., 0.20)
+#   - Increase k_turn
+#   - Increase max_turn
 #   - Decrease forward_speed (more time to react)
-#   - Decrease roi.top_ratio (see further ahead)
+#   - Decrease roi.top_ratio or increase roi.bottom_ratio
 #
 # False detections:
 #   - Narrow HSV range (increase S_min or V_min)

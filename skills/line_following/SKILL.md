@@ -1,8 +1,8 @@
-# Skill: Line Following (E6)
+# Skill: Line Following
 
-**Difficulty:** ⭐⭐⭐ (Advanced - Vision + Drive Integration)
+**Difficulty:** Advanced - Vision + Drive Integration
 **Type:** Closed-Loop Path Tracking
-**Prerequisites:** D1 (Mecanum Drive), camera hardware checked in C3
+**Prerequisites:** Mecanum Drive, camera hardware checked in Connect And Test
 **Estimated Time:** 25-30 minutes
 
 ---
@@ -13,12 +13,12 @@
 
 ### What This Skill Does
 
-Follow a **lime green tape line** on the floor using camera feedback. The camera sees the line, calculates its position relative to the robot's center, and steers to stay on track. This is **closed-loop path following** — the same concept self-driving cars use.
+Follow a **lime green tape line** on the floor using camera feedback. The camera sees the line, calculates its position relative to the robot's center, strafes to stay on top of the line, and adds small turn corrections for curves. This is **closed-loop path following** - the same concept self-driving cars use.
 
 **What you'll learn:**
 - Line detection using HSV color filtering
 - Centroid calculation (where is the line?)
-- Proportional steering (P-controller)
+- Proportional strafe and turn control
 - Region of interest (ROI) for efficiency
 - End-of-line detection (when to stop)
 - Intersection handling (optional: which way to turn)
@@ -37,7 +37,7 @@ Follow a **lime green tape line** on the floor using camera feedback. The camera
 Camera Frame (pointed down)
     |
     v
-Crop to ROI (bottom third of frame — road ahead)
+Crop to ROI (visible tape area)
     |
     v
 Convert to HSV
@@ -46,16 +46,16 @@ Convert to HSV
 Threshold for lime green (create binary mask)
     |
     v
-Find centroid of green pixels (center of mass)
+Find weighted line center using near/middle/far bands
     |
     v
-Calculate error (centroid vs frame center)
+Calculate lateral error and rough line angle
     |
     v
-Proportional steering (error * Kp = turn speed)
+Proportional control (strafe to center, turn for curve)
     |
     v
-Mecanum drive (forward + steering correction)
+Mecanum drive (forward + strafe + turn correction)
 ```
 
 ### Why Lime Green?
@@ -102,7 +102,7 @@ python3 run_demo.py
 **What happens:**
 1. Camera points down (arm repositioned)
 2. Detects lime green line
-3. robot drives forward, steering to follow line
+3. robot drives forward, strafing to stay centered over the line
 4. Stops when line ends or timeout
 
 **SAFETY:** robot will drive! Clear the path and be ready with Ctrl+C.
@@ -110,11 +110,12 @@ python3 run_demo.py
 ### Step 3: Tuning
 
 If robot oscillates (wobbles back and forth):
-- Decrease `Kp` in `line_follower.py` (less aggressive steering)
+- Decrease `K_STRAFE` in `line_follower.py`
+- Decrease `K_TURN` in `line_follower.py`
 
 If robot loses the line on curves:
-- Increase `Kp` (more aggressive steering)
-- Decrease `forward_speed` (slower = more time to react)
+- Increase `K_TURN`
+- Decrease `FORWARD_SPEED` (slower = more time to react)
 
 ---
 
@@ -144,15 +145,14 @@ follower.cleanup()
 ```python
 ret, frame = camera.read()
 
-# Only look at bottom third (road immediately ahead)
+# Look at the visible tape area
 height = frame.shape[0]  # 480
-roi = frame[height * 2 // 3:, :]  # rows 320-480
-# This is 160 pixels tall x 640 wide
+roi = frame[0:int(height * 0.65), :]
 ```
 
 **Why crop?**
-- Top of frame = far away (less relevant for steering)
-- Bottom = close (what robot needs to steer by NOW)
+- Near tape is most important for centering
+- Far tape helps estimate the curve direction
 - Less pixels to process = faster
 - Reduces false positives from distant objects
 
@@ -161,8 +161,8 @@ roi = frame[height * 2 // 3:, :]  # rows 320-480
 hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 
 # Lime green tape
-lower_green = np.array([40, 100, 100])
-upper_green = np.array([75, 255, 255])
+lower_green = np.array([35, 50, 50])
+upper_green = np.array([85, 255, 255])
 mask = cv2.inRange(hsv, lower_green, upper_green)
 
 # Clean up noise
@@ -184,29 +184,31 @@ else:
     line_found = False  # No green pixels = no line
 ```
 
-**Step 4: Calculate steering error**
+**Step 4: Calculate centering and heading error**
 ```python
 frame_center = 320  # 640 / 2
 
 if line_found:
     error = cx - frame_center  # Positive = line is right
-    # error = -200 → line far left, steer left
-    # error = 0    → line centered, go straight
-    # error = +200 → line far right, steer right
+    # error = -200 -> line far left, strafe left
+    # error = 0    -> line centered, go straight
+    # error = +200 -> line far right, strafe right
 ```
 
 **Step 5: Proportional control**
 ```python
-Kp = 0.15  # Proportional gain
-forward_speed = 25  # Base forward speed
+K_STRAFE = 0.14  # Sideways correction gain
+K_TURN = 0.08    # Heading correction gain
+forward_speed = 38  # Base forward speed
 
-steer = error * Kp  # Steering correction
+strafe = error * K_STRAFE
+turn = heading_error * K_TURN
 
-# Mecanum: forward + rotation
-fl = int(forward_speed + steer)
-fr = int(forward_speed - steer)
-rl = int(forward_speed + steer)
-rr = int(forward_speed - steer)
+# Mecanum: forward + sideways correction + small turn correction
+fl = int(forward_speed + strafe + turn)
+fr = int(forward_speed - strafe - turn)
+rl = int(forward_speed - strafe + turn)
+rr = int(forward_speed + strafe - turn)
 
 board.set_motor_duty([(1, fl), (2, fr), (3, rl), (4, rr)])
 ```
@@ -246,8 +248,9 @@ near_cx = find_centroid(near_row, mask)
 mid_cx = find_centroid(mid_row, mask)
 far_cx = find_centroid(far_row, mask)
 
-# Weighted steering: near matters most
-error = near_cx * 0.6 + mid_cx * 0.3 + far_cx * 0.1 - frame_center
+# Weighted centering: near matters most
+error = near_cx * 0.75 + mid_cx * 0.20 + far_cx * 0.05 - frame_center
+heading_error = far_cx - near_cx
 ```
 
 **Intersection detection:**
@@ -265,51 +268,40 @@ if green_ratio > INTERSECTION_THRESHOLD:
 
 ## Engineering Deep Dive (Advanced)
 
-### PID vs P-Only Control
+### Proportional Control
 
-**P-only (our implementation):**
+**Centering correction:**
 ```
-steer = Kp * error
+strafe = K_STRAFE * error
 
-Pros: Simple, fast, easy to tune
-Cons: Steady-state error on curves, can oscillate
-```
-
-**PD (proportional-derivative):**
-```
-steer = Kp * error + Kd * (error - prev_error) / dt
-
-Pros: Anticipates curves (derivative = rate of change)
-Cons: Amplifies noise (derivative of noisy signal = more noise)
+Positive error means the line is right of center, so the robot strafes right.
 ```
 
-**PID (full):**
+**Heading correction:**
 ```
-integral += error * dt
-steer = Kp * error + Ki * integral + Kd * derivative
+turn = K_TURN * heading_error
 
-Pros: Eliminates steady-state error (integral accumulates bias)
-Cons: Integral windup, harder to tune, overkill for simple line following
+Positive heading error means the line trends right ahead, so the robot turns right a little.
 ```
 
-**For line following: P-only is usually enough.** Camera feedback at 30fps provides natural damping. Add D-term only if oscillation is a problem.
+This keeps the robot physically over the tape instead of swinging wide around it.
 
 ### Scan Line Analysis
 
 **Why bottom of frame is most important:**
 ```
-Frame top:     Far away    → Steering info for future
-Frame middle:  Medium      → Where robot will be soon
-Frame bottom:  Close       → Where robot IS right now
+Frame top:     Far away    -> Curve information
+Frame middle:  Medium      -> Where robot will be soon
+Frame bottom:  Close       -> Where robot IS right now
 
-For steering: React to what's close (bottom)
+For centering: React to what's close (bottom)
 For planning: Look ahead (top) to anticipate curves
 ```
 
 **Weighted scan lines approximate "look-ahead":**
-- Near (60%): Immediate correction
-- Mid (30%): Short-term planning
-- Far (10%): Curve anticipation
+- Near (75%): Immediate centering
+- Mid (20%): Short-term planning
+- Far (5%): Curve anticipation
 
 ### Lighting Robustness
 
@@ -361,9 +353,9 @@ Fast (speed=40):
   + Fast challenge time
   - Overshoots curves
   - May lose line
-  - Needs higher Kp (more aggressive)
+  - Needs higher turn gain
 
-Sweet spot: speed=25, Kp=0.15 (tune from here)
+Sweet spot: speed=38, strafe gain=0.14, turn gain=0.08 (tune from here)
 ```
 
 ---
