@@ -39,9 +39,11 @@ detection = follower.detect_line(frame)
 
 ## Key Parameters
 - HSV: [35,50,50] to [85,255,255] (lime green)
-- Strafe gain: 0.14
+- Strafe gain: 0.22
 - Turn gain: 0.08
 - Forward speed: 38
+- Minimum strafe: 18
+- Maximum strafe: 28
 - ROI: Top 65% of frame
 
 ## Why Lime Green?

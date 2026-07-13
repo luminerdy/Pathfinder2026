@@ -17,10 +17,11 @@ roi:
 
 # Control parameters
 control:
-  k_strafe: 0.14         # Pixel error -> sideways correction
+  k_strafe: 0.22         # Pixel error -> sideways correction
   k_turn: 0.08           # Line angle estimate -> heading correction
   forward_speed: 38      # Base forward speed (duty cycle 0-100)
-  max_strafe: 14         # Maximum sideways correction
+  min_strafe: 18         # Minimum useful sideways correction
+  max_strafe: 28         # Maximum sideways correction
   max_turn: 10           # Maximum heading correction
   center_deadband: 10    # Pixels from center before strafing
   heading_deadband: 18   # Pixel difference before turning

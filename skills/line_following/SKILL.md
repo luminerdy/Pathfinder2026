@@ -197,11 +197,16 @@ if line_found:
 
 **Step 5: Proportional control**
 ```python
-K_STRAFE = 0.14  # Sideways correction gain
+K_STRAFE = 0.22  # Sideways correction gain
 K_TURN = 0.08    # Heading correction gain
 forward_speed = 38  # Base forward speed
 
-strafe = error * K_STRAFE
+if abs(error) > 10:
+    strafe = error * K_STRAFE
+    if abs(strafe) < 18:
+        strafe = 18 if strafe > 0 else -18
+else:
+    strafe = 0
 turn = heading_error * K_TURN
 
 # Mecanum: forward + sideways correction + small turn correction
@@ -355,7 +360,7 @@ Fast (speed=40):
   - May lose line
   - Needs higher turn gain
 
-Sweet spot: speed=38, strafe gain=0.14, turn gain=0.08 (tune from here)
+Sweet spot: speed=38, strafe gain=0.22, turn gain=0.08, minimum strafe=18 (tune from here)
 ```
 
 ---

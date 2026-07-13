@@ -67,10 +67,11 @@ class LineFollower:
     HSV_UPPER = np.array([85, 255, 255])
     
     # Control
-    K_STRAFE = 0.14         # Pixel error -> sideways correction
+    K_STRAFE = 0.22         # Pixel error -> sideways correction
     K_TURN = 0.08           # Line angle estimate -> heading correction
     FORWARD_SPEED = 38      # Base forward speed; keep above weak-battery stall range
-    MAX_STRAFE = 14         # Maximum sideways correction
+    MIN_STRAFE = 18         # Minimum useful sideways correction
+    MAX_STRAFE = 28         # Maximum sideways correction
     MAX_TURN = 10           # Maximum heading correction
     CENTER_DEADBAND = 10    # Pixels from center before strafing
     HEADING_DEADBAND = 18   # Pixel difference between near/far before turning
@@ -384,6 +385,8 @@ class LineFollower:
                 # so the robot strafes right to get back over the line.
                 if abs(detection['error']) > self.CENTER_DEADBAND:
                     strafe = detection['error'] * self.K_STRAFE
+                    if abs(strafe) < self.MIN_STRAFE:
+                        strafe = self.MIN_STRAFE if strafe > 0 else -self.MIN_STRAFE
                 else:
                     strafe = 0
                 strafe = max(-self.MAX_STRAFE, min(self.MAX_STRAFE, strafe))
