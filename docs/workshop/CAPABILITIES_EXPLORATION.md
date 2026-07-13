@@ -104,10 +104,7 @@ Use these after the recommended demos are working. These are useful for stronger
 
 | Capability | Demo |
 |------------|------|
-| Block detection | `python3 skills/block_detection/run_demo.py` |
 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
-| Visual servoing | `python3 skills/visual_servoing/run_demo.py` |
-| Autonomous pickup | `python3 skills/autonomous_pickup/run_demo.py` |
 | Line following | `python3 skills/line_following/run_demo.py` |
 
 ## Team Notes
