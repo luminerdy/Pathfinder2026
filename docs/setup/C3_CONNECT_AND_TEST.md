@@ -49,7 +49,7 @@ ssh robot@<ROBOT_IP>
 
 - Replace `<ROBOT_IP>` with your robot's actual IP
 - Username: `robot`
-- Password: (provided by facilitator)
+- Password: `R4spb3rry`
 - Type `yes` if asked about fingerprint
 
 **Success looks like:**
