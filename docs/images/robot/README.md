@@ -27,6 +27,13 @@ Used in `docs/setup/C3_CONNECT_AND_TEST.md`:
 - `21_pickup_5.jpg`
 - `22_pickup_6.jpg`
 
+Used in `docs/setup/C2_ROBOT_PI_WIFI_SETUP.md`:
+
+- `23_robot_power_switches.jpg`
+- `24_robot_pi_config_password.jpg`
+- `25_robot_wifi_icon_disconnected.jpg`
+- `26_robot_wifi_ip_hover.jpg`
+
 Reference image not currently embedded in the guide:
 
 - `06_fan_assembly.jpg`

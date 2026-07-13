@@ -2,7 +2,7 @@
 
 **Phase 1: Assemble**
 
-**Purpose:** Power on the assembled robot, confirm it is on the workshop network, and find the robot IP address for C3.
+**Purpose:** Power on the assembled robot, connect the robot Pi to the workshop WiFi, and find the robot IP address for C3.
 
 This is an event-time step. The robot SD card image should already be created before the event. Do not run [A2: robot Pi OS Build](A2_ROBOT_PI_OS_BUILD.md) during the workshop unless a facilitator tells you to rebuild a robot SD card.
 
@@ -11,40 +11,68 @@ This is an event-time step. The robot SD card image should already be created be
 - robot is assembled: [B1 robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md)
 - robot batteries are installed and charged
 - Pi 500 is on workshop WiFi: [C1 Pi 500 Setup](C1_PI500_SETUP.md)
-- temporary monitor and keyboard/mouse for the robot Pi, if the robot does not have a display attached
+- temporary monitor is connected to the robot Pi
+- Pi 500 mouse is connected to the robot Pi
+- `GuestWifi.pdf` is available on the robot Pi desktop
 
-## Step 1: Power On The robot Safely
-
-**Movement warning:** When the robot powers on, the startup script may move the arm to its startup position. Keep fingers, tools, cables, and loose parts away from the arm, gripper, wheels, and linkages before turning on power.
-
-1. Put the robot on the floor or a safe test stand.
-2. Keep hands clear of wheels, arm joints, and the gripper.
-3. Turn on robot power.
-4. Wait for the robot Pi to finish booting and for any startup arm movement to stop.
-
-## Step 2: Open A Terminal On The robot Pi
+## Step 1: Connect The robot Pi To A Monitor And Mouse
 
 This step is done on the robot Pi, not on the Pi 500.
 
-If the robot has a monitor attached, open a terminal on the robot Pi.
+1. Connect the temporary monitor to the robot Pi.
+2. Move the Pi 500 mouse to the robot Pi.
+3. Keep the Pi 500 powered on; you will return to it after the robot IP is found.
 
-The prompt should look something like:
+If the robot Pi does not show a desktop after power-on, ask a facilitator to check the monitor input, HDMI connection, and robot Pi power.
+
+## Step 2: Power On The robot Safely
+
+**Movement warning:** When the robot powers on, the startup script may move the arm to its startup position. Keep fingers, tools, cables, and loose parts away from the arm, gripper, wheels, and linkages before turning on power.
+
+There are two robot power switches: one on the motor controller and one on the battery container.
+
+<img src="../images/robot/23_robot_power_switches.jpg" width="400" alt="robot power switches">
+
+1. Put the robot on the floor or a safe test stand.
+2. Keep hands clear of wheels, arm joints, and the gripper.
+3. Turn on both robot power switches.
+4. Wait for the robot Pi to finish booting and for any startup arm movement to stop.
+
+## Step 3: Check The robot Pi Password
+
+If the robot image asks you to change the default password, use the Raspberry Pi Configuration tool.
+
+Open:
 
 ```text
-robot@pathfinder:~ $
+Pi menu -> Preferences -> Raspberry Pi Configuration
 ```
 
-If you cannot open a terminal on the robot Pi, ask a facilitator for help connecting a temporary monitor and keyboard/mouse.
+Do not change the hostname during the workshop.
 
-## Step 3: Find The robot IP
+<img src="../images/robot/24_robot_pi_config_password.jpg" width="500" alt="Raspberry Pi Configuration password screen">
 
-On the robot Pi terminal, run:
+If the robot image does not ask for a password change, continue to Step 4.
 
-```bash
-hostname -I
-```
+## Step 4: Connect The robot Pi To WiFi
 
-You may see one or more addresses. Use the workshop network IPv4 address.
+Use the Pi 500 mouse to make the WiFi changes on the robot Pi. Use the on-screen keyboard if one appears.
+
+Open `GuestWifi.pdf` from the robot Pi desktop and use the same workshop WiFi instructions used for the Pi 500.
+
+Check the network icon at the top-right of the taskbar. If the network icon looks disconnected, click it and select the correct workshop WiFi network.
+
+<img src="../images/robot/25_robot_wifi_icon_disconnected.jpg" width="200" alt="disconnected WiFi icon on Raspberry Pi desktop">
+
+Type the WiFi password using the on-screen keyboard if needed.
+
+## Step 5: Find The robot IP
+
+When the robot is connected to WiFi, hover the mouse cursor over the active WiFi icon. Write down the assigned IPv4 address.
+
+<img src="../images/robot/26_robot_wifi_ip_hover.jpg" width="600" alt="WiFi hover showing robot IP address">
+
+Use the workshop network IPv4 address.
 
 Example:
 
@@ -60,19 +88,33 @@ Do not use:
 
 Write the robot IP on the team handout or a piece of tape near the Pi 500.
 
-## Step 4: If The robot Has No Workshop IP
+## Step 6: Terminal Fallback
 
-If `hostname -I` returns nothing, or only shows an address that starts with `169.254`, the robot is probably not on the workshop WiFi yet.
-
-Ask a facilitator to check the robot WiFi connection.
-
-Useful facilitator command:
+If you cannot read the IP from the WiFi icon, open a terminal on the robot Pi and run:
 
 ```bash
-nmcli dev wifi list
+hostname -I
 ```
 
-If the robot image already has the workshop WiFi saved, rebooting the robot may be enough:
+The prompt should look something like:
+
+```text
+robot@pathfinder:~ $
+```
+
+You may see one or more addresses. Use the workshop network IPv4 address.
+
+## Step 7: If The robot Has No Workshop IP
+
+If the WiFi hover or `hostname -I` returns nothing, or only shows an address that starts with `169.254`, the robot is probably not on the workshop WiFi yet.
+
+Re-check:
+
+- the robot Pi is connected to the correct workshop WiFi
+- the WiFi password was typed correctly
+- `GuestWifi.pdf` on the robot Pi desktop was followed
+
+If the robot image already has the workshop WiFi saved, rebooting the robot may be enough.
 
 Before rebooting, keep hands clear of the arm and gripper. The startup script may move the arm again after reboot.
 
@@ -80,11 +122,11 @@ Before rebooting, keep hands clear of the arm and gripper. The startup script ma
 sudo reboot
 ```
 
-After the robot boots again, repeat Step 3.
+After the robot boots again, repeat Step 5.
 
-## Step 5: Confirm Network From The Pi 500
+## Step 8: Confirm Network From The Pi 500
 
-Now move back to the Pi 500.
+Move the mouse back to the Pi 500.
 
 On the Pi 500 terminal, run:
 
@@ -98,12 +140,12 @@ Success means the Pi 500 can see the robot on the workshop network.
 
 If ping fails:
 
-- Confirm you typed the robot IP from Step 3.
+- Confirm you typed the robot IP from Step 5 or Step 6.
 - Confirm the Pi 500 is on the workshop WiFi.
-- Repeat Step 3 on the robot Pi in case the IP changed.
+- Repeat Step 5 on the robot Pi in case the IP changed.
 - Compare with another team before asking a facilitator.
 
-## Step 6: Keep The Team On One Address
+## Step 9: Keep The Team On One Address
 
 Use only the robot IP for:
 
@@ -118,7 +160,8 @@ Do not use the Pi 500 IP as a robot connection target.
 The team is ready for connect/test when:
 
 - robot is powered on.
-- robot IP was found from the robot Pi using `hostname -I`.
+- robot Pi is connected to the workshop WiFi.
+- robot IP was found from the robot Pi.
 - Pi 500 can ping the robot IP.
 - Team knows to use `robot@<ROBOT_IP>`.
 
