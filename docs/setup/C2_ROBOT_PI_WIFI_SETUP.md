@@ -10,9 +10,6 @@ This is an event-time step. The robot SD card image should already be created be
 
 - robot is assembled: [B1 robot Assembly Guide](../workshop/B1_ROBOT_ASSEMBLY_GUIDE.md)
 - robot batteries are installed and charged
-- Pi 500 is on workshop WiFi: [C1 Pi 500 Setup](C1_PI500_SETUP.md)
-- temporary monitor is connected to the robot Pi
-- Pi 500 mouse is connected to the robot Pi
 - `GuestWifi.pdf` is available on the robot Pi desktop
 
 ## Step 1: Connect The robot Pi To A Monitor And Mouse
