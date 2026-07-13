@@ -21,9 +21,6 @@ This step is done on the robot Pi, not on the Pi 500.
 
 1. Connect the temporary monitor to the robot Pi.
 2. Move the Pi 500 mouse to the robot Pi.
-3. Keep the Pi 500 powered on; you will return to it after the robot IP is found.
-
-If the robot Pi does not show a desktop after power-on, ask a facilitator to check the monitor input, HDMI connection, and robot Pi power.
 
 ## Step 2: Power On The robot Safely
 
