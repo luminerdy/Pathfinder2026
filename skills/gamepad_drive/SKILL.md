@@ -103,7 +103,7 @@ Triggers override sticks when pressed. Great for smooth, controlled approach.
 |---------|--------|
 | **D-pad Up** | **Front pickup** - reach down, grab block, lift |
 | **D-pad Down** | **Backward drop** - fold arm back, release into rear bin |
-| **D-pad Left** | **AprilTag navigation** - search for an event tag, drive toward it, then return to gamepad control |
+| **D-pad Left** | **AprilTag navigation** - look forward, search for an event tag, drive toward it, then return to gamepad control |
 | **D-pad Right** | **Line following** - find the lime green tape, follow it, then return to gamepad control |
 
 Warning: These are full sequences. Motors stop automatically before the action starts. Keep people clear of the robot path and arm.

@@ -38,7 +38,7 @@ sudo apt install -y python3-pygame joystick
 
 ## Automation Shortcuts
 
-- `D-pad Left` runs AprilTag navigation, then returns to gamepad control.
+- `D-pad Left` moves the arm/camera to look forward, runs AprilTag navigation, then returns to gamepad control.
 - `D-pad Right` runs line following, then returns to gamepad control.
 - Press `Back` or `Start` while an automation is running to cancel it and return to gamepad control.
 

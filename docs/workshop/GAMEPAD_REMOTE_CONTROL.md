@@ -83,7 +83,7 @@ When the program exits, it stops the drive motors and returns the arm to the for
 
 ## Automation Buttons
 
-`D-pad Left` starts AprilTag navigation. The robot searches for event AprilTags `582`, `583`, `584`, or `585`, drives toward the detected tag, then returns to gamepad control.
+`D-pad Left` starts AprilTag navigation. The robot first moves the arm/camera to look forward, searches for event AprilTags `582`, `583`, `584`, or `585`, drives toward the detected tag, then returns to gamepad control.
 
 `D-pad Right` starts line following. The robot searches for the lime green tape, follows the line, then returns to gamepad control.
 
@@ -106,11 +106,13 @@ Use `D-pad Left` only after AprilTag navigation has already worked from Capabili
 
 The robot will:
 
-1. Search for event AprilTags `582`, `583`, `584`, or `585`.
-2. Turn in small steps while searching.
-3. Drive toward the detected tag.
-4. Stop near the target distance.
-5. Return to gamepad control.
+1. Stop the drive motors.
+2. Move the arm/camera to look forward.
+3. Search for event AprilTags `582`, `583`, `584`, or `585`.
+4. Turn in small steps while searching.
+5. Drive toward the detected tag.
+6. Stop near the target distance.
+7. Return to gamepad control.
 
 ### Line Following Button
 

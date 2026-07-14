@@ -177,12 +177,18 @@ def automation_cancel_requested(board):
     return False
 
 
-def run_apriltag_navigation(board):
+def run_apriltag_navigation(board, arm):
     """Run AprilTag navigation, then return to gamepad control."""
     print("AprilTag navigation automation...")
     print("  Looking for event tags: %s" % ", ".join(str(t) for t in EVENT_TAG_IDS))
     print("  Press Back to cancel and return to gamepad control.")
     stop_drive(board)
+
+    # AprilTag navigation needs the camera facing forward. A previous line
+    # following run may have left the arm/camera pointed down.
+    if arm is not None:
+        print("  Moving arm to look forward...")
+        arm.look_forward()
 
     # Create the navigator only for this run so its camera/sonar resources are
     # released before returning to manual gamepad control.
@@ -352,7 +358,7 @@ def main():
                     elif hat == (-1, 0):
                         # This blocks manual driving until navigation finishes
                         # or is cancelled, then returns to this same loop.
-                        run_apriltag_navigation(board)
+                        run_apriltag_navigation(board, arm)
 
                     # D-pad Right = line following automation
                     elif hat == (1, 0):
