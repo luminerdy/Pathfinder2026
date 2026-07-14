@@ -1,4 +1,4 @@
-# Gamepad Remote Control (E2) - Quick Reference
+# Gamepad Remote Control - Quick Reference
 
 **Drive with Logitech F710 wireless gamepad**
 
@@ -31,6 +31,8 @@ sudo apt install -y python3-pygame joystick
 | X | Shake no |
 | D-pad Up | Front pickup |
 | D-pad Down | Drop into rear bin |
+| D-pad Left | AprilTag navigation automation |
+| D-pad Right | Line following automation |
 | **Back** | **EMERGENCY STOP** |
 | **Start** | **Quit** |
 

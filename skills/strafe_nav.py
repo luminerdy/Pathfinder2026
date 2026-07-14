@@ -279,7 +279,7 @@ class StrafeNavigator:
         return v, v >= min_voltage
 
     def navigate_to_tag(self, target_id=None, target_ids=None, target_distance=None,
-                        timeout=30, callback=None):
+                        timeout=30, callback=None, cancel_callback=None):
         """
         Navigate to an AprilTag using strafe + forward simultaneously.
 
@@ -289,6 +289,7 @@ class StrafeNavigator:
             target_distance: How close to get (meters)
             timeout: Max time in seconds
             callback: Optional function(tag_id, dist, angle, action)
+            cancel_callback: Optional function returning True to stop navigation
 
         Returns:
             dict with success, tag_id, final_distance, final_angle, iterations, reason
@@ -320,6 +321,14 @@ class StrafeNavigator:
         try:
             while time.time() - start_time < timeout:
                 iteration += 1
+
+                if cancel_callback and cancel_callback():
+                    self._stop()
+                    return {
+                        'success': False, 'tag_id': last_tag_id,
+                        'final_distance': last_dist, 'final_angle': last_angle,
+                        'iterations': iteration, 'reason': 'cancelled'
+                    }
 
                 sonar_dist = self._get_sonar_distance()
                 if sonar_dist and 0 < sonar_dist < self.SONAR_STOP:
@@ -461,7 +470,7 @@ class StrafeNavigator:
 
     def search_and_navigate(self, target_id=None, target_ids=None, exclude_ids=None,
                             target_distance=None, search_timeout=15,
-                            nav_timeout=30, callback=None):
+                            nav_timeout=30, callback=None, cancel_callback=None):
         """Search for a tag by rotating, then face it and navigate to it."""
         self._open_camera()
 
@@ -479,6 +488,14 @@ class StrafeNavigator:
         clockwise = True
         half = search_timeout / 2.0
         while time.time() - start < search_timeout:
+            if cancel_callback and cancel_callback():
+                self._stop()
+                return {
+                    'success': False, 'tag_id': None,
+                    'final_distance': 0, 'final_angle': 0,
+                    'iterations': 0, 'reason': 'cancelled'
+                }
+
             frame = self._get_frame()
             if frame is None:
                 continue
@@ -495,7 +512,8 @@ class StrafeNavigator:
                     callback(tag_id, dist, angle, 'FOUND at %.2fm' % dist)
                 return self.navigate_to_tag(
                     target_id=tag_id, target_distance=target_distance,
-                    timeout=nav_timeout, callback=callback
+                    timeout=nav_timeout, callback=callback,
+                    cancel_callback=cancel_callback
                 )
 
             if time.time() - start > half and clockwise:

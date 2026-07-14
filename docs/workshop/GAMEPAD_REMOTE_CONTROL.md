@@ -66,8 +66,8 @@ The script should print the gamepad name and say it is ready.
 | Left bumper | Turn left |
 | D-pad Up | Front pickup |
 | D-pad Down | Drop into rear bin |
-| D-pad Left | Left side pickup |
-| D-pad Right | Right side pickup |
+| D-pad Left | AprilTag navigation automation |
+| D-pad Right | Line following automation |
 | A | Look forward, reset arm |
 | B | Open claw |
 | Y | Nod yes |
@@ -80,6 +80,18 @@ The script should print the gamepad name and say it is ready.
 Press `Start` on the gamepad, or press `Ctrl+C` in the terminal.
 
 When the program exits, it stops the drive motors and returns the arm to the forward position.
+
+## Automation Buttons
+
+`D-pad Left` starts AprilTag navigation. The robot searches for event AprilTags `582`, `583`, `584`, or `585`, drives toward the detected tag, then returns to gamepad control.
+
+`D-pad Right` starts line following. The robot searches for the lime green tape, follows the line, then returns to gamepad control.
+
+While an automation is running:
+
+- Press `Back` to cancel the automation and return to gamepad control.
+- Press `Start` to cancel the automation and return to gamepad control.
+- Keep the robot on the floor with a clear path.
 
 ## If It Does Not Work
 

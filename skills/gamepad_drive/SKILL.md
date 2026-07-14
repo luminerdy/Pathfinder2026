@@ -1,8 +1,8 @@
-# Skill: Gamepad Remote Control (E2)
+# Skill: Gamepad Remote Control
 
 **Difficulty:** Beginner - Plug and Play
 **Type:** Manual Control
-**Prerequisites:** C2 (Connected to robot)
+**Prerequisites:** Connected to robot
 **Estimated Time:** 10 minutes
 
 ---
@@ -11,7 +11,7 @@
 
 ## Overview
 
-Drive your robot with a Logitech F710 wireless gamepad. Tank-style stick control with mecanum strafing, trigger-based speed control, bumper turns, and D-pad arm actions.
+Drive your robot with a Logitech F710 wireless gamepad. Tank-style stick control with mecanum strafing, trigger-based speed control, bumper turns, D-pad arm actions, and D-pad automation tests.
 
 The gamepad plugs into the **robot Pi** (not the Pi 500). You control from the couch, the robot drives on the field.
 
@@ -97,24 +97,24 @@ Triggers override sticks when pressed. Great for smooth, controlled approach.
 | **Right bumper** | Turn right in place |
 | **Left bumper** | Turn left in place |
 
-### D-Pad - Arm Sequences (One-Press Macros)
+### D-Pad - Arm Sequences And Automations
 
 | Control | Action |
 |---------|--------|
 | **D-pad Up** | **Front pickup** - reach down, grab block, lift |
 | **D-pad Down** | **Backward drop** - fold arm back, release into rear bin |
-| **D-pad Left** | **Left side pickup** - rotate arm left, grab, lift |
-| **D-pad Right** | **Right side pickup** - rotate arm right, grab, lift |
+| **D-pad Left** | **AprilTag navigation** - search for an event tag, drive toward it, then return to gamepad control |
+| **D-pad Right** | **Line following** - find the lime green tape, follow it, then return to gamepad control |
 
-Warning: These are full sequences (2-4 seconds each). Motors stop automatically during arm movement. Keep people clear of the arm.
+Warning: These are full sequences. Motors stop automatically before the action starts. Keep people clear of the robot path and arm.
 
 **Workshop challenge workflow:**
 1. Drive to block, then press **D-pad Up** to grab it.
 2. With block in gripper, press **D-pad Down** to drop into rear bin.
-3. Repeat until bin is full
-4. Drive to basket, then dump bin manually or push blocks in.
+3. Use **D-pad Left** or **D-pad Right** to test an automation after the individual capability demo works.
+4. Press **Back** to cancel an automation and return to gamepad control.
 
-**Side pickups** let you grab blocks that aren't directly in front - useful when you cannot line up perfectly.
+Automations are intended for practice and strategy testing. Use the individual capability demos first when tuning AprilTag navigation or line following.
 
 ### Face Buttons - Arm Expressions
 

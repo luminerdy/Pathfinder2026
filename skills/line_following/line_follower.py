@@ -321,7 +321,8 @@ class LineFollower:
         
         return False
     
-    def follow(self, timeout=30, position_camera=True, search_first=True, callback=None):
+    def follow(self, timeout=30, position_camera=True, search_first=True,
+               callback=None, cancel_callback=None):
         """
         Follow the lime green line.
         
@@ -330,6 +331,7 @@ class LineFollower:
             position_camera: Move arm to camera-down position first
             search_first: Rotate to find line before driving (recommended)
             callback: Function(detection_dict, strafe_value, turn_value) called each frame
+            cancel_callback: Optional function returning True to stop following
             
         Returns:
             dict with success, reason, frames, duration
@@ -356,6 +358,15 @@ class LineFollower:
         
         try:
             while time.time() - start < timeout:
+                if cancel_callback and cancel_callback():
+                    self._stop()
+                    return {
+                        'success': False,
+                        'reason': 'cancelled',
+                        'frames': frames,
+                        'duration': time.time() - start
+                    }
+
                 frame = self._get_frame()
                 if frame is None:
                     continue

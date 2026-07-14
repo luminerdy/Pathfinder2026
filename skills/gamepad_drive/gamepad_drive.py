@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Gamepad Remote Control (E2)
+Gamepad Remote Control
 
 Drive robot with Logitech F710 wireless gamepad.
 Tank-style sticks + mecanum strafing + trigger speed + arm actions.
@@ -26,8 +26,8 @@ Controls:
 
   D-pad Up:       Pickup block (front)
   D-pad Down:     Backward drop block (into rear bin)
-  D-pad Left:     Left side pickup
-  D-pad Right:    Right side pickup
+  D-pad Left:     AprilTag navigation automation
+  D-pad Right:    Line following automation
 
   A:              Look forward (reset arm)
   B:              Open claw
@@ -52,6 +52,8 @@ except ImportError:
 
 from lib.board import get_board
 from lib.arm_positions import Arm
+from skills.strafe_nav import StrafeNavigator
+from skills.line_following.line_follower import LineFollower
 
 # === CONFIG ===
 MAX_SPEED = 50          # Maximum motor duty cycle (0-100)
@@ -64,6 +66,11 @@ LEFT_TRIGGER_AXIS = 2   # Left trigger on the F710 in XInput mode
 RIGHT_X_AXIS = 3        # Right stick horizontal
 RIGHT_Y_AXIS = 4        # Right stick vertical
 RIGHT_TRIGGER_AXIS = 5  # Right trigger on the F710 in XInput mode
+EVENT_TAG_IDS = (582, 583, 584, 585)
+APRILTAG_TARGET_DISTANCE = 0.50
+APRILTAG_SEARCH_TIMEOUT = 40.0
+APRILTAG_NAV_TIMEOUT = 30.0
+LINE_FOLLOW_TIMEOUT = 30.0
 
 
 # === DRIVE HELPERS ===
@@ -142,11 +149,91 @@ def combined_strafe(left_x, right_x):
     return right_x
 
 
+def stop_drive(board):
+    """Stop all four drive motors."""
+    board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+
+
+def automation_cancel_requested(board):
+    """Return True when Back or Start is pressed during an automation."""
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            stop_drive(board)
+            return True
+        if event.type == pygame.JOYBUTTONDOWN:
+            if event.button == 6:  # Back
+                stop_drive(board)
+                print("Automation cancelled with Back")
+                return True
+            if event.button == 7:  # Start
+                stop_drive(board)
+                print("Automation cancelled with Start")
+                return True
+    return False
+
+
+def run_apriltag_navigation(board):
+    """Run AprilTag navigation, then return to gamepad control."""
+    print("AprilTag navigation automation...")
+    print("  Looking for event tags: %s" % ", ".join(str(t) for t in EVENT_TAG_IDS))
+    print("  Press Back to cancel and return to gamepad control.")
+    stop_drive(board)
+
+    nav = StrafeNavigator()
+
+    def callback(tag_id, dist, angle, action):
+        print("  Tag %s: %.2fm, %+.1fdeg - %s" % (tag_id, dist, angle, action))
+
+    try:
+        result = nav.search_and_navigate(
+            target_ids=EVENT_TAG_IDS,
+            target_distance=APRILTAG_TARGET_DISTANCE,
+            search_timeout=APRILTAG_SEARCH_TIMEOUT,
+            nav_timeout=APRILTAG_NAV_TIMEOUT,
+            callback=callback,
+            cancel_callback=lambda: automation_cancel_requested(board),
+        )
+        print("AprilTag automation finished: %s" % result['reason'])
+    except Exception as exc:
+        print("AprilTag automation error: %s" % exc)
+    finally:
+        nav.cleanup()
+        stop_drive(board)
+        print("Returned to gamepad control")
+
+
+def run_line_following(board):
+    """Run line following, then return to gamepad control."""
+    print("Line following automation...")
+    print("  Press Back to cancel and return to gamepad control.")
+    stop_drive(board)
+
+    follower = LineFollower(board=board)
+
+    def callback(detection, strafe, turn):
+        print("  line err=%+d, heading=%+d, strafe=%+.1f, turn=%+.1f" % (
+            detection['error'], detection['heading_error'], strafe, turn))
+
+    try:
+        result = follower.follow(
+            timeout=LINE_FOLLOW_TIMEOUT,
+            callback=callback,
+            cancel_callback=lambda: automation_cancel_requested(board),
+        )
+        print("Line following finished: %s" % result['reason'])
+    except Exception as exc:
+        print("Line following error: %s" % exc)
+    finally:
+        follower.cleanup()
+        stop_drive(board)
+        print("Returned to gamepad control")
+
+
 # === MAIN ===
 
 def main():
     print("=" * 50)
-    print("GAMEPAD REMOTE CONTROL (E2)")
+    print("GAMEPAD REMOTE CONTROL")
     print("=" * 50)
     print()
     print("Initializing robot hardware...")
@@ -178,8 +265,8 @@ def main():
     print("  Bumpers:    Turn in place")
     print("  D-pad Up:   Pickup block (front)")
     print("  D-pad Down: Drop into rear bin")
-    print("  D-pad Left: Left side pickup")
-    print("  D-pad Right:Right side pickup")
+    print("  D-pad Left: AprilTag navigation")
+    print("  D-pad Right: Line following")
     print("  A:         Look forward")
     print("  B:         Open claw")
     print("  X/Y:       Shake no / nod yes")
@@ -204,7 +291,7 @@ def main():
 
                     # Back = emergency stop
                     if button == 6:
-                        board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+                        stop_drive(board)
                         print("STOP!")
 
                     # Start = quit
@@ -239,26 +326,22 @@ def main():
                     # D-pad Up = front pickup
                     if hat == (0, 1):
                         print("Front pickup sequence...")
-                        board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+                        stop_drive(board)
                         arm.pickup_front()
 
                     # D-pad Down = backward drop into bin
                     elif hat == (0, -1):
                         print("Backward drop sequence...")
-                        board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+                        stop_drive(board)
                         arm.backward_drop()
 
-                    # D-pad Left = left side pickup
+                    # D-pad Left = AprilTag navigation automation
                     elif hat == (-1, 0):
-                        print("Left side pickup...")
-                        board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-                        arm.pickup_left()
+                        run_apriltag_navigation(board)
 
-                    # D-pad Right = right side pickup
+                    # D-pad Right = line following automation
                     elif hat == (1, 0):
-                        print("Right side pickup...")
-                        board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
-                        arm.pickup_right()
+                        run_line_following(board)
 
             # --- Continuous control (sticks + triggers) ---
 
@@ -323,7 +406,7 @@ def main():
         print("\nStopped")
 
     finally:
-        board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+        stop_drive(board)
         if arm is not None:
             arm.look_forward()
         pygame.quit()
