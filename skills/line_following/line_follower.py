@@ -358,6 +358,8 @@ class LineFollower:
         
         try:
             while time.time() - start < timeout:
+                # Gamepad control uses this hook so Back/Start can stop line
+                # following and return to manual driving.
                 if cancel_callback and cancel_callback():
                     self._stop()
                     return {

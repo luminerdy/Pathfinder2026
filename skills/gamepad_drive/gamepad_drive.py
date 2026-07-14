@@ -155,7 +155,12 @@ def stop_drive(board):
 
 
 def automation_cancel_requested(board):
-    """Return True when Back or Start is pressed during an automation."""
+    """Return True when Back or Start is pressed during an automation.
+
+    Automation routines run inside the gamepad process, so pygame events must
+    still be drained while the automation is active. Otherwise the Back button
+    would not be seen until after the automation finished.
+    """
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             stop_drive(board)
@@ -179,6 +184,8 @@ def run_apriltag_navigation(board):
     print("  Press Back to cancel and return to gamepad control.")
     stop_drive(board)
 
+    # Create the navigator only for this run so its camera/sonar resources are
+    # released before returning to manual gamepad control.
     nav = StrafeNavigator()
 
     def callback(tag_id, dist, angle, action):
@@ -191,6 +198,8 @@ def run_apriltag_navigation(board):
             search_timeout=APRILTAG_SEARCH_TIMEOUT,
             nav_timeout=APRILTAG_NAV_TIMEOUT,
             callback=callback,
+            # The automation loop calls this regularly. Back/Start will stop
+            # the automation and drop back into the gamepad loop below.
             cancel_callback=lambda: automation_cancel_requested(board),
         )
         print("AprilTag automation finished: %s" % result['reason'])
@@ -208,6 +217,8 @@ def run_line_following(board):
     print("  Press Back to cancel and return to gamepad control.")
     stop_drive(board)
 
+    # Reuse the already-open board object so line following sends motor commands
+    # through the same hardware connection as manual gamepad driving.
     follower = LineFollower(board=board)
 
     def callback(detection, strafe, turn):
@@ -218,6 +229,8 @@ def run_line_following(board):
         result = follower.follow(
             timeout=LINE_FOLLOW_TIMEOUT,
             callback=callback,
+            # Back/Start can cancel line following without exiting the whole
+            # gamepad program.
             cancel_callback=lambda: automation_cancel_requested(board),
         )
         print("Line following finished: %s" % result['reason'])
@@ -337,10 +350,14 @@ def main():
 
                     # D-pad Left = AprilTag navigation automation
                     elif hat == (-1, 0):
+                        # This blocks manual driving until navigation finishes
+                        # or is cancelled, then returns to this same loop.
                         run_apriltag_navigation(board)
 
                     # D-pad Right = line following automation
                     elif hat == (1, 0):
+                        # This blocks manual driving until line following
+                        # finishes or is cancelled, then returns to this loop.
                         run_line_following(board)
 
             # --- Continuous control (sticks + triggers) ---

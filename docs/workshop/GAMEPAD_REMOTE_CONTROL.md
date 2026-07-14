@@ -87,16 +87,48 @@ When the program exits, it stops the drive motors and returns the arm to the for
 
 `D-pad Right` starts line following. The robot searches for the lime green tape, follows the line, then returns to gamepad control.
 
+These buttons temporarily hand control from the gamepad script to an automation script:
+
+1. The gamepad script stops the drive motors.
+2. The selected automation runs.
+3. The automation stops the drive motors when it finishes or is cancelled.
+4. The gamepad script resumes normal manual driving.
+
 While an automation is running:
 
 - Press `Back` to cancel the automation and return to gamepad control.
 - Press `Start` to cancel the automation and return to gamepad control.
 - Keep the robot on the floor with a clear path.
 
+### AprilTag Navigation Button
+
+Use `D-pad Left` only after AprilTag navigation has already worked from Capabilities Exploration.
+
+The robot will:
+
+1. Search for event AprilTags `582`, `583`, `584`, or `585`.
+2. Turn in small steps while searching.
+3. Drive toward the detected tag.
+4. Stop near the target distance.
+5. Return to gamepad control.
+
+### Line Following Button
+
+Use `D-pad Right` only after line following has already worked from Capabilities Exploration.
+
+The robot will:
+
+1. Move the arm/camera to the line-following position.
+2. Search for the lime green tape.
+3. Follow the line until the line ends, the timeout is reached, or the run is cancelled.
+4. Return to gamepad control.
+
 ## If It Does Not Work
 
 - If `pygame not installed` appears, the robot image is missing the gamepad package.
 - If `No gamepad detected` repeats, check the USB receiver, gamepad power, batteries, and `X` mode.
 - If the robot drives the wrong direction, stop and compare with Phase 1 motor wiring checks before changing code.
+- If an automation does not start, run that capability directly first from Capabilities Exploration.
+- If an automation starts but behaves badly, press `Back`, then retest the individual capability script before using the gamepad shortcut again.
 
 Next: [Phase 3: Course Challenge](COURSE_CHALLENGE.md).

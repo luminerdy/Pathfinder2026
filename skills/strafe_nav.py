@@ -322,6 +322,8 @@ class StrafeNavigator:
             while time.time() - start_time < timeout:
                 iteration += 1
 
+                # Gamepad control uses this hook so Back/Start can stop
+                # navigation and return to manual driving.
                 if cancel_callback and cancel_callback():
                     self._stop()
                     return {
@@ -488,6 +490,8 @@ class StrafeNavigator:
         clockwise = True
         half = search_timeout / 2.0
         while time.time() - start < search_timeout:
+            # Check during search too; otherwise cancel would only work after a
+            # tag was found and navigation had started.
             if cancel_callback and cancel_callback():
                 self._stop()
                 return {

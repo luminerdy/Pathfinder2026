@@ -36,5 +36,11 @@ sudo apt install -y python3-pygame joystick
 | **Back** | **EMERGENCY STOP** |
 | **Start** | **Quit** |
 
+## Automation Shortcuts
+
+- `D-pad Left` runs AprilTag navigation, then returns to gamepad control.
+- `D-pad Right` runs line following, then returns to gamepad control.
+- Press `Back` or `Start` while an automation is running to cancel it and return to gamepad control.
+
 ---
 If no gamepad is detected when the script starts, the robot beeps and keeps checking until the gamepad is connected.
