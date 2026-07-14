@@ -1,8 +1,32 @@
-# Block Detection (D5) - Quick Reference
+# Block Detection - Quick Reference
 
 **Detect colored blocks using HSV color filtering**
 
 ## Quick Start
+
+### Camera-only viewer
+
+Use this first when tuning block identification. It shows live annotated camera output and saves raw/annotated snapshots. It does not move the robot.
+
+```bash
+cd /home/robot/pathfinder
+python3 skills/block_detection/viewer.py
+```
+
+Open from the Pi 500 browser:
+
+```text
+http://<ROBOT_IP>:8081
+```
+
+Snapshots are saved in:
+
+```text
+/home/robot/pathfinder/block_detection_captures
+```
+
+### Single-frame demo
+
 ```bash
 cd /home/robot/pathfinder
 python3 skills/block_detect.py
@@ -32,8 +56,8 @@ nearest = detector.find_nearest(frame, 'red') # Nearest red
 Camera -> HSV -> Threshold -> Morphology -> Contours -> Filter -> Detect
 
 ## Next Skills
-- E4: Visual Servoing (drive toward detected blocks)
-- E5: Autonomous Pickup (detect + drive + grab)
+- Visual servoing: drive toward detected blocks
+- Autonomous pickup: detect, drive, and grab
 
 ---
 *Find the blocks!*

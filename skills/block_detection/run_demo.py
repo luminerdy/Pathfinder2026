@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Block Detection Demo (D5)
+Block Detection Demo
 
 Detect colored blocks using HSV color filtering.
 Shows detection pipeline results without driving.
@@ -118,7 +118,7 @@ def main():
     print("  [OK] Confidence scoring filters false positives")
     print("  [OK] Multiple colors detected simultaneously")
     print()
-    print("Next: E4 Visual Servoing (drive toward detected blocks)")
+    print("Next: Visual servoing (drive toward detected blocks)")
 
 
 if __name__ == "__main__":
