@@ -20,10 +20,13 @@ import time
 import json
 import sys, os
 import threading
+from types import SimpleNamespace
 from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from lib.board import get_board
 from lib.battery import is_runtime_safe, read_voltage, status_for_voltage
+from skills.strafe_nav import StrafeNavigator
+from skills.line_following.line_follower import LineFollower
 BoardController = None  # Use get_board() instead
 
 app = Flask(__name__)
@@ -33,11 +36,34 @@ SAVED_POSITIONS_PATH = REPO_ROOT / 'saved_positions.json'
 # Global state
 board = get_board()
 camera = None  # Opened lazily to avoid locking camera on import
+camera_lock = threading.Lock()
 state_lock = threading.Lock()
 board_lock = threading.Lock()
+automation_lock = threading.Lock()
 battery_cache = {
     'voltage': None,
     'updated_at': 0,
+}
+automation_state = {
+    'active': False,
+    'mode': None,
+    'status': 'Idle',
+    'detail': '',
+    'cancel_requested': False,
+    'started_at': 0.0,
+    'finished_at': 0.0,
+}
+tracking_state = {
+    'mode': None,
+    'tag_id': None,
+    'distance': None,
+    'angle': None,
+    'action': '',
+    'line_found': False,
+    'line_cx': None,
+    'line_error': 0,
+    'line_heading': 0,
+    'line_ratio': 0.0,
 }
 drive_state_lock = threading.Lock()
 drive_state = {
@@ -154,13 +180,362 @@ motor_power = {
     'turn': 30
 }
 
+EVENT_TAG_IDS = (582, 583, 584, 585)
+APRILTAG_TARGET_DISTANCE = 0.50
+APRILTAG_SEARCH_TIMEOUT = 40.0
+APRILTAG_NAV_TIMEOUT = 30.0
+LINE_FOLLOW_TIMEOUT = 30.0
+CAMERA_FORWARD_POSITION = [(1, 2500), (3, 590), (4, 2450), (5, 700), (6, 1500)]
+APRILTAG_OVERLAY_DETECTOR = None
+
+
+class LockedBoard:
+    """Board wrapper used by background automations.
+
+    Flask routes and automation threads can run at the same time. The wrapper
+    keeps motor, servo, buzzer, RGB, and battery reads serialized on the shared
+    serial connection.
+    """
+
+    def __init__(self, raw_board):
+        self._raw_board = raw_board
+
+    def set_motor_duty(self, commands):
+        with board_lock:
+            self._raw_board.set_motor_duty(commands)
+
+    def set_servo_position(self, duration_ms, positions):
+        with board_lock:
+            self._raw_board.set_servo_position(duration_ms, positions)
+
+    def set_buzzer(self, *args, **kwargs):
+        with board_lock:
+            return self._raw_board.set_buzzer(*args, **kwargs)
+
+    def set_rgb(self, values):
+        with board_lock:
+            self._raw_board.set_rgb(values)
+
+    def get_battery(self):
+        with board_lock:
+            return self._raw_board.get_battery()
+
+    def __getattr__(self, name):
+        return getattr(self._raw_board, name)
+
+
+class WebCameraSource:
+    """Camera adapter shared by MJPEG streaming and automation code."""
+
+    camera_params = [525, 533, 325, 116]
+
+    def is_open(self):
+        with camera_lock:
+            cam = get_camera()
+            return cam is not None and cam.isOpened()
+
+    def get_raw_frame(self):
+        frame = read_camera_frame()
+        return frame
+
+
+def read_camera_frame():
+    """Read one frame from the shared camera safely."""
+    with camera_lock:
+        cam = get_camera()
+        success, frame = cam.read()
+        return frame if success else None
+
+
+def set_automation_state(**updates):
+    """Update automation state shown by the browser and video overlay."""
+    with automation_lock:
+        automation_state.update(updates)
+
+
+def get_automation_snapshot():
+    """Return a copy of automation and tracking state for routes/overlays."""
+    with automation_lock:
+        auto = automation_state.copy()
+        track = tracking_state.copy()
+    return auto, track
+
+
+def set_tracking_state(**updates):
+    """Update tracking details shown on the video stream."""
+    with automation_lock:
+        tracking_state.update(updates)
+
+
+def clear_tracking_state(mode=None):
+    """Clear tracking overlay values."""
+    with automation_lock:
+        tracking_state.update({
+            'mode': mode,
+            'tag_id': None,
+            'distance': None,
+            'angle': None,
+            'action': '',
+            'line_found': False,
+            'line_cx': None,
+            'line_error': 0,
+            'line_heading': 0,
+            'line_ratio': 0.0,
+        })
+
+
+def automation_cancel_requested():
+    """Return True when the browser has requested automation cancellation."""
+    with automation_lock:
+        return automation_state['cancel_requested']
+
+
+def request_automation_cancel():
+    """Ask a running automation to stop at its next cancel check."""
+    with automation_lock:
+        if automation_state['active']:
+            automation_state['cancel_requested'] = True
+            automation_state['status'] = 'Cancelling'
+            automation_state['detail'] = 'Stop requested from web control'
+            return True
+    return False
+
+
+def start_automation(mode):
+    """Start a background automation if one is not already running."""
+    with automation_lock:
+        if automation_state['active']:
+            return False, 'Automation already running'
+        automation_state.update({
+            'active': True,
+            'mode': mode,
+            'status': 'Starting',
+            'detail': '',
+            'cancel_requested': False,
+            'started_at': time.time(),
+            'finished_at': 0.0,
+        })
+
+    clear_tracking_state(mode)
+
+    target = run_apriltag_automation if mode == 'apriltag' else run_line_automation
+    threading.Thread(target=target, daemon=True).start()
+    return True, 'Started %s automation' % mode
+
+
+def finish_automation(mode, status, detail=''):
+    """Mark an automation complete and stop the drive motors."""
+    try:
+        stop_drive()
+    finally:
+        set_automation_state(
+            active=False,
+            mode=mode,
+            status=status,
+            detail=detail,
+            cancel_requested=False,
+            finished_at=time.time(),
+        )
+
+
+def move_camera_forward():
+    """Move arm/camera to the AprilTag navigation pose."""
+    with board_lock:
+        board.set_servo_position(1000, CAMERA_FORWARD_POSITION)
+    with state_lock:
+        for servo_id, pulse in CAMERA_FORWARD_POSITION:
+            servo_positions[servo_id] = pulse
+    time.sleep(1.1)
+
+
+def move_camera_down():
+    """Move arm/camera to the line-following pose and update web state."""
+    with board_lock:
+        board.set_servo_position(800, LineFollower.ARM_CAMERA_DOWN)
+    with state_lock:
+        for servo_id, pulse in LineFollower.ARM_CAMERA_DOWN:
+            servo_positions[servo_id] = pulse
+    time.sleep(1.0)
+
+
+def run_apriltag_automation():
+    """Run AprilTag navigation in the background for the web button."""
+    mode = 'apriltag'
+    locked_board = LockedBoard(board)
+    web_camera = WebCameraSource()
+    robot = SimpleNamespace(board=locked_board, camera=web_camera)
+    nav = StrafeNavigator(robot)
+
+    try:
+        set_automation_state(status='Moving camera forward', detail='Preparing AprilTag view')
+        stop_drive()
+        move_camera_forward()
+
+        set_automation_state(status='Searching', detail='Looking for AprilTags 582-585')
+
+        def callback(tag_id, dist, angle, action):
+            set_tracking_state(
+                mode=mode,
+                tag_id=tag_id,
+                distance=dist,
+                angle=angle,
+                action=action,
+            )
+            set_automation_state(
+                status='Running',
+                detail='Tag %s: %.2fm, %+.1fdeg - %s' % (tag_id, dist, angle, action),
+            )
+
+        result = nav.search_and_navigate(
+            target_ids=EVENT_TAG_IDS,
+            target_distance=APRILTAG_TARGET_DISTANCE,
+            search_timeout=APRILTAG_SEARCH_TIMEOUT,
+            nav_timeout=APRILTAG_NAV_TIMEOUT,
+            callback=callback,
+            cancel_callback=automation_cancel_requested,
+        )
+
+        status = 'Cancelled' if result['reason'] == 'cancelled' else 'Done'
+        detail = 'AprilTag navigation: %s' % result['reason']
+        if result.get('tag_id') is not None:
+            detail += ' (tag %s)' % result['tag_id']
+        finish_automation(mode, status, detail)
+    except Exception as error:
+        print(f"AprilTag automation error: {error}")
+        finish_automation(mode, 'Error', str(error))
+    finally:
+        nav.cleanup()
+
+
+def run_line_automation():
+    """Run line following in the background for the web button."""
+    mode = 'line'
+    locked_board = LockedBoard(board)
+    web_camera = WebCameraSource()
+    robot = SimpleNamespace(board=locked_board, camera=web_camera)
+    follower = LineFollower(robot=robot)
+
+    try:
+        set_automation_state(status='Moving camera down', detail='Preparing line following')
+        stop_drive()
+        move_camera_down()
+
+        def callback(detection, strafe, turn):
+            set_tracking_state(
+                mode=mode,
+                line_found=detection['found'],
+                line_cx=detection['cx'],
+                line_error=detection['error'],
+                line_heading=detection['heading_error'],
+                line_ratio=detection['ratio'],
+                action='strafe=%+.1f turn=%+.1f' % (strafe, turn),
+            )
+            set_automation_state(
+                status='Running',
+                detail='line err=%+d heading=%+d' % (
+                    detection['error'], detection['heading_error']
+                ),
+            )
+
+        result = follower.follow(
+            timeout=LINE_FOLLOW_TIMEOUT,
+            position_camera=False,
+            callback=callback,
+            cancel_callback=automation_cancel_requested,
+        )
+
+        status = 'Cancelled' if result['reason'] == 'cancelled' else 'Done'
+        detail = 'Line following: %s' % result['reason']
+        finish_automation(mode, status, detail)
+    except Exception as error:
+        print(f"Line following automation error: {error}")
+        finish_automation(mode, 'Error', str(error))
+    finally:
+        follower.cleanup()
+
+
+def draw_text_box(frame, lines, origin=(10, 30), color=(255, 255, 255)):
+    """Draw readable status text on the camera frame."""
+    x, y = origin
+    for line in lines:
+        cv2.putText(frame, line, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 0, 0), 4)
+        cv2.putText(frame, line, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.65, color, 2)
+        y += 28
+    return y
+
+
+def draw_apriltag_overlay(frame):
+    """Draw visible event AprilTags on the live stream while navigation runs."""
+    global APRILTAG_OVERLAY_DETECTOR
+    try:
+        if APRILTAG_OVERLAY_DETECTOR is None:
+            from pupil_apriltags import Detector
+            APRILTAG_OVERLAY_DETECTOR = Detector(families='tag36h11')
+
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        tags = APRILTAG_OVERLAY_DETECTOR.detect(gray, estimate_tag_pose=False)
+    except Exception:
+        return
+
+    for tag in tags:
+        if tag.tag_id not in EVENT_TAG_IDS:
+            continue
+        corners = tag.corners.astype(int)
+        for i in range(4):
+            p1 = tuple(corners[i])
+            p2 = tuple(corners[(i + 1) % 4])
+            cv2.line(frame, p1, p2, (0, 255, 255), 3)
+        center = tuple(tag.center.astype(int))
+        cv2.circle(frame, center, 5, (0, 255, 255), -1)
+        cv2.putText(frame, f"tag {tag.tag_id}", (center[0] + 8, center[1] - 8),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
+
+
+def draw_line_overlay(frame, track):
+    """Draw line-following tracking values on the live stream."""
+    cv2.line(frame, (320, 0), (320, frame.shape[0]), (255, 255, 255), 1)
+    if track.get('line_found') and track.get('line_cx') is not None:
+        roi_y = int(LineFollower.FRAME_H * LineFollower.ROI_BOTTOM_RATIO / 2)
+        cx = int(track['line_cx'])
+        cv2.circle(frame, (cx, roi_y), 10, (0, 255, 0), -1)
+        cv2.line(frame, (cx, roi_y), (320, roi_y), (0, 255, 0), 2)
+        label = 'line err=%+d heading=%+d' % (
+            track.get('line_error', 0),
+            track.get('line_heading', 0),
+        )
+        cv2.putText(frame, label, (10, frame.shape[0] - 20),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 0), 2)
+    else:
+        cv2.putText(frame, 'line not found', (10, frame.shape[0] - 20),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 165, 255), 2)
+
+
+def draw_automation_overlay(frame):
+    """Add active automation status/tracking overlays to the video stream."""
+    auto, track = get_automation_snapshot()
+    if not auto['active'] and auto['status'] == 'Idle':
+        return
+
+    mode = auto['mode'] or 'automation'
+    lines = ['%s: %s' % (mode.upper(), auto['status'])]
+    if auto.get('detail'):
+        lines.append(auto['detail'][:60])
+    if track.get('action'):
+        lines.append(track['action'][:60])
+    draw_text_box(frame, lines, origin=(10, 120), color=(0, 255, 255))
+
+    if auto['active'] and mode == 'apriltag':
+        draw_apriltag_overlay(frame)
+    elif auto['active'] and mode == 'line':
+        draw_line_overlay(frame, track)
+
 def generate_frames():
     """Generate video frames for streaming"""
     while True:
-        cam = get_camera()
-        success, frame = cam.read()
-        if not success:
-            break
+        frame = read_camera_frame()
+        if frame is None:
+            time.sleep(0.05)
+            continue
 
         # Add battery voltage overlay
         voltage = get_battery_voltage(max_age=5.0, retries=1, delay=0.0)
@@ -178,8 +553,12 @@ def generate_frames():
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
             y_pos += 30
 
+        draw_automation_overlay(frame)
+
         # Encode frame
         ret, buffer = cv2.imencode('.jpg', frame)
+        if not ret:
+            continue
         frame_bytes = buffer.tobytes()
 
         yield (b'--frame\r\n'
@@ -206,8 +585,17 @@ def drive():
             return jsonify({'status': 'error', 'message': 'Invalid direction'}), 400
 
         if direction == 'stop':
+            request_automation_cancel()
             stop_drive()
             return jsonify({'status': 'ok'})
+
+        with automation_lock:
+            automation_active = automation_state['active']
+        if automation_active:
+            return jsonify({
+                'status': 'error',
+                'message': 'Automation is running. Stop automation before manual driving.',
+            }), 409
 
         # Safety check: prevent motor commands at low battery
         voltage = get_battery_voltage(max_age=10.0, retries=3, delay=0.2)
@@ -372,6 +760,43 @@ def set_motor_power():
             return jsonify({'status': 'ok', 'motor_power': motor_power})
     except (TypeError, ValueError):
         return jsonify({'status': 'error', 'message': 'Invalid motor power'}), 400
+
+@app.route('/automation/status', methods=['GET'])
+def automation_status():
+    """Return current automation status for the browser."""
+    auto, track = get_automation_snapshot()
+    return jsonify({'automation': auto, 'tracking': track})
+
+@app.route('/automation/start', methods=['POST'])
+def automation_start():
+    """Start an automation from the web interface."""
+    data = request.json or {}
+    mode = data.get('mode')
+    if mode not in ('apriltag', 'line'):
+        return jsonify({'status': 'error', 'message': 'Invalid automation mode'}), 400
+
+    voltage = get_battery_voltage(max_age=10.0, retries=3, delay=0.2)
+    if not is_runtime_safe(voltage):
+        _, message, _, _ = battery_display(voltage)
+        voltage_text = f'{voltage:.2f}V' if voltage is not None else 'unavailable'
+        stop_drive()
+        return jsonify({
+            'status': 'error',
+            'message': f'Battery {voltage_text}: {message}',
+        }), 400
+
+    ok, message = start_automation(mode)
+    status_code = 200 if ok else 409
+    return jsonify({'status': 'ok' if ok else 'error', 'message': message}), status_code
+
+@app.route('/automation/stop', methods=['POST'])
+def automation_stop():
+    """Request cancellation of the active automation."""
+    if request_automation_cancel():
+        stop_drive()
+        return jsonify({'status': 'ok', 'message': 'Automation stop requested'})
+    stop_drive()
+    return jsonify({'status': 'ok', 'message': 'No automation running'})
 
 # Load saved positions on startup
 try:

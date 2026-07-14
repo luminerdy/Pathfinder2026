@@ -291,7 +291,7 @@ class LineFollower:
             'ratio': ratio, 'mask': mask
         }
     
-    def _search_for_line(self, max_rotations=12):
+    def _search_for_line(self, max_rotations=12, cancel_callback=None):
         """Rotate in place to find the green line before driving.
         
         Solves the problem where robot isn't pointed at the tape
@@ -304,6 +304,10 @@ class LineFollower:
             True if line found, False if not found after full rotation
         """
         for step in range(max_rotations):
+            if cancel_callback and cancel_callback():
+                self._stop()
+                return False
+
             # Capture and check
             frame = self._get_frame()
             if frame is None:
@@ -343,8 +347,15 @@ class LineFollower:
         
         # Search for the line before driving (rotate until we see green)
         if search_first:
-            if not self._search_for_line():
+            if not self._search_for_line(cancel_callback=cancel_callback):
                 self._stop()
+                if cancel_callback and cancel_callback():
+                    return {
+                        'success': False,
+                        'reason': 'cancelled',
+                        'frames': 0,
+                        'duration': 0
+                    }
                 return {
                     'success': False,
                     'reason': 'line_not_found',

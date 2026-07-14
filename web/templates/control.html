@@ -190,6 +190,48 @@
         .drive-status.error {
             color: #ffb0b0;
         }
+
+        .automation-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .automation-button {
+            padding: 14px;
+            font-size: 15px;
+            font-weight: bold;
+            background: #2196F3;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .automation-button.stop {
+            background: #f44336;
+        }
+
+        .automation-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .automation-status {
+            min-height: 22px;
+            text-align: center;
+            color: #ddd;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .automation-note {
+            color: #aaa;
+            font-size: 13px;
+            line-height: 1.4;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -205,6 +247,16 @@
             <div class="panel video-panel">
                 <h2>Live Camera Feed</h2>
                 <img id="video-feed" src="/video_feed" alt="Camera feed">
+                <div class="automation-controls">
+                    <button class="automation-button" id="btn-auto-apriltag">AprilTag Nav</button>
+                    <button class="automation-button" id="btn-auto-line">Line Follow</button>
+                    <button class="automation-button stop" id="btn-auto-stop">Stop Automation</button>
+                </div>
+                <div id="automation-status" class="automation-status">Automation ready.</div>
+                <div class="automation-note">
+                    AprilTag Nav moves the arm/camera forward first. Line Follow moves the camera down.
+                    The live camera feed shows tracking overlays while automation is running.
+                </div>
             </div>
 
             <!-- Drive Controls -->
@@ -376,8 +428,13 @@
         const DRIVE_HEARTBEAT_MS = 250;
         let activeDriveDirection = null;
         let driveHeartbeat = null;
+        let automationActive = false;
 
         function startDrive(direction) {
+            if (automationActive && direction !== 'stop') {
+                setDriveStatus('Automation is running. Stop automation before manual driving.', true);
+                return;
+            }
             if (direction === 'stop') {
                 stopDrive();
                 return;
@@ -597,6 +654,81 @@
             });
         }
 
+        // Automation controls
+        const autoApriltagButton = document.getElementById('btn-auto-apriltag');
+        const autoLineButton = document.getElementById('btn-auto-line');
+        const autoStopButton = document.getElementById('btn-auto-stop');
+        const automationStatus = document.getElementById('automation-status');
+
+        function setAutomationStatus(message, isError = false) {
+            automationStatus.textContent = message;
+            automationStatus.style.color = isError ? '#ffb0b0' : '#ddd';
+        }
+
+        function setAutomationButtons(active) {
+            automationActive = active;
+            autoApriltagButton.disabled = active;
+            autoLineButton.disabled = active;
+            autoStopButton.disabled = !active;
+        }
+
+        function startAutomation(mode) {
+            stopDrive();
+            const label = mode === 'apriltag' ? 'AprilTag navigation' : 'Line following';
+            setAutomationStatus('Starting ' + label + '...');
+            postJson('/automation/start', {mode: mode})
+                .then(response => response.json().then(data => ({ok: response.ok, data: data})))
+                .then(result => {
+                    if (!result.ok || result.data.status !== 'ok') {
+                        setAutomationStatus(result.data.message || 'Automation failed to start.', true);
+                    }
+                    updateAutomationStatus();
+                })
+                .catch(error => {
+                    setAutomationStatus('Automation request did not reach the robot.', true);
+                    console.log('Automation start failed:', error);
+                });
+        }
+
+        function stopAutomation() {
+            stopDrive();
+            setAutomationStatus('Stopping automation...');
+            postJson('/automation/stop', {})
+                .then(response => response.json())
+                .then(data => {
+                    setAutomationStatus(data.message || 'Stop requested.');
+                    updateAutomationStatus();
+                })
+                .catch(error => {
+                    setAutomationStatus('Stop request did not reach the robot.', true);
+                    console.log('Automation stop failed:', error);
+                });
+        }
+
+        function updateAutomationStatus() {
+            getJson('/automation/status')
+                .then(response => response.json())
+                .then(data => {
+                    const auto = data.automation;
+                    setAutomationButtons(auto.active);
+                    if (auto.active) {
+                        const mode = auto.mode === 'apriltag' ? 'AprilTag Nav' : 'Line Follow';
+                        const detail = auto.detail ? ' - ' + auto.detail : '';
+                        setAutomationStatus(mode + ': ' + auto.status + detail);
+                    } else if (auto.status && auto.status !== 'Idle') {
+                        const detail = auto.detail ? ' - ' + auto.detail : '';
+                        setAutomationStatus(auto.status + detail, auto.status === 'Error');
+                    } else {
+                        setAutomationStatus('Automation ready.');
+                    }
+                })
+                .catch(error => console.log('Automation status failed:', error));
+        }
+
+        autoApriltagButton.addEventListener('click', () => startAutomation('apriltag'));
+        autoLineButton.addEventListener('click', () => startAutomation('line'));
+        autoStopButton.addEventListener('click', stopAutomation);
+
         // Battery monitoring
         function updateBattery() {
             getJson('/battery')
@@ -616,7 +748,9 @@
         loadMotorPower();
         loadSavedPositions();
         updateBattery();
+        updateAutomationStatus();
         setInterval(updateBattery, 5000); // Update every 5 seconds
+        setInterval(updateAutomationStatus, 1000);
     </script>
 </body>
 </html>
