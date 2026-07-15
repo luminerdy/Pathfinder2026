@@ -78,6 +78,7 @@ target = detector.select_pickup_target(merged)   # Best pickup target
 Camera -> HSV -> Threshold -> Morphology -> Contours -> Filter -> Detect
 
 ## Next Skills
+- Block approach: approach the selected target without pickup
 - Visual servoing: drive toward detected blocks
 - Autonomous pickup: detect, drive, and grab
 
