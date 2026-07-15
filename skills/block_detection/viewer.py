@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Camera-only block detection viewer.
+Servo-only block detection viewer.
 
 This tool is for tuning block identification before any autonomous pickup work.
-It does not import the motor board and it does not move the robot.
+It can move the arm servos to adjust the camera angle, but it does not drive
+the robot base.
 
 Usage:
     cd /home/robot/pathfinder
@@ -16,15 +17,18 @@ Then open:
 import os
 import sys
 import time
+import json
 import threading
 from datetime import datetime
 from pathlib import Path
 
 import cv2
-from flask import Flask, Response, jsonify
+from flask import Flask, Response, jsonify, request
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
+from lib.arm_positions import POS_CAMERA_DOWN, POS_CAMERA_FORWARD
+from lib.board import get_board
 from skills.block_detect import BlockDetector
 
 
@@ -37,9 +41,34 @@ PORT = 8081
 app = Flask(__name__)
 
 camera = None
+board = None
 camera_lock = threading.Lock()
+board_lock = threading.Lock()
 state_lock = threading.Lock()
 detector = BlockDetector()
+
+SERVO_LIMITS = {
+    1: (1550, 2500),  # Claw/gripper. 1550=closed, 2500=open.
+    3: (500, 2500),   # Wrist
+    4: (500, 2500),   # Elbow
+    5: (500, 2500),   # Shoulder
+    6: (500, 2500),   # Base rotation
+}
+
+ARM_PRESETS = {
+    'camera_forward': {
+        'label': 'Camera Forward',
+        'duration_ms': 1000,
+        'positions': POS_CAMERA_FORWARD,
+    },
+    'camera_down': {
+        'label': 'Camera Down',
+        'duration_ms': 800,
+        'positions': POS_CAMERA_DOWN,
+    },
+}
+
+servo_positions = dict(POS_CAMERA_FORWARD)
 
 latest_state = {
     'frame': None,
@@ -48,6 +77,38 @@ latest_state = {
     'updated_at': 0.0,
     'saved_count': 0,
 }
+
+
+def clamp(value, low, high):
+    """Keep a servo pulse inside its safe range."""
+    return max(low, min(high, int(value)))
+
+
+def get_arm_board():
+    """Open the robot board lazily so the viewer still imports cleanly."""
+    global board
+    if board is None:
+        board = get_board()
+    return board
+
+
+def apply_servo_positions(positions, duration_ms=500):
+    """Move one or more arm servos, then update the displayed state."""
+    clamped_positions = []
+    for servo_id, pulse in positions:
+        if servo_id not in SERVO_LIMITS:
+            raise ValueError('Invalid servo id: %s' % servo_id)
+        low, high = SERVO_LIMITS[servo_id]
+        clamped_positions.append((servo_id, clamp(pulse, low, high)))
+
+    with board_lock:
+        get_arm_board().set_servo_position(duration_ms, clamped_positions)
+
+    with state_lock:
+        for servo_id, pulse in clamped_positions:
+            servo_positions[servo_id] = pulse
+
+    return dict(clamped_positions)
 
 
 def get_camera():
@@ -98,12 +159,21 @@ def annotate(frame, detections):
     cv2.line(annotated, (0, FRAME_H // 2), (FRAME_W, FRAME_H // 2),
              (120, 120, 120), 1)
 
-    cv2.putText(annotated, 'camera-only block viewer',
+    cv2.putText(annotated, 'block viewer - arm controls enabled',
                 (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
                 (0, 255, 255), 2)
     cv2.putText(annotated, 'detections: %d' % len(detections),
                 (10, 55), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
                 (0, 255, 255), 2)
+
+    y_pos = 85
+    with state_lock:
+        positions = servo_positions.copy()
+    for servo_id in sorted(positions.keys()):
+        cv2.putText(annotated, 'S%d: %d' % (servo_id, positions[servo_id]),
+                    (10, y_pos), cv2.FONT_HERSHEY_SIMPLEX, 0.55,
+                    (255, 255, 255), 1)
+        y_pos += 24
 
     return annotated
 
@@ -198,6 +268,48 @@ def index():
     button:active {
       background: #0b7dda;
     }
+    button.secondary {
+      background: #607D8B;
+    }
+    button.warning {
+      background: #8a5b17;
+    }
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .servo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .servo-control {
+      background: #222;
+      border: 1px solid #3a3a3a;
+      border-radius: 5px;
+      padding: 12px;
+    }
+    .servo-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #ddd;
+    }
+    .servo-slider {
+      width: 100%;
+    }
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      color: #aaa;
+      font-size: 12px;
+      margin-top: 4px;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -217,6 +329,10 @@ def index():
       font-size: 14px;
       line-height: 1.4;
     }
+    .caution {
+      color: #ffd166;
+      font-weight: bold;
+    }
     #status {
       margin-left: 12px;
       color: #ddd;
@@ -230,11 +346,51 @@ def index():
     <div class="panel">
       <img src="/video_feed" alt="Annotated block detection feed">
       <p class="muted">
-        Camera-only viewer. No drive motors or servos are controlled by this page.
+        Servo-only viewer. This page can move the arm for camera tuning, but it does not drive the robot base.
         Use it to see false positives, lighting problems, and candidate confidence before changing pickup code.
+      </p>
+      <p class="caution">
+        Keep hands clear of the arm before pressing pose buttons or moving sliders.
       </p>
       <button onclick="saveSnapshot()">Save Snapshot</button>
       <span id="status">Ready.</span>
+    </div>
+
+    <div class="panel">
+      <h2>Arm Camera Position</h2>
+      <p class="muted">
+        Use these controls to compare block detection with the camera forward or tilted down.
+        Servo 1 is the claw. Servos 3-6 move the arm and camera.
+      </p>
+      <div class="button-row">
+        <button class="secondary" onclick="applyPreset('camera_forward')">Camera Forward</button>
+        <button class="secondary" onclick="applyPreset('camera_down')">Camera Down</button>
+        <button class="warning" onclick="setServo(1, 2500)">Open Claw</button>
+        <button class="warning" onclick="setServo(1, 1550)">Close Claw</button>
+      </div>
+      <div class="servo-grid">
+        <div class="servo-control">
+          <div class="servo-label"><span>Servo 1 - Claw</span><span id="servo1-value">2500</span></div>
+          <input type="range" class="servo-slider" id="servo1" min="1550" max="2500" value="2500" step="1">
+          <div class="range-labels"><span>Closed 1550</span><span>Open 2500</span></div>
+        </div>
+        <div class="servo-control">
+          <div class="servo-label"><span>Servo 3 - Wrist</span><span id="servo3-value">590</span></div>
+          <input type="range" class="servo-slider" id="servo3" min="500" max="2500" value="590" step="1">
+        </div>
+        <div class="servo-control">
+          <div class="servo-label"><span>Servo 4 - Elbow</span><span id="servo4-value">2450</span></div>
+          <input type="range" class="servo-slider" id="servo4" min="500" max="2500" value="2450" step="1">
+        </div>
+        <div class="servo-control">
+          <div class="servo-label"><span>Servo 5 - Shoulder</span><span id="servo5-value">700</span></div>
+          <input type="range" class="servo-slider" id="servo5" min="500" max="2500" value="700" step="1">
+        </div>
+        <div class="servo-control">
+          <div class="servo-label"><span>Servo 6 - Base</span><span id="servo6-value">1500</span></div>
+          <input type="range" class="servo-slider" id="servo6" min="500" max="2500" value="1500" step="1">
+        </div>
+      </div>
     </div>
 
     <div class="panel">
@@ -277,6 +433,72 @@ def index():
         });
     }
 
+    function updateServoControls(positions) {
+      Object.keys(positions || {}).forEach(servo => {
+        const slider = document.getElementById(`servo${servo}`);
+        const value = document.getElementById(`servo${servo}-value`);
+        if (slider && value) {
+          slider.value = positions[servo];
+          value.textContent = positions[servo];
+        }
+      });
+    }
+
+    function postJson(path, data) {
+      return fetch(path, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+    }
+
+    function setServo(servo, position) {
+      updateStatus(`Moving servo ${servo}...`);
+      postJson('/servo', {servo: servo, position: position})
+        .then(response => response.json())
+        .then(data => {
+          if (data.status !== 'ok') {
+            updateStatus(data.message || 'Servo move failed.');
+            return;
+          }
+          updateServoControls(data.positions);
+          updateStatus(`Servo ${data.servo} set to ${data.position}.`);
+        })
+        .catch(error => {
+          updateStatus('Servo command failed.');
+          console.log(error);
+        });
+    }
+
+    function applyPreset(preset) {
+      updateStatus('Moving arm...');
+      postJson('/arm_preset', {preset: preset})
+        .then(response => response.json())
+        .then(data => {
+          if (data.status !== 'ok') {
+            updateStatus(data.message || 'Arm preset failed.');
+            return;
+          }
+          updateServoControls(data.positions);
+          updateStatus(data.message || 'Arm moved.');
+        })
+        .catch(error => {
+          updateStatus('Arm preset command failed.');
+          console.log(error);
+        });
+    }
+
+    [1, 3, 4, 5, 6].forEach(servo => {
+      const slider = document.getElementById(`servo${servo}`);
+      const value = document.getElementById(`servo${servo}-value`);
+      slider.addEventListener('input', function() {
+        value.textContent = this.value;
+      });
+      slider.addEventListener('change', function() {
+        setServo(servo, parseInt(this.value));
+      });
+    });
+
     function refreshDetections() {
       fetch('/detections')
         .then(response => response.json())
@@ -288,6 +510,7 @@ def index():
           summary.textContent =
             detections.length + ' detection(s), ' +
             data.saved_count + ' saved snapshot(s)';
+          updateServoControls(data.servo_positions);
 
           body.innerHTML = '';
           detections.forEach(det => {
@@ -333,7 +556,64 @@ def detections():
             'detections': latest_state['detections'],
             'updated_at': latest_state['updated_at'],
             'saved_count': latest_state['saved_count'],
+            'servo_positions': servo_positions.copy(),
         })
+
+
+@app.route('/servo', methods=['POST'])
+def servo():
+    """Move one arm servo from the viewer controls."""
+    try:
+        data = request.json or {}
+        servo_id = int(data.get('servo'))
+        position = int(data.get('position'))
+    except (TypeError, ValueError):
+        return jsonify({
+            'status': 'error',
+            'message': 'Invalid servo request',
+        }), 400
+
+    try:
+        positions = apply_servo_positions([(servo_id, position)], duration_ms=500)
+    except Exception as error:
+        return jsonify({
+            'status': 'error',
+            'message': 'Servo move failed: %s' % error,
+        }), 500
+
+    return jsonify({
+        'status': 'ok',
+        'servo': servo_id,
+        'position': positions[servo_id],
+        'positions': servo_positions.copy(),
+    })
+
+
+@app.route('/arm_preset', methods=['POST'])
+def arm_preset():
+    """Move the arm to a named camera pose."""
+    data = request.json or {}
+    preset_name = data.get('preset')
+    preset = ARM_PRESETS.get(preset_name)
+    if preset is None:
+        return jsonify({
+            'status': 'error',
+            'message': 'Unknown arm preset',
+        }), 400
+
+    try:
+        apply_servo_positions(preset['positions'], duration_ms=preset['duration_ms'])
+    except Exception as error:
+        return jsonify({
+            'status': 'error',
+            'message': 'Arm preset failed: %s' % error,
+        }), 500
+
+    return jsonify({
+        'status': 'ok',
+        'message': '%s selected.' % preset['label'],
+        'positions': servo_positions.copy(),
+    })
 
 
 @app.route('/snapshot', methods=['POST'])
@@ -350,13 +630,21 @@ def snapshot():
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     raw_path = CAPTURE_DIR / ('block_raw_%s.jpg' % timestamp)
     annotated_path = CAPTURE_DIR / ('block_annotated_%s.jpg' % timestamp)
+    metadata_path = CAPTURE_DIR / ('block_metadata_%s.json' % timestamp)
 
     with state_lock:
         raw = latest_state['frame'].copy() if latest_state['frame'] is not None else None
+        metadata = {
+            'timestamp': timestamp,
+            'detections': latest_state['detections'],
+            'servo_positions': servo_positions.copy(),
+        }
 
     if raw is not None:
         cv2.imwrite(str(raw_path), raw)
     cv2.imwrite(str(annotated_path), annotated)
+    with open(metadata_path, 'w') as f:
+        json.dump(metadata, f, indent=2)
 
     with state_lock:
         latest_state['saved_count'] += 1
@@ -366,6 +654,7 @@ def snapshot():
         'message': 'Saved %s' % annotated_path.name,
         'raw': str(raw_path),
         'annotated': str(annotated_path),
+        'metadata': str(metadata_path),
     })
 
 
@@ -384,7 +673,7 @@ if __name__ == '__main__':
         print("Pathfinder2026 Block Detection Viewer")
         print("=" * 70)
         print()
-        print("Camera-only. This does not move the robot.")
+        print("Servo-only arm controls. This does not drive the robot base.")
         print("Open in browser: http://<ROBOT_IP>:%d" % PORT)
         print("Snapshots save to: %s" % CAPTURE_DIR)
         print()

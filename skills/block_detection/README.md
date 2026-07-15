@@ -4,9 +4,11 @@
 
 ## Quick Start
 
-### Camera-only viewer
+### Block detection viewer
 
-Use this first when tuning block identification. It shows live annotated camera output and saves raw/annotated snapshots. It does not move the robot.
+Use this first when tuning block identification. It shows live annotated camera output, lets you move the arm/camera servos, and saves raw/annotated snapshots with arm-position metadata.
+
+This viewer does not drive the robot base. Keep hands clear before moving the arm.
 
 ```bash
 cd /home/robot/pathfinder
@@ -24,6 +26,12 @@ Snapshots are saved in:
 ```text
 /home/robot/pathfinder/block_detection_captures
 ```
+
+Each saved snapshot includes:
+
+- `block_raw_*.jpg`: original camera frame
+- `block_annotated_*.jpg`: frame with detection boxes and tuning guides
+- `block_metadata_*.json`: detections and current servo positions
 
 ### Single-frame demo
 
