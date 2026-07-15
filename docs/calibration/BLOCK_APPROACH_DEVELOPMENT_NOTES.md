@@ -51,6 +51,7 @@ These notes track active block detection and approach testing. This work is not 
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 340`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
 - The viewer looked stable with Blue-only selection and three close blue blocks.
+- Added a combined approach-and-pickup script. It only runs pickup if approach reports success.
 
 ## Current Test Commands
 
@@ -75,6 +76,13 @@ cd /home/robot/pathfinder
 python3 skills/block_pickup/run_demo.py
 ```
 
+Approach-and-pickup test:
+
+```bash
+cd /home/robot/pathfinder
+python3 skills/block_approach_pickup/run_demo.py --color blue
+```
+
 ## Next To-Dos
 
 1. Retest the current approach demo with a single blue block at several starting distances:
@@ -84,9 +92,7 @@ python3 skills/block_pickup/run_demo.py
    - about 7 inches.
 2. Repeat the successful run with red and yellow blocks to confirm color-specific behavior.
 3. Have a human confirm whether the block is held in the claw after `skills/block_pickup/run_demo.py`.
-4. If pickup is confirmed, create an approach-plus-pickup script that runs:
-   - `skills/block_approach/run_demo.py`,
-   - then `skills/block_pickup/run_demo.py`.
+4. Test `skills/block_approach_pickup/run_demo.py --color blue` from a clean starting position with one blue block visible.
 5. Decide whether the approach should:
    - keep pulsed stop-look-drive motion, or
    - move toward a slow continuous drive while camera angle changes.

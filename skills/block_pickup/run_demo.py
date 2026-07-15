@@ -22,6 +22,27 @@ def stop_drive_motors(board):
     board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
 
 
+def run_pickup_sequence(board=None):
+    """
+    Run the tested front pickup arm sequence.
+
+    The robot must already be stopped with one block directly in front of the
+    claw. This function does not drive the robot.
+    """
+    board = board or get_board()
+    stop_drive_motors(board)
+
+    arm = Arm(board)
+    print("Running front pickup sequence...")
+    arm.pickup_front()
+    stop_drive_motors(board)
+
+    return {
+        'success': True,
+        'reason': 'pickup_complete',
+    }
+
+
 def parse_args():
     """Parse command-line options."""
     parser = argparse.ArgumentParser(description='Run pickup-only arm demo.')
@@ -49,14 +70,12 @@ def main():
         input("Press Enter when the block is in place and the arm area is clear...")
 
     board = get_board()
-    stop_drive_motors(board)
 
     try:
-        arm = Arm(board)
-        print("Running front pickup sequence...")
-        arm.pickup_front()
+        result = run_pickup_sequence(board)
         print()
         print("Result: COMPLETE")
+        print("Reason: %s" % result['reason'])
         print("Check whether the block is held in the claw before combining this with approach.")
 
     except KeyboardInterrupt:
