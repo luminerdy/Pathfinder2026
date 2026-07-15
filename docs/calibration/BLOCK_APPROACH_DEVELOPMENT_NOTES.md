@@ -35,6 +35,7 @@ These notes track active block detection and approach testing. This work is not 
   - `STRAFE_PULSE_SECONDS = 0.35`,
   - `X_TOLERANCE_PX = 60`.
 - Added a centering-stall stop so the robot does not keep pulsing if the target offset is not improving.
+- Added `skills/block_pickup/run_demo.py` as a pickup-only test that uses the tested `Arm.pickup_front()` sequence.
 
 ## Current Calibration Notes
 
@@ -46,6 +47,7 @@ These notes track active block detection and approach testing. This work is not 
 - July 15 retest: a manual strafe-left correction moved a left-edge blue block toward center. The approach demo's original `STRAFE_POWER = 32` was too weak at about `7.7V`; `42` worked better.
 - July 15 successful run: the robot locked a blue block, centered it, drove forward, adjusted camera angle, and stopped with `Result: SUCCESS`, `Reason: reached`.
 - Successful final camera view after the run showed the selected blue block still visible at about `17cm`, `offset=+43`.
+- July 15 pickup-only test: ran `Arm.pickup_front()` from the approach handoff position. The post-pickup camera snapshot showed no blue block selected on the floor in front of the robot. This is a positive sign, but a human visual check is still needed to confirm the block is held in the claw.
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 340`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
 - The viewer looked stable with Blue-only selection and three close blue blocks.
@@ -66,6 +68,13 @@ cd /home/robot/pathfinder
 python3 skills/block_approach/run_demo.py --color blue
 ```
 
+Pickup-only test:
+
+```bash
+cd /home/robot/pathfinder
+python3 skills/block_pickup/run_demo.py
+```
+
 ## Next To-Dos
 
 1. Retest the current approach demo with a single blue block at several starting distances:
@@ -74,11 +83,14 @@ python3 skills/block_approach/run_demo.py --color blue
    - about 12 inches,
    - about 7 inches.
 2. Repeat the successful run with red and yellow blocks to confirm color-specific behavior.
-3. Determine the final pickup-ready camera/arm pose when the block is touching the front of the robot.
-4. Decide whether the approach should:
+3. Have a human confirm whether the block is held in the claw after `skills/block_pickup/run_demo.py`.
+4. If pickup is confirmed, create an approach-plus-pickup script that runs:
+   - `skills/block_approach/run_demo.py`,
+   - then `skills/block_pickup/run_demo.py`.
+5. Decide whether the approach should:
    - keep pulsed stop-look-drive motion, or
    - move toward a slow continuous drive while camera angle changes.
-5. Do not add this to the event participant flow yet.
+6. Do not add this to the event participant flow yet.
 
 ## Known Risks
 
