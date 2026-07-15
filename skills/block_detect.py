@@ -244,7 +244,7 @@ class BlockDetector:
         y2 = y1 + block.height
         return x1, y1, x2, y2
 
-    def _boxes_close(self, first, second, padding_px=18):
+    def _boxes_close(self, first, second, padding_px=8):
         """Return True when two same-color boxes likely belong together."""
         ax1, ay1, ax2, ay2 = self._block_bounds(first)
         bx1, by1, bx2, by2 = self._block_bounds(second)
@@ -256,12 +256,13 @@ class BlockDetector:
             by2 + padding_px < ay1
         )
 
-    def merge_close_detections(self, detections, padding_px=18):
+    def merge_close_detections(self, detections, padding_px=8):
         """
         Merge nearby same-color detections into one block candidate.
 
         Real cubes sometimes split into two contours because of highlights or
-        shadows. Merging nearby boxes keeps target selection from flickering.
+        shadows. A small merge padding keeps target selection from flickering
+        without combining neighboring blocks that are close together.
         """
         remaining = list(detections)
         merged = []

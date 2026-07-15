@@ -14,7 +14,7 @@ Use the Red, Blue, and Yellow checkboxes to isolate one color or any two-color c
 
 The viewer also highlights one selected pickup target in green. This is the block the robot would choose first based on confidence, distance, image position, and whether the box is safely away from the image edge.
 
-Nearby same-color boxes are merged before target selection. This reduces flicker when one cube is briefly split into multiple contours by glare or shadows.
+Nearby same-color boxes are merged before target selection using a small padding. This reduces flicker when one cube is briefly split into multiple contours by glare or shadows, while avoiding merging separate blocks that are close together.
 
 ```bash
 cd /home/robot/pathfinder
