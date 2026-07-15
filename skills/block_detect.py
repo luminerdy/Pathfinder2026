@@ -84,6 +84,7 @@ class BlockDetector:
         blocks = detector.detect(frame)
         blocks = detector.detect(frame, colors=['red'])
         nearest = detector.find_nearest(frame, color='red')
+        target = detector.select_pickup_target(blocks)
     """
 
     def __init__(self, colors=None):
@@ -234,6 +235,77 @@ class BlockDetector:
 
         return max(candidates, key=lambda b: b.confidence)
 
+    def _is_edge_touching(self, block, frame_width=640, frame_height=480,
+                          margin_px=8):
+        """Return True when a block box touches the unreliable image edge."""
+        x1 = block.center_x - block.width // 2
+        y1 = block.center_y - block.height // 2
+        x2 = x1 + block.width
+        y2 = y1 + block.height
+        return (
+            x1 <= margin_px or
+            y1 <= margin_px or
+            x2 >= frame_width - margin_px or
+            y2 >= frame_height - margin_px
+        )
+
+    def pickup_target_score(self, block, frame_width=640, frame_height=480):
+        """
+        Score a detected block for pickup approach.
+
+        Higher score means the block is more useful as a target:
+        confident, near center, lower in the image, and reasonably large.
+        """
+        center_score = 1.0 - min(abs(block.offset_from_center) / (frame_width / 2), 1.0)
+        lower_score = min(max(block.center_y / frame_height, 0.0), 1.0)
+        size_score = min(max(max(block.width, block.height) / 80.0, 0.0), 1.0)
+        distance_score = 1.0 - min(block.estimated_distance_mm / 1500.0, 1.0)
+
+        return round(
+            block.confidence * 4.0 +
+            center_score * 3.0 +
+            lower_score * 2.0 +
+            size_score * 2.0 +
+            distance_score,
+            3
+        )
+
+    def select_pickup_target(self, detections, frame_width=640, frame_height=480,
+                             min_confidence=0.6, min_area=80,
+                             edge_margin_px=8):
+        """
+        Pick the best block for a future pickup approach.
+
+        This does not move the robot. It filters out weak/edge detections and
+        chooses the candidate with the best pickup target score.
+        """
+        candidates = []
+        for block in detections:
+            if block.confidence < min_confidence:
+                continue
+            if block.area < min_area:
+                continue
+            if self._is_edge_touching(
+                block,
+                frame_width=frame_width,
+                frame_height=frame_height,
+                margin_px=edge_margin_px,
+            ):
+                continue
+            candidates.append(block)
+
+        if not candidates:
+            return None
+
+        return max(
+            candidates,
+            key=lambda block: self.pickup_target_score(
+                block,
+                frame_width=frame_width,
+                frame_height=frame_height,
+            )
+        )
+
     def annotate_frame(self, frame, detections):
         """
         Draw detection boxes and labels on frame.
@@ -304,6 +376,14 @@ if __name__ == '__main__':
                           f"{b.width}x{b.height}px, "
                           f"offset={b.offset_from_center:+d}px, "
                           f"conf={b.confidence:.2f}")
+                target = detector.select_pickup_target(blocks)
+                if target:
+                    score = detector.pickup_target_score(target)
+                    print()
+                    print("Selected pickup target:")
+                    print(f"  {target.color}: score={score:.1f}, "
+                          f"{target.estimated_distance_mm/10:.0f}cm away, "
+                          f"offset={target.offset_from_center:+d}px")
             else:
                 print("No blocks detected")
                 print("  (Place colored blocks in view and try again)")

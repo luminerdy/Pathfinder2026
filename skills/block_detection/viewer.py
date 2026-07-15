@@ -76,6 +76,7 @@ latest_state = {
     'frame': None,
     'annotated': None,
     'detections': [],
+    'selected_target': None,
     'updated_at': 0.0,
     'saved_count': 0,
 }
@@ -166,7 +167,53 @@ def detection_to_dict(block):
     }
 
 
-def annotate(frame, detections, colors):
+def target_to_dict(block):
+    """Convert the selected pickup target to JSON-safe data."""
+    if block is None:
+        return None
+
+    data = detection_to_dict(block)
+    data['target_score'] = detector.pickup_target_score(
+        block,
+        frame_width=FRAME_W,
+        frame_height=FRAME_H,
+    )
+    return data
+
+
+def draw_selected_target(frame, target):
+    """Draw the selected pickup target as a clear green overlay."""
+    if target is None:
+        cv2.putText(frame, 'selected target: none',
+                    (10, FRAME_H - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.65,
+                    (0, 165, 255), 2)
+        return
+
+    x1 = target.center_x - target.width // 2
+    y1 = target.center_y - target.height // 2
+    x2 = x1 + target.width
+    y2 = y1 + target.height
+
+    cv2.rectangle(frame, (x1 - 4, y1 - 4), (x2 + 4, y2 + 4),
+                  (0, 255, 0), 4)
+    cv2.drawMarker(frame, (target.center_x, target.center_y),
+                   (0, 255, 0), markerType=cv2.MARKER_CROSS,
+                   markerSize=24, thickness=2)
+    score = detector.pickup_target_score(
+        target,
+        frame_width=FRAME_W,
+        frame_height=FRAME_H,
+    )
+    label = 'selected: %s score=%.1f offset=%+d' % (
+        target.color,
+        score,
+        target.offset_from_center,
+    )
+    cv2.putText(frame, label, (10, FRAME_H - 20),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 0), 2)
+
+
+def annotate(frame, detections, selected_target, colors):
     """Draw detection boxes plus extra tuning guides."""
     annotated = detector.annotate_frame(frame.copy(), detections)
 
@@ -197,6 +244,8 @@ def annotate(frame, detections, colors):
                     (255, 255, 255), 1)
         y_pos += 24
 
+    draw_selected_target(annotated, selected_target)
+
     return annotated
 
 
@@ -208,12 +257,18 @@ def process_frame():
 
     colors = get_enabled_colors()
     detections = detector.detect(frame, colors=colors)
-    annotated = annotate(frame, detections, colors)
+    selected_target = detector.select_pickup_target(
+        detections,
+        frame_width=FRAME_W,
+        frame_height=FRAME_H,
+    )
+    annotated = annotate(frame, detections, selected_target, colors)
 
     with state_lock:
         latest_state['frame'] = frame
         latest_state['annotated'] = annotated
         latest_state['detections'] = [detection_to_dict(d) for d in detections]
+        latest_state['selected_target'] = target_to_dict(selected_target)
         latest_state['updated_at'] = time.time()
 
     return annotated
@@ -386,6 +441,20 @@ def index():
       color: #ffd166;
       font-weight: bold;
     }
+    .target-box {
+      background: #16351f;
+      border: 2px solid #4CAF50;
+      border-radius: 5px;
+      padding: 12px;
+      margin-top: 12px;
+      color: #eaffea;
+      font-weight: bold;
+    }
+    .target-box.none {
+      background: #3b2d13;
+      border-color: #d99b22;
+      color: #fff0ca;
+    }
     #status {
       margin-left: 12px;
       color: #ddd;
@@ -466,6 +535,7 @@ def index():
     <div class="panel">
       <h2>Current Detections</h2>
       <div id="summary" class="muted">Waiting for camera...</div>
+      <div id="selected-target" class="target-box none">Selected target: none</div>
       <table>
         <thead>
           <tr>
@@ -572,6 +642,21 @@ def index():
       document.getElementById(`color-${color}`).addEventListener('change', setColorFilters);
     });
 
+    function updateSelectedTarget(target) {
+      const box = document.getElementById('selected-target');
+      if (!target) {
+        box.className = 'target-box none';
+        box.textContent = 'Selected target: none';
+        return;
+      }
+
+      box.className = 'target-box';
+      box.textContent =
+        `Selected target: ${target.color}, score ${target.target_score}, ` +
+        `${target.estimated_distance_cm} cm, offset ${target.offset_from_center}, ` +
+        `${target.width} x ${target.height}px`;
+    }
+
     function setServo(servo, position) {
       updateStatus(`Moving servo ${servo}...`);
       postJson('/servo', {servo: servo, position: position})
@@ -633,6 +718,7 @@ def index():
             (data.enabled_colors || []).join(', ');
           updateServoControls(data.servo_positions);
           updateColorControls(data.enabled_colors);
+          updateSelectedTarget(data.selected_target);
 
           body.innerHTML = '';
           detections.forEach(det => {
@@ -680,6 +766,7 @@ def detections():
             'saved_count': latest_state['saved_count'],
             'servo_positions': servo_positions.copy(),
             'enabled_colors': enabled_colors.copy(),
+            'selected_target': latest_state['selected_target'],
         })
 
 
@@ -785,6 +872,7 @@ def snapshot():
         metadata = {
             'timestamp': timestamp,
             'detections': latest_state['detections'],
+            'selected_target': latest_state['selected_target'],
             'enabled_colors': enabled_colors.copy(),
             'servo_positions': servo_positions.copy(),
         }

@@ -12,6 +12,8 @@ This viewer does not drive the robot base. Keep hands clear before moving the ar
 
 Use the Red, Blue, and Yellow checkboxes to isolate one color or any two-color combination while tuning.
 
+The viewer also highlights one selected pickup target in green. This is the block the robot would choose first based on confidence, distance, image position, and whether the box is safely away from the image edge.
+
 ```bash
 cd /home/robot/pathfinder
 python3 skills/block_detection/viewer.py
@@ -33,7 +35,7 @@ Each saved snapshot includes:
 
 - `block_raw_*.jpg`: original camera frame
 - `block_annotated_*.jpg`: frame with detection boxes and tuning guides
-- `block_metadata_*.json`: detections, selected color filters, and current servo positions
+- `block_metadata_*.json`: detections, selected target, selected color filters, and current servo positions
 
 ### Single-frame demo
 
@@ -51,11 +53,16 @@ detector = BlockDetector()
 blocks = detector.detect(frame)              # All colors
 blocks = detector.detect(frame, ['red'])     # Red only
 nearest = detector.find_nearest(frame, 'red') # Nearest red
+target = detector.select_pickup_target(blocks) # Best pickup target
 
 # Each block has:
 # .color, .center_x, .center_y, .width, .height
 # .offset_from_center, .estimated_distance_mm, .confidence
 ```
+
+## Target Selection
+
+`select_pickup_target()` ignores weak and edge-touching detections, then scores the remaining blocks. A good target is confident, reasonably large, lower in the camera view, and closer to the center line.
 
 ## Color Ranges (HSV)
 - Red: H=0-8 + H=172-180, with higher saturation/value filtering to reduce false positives
