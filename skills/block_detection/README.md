@@ -56,7 +56,7 @@ nearest = detector.find_nearest(frame, 'red') # Nearest red
 ```
 
 ## Color Ranges (HSV)
-- Red: H=0-10 + H=160-180
+- Red: H=0-8 + H=172-180, with higher saturation/value filtering to reduce false positives
 - Blue: H=100-130
 - Yellow: H=20-40
 

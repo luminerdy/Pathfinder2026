@@ -6,9 +6,11 @@
 colors:
   red:
     ranges:
-      - lower: [0, 80, 50]
-        upper: [10, 255, 255]
-      - lower: [160, 80, 50]
+      # Red is tighter because it was picking up small false positives
+      # from shadows and reflections on the field floor.
+      - lower: [0, 110, 80]
+        upper: [8, 255, 255]
+      - lower: [172, 110, 80]
         upper: [180, 255, 255]
   blue:
     ranges:

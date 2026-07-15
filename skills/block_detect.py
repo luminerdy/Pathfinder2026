@@ -45,11 +45,13 @@ class BlockDetection:
 # These work best with saturated colored blocks on a gray/neutral surface
 # Workshop challenge colors: Red, Blue, Yellow
 # Chosen for maximum HSV separation and reliable detection
-# Red: H=0-10 + 160-180, Blue: H=100-130, Yellow: H=20-40
+# Red is intentionally tighter than blue/yellow because workshop lighting and
+# shadows can create small reddish false positives on the foam floor.
+# Red: H=0-8 + 172-180, Blue: H=100-130, Yellow: H=20-40
 COLOR_RANGES = {
     'red': [
-        {'lower': (0, 80, 50), 'upper': (10, 255, 255)},      # Low red
-        {'lower': (160, 80, 50), 'upper': (180, 255, 255)},    # High red (wraps)
+        {'lower': (0, 110, 80), 'upper': (8, 255, 255)},       # Low red
+        {'lower': (172, 110, 80), 'upper': (180, 255, 255)},   # High red (wraps)
     ],
     'blue': [
         {'lower': (100, 60, 50), 'upper': (130, 255, 255)},

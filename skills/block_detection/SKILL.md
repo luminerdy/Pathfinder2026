@@ -171,8 +171,8 @@ cv2.imwrite('detected.jpg', annotated)
 ```python
 COLOR_RANGES = {
     'red': [
-        {'lower': (0, 80, 50), 'upper': (10, 255, 255)},    # Low hue red
-        {'lower': (160, 80, 50), 'upper': (180, 255, 255)},  # High hue red (wraps!)
+        {'lower': (0, 110, 80), 'upper': (8, 255, 255)},     # Low hue red
+        {'lower': (172, 110, 80), 'upper': (180, 255, 255)}, # High hue red (wraps)
     ],
     'blue': [
         {'lower': (100, 60, 50), 'upper': (130, 255, 255)},
@@ -352,9 +352,9 @@ Threshold: 0.3 minimum (tuned from real-world testing)
 colors:
   red:
     ranges:
-      - lower: [0, 80, 50]
-        upper: [10, 255, 255]
-      - lower: [160, 80, 50]
+      - lower: [0, 110, 80]
+        upper: [8, 255, 255]
+      - lower: [172, 110, 80]
         upper: [180, 255, 255]
   blue:
     ranges:
