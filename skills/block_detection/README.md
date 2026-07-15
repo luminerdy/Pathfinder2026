@@ -27,6 +27,8 @@ Open from the Pi 500 browser:
 http://<ROBOT_IP>:8081
 ```
 
+Keep one viewer tab open while tuning, then stop the program with `Ctrl+C` when finished. The viewer throttles camera processing to reduce robot CPU load.
+
 Snapshots are saved in:
 
 ```text

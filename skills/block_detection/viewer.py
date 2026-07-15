@@ -37,6 +37,9 @@ CAPTURE_DIR = REPO_ROOT / 'block_detection_captures'
 FRAME_W = 640
 FRAME_H = 480
 PORT = 8081
+MAX_PROCESS_FPS = 5.0
+FRAME_INTERVAL = 1.0 / MAX_PROCESS_FPS
+JPEG_QUALITY = 70
 
 app = Flask(__name__)
 
@@ -45,6 +48,7 @@ board = None
 camera_lock = threading.Lock()
 board_lock = threading.Lock()
 state_lock = threading.Lock()
+process_lock = threading.Lock()
 detector = BlockDetector()
 SELECTABLE_COLORS = ('red', 'blue', 'yellow')
 enabled_colors = list(SELECTABLE_COLORS)
@@ -75,6 +79,8 @@ servo_positions = dict(POS_CAMERA_FORWARD)
 latest_state = {
     'frame': None,
     'annotated': None,
+    'jpeg': None,
+    'jpeg_updated_at': 0.0,
     'raw_detection_count': 0,
     'detections': [],
     'selected_target': None,
@@ -286,24 +292,73 @@ def process_frame():
     return annotated
 
 
+def get_stream_jpeg(force=False):
+    """
+    Return one encoded camera frame, sharing work across browser clients.
+
+    The viewer runs on the robot, so avoid processing unlimited frames per
+    second. Without this cache, each open browser tab can start its own
+    detection loop and push the Pi hard enough to affect SSH/WiFi.
+    """
+    now = time.monotonic()
+    with state_lock:
+        cached = latest_state['jpeg']
+        cached_at = latest_state['jpeg_updated_at']
+
+    if cached is not None and not force and now - cached_at < FRAME_INTERVAL:
+        return cached
+
+    # If another browser stream is already processing a frame, reuse the most
+    # recent frame instead of stacking up CPU-heavy detection work.
+    if not process_lock.acquire(blocking=False):
+        time.sleep(0.03)
+        with state_lock:
+            return latest_state['jpeg']
+
+    try:
+        now = time.monotonic()
+        with state_lock:
+            cached = latest_state['jpeg']
+            cached_at = latest_state['jpeg_updated_at']
+        if cached is not None and not force and now - cached_at < FRAME_INTERVAL:
+            return cached
+
+        annotated = process_frame()
+        if annotated is None:
+            return None
+
+        ok, buffer = cv2.imencode(
+            '.jpg',
+            annotated,
+            [int(cv2.IMWRITE_JPEG_QUALITY), JPEG_QUALITY],
+        )
+        if not ok:
+            return None
+
+        jpeg = buffer.tobytes()
+        with state_lock:
+            latest_state['jpeg'] = jpeg
+            latest_state['jpeg_updated_at'] = time.monotonic()
+        return jpeg
+    finally:
+        process_lock.release()
+
+
 def generate_frames():
     """Yield MJPEG frames for the browser."""
     while True:
-        annotated = process_frame()
-        if annotated is None:
+        jpeg = get_stream_jpeg()
+        if jpeg is None:
             time.sleep(0.05)
-            continue
-
-        ok, buffer = cv2.imencode('.jpg', annotated)
-        if not ok:
             continue
 
         yield (
             b'--frame\r\n'
             b'Content-Type: image/jpeg\r\n\r\n' +
-            buffer.tobytes() +
+            jpeg +
             b'\r\n'
         )
+        time.sleep(FRAME_INTERVAL / 2)
 
 
 @app.route('/')
@@ -869,7 +924,8 @@ def arm_preset():
 @app.route('/snapshot', methods=['POST'])
 def snapshot():
     """Save the latest raw and annotated frames for tuning."""
-    annotated = process_frame()
+    with process_lock:
+        annotated = process_frame()
     if annotated is None:
         return jsonify({
             'status': 'error',
@@ -927,6 +983,10 @@ if __name__ == '__main__':
         print("=" * 70)
         print()
         print("Servo-only arm controls. This does not drive the robot base.")
+        print("Camera processing capped at %.1f FPS, JPEG quality %d." % (
+            MAX_PROCESS_FPS,
+            JPEG_QUALITY,
+        ))
         print("Open in browser: http://<ROBOT_IP>:%d" % PORT)
         print("Snapshots save to: %s" % CAPTURE_DIR)
         print()
