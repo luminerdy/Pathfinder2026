@@ -10,6 +10,8 @@ Use this first when tuning block identification. It shows live annotated camera 
 
 This viewer does not drive the robot base. Keep hands clear before moving the arm.
 
+Use the Red, Blue, and Yellow checkboxes to isolate one color or any two-color combination while tuning.
+
 ```bash
 cd /home/robot/pathfinder
 python3 skills/block_detection/viewer.py
@@ -31,7 +33,7 @@ Each saved snapshot includes:
 
 - `block_raw_*.jpg`: original camera frame
 - `block_annotated_*.jpg`: frame with detection boxes and tuning guides
-- `block_metadata_*.json`: detections and current servo positions
+- `block_metadata_*.json`: detections, selected color filters, and current servo positions
 
 ### Single-frame demo
 

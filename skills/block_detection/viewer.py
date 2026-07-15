@@ -46,6 +46,8 @@ camera_lock = threading.Lock()
 board_lock = threading.Lock()
 state_lock = threading.Lock()
 detector = BlockDetector()
+SELECTABLE_COLORS = ('red', 'blue', 'yellow')
+enabled_colors = list(SELECTABLE_COLORS)
 
 SERVO_LIMITS = {
     1: (1550, 2500),  # Claw/gripper. 1550=closed, 2500=open.
@@ -82,6 +84,23 @@ latest_state = {
 def clamp(value, low, high):
     """Keep a servo pulse inside its safe range."""
     return max(low, min(high, int(value)))
+
+
+def get_enabled_colors():
+    """Return the currently selected block colors."""
+    with state_lock:
+        return enabled_colors.copy()
+
+
+def set_enabled_colors(colors):
+    """Update color filters, preserving the event color order."""
+    selected = [color for color in SELECTABLE_COLORS if color in colors]
+    if not selected:
+        raise ValueError('Select at least one color')
+
+    with state_lock:
+        enabled_colors[:] = selected
+    return selected
 
 
 def get_arm_board():
@@ -147,7 +166,7 @@ def detection_to_dict(block):
     }
 
 
-def annotate(frame, detections):
+def annotate(frame, detections, colors):
     """Draw detection boxes plus extra tuning guides."""
     annotated = detector.annotate_frame(frame.copy(), detections)
 
@@ -165,8 +184,11 @@ def annotate(frame, detections):
     cv2.putText(annotated, 'detections: %d' % len(detections),
                 (10, 55), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
                 (0, 255, 255), 2)
+    cv2.putText(annotated, 'colors: %s' % ', '.join(colors),
+                (10, 82), cv2.FONT_HERSHEY_SIMPLEX, 0.55,
+                (0, 255, 255), 1)
 
-    y_pos = 85
+    y_pos = 110
     with state_lock:
         positions = servo_positions.copy()
     for servo_id in sorted(positions.keys()):
@@ -184,8 +206,9 @@ def process_frame():
     if frame is None:
         return None
 
-    detections = detector.detect(frame)
-    annotated = annotate(frame, detections)
+    colors = get_enabled_colors()
+    detections = detector.detect(frame, colors=colors)
+    annotated = annotate(frame, detections, colors)
 
     with state_lock:
         latest_state['frame'] = frame
@@ -281,6 +304,36 @@ def index():
       align-items: center;
       margin-bottom: 12px;
     }
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .color-filter {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #222;
+      border: 1px solid #555;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .color-filter input {
+      width: 18px;
+      height: 18px;
+    }
+    .color-filter.red {
+      color: #ff6b6b;
+    }
+    .color-filter.blue {
+      color: #6ca8ff;
+    }
+    .color-filter.yellow {
+      color: #fff36b;
+    }
     .servo-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -351,6 +404,23 @@ def index():
       </p>
       <p class="caution">
         Keep hands clear of the arm before pressing pose buttons or moving sliders.
+      </p>
+      <div class="filter-row">
+        <label class="color-filter red">
+          <input type="checkbox" id="color-red" value="red" checked>
+          Red
+        </label>
+        <label class="color-filter blue">
+          <input type="checkbox" id="color-blue" value="blue" checked>
+          Blue
+        </label>
+        <label class="color-filter yellow">
+          <input type="checkbox" id="color-yellow" value="yellow" checked>
+          Yellow
+        </label>
+      </div>
+      <p class="muted">
+        Select one or more colors to isolate detections while tuning.
       </p>
       <button onclick="saveSnapshot()">Save Snapshot</button>
       <span id="status">Ready.</span>
@@ -452,6 +522,56 @@ def index():
       });
     }
 
+    const colorIds = ['red', 'blue', 'yellow'];
+
+    function getSelectedColors() {
+      return colorIds.filter(color => {
+        return document.getElementById(`color-${color}`).checked;
+      });
+    }
+
+    function updateColorControls(colors) {
+      const selected = new Set(colors || colorIds);
+      colorIds.forEach(color => {
+        const checkbox = document.getElementById(`color-${color}`);
+        if (checkbox) {
+          checkbox.checked = selected.has(color);
+        }
+      });
+    }
+
+    function setColorFilters() {
+      const colors = getSelectedColors();
+      if (colors.length === 0) {
+        updateStatus('Select at least one color.');
+        refreshDetections();
+        return;
+      }
+
+      updateStatus('Updating color filter...');
+      postJson('/color_filters', {colors: colors})
+        .then(response => response.json())
+        .then(data => {
+          if (data.status !== 'ok') {
+            updateStatus(data.message || 'Color filter update failed.');
+            refreshDetections();
+            return;
+          }
+          updateColorControls(data.enabled_colors);
+          updateStatus(`Detecting: ${data.enabled_colors.join(', ')}.`);
+          refreshDetections();
+        })
+        .catch(error => {
+          updateStatus('Color filter update failed.');
+          console.log(error);
+          refreshDetections();
+        });
+    }
+
+    colorIds.forEach(color => {
+      document.getElementById(`color-${color}`).addEventListener('change', setColorFilters);
+    });
+
     function setServo(servo, position) {
       updateStatus(`Moving servo ${servo}...`);
       postJson('/servo', {servo: servo, position: position})
@@ -509,8 +629,10 @@ def index():
 
           summary.textContent =
             detections.length + ' detection(s), ' +
-            data.saved_count + ' saved snapshot(s)';
+            data.saved_count + ' saved snapshot(s), colors: ' +
+            (data.enabled_colors || []).join(', ');
           updateServoControls(data.servo_positions);
+          updateColorControls(data.enabled_colors);
 
           body.innerHTML = '';
           detections.forEach(det => {
@@ -557,7 +679,33 @@ def detections():
             'updated_at': latest_state['updated_at'],
             'saved_count': latest_state['saved_count'],
             'servo_positions': servo_positions.copy(),
+            'enabled_colors': enabled_colors.copy(),
         })
+
+
+@app.route('/color_filters', methods=['POST'])
+def color_filters():
+    """Select which block colors the viewer should detect."""
+    data = request.json or {}
+    colors = data.get('colors', [])
+    if not isinstance(colors, list):
+        return jsonify({
+            'status': 'error',
+            'message': 'colors must be a list',
+        }), 400
+
+    try:
+        selected = set_enabled_colors(colors)
+    except ValueError as error:
+        return jsonify({
+            'status': 'error',
+            'message': str(error),
+        }), 400
+
+    return jsonify({
+        'status': 'ok',
+        'enabled_colors': selected,
+    })
 
 
 @app.route('/servo', methods=['POST'])
@@ -637,6 +785,7 @@ def snapshot():
         metadata = {
             'timestamp': timestamp,
             'detections': latest_state['detections'],
+            'enabled_colors': enabled_colors.copy(),
             'servo_positions': servo_positions.copy(),
         }
 
