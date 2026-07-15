@@ -84,7 +84,8 @@ class BlockDetector:
         blocks = detector.detect(frame)
         blocks = detector.detect(frame, colors=['red'])
         nearest = detector.find_nearest(frame, color='red')
-        target = detector.select_pickup_target(blocks)
+        merged = detector.merge_close_detections(blocks)
+        target = detector.select_pickup_target(merged)
     """
 
     def __init__(self, colors=None):
@@ -235,13 +236,85 @@ class BlockDetector:
 
         return max(candidates, key=lambda b: b.confidence)
 
-    def _is_edge_touching(self, block, frame_width=640, frame_height=480,
-                          margin_px=8):
-        """Return True when a block box touches the unreliable image edge."""
+    def _block_bounds(self, block):
+        """Return bounding-box edges for a detection."""
         x1 = block.center_x - block.width // 2
         y1 = block.center_y - block.height // 2
         x2 = x1 + block.width
         y2 = y1 + block.height
+        return x1, y1, x2, y2
+
+    def _boxes_close(self, first, second, padding_px=18):
+        """Return True when two same-color boxes likely belong together."""
+        ax1, ay1, ax2, ay2 = self._block_bounds(first)
+        bx1, by1, bx2, by2 = self._block_bounds(second)
+
+        return not (
+            ax2 + padding_px < bx1 or
+            bx2 + padding_px < ax1 or
+            ay2 + padding_px < by1 or
+            by2 + padding_px < ay1
+        )
+
+    def merge_close_detections(self, detections, padding_px=18):
+        """
+        Merge nearby same-color detections into one block candidate.
+
+        Real cubes sometimes split into two contours because of highlights or
+        shadows. Merging nearby boxes keeps target selection from flickering.
+        """
+        remaining = list(detections)
+        merged = []
+
+        while remaining:
+            group = [remaining.pop(0)]
+            changed = True
+            while changed:
+                changed = False
+                for candidate in remaining[:]:
+                    if candidate.color != group[0].color:
+                        continue
+                    if any(self._boxes_close(candidate, item, padding_px) for item in group):
+                        group.append(candidate)
+                        remaining.remove(candidate)
+                        changed = True
+
+            if len(group) == 1:
+                merged.append(group[0])
+                continue
+
+            x1 = min(self._block_bounds(block)[0] for block in group)
+            y1 = min(self._block_bounds(block)[1] for block in group)
+            x2 = max(self._block_bounds(block)[2] for block in group)
+            y2 = max(self._block_bounds(block)[3] for block in group)
+
+            width = max(1, int(x2 - x1))
+            height = max(1, int(y2 - y1))
+            center_x = int(x1 + width / 2)
+            center_y = int(y1 + height / 2)
+            pixel_width = max(width, height)
+            aspect = min(width, height) / max(width, height)
+
+            merged.append(BlockDetection(
+                color=group[0].color,
+                center_x=center_x,
+                center_y=center_y,
+                width=width,
+                height=height,
+                area=sum(block.area for block in group),
+                aspect_ratio=aspect,
+                offset_from_center=center_x - FRAME_CENTER_X,
+                estimated_distance_mm=self._estimate_distance(pixel_width),
+                confidence=max(block.confidence for block in group),
+            ))
+
+        merged.sort(key=lambda d: d.estimated_distance_mm)
+        return merged
+
+    def _is_edge_touching(self, block, frame_width=640, frame_height=480,
+                          margin_px=8):
+        """Return True when a block box touches the unreliable image edge."""
+        x1, y1, x2, y2 = self._block_bounds(block)
         return (
             x1 <= margin_px or
             y1 <= margin_px or
@@ -366,11 +439,13 @@ if __name__ == '__main__':
         if not ret:
             continue
 
-        blocks = detector.detect(frame)
+        raw_blocks = detector.detect(frame)
+        blocks = detector.merge_close_detections(raw_blocks)
 
         if i == 0:  # First frame detailed output
             if blocks:
-                print(f"Detected {len(blocks)} block(s):")
+                print(f"Detected {len(blocks)} block(s) "
+                      f"(merged from {len(raw_blocks)} raw detection(s)):")
                 for b in blocks:
                     print(f"  {b.color}: {b.estimated_distance_mm/10:.0f}cm away, "
                           f"{b.width}x{b.height}px, "

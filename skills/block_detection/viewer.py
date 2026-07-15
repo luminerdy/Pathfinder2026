@@ -75,6 +75,7 @@ servo_positions = dict(POS_CAMERA_FORWARD)
 latest_state = {
     'frame': None,
     'annotated': None,
+    'raw_detection_count': 0,
     'detections': [],
     'selected_target': None,
     'updated_at': 0.0,
@@ -213,7 +214,7 @@ def draw_selected_target(frame, target):
                 cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 0), 2)
 
 
-def annotate(frame, detections, selected_target, colors):
+def annotate(frame, detections, selected_target, colors, raw_detection_count):
     """Draw detection boxes plus extra tuning guides."""
     annotated = detector.annotate_frame(frame.copy(), detections)
 
@@ -228,7 +229,10 @@ def annotate(frame, detections, selected_target, colors):
     cv2.putText(annotated, 'block viewer - arm controls enabled',
                 (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
                 (0, 255, 255), 2)
-    cv2.putText(annotated, 'detections: %d' % len(detections),
+    detection_label = 'detections: %d' % len(detections)
+    if raw_detection_count != len(detections):
+        detection_label += ' (merged from %d)' % raw_detection_count
+    cv2.putText(annotated, detection_label,
                 (10, 55), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
                 (0, 255, 255), 2)
     cv2.putText(annotated, 'colors: %s' % ', '.join(colors),
@@ -256,17 +260,25 @@ def process_frame():
         return None
 
     colors = get_enabled_colors()
-    detections = detector.detect(frame, colors=colors)
+    raw_detections = detector.detect(frame, colors=colors)
+    detections = detector.merge_close_detections(raw_detections)
     selected_target = detector.select_pickup_target(
         detections,
         frame_width=FRAME_W,
         frame_height=FRAME_H,
     )
-    annotated = annotate(frame, detections, selected_target, colors)
+    annotated = annotate(
+        frame,
+        detections,
+        selected_target,
+        colors,
+        raw_detection_count=len(raw_detections),
+    )
 
     with state_lock:
         latest_state['frame'] = frame
         latest_state['annotated'] = annotated
+        latest_state['raw_detection_count'] = len(raw_detections)
         latest_state['detections'] = [detection_to_dict(d) for d in detections]
         latest_state['selected_target'] = target_to_dict(selected_target)
         latest_state['updated_at'] = time.time()
@@ -712,8 +724,10 @@ def index():
           const body = document.getElementById('detections');
           const detections = data.detections || [];
 
+          const rawCount = data.raw_detection_count || detections.length;
+          const mergeText = rawCount === detections.length ? '' : `, merged from ${rawCount}`;
           summary.textContent =
-            detections.length + ' detection(s), ' +
+            detections.length + ' detection(s)' + mergeText + ', ' +
             data.saved_count + ' saved snapshot(s), colors: ' +
             (data.enabled_colors || []).join(', ');
           updateServoControls(data.servo_positions);
@@ -762,6 +776,7 @@ def detections():
     with state_lock:
         return jsonify({
             'detections': latest_state['detections'],
+            'raw_detection_count': latest_state['raw_detection_count'],
             'updated_at': latest_state['updated_at'],
             'saved_count': latest_state['saved_count'],
             'servo_positions': servo_positions.copy(),
@@ -872,6 +887,7 @@ def snapshot():
         metadata = {
             'timestamp': timestamp,
             'detections': latest_state['detections'],
+            'raw_detection_count': latest_state['raw_detection_count'],
             'selected_target': latest_state['selected_target'],
             'enabled_colors': enabled_colors.copy(),
             'servo_positions': servo_positions.copy(),

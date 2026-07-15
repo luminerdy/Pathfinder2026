@@ -14,6 +14,8 @@ Use the Red, Blue, and Yellow checkboxes to isolate one color or any two-color c
 
 The viewer also highlights one selected pickup target in green. This is the block the robot would choose first based on confidence, distance, image position, and whether the box is safely away from the image edge.
 
+Nearby same-color boxes are merged before target selection. This reduces flicker when one cube is briefly split into multiple contours by glare or shadows.
+
 ```bash
 cd /home/robot/pathfinder
 python3 skills/block_detection/viewer.py
@@ -35,7 +37,7 @@ Each saved snapshot includes:
 
 - `block_raw_*.jpg`: original camera frame
 - `block_annotated_*.jpg`: frame with detection boxes and tuning guides
-- `block_metadata_*.json`: detections, selected target, selected color filters, and current servo positions
+- `block_metadata_*.json`: detections, raw detection count, selected target, selected color filters, and current servo positions
 
 ### Single-frame demo
 
@@ -53,7 +55,8 @@ detector = BlockDetector()
 blocks = detector.detect(frame)              # All colors
 blocks = detector.detect(frame, ['red'])     # Red only
 nearest = detector.find_nearest(frame, 'red') # Nearest red
-target = detector.select_pickup_target(blocks) # Best pickup target
+merged = detector.merge_close_detections(blocks) # Reduce split boxes
+target = detector.select_pickup_target(merged)   # Best pickup target
 
 # Each block has:
 # .color, .center_x, .center_y, .width, .height
@@ -62,7 +65,7 @@ target = detector.select_pickup_target(blocks) # Best pickup target
 
 ## Target Selection
 
-`select_pickup_target()` ignores weak and edge-touching detections, then scores the remaining blocks. A good target is confident, reasonably large, lower in the camera view, and closer to the center line.
+`merge_close_detections()` combines nearby same-color boxes before target selection. `select_pickup_target()` then ignores weak and edge-touching detections, then scores the remaining blocks. A good target is confident, reasonably large, lower in the camera view, and closer to the center line.
 
 ## Color Ranges (HSV)
 - Red: H=0-8 + H=172-180, with higher saturation/value filtering to reduce false positives
