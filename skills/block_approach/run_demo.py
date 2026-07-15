@@ -42,12 +42,15 @@ LOCK_MATCH_MAX_SHIFT_PX = 120
 LOST_TARGET_LIMIT = 8
 APPROACH_EDGE_MARGIN_PX = 50
 APPROACH_MAX_TARGET_DISTANCE_MM = 450
+CENTER_PROGRESS_MIN_PX = 8
+CENTER_PROGRESS_LIMIT = 10
 
-X_TOLERANCE_PX = 45
+X_TOLERANCE_PX = 60
 
 FORWARD_POWER = 30
-STRAFE_POWER = 32
-MOVE_PULSE_SECONDS = 0.18
+STRAFE_POWER = 42
+FORWARD_PULSE_SECONDS = 0.16
+STRAFE_PULSE_SECONDS = 0.35
 LOOK_PAUSE_SECONDS = 0.12
 
 APPROACH_START_S5 = 950
@@ -59,8 +62,8 @@ ARM_MOVE_MS = 250
 TARGET_VIEW_Y = 300
 TARGET_VIEW_TOLERANCE_PX = 45
 HANDOFF_S5_MIN = 1200
-HANDOFF_DISTANCE_MM = 130
-HANDOFF_VIEW_Y_MIN = 290
+HANDOFF_DISTANCE_MM = 170
+HANDOFF_VIEW_Y_MIN = 340
 
 
 class BlockApproachDemo:
@@ -74,6 +77,8 @@ class BlockApproachDemo:
         self.last_target = None
         self.locked_target = None
         self.lost_target_frames = 0
+        self.best_abs_offset = None
+        self.no_center_progress_frames = 0
         self.stable_count = 0
         self.current_s5 = APPROACH_START_S5
 
@@ -116,8 +121,10 @@ class BlockApproachDemo:
         rear_left = vy - vx
         rear_right = vy + vx
 
+        pulse_seconds = STRAFE_PULSE_SECONDS if vx else FORWARD_PULSE_SECONDS
+
         self.set_motors(front_left, front_right, rear_left, rear_right)
-        time.sleep(MOVE_PULSE_SECONDS)
+        time.sleep(pulse_seconds)
         self.stop()
         time.sleep(LOOK_PAUSE_SECONDS)
 
@@ -262,6 +269,30 @@ class BlockApproachDemo:
 
         return 'forward', 0, FORWARD_POWER
 
+    def centering_has_stalled(self, target):
+        """
+        Return True if repeated strafe pulses are not reducing target offset.
+
+        Low battery or floor friction can make a too-small strafe pulse hum
+        without moving. Stop instead of repeatedly pulsing forever.
+        """
+        abs_offset = abs(target.offset_from_center)
+        if abs_offset <= X_TOLERANCE_PX:
+            self.best_abs_offset = None
+            self.no_center_progress_frames = 0
+            return False
+
+        if (
+            self.best_abs_offset is None
+            or abs_offset < self.best_abs_offset - CENTER_PROGRESS_MIN_PX
+        ):
+            self.best_abs_offset = abs_offset
+            self.no_center_progress_frames = 0
+            return False
+
+        self.no_center_progress_frames += 1
+        return self.no_center_progress_frames >= CENTER_PROGRESS_LIMIT
+
     def adjust_camera_for_target(self, target):
         """
         Keep the selected block in useful view as it gets close.
@@ -288,11 +319,16 @@ class BlockApproachDemo:
         pickup routine can take over while the target is still visible.
         """
         return (
-            self.current_s5 >= HANDOFF_S5_MIN
-            and abs(target.offset_from_center) <= X_TOLERANCE_PX
+            abs(target.offset_from_center) <= X_TOLERANCE_PX
             and (
-                target.estimated_distance_mm <= HANDOFF_DISTANCE_MM
-                or target.center_y >= HANDOFF_VIEW_Y_MIN
+                (
+                    target.estimated_distance_mm <= HANDOFF_DISTANCE_MM
+                    and target.center_y >= HANDOFF_VIEW_Y_MIN
+                )
+                or (
+                    self.current_s5 >= HANDOFF_S5_MIN
+                    and target.center_y >= HANDOFF_VIEW_Y_MIN
+                )
             )
         )
 
@@ -370,6 +406,16 @@ class BlockApproachDemo:
                 if camera_action != 'camera steady':
                     print("  Moving: %s (S5=%d)" % (camera_action, self.current_s5))
                     continue
+
+                if self.centering_has_stalled(target):
+                    self.stop()
+                    print("Centering stalled. Motors stopped.")
+                    return {
+                        'success': False,
+                        'reason': 'centering_stalled',
+                        'frames': frames,
+                        'offset': target.offset_from_center,
+                    }
 
                 action, vx, vy = self.choose_action(target)
                 if action == 'reached':
