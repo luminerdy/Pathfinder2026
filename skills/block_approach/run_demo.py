@@ -3,11 +3,13 @@
 Approach-only block demo.
 
 This script uses block detection and target selection to approach one selected
-block color. It does not grab the block and it does not move the arm.
+block color. It moves the shoulder/camera angle to keep the target visible, but
+it does not grab the block.
 
 Safety design:
   - Battery must be safe before motors run.
   - Target must be stable for several frames before movement.
+  - Shoulder/camera movement is limited to approach-view positions.
   - Movement happens in short pulses, then motors stop and camera checks again.
   - Ctrl+C and all errors stop the motors.
 """
@@ -37,14 +39,22 @@ MAX_RUNTIME_SECONDS = 20.0
 STABLE_FRAMES_REQUIRED = 4
 STABLE_CENTER_SHIFT_PX = 45
 
-STOP_DISTANCE_CM = 24.0
-STOP_Y_MIN = 330
 X_TOLERANCE_PX = 45
 
 FORWARD_POWER = 30
 STRAFE_POWER = 32
 MOVE_PULSE_SECONDS = 0.18
 LOOK_PAUSE_SECONDS = 0.12
+
+APPROACH_START_S5 = 950
+APPROACH_TOUCH_S5 = 1250
+APPROACH_MIN_S5 = 850
+APPROACH_MAX_S5 = 1250
+ARM_STEP = 35
+ARM_MOVE_MS = 250
+TARGET_VIEW_Y = 300
+TARGET_VIEW_TOLERANCE_PX = 45
+TOUCH_VIEW_Y_MIN = 330
 
 
 class BlockApproachDemo:
@@ -57,6 +67,7 @@ class BlockApproachDemo:
         self.camera = None
         self.last_target = None
         self.stable_count = 0
+        self.current_s5 = APPROACH_START_S5
 
     def open_camera(self):
         """Open the USB camera."""
@@ -101,6 +112,28 @@ class BlockApproachDemo:
         time.sleep(MOVE_PULSE_SECONDS)
         self.stop()
         time.sleep(LOOK_PAUSE_SECONDS)
+
+    def set_approach_camera(self, s5, duration_ms=ARM_MOVE_MS):
+        """Move only the shoulder/camera angle within approach-safe limits."""
+        s5 = int(max(APPROACH_MIN_S5, min(APPROACH_MAX_S5, s5)))
+        if abs(s5 - self.current_s5) < 10:
+            return
+
+        self.board.set_servo_position(duration_ms, [(5, s5)])
+        self.current_s5 = s5
+        time.sleep(duration_ms / 1000.0 + 0.05)
+
+    def prepare_arm(self):
+        """Set a known camera angle for the approach demo."""
+        self.board.set_servo_position(600, [
+            (1, 2500),  # Claw open.
+            (3, 590),   # Wrist.
+            (4, 2450),  # Elbow.
+            (5, APPROACH_START_S5),
+            (6, 1500),  # Base centered.
+        ])
+        self.current_s5 = APPROACH_START_S5
+        time.sleep(0.7)
 
     def check_battery(self):
         """Return True when battery is safe for motor movement."""
@@ -156,12 +189,8 @@ class BlockApproachDemo:
     def choose_action(self, target):
         """Return the next safe movement action for a stable target."""
         offset = target.offset_from_center
-        distance_cm = target.estimated_distance_mm / 10.0
 
-        if (
-            distance_cm <= STOP_DISTANCE_CM
-            or target.center_y >= STOP_Y_MIN
-        ) and abs(offset) <= X_TOLERANCE_PX:
+        if self.at_front_approach_position(target):
             return 'reached', 0, 0
 
         if abs(offset) > X_TOLERANCE_PX:
@@ -171,12 +200,38 @@ class BlockApproachDemo:
 
         return 'forward', 0, FORWARD_POWER
 
+    def adjust_camera_for_target(self, target):
+        """
+        Keep the selected block in useful view as it gets close.
+
+        If the block is low in the image, tilt the camera farther down. If it is
+        high, tilt slightly forward again. This lets the robot approach closer
+        before the block disappears below the camera.
+        """
+        y_error = target.center_y - TARGET_VIEW_Y
+        if y_error > TARGET_VIEW_TOLERANCE_PX and self.current_s5 < APPROACH_MAX_S5:
+            self.set_approach_camera(self.current_s5 + ARM_STEP)
+            return 'camera down'
+        if y_error < -TARGET_VIEW_TOLERANCE_PX and self.current_s5 > APPROACH_START_S5:
+            self.set_approach_camera(self.current_s5 - ARM_STEP)
+            return 'camera forward'
+        return 'camera steady'
+
+    def at_front_approach_position(self, target):
+        """Return True when the block is centered and the camera is at close-view."""
+        return (
+            self.current_s5 >= APPROACH_TOUCH_S5
+            and abs(target.offset_from_center) <= X_TOLERANCE_PX
+            and target.center_y >= TOUCH_VIEW_Y_MIN
+        )
+
     def run(self, timeout=MAX_RUNTIME_SECONDS):
         """Run the approach-only demo."""
         if not self.check_battery():
             return {'success': False, 'reason': 'battery_low'}
 
         self.open_camera()
+        self.prepare_arm()
         start = time.monotonic()
         frames = 0
 
@@ -184,6 +239,10 @@ class BlockApproachDemo:
         print("Looking for %s block..." % self.color)
         print("Target must be stable for %d frames before movement." %
               STABLE_FRAMES_REQUIRED)
+        print("Camera starts at S5=%d and can track down to S5=%d." % (
+            APPROACH_START_S5,
+            APPROACH_TOUCH_S5,
+        ))
         print("Press Ctrl+C to stop.")
         print("-" * 60)
 
@@ -202,12 +261,13 @@ class BlockApproachDemo:
                 distance_cm = target.estimated_distance_mm / 10.0
                 print(
                     "%s target: %.0fcm offset=%+d y=%d score=%.1f "
-                    "stable=%d/%d detections=%d/%d" % (
+                    "S5=%d stable=%d/%d detections=%d/%d" % (
                         target.color,
                         distance_cm,
                         target.offset_from_center,
                         target.center_y,
                         self.detector.pickup_target_score(target),
+                        self.current_s5,
                         min(self.stable_count, STABLE_FRAMES_REQUIRED),
                         STABLE_FRAMES_REQUIRED,
                         merged_count,
@@ -220,16 +280,22 @@ class BlockApproachDemo:
                     time.sleep(0.15)
                     continue
 
+                camera_action = self.adjust_camera_for_target(target)
+                if camera_action != 'camera steady':
+                    print("  Moving: %s (S5=%d)" % (camera_action, self.current_s5))
+                    continue
+
                 action, vx, vy = self.choose_action(target)
                 if action == 'reached':
                     self.stop()
-                    print("Reached approach position. Motors stopped.")
+                    print("Reached front approach position. Motors stopped.")
                     return {
                         'success': True,
                         'reason': 'reached',
                         'frames': frames,
                         'distance_cm': round(distance_cm, 1),
                         'offset': target.offset_from_center,
+                        's5': self.current_s5,
                     }
 
                 print("  Moving: %s" % action)
@@ -276,7 +342,8 @@ def main():
     print("BLOCK APPROACH DEMO")
     print("=" * 60)
     print("Color: %s" % args.color)
-    print("This demo moves the drive base only. It does not grab the block.")
+    print("This demo moves the drive base and shoulder/camera only.")
+    print("It does not grab the block.")
     print("Put the robot on the floor with clear space around it.")
     print()
 
