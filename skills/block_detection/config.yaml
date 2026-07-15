@@ -14,7 +14,8 @@ colors:
         upper: [180, 255, 255]
   blue:
     ranges:
-      - lower: [100, 60, 50]
+      # Higher saturation/value floor reduces blue ghosts on dark foam.
+      - lower: [100, 85, 60]
         upper: [130, 255, 255]
   yellow:
     ranges:

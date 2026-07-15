@@ -175,7 +175,7 @@ COLOR_RANGES = {
         {'lower': (172, 110, 80), 'upper': (180, 255, 255)}, # High hue red (wraps)
     ],
     'blue': [
-        {'lower': (100, 60, 50), 'upper': (130, 255, 255)},
+        {'lower': (100, 85, 60), 'upper': (130, 255, 255)},
     ],
     'yellow': [
         {'lower': (20, 80, 50), 'upper': (40, 255, 255)},
@@ -358,7 +358,7 @@ colors:
         upper: [180, 255, 255]
   blue:
     ranges:
-      - lower: [100, 60, 50]
+      - lower: [100, 85, 60]
         upper: [130, 255, 255]
   yellow:
     ranges:

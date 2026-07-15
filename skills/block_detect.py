@@ -47,14 +47,18 @@ class BlockDetection:
 # Chosen for maximum HSV separation and reliable detection
 # Red is intentionally tighter than blue/yellow because workshop lighting and
 # shadows can create small reddish false positives on the foam floor.
-# Red: H=0-8 + 172-180, Blue: H=100-130, Yellow: H=20-40
+# Red: H=0-8 + 172-180 with S>=110/V>=80
+# Blue: H=100-130 with S>=85/V>=60
+# Yellow: H=20-40
 COLOR_RANGES = {
     'red': [
         {'lower': (0, 110, 80), 'upper': (8, 255, 255)},       # Low red
         {'lower': (172, 110, 80), 'upper': (180, 255, 255)},   # High red (wraps)
     ],
     'blue': [
-        {'lower': (100, 60, 50), 'upper': (130, 255, 255)},
+        # Blue needs a higher saturation/value floor to avoid shadow ghosts on
+        # the dark foam tiles.
+        {'lower': (100, 85, 60), 'upper': (130, 255, 255)},
     ],
     'yellow': [
         {'lower': (20, 80, 50), 'upper': (40, 255, 255)},
