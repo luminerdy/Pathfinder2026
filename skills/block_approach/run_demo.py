@@ -38,6 +38,10 @@ VALID_COLORS = ('red', 'blue', 'yellow')
 MAX_RUNTIME_SECONDS = 20.0
 STABLE_FRAMES_REQUIRED = 4
 STABLE_CENTER_SHIFT_PX = 45
+LOCK_MATCH_MAX_SHIFT_PX = 120
+LOST_TARGET_LIMIT = 8
+APPROACH_EDGE_MARGIN_PX = 50
+APPROACH_MAX_TARGET_DISTANCE_MM = 450
 
 X_TOLERANCE_PX = 45
 
@@ -54,7 +58,9 @@ ARM_STEP = 35
 ARM_MOVE_MS = 250
 TARGET_VIEW_Y = 300
 TARGET_VIEW_TOLERANCE_PX = 45
-TOUCH_VIEW_Y_MIN = 330
+HANDOFF_S5_MIN = 1200
+HANDOFF_DISTANCE_MM = 130
+HANDOFF_VIEW_Y_MIN = 290
 
 
 class BlockApproachDemo:
@@ -66,6 +72,8 @@ class BlockApproachDemo:
         self.detector = BlockDetector()
         self.camera = None
         self.last_target = None
+        self.locked_target = None
+        self.lost_target_frames = 0
         self.stable_count = 0
         self.current_s5 = APPROACH_START_S5
 
@@ -155,12 +163,55 @@ class BlockApproachDemo:
 
         raw_blocks = self.detector.detect(frame, colors=[self.color])
         blocks = self.detector.merge_close_detections(raw_blocks)
-        target = self.detector.select_pickup_target(
-            blocks,
-            frame_width=FRAME_W,
-            frame_height=FRAME_H,
-        )
+        target = self.choose_visual_target(blocks)
         return target, len(raw_blocks), len(blocks)
+
+    def choose_visual_target(self, blocks):
+        """
+        Choose the block to approach.
+
+        Before the robot moves, pick the best pickup target. After a target is
+        locked, keep matching the same target by image position so the robot
+        does not jump to another same-color block elsewhere in the field.
+        """
+        candidates = self.filter_approach_candidates(blocks)
+
+        if self.locked_target is None:
+            return self.detector.select_pickup_target(
+                candidates,
+                frame_width=FRAME_W,
+                frame_height=FRAME_H,
+                edge_margin_px=APPROACH_EDGE_MARGIN_PX,
+            )
+
+        locked_candidates = []
+        for block in candidates:
+            dx = block.center_x - self.locked_target.center_x
+            dy = block.center_y - self.locked_target.center_y
+            shift = (dx * dx + dy * dy) ** 0.5
+            if shift <= LOCK_MATCH_MAX_SHIFT_PX:
+                locked_candidates.append((shift, block))
+
+        if not locked_candidates:
+            return None
+
+        return min(locked_candidates, key=lambda item: item[0])[1]
+
+    def filter_approach_candidates(self, blocks):
+        """Keep only blocks that are reasonable approach targets."""
+        candidates = []
+        for block in blocks:
+            if block.estimated_distance_mm > APPROACH_MAX_TARGET_DISTANCE_MM:
+                continue
+            if self.detector._is_edge_touching(
+                block,
+                frame_width=FRAME_W,
+                frame_height=FRAME_H,
+                margin_px=APPROACH_EDGE_MARGIN_PX,
+            ):
+                continue
+            candidates.append(block)
+        return candidates
 
     def target_is_stable(self, target):
         """Require the selected target to stay in about the same place."""
@@ -168,6 +219,8 @@ class BlockApproachDemo:
             self.last_target = None
             self.stable_count = 0
             return False
+
+        self.lost_target_frames = 0
 
         if self.last_target is None:
             self.last_target = target
@@ -184,7 +237,16 @@ class BlockApproachDemo:
         else:
             self.stable_count = 1
 
-        return self.stable_count >= STABLE_FRAMES_REQUIRED
+        stable = self.stable_count >= STABLE_FRAMES_REQUIRED
+        if stable and self.locked_target is None:
+            self.locked_target = target
+            print("Locked %s target at x=%d y=%d." % (
+                target.color,
+                target.center_x,
+                target.center_y,
+            ))
+
+        return stable
 
     def choose_action(self, target):
         """Return the next safe movement action for a stable target."""
@@ -218,11 +280,20 @@ class BlockApproachDemo:
         return 'camera steady'
 
     def at_front_approach_position(self, target):
-        """Return True when the block is centered and the camera is at close-view."""
+        """
+        Return True when the block is close enough for the next pickup step.
+
+        Testing showed that one more forward pulse after about 12-13 cm can
+        push the block below the camera view. Stop at this handoff point so the
+        pickup routine can take over while the target is still visible.
+        """
         return (
-            self.current_s5 >= APPROACH_TOUCH_S5
+            self.current_s5 >= HANDOFF_S5_MIN
             and abs(target.offset_from_center) <= X_TOLERANCE_PX
-            and target.center_y >= TOUCH_VIEW_Y_MIN
+            and (
+                target.estimated_distance_mm <= HANDOFF_DISTANCE_MM
+                or target.center_y >= HANDOFF_VIEW_Y_MIN
+            )
         )
 
     def run(self, timeout=MAX_RUNTIME_SECONDS):
@@ -253,7 +324,22 @@ class BlockApproachDemo:
 
                 if target is None:
                     self.stop()
-                    print("No stable %s target found." % self.color)
+                    if self.locked_target is not None:
+                        self.lost_target_frames += 1
+                        print("Locked %s target lost (%d/%d)." % (
+                            self.color,
+                            self.lost_target_frames,
+                            LOST_TARGET_LIMIT,
+                        ))
+                        if self.lost_target_frames >= LOST_TARGET_LIMIT:
+                            print("Lost locked target. Motors stopped.")
+                            return {
+                                'success': False,
+                                'reason': 'lost_target',
+                                'frames': frames,
+                            }
+                    else:
+                        print("No stable %s target found." % self.color)
                     time.sleep(0.25)
                     continue
 

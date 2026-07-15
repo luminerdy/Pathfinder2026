@@ -71,7 +71,10 @@ BLOCK_SIZE_MM = 30          # Real block size (1.2 inches)
 FRAME_CENTER_X = 320        # 640 / 2
 MIN_AREA = 30               # Minimum contour area
 MIN_ASPECT = 0.4            # Minimum aspect ratio
-MAX_AREA = 5000             # Maximum area (1.2" block can't be huge)
+# Maximum contour area for a 1.2" block. A pickup-ready block can fill more
+# of the camera frame than distant exploration targets, so this must allow
+# close cubes while still rejecting large field objects.
+MAX_AREA = 12000
 MIN_CONFIDENCE = 0.3        # Lowered — was missing real blocks at 0.5
 
 

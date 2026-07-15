@@ -24,12 +24,20 @@ These notes track active block detection and approach testing. This work is not 
   - one processing lock for snapshots and live stream.
 - Added `skills/block_approach/run_demo.py` as an approach-only test.
 - Updated the approach demo so it moves the shoulder/camera angle during approach instead of treating `S5=1214` as a final stop.
+- Raised block detector `MAX_AREA` from `5000` to `12000` because a real close blue cube was being rejected at about `7109px` contour area.
+- Updated the approach demo to stop at a camera handoff point before the block drops out of view.
+- Added target locking so the approach demo does not jump to a different same-color block after movement starts.
+- Added approach-only candidate limits:
+  - ignore targets close to the camera edge,
+  - ignore targets farther than about `45cm`.
 
 ## Current Calibration Notes
 
 - `S5=995`: block at about 7 inches is visible low in the frame.
 - `S5=1214`: block at about 12 inches is visible near the top of the frame.
 - `S5=1214` should be treated as a close tracking or handoff view, not the final pickup-ready pose.
+- July 15 test: the robot tracked a blue block down to about `12cm`, `S5=1230`, then one more forward pulse pushed the block out of view. The current handoff stop is designed to prevent that last bad pulse.
+- July 15 test: after the robot had moved, the selected blue block was near the left image edge. The approach demo now refuses to drive from that unsafe view instead of chasing a different far blue block.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
 - The viewer looked stable with Blue-only selection and three close blue blocks.
 
@@ -49,25 +57,28 @@ cd /home/robot/pathfinder
 python3 skills/block_approach/run_demo.py --color blue
 ```
 
-## Tomorrow To-Dos
+## Next To-Dos
 
-1. Test the current approach demo with a single blue block at several distances:
+1. Reset the robot to a clean starting position with one blue block centered in view.
+2. Test the current approach demo with a single blue block at several distances:
    - about 24 inches,
    - about 18 inches,
    - about 12 inches,
    - about 7 inches.
-2. Confirm that the robot drives while moving the shoulder/camera angle, instead of stopping just to adjust the camera.
-3. Tune the shoulder/camera tracking values:
+3. Confirm that the robot drives while moving the shoulder/camera angle, instead of stopping just to adjust the camera.
+4. Tune the shoulder/camera tracking values:
    - `APPROACH_START_S5`,
    - `APPROACH_TOUCH_S5`,
    - `APPROACH_MAX_S5`,
    - `TARGET_VIEW_Y`,
-   - `TOUCH_VIEW_Y_MIN`.
-4. Determine the final pickup-ready camera/arm pose when the block is touching the front of the robot.
-5. Decide whether the approach should:
+   - `HANDOFF_S5_MIN`,
+   - `HANDOFF_DISTANCE_MM`,
+   - `HANDOFF_VIEW_Y_MIN`.
+5. Determine the final pickup-ready camera/arm pose when the block is touching the front of the robot.
+6. Decide whether the approach should:
    - keep pulsed stop-look-drive motion, or
    - move toward a slow continuous drive while camera angle changes.
-6. Do not add this to the event participant flow yet.
+7. Do not add this to the event participant flow yet.
 
 ## Known Risks
 
