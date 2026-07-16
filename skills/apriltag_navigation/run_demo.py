@@ -29,8 +29,15 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 from skills.strafe_nav import StrafeNavigator
 
 
+# Pathfinder2026 field tags. The demo accepts any of these so teams do not
+# need to edit code when the robot starts near a different corner.
 EVENT_TAG_IDS = (582, 583, 584, 585)
+
+# Stop about 0.5m from the tag. This keeps the tag in view and leaves room for
+# the robot to recover if the approach is not perfectly centered.
 TARGET_DISTANCE_METERS = 0.50
+
+# Search and navigation are timed separately: first find a tag, then approach it.
 SEARCH_TIMEOUT_SECONDS = 40.0
 NAVIGATION_TIMEOUT_SECONDS = 30.0
 
@@ -53,7 +60,8 @@ def main():
     print("-" * 60)
     print()
     
-    # Create navigator
+    # StrafeNavigator owns the camera, AprilTag detector, sonar safety check,
+    # battery check, and motor commands for this demo.
     nav = StrafeNavigator()
     
     try:

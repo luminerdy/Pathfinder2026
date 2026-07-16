@@ -17,10 +17,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
 from skills.line_following.line_follower import LineFollower
 
+
 def callback(detection, strafe, turn):
+    """Print a short status line every few frames while the robot follows."""
     print("  line x=%d, err=%+d, heading=%+d, strafe=%+.1f, turn=%+.1f, green=%.1f%%" % (
         detection['cx'], detection['error'], detection['heading_error'],
         strafe, turn, detection['ratio'] * 100))
+
 
 def main():
     print("=" * 60)
@@ -38,11 +41,16 @@ def main():
     input("Press Enter to start...")
     print()
 
+    # LineFollower handles camera setup, color detection, and motor correction.
+    # This demo file stays small so students can start here, then open
+    # line_follower.py to see how the control loop works.
     follower = LineFollower()
 
     try:
         print("Following line...")
         print("-" * 40)
+        # The callback prints the line center, steering error, strafe command,
+        # and turn command so teams can connect camera data to robot movement.
         result = follower.follow(timeout=30, callback=callback)
 
         print()
@@ -71,6 +79,7 @@ def main():
         print("\nStopped by user")
 
     finally:
+        # Always stop motors and release the camera even if Ctrl+C is pressed.
         follower.cleanup()
 
 if __name__ == "__main__":

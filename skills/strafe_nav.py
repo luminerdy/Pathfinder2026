@@ -365,9 +365,15 @@ class StrafeNavigator:
                 last_dist = dist
                 last_angle = angle
 
+                # AprilTag pose gives x = left/right offset and z = distance
+                # straight out from the camera. The controller turns toward
+                # the tag and drives forward until z reaches the target range.
                 error_x = x
                 error_z = z - target_distance
 
+                # If the tag is far off to the side, rotate first. Driving
+                # forward while the tag is at a steep angle can push the robot
+                # toward the field barrier instead of toward the tag.
                 if abs(angle) > self.MAX_STRAFE_ANGLE:
                     rot_speed = self.MIN_SPEED if angle > 0 else -self.MIN_SPEED
                     self.board.set_motor_duty([
@@ -378,6 +384,9 @@ class StrafeNavigator:
                     self._stop()
                     continue
 
+                # Proportional control: bigger distance/angle error creates a
+                # bigger correction, then clamps keep the motors in a useful
+                # range for the battery and foam field.
                 forward = error_z * self.Kz if abs(error_z) > self.DIST_TOLERANCE else 0
                 turn = angle * self.Ktheta if abs(angle) > self.HEADING_TOLERANCE else 0
                 strafe = (
@@ -398,6 +407,8 @@ class StrafeNavigator:
                         min(self.MAX_TURN_CORRECTION, turn)
                     )
 
+                # If every correction is inside the deadband, the robot is
+                # close enough to the tag for this demo.
                 if strafe == 0 and turn == 0 and forward == 0:
                     self._stop()
                     if callback:
@@ -478,6 +489,8 @@ class StrafeNavigator:
 
         sonar_dist = self._get_sonar_distance()
         if sonar_dist and 0 < sonar_dist < self.SONAR_BACKUP:
+            # Search begins with a little breathing room. If the robot starts
+            # too close to a wall or object, back up before rotating.
             if callback:
                 callback(0, 0, 0, 'BACKUP (sonar %.0fcm)' % sonar_dist)
             self.board.set_motor_duty([(1, -40), (2, -40), (3, -40), (4, -40)])
@@ -510,6 +523,8 @@ class StrafeNavigator:
             )
 
             if tag_id is not None:
+                # Search only finds the tag. Navigation restarts with that
+                # exact tag ID so the robot does not switch targets mid-run.
                 self._stop()
                 time.sleep(0.2)
                 if callback:

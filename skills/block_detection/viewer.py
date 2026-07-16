@@ -51,6 +51,9 @@ state_lock = threading.Lock()
 process_lock = threading.Lock()
 detector = BlockDetector()
 SELECTABLE_COLORS = ('red', 'blue', 'yellow')
+
+# Start with all event colors visible. The browser checkboxes update this list
+# so teams can isolate one color while tuning lighting and target selection.
 enabled_colors = list(SELECTABLE_COLORS)
 
 SERVO_LIMITS = {
@@ -76,6 +79,8 @@ ARM_PRESETS = {
 
 servo_positions = dict(POS_CAMERA_FORWARD)
 
+# Shared viewer state. Browser endpoints read this instead of reprocessing the
+# camera frame every time a table, stream, or snapshot request arrives.
 latest_state = {
     'frame': None,
     'annotated': None,
