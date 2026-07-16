@@ -66,6 +66,7 @@ These notes track active block detection and approach testing. This work is not 
 - Replaced the early vision handoff with close tracking for the combined demo. Once the block is close and centered, the robot continues checking it after every movement, drives while lowering the camera in small steps, and only hands off to pickup after the selected green-box target disappears for three consecutive frames.
 - Removed the blind forward settle from the default combined run. It remains available only as an explicit calibration option with `--settle-seconds`.
 - First close-tracking test stopped too early at `S5=985`. A post-run frame still had a healthy blue detection at `x=345`, `y=407`, about `16.5cm`, but the normal `50px` bottom-edge exclusion removed its green target box. Close tracking now allows the already-locked block into the bottom edge while retaining left, right, and top-edge safety checks.
+- Added an initial physical-size check to distinguish 1.2-inch target blocks from 5-inch foam cubes. It compares apparent object size with the object's floor position below the horizon. The check applies while choosing a target, then relaxes after a correctly sized block is locked so a real close block can grow and become clipped at the bottom of the image.
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 300`.
 - Current pickup alignment tolerance is `PICKUP_X_TOLERANCE_PX = 25`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.

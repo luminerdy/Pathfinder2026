@@ -45,6 +45,11 @@ LOST_TARGET_LIMIT = 8
 CLOSE_TARGET_LOST_LIMIT = 3
 APPROACH_EDGE_MARGIN_PX = 50
 APPROACH_MAX_TARGET_DISTANCE_MM = 450
+# At the starting camera angle, apparent block size and distance below the
+# floor horizon grow together. A 5-inch foam cube has a much larger ratio than
+# a 1.2-inch target block at the same floor position.
+APPROACH_FLOOR_HORIZON_Y = 100
+INITIAL_MAX_SIZE_TO_GROUND_RATIO = 0.55
 CENTER_PROGRESS_MIN_PX = 8
 CENTER_PROGRESS_LIMIT = 10
 
@@ -267,6 +272,8 @@ class BlockApproachDemo:
         for block in blocks:
             if block.estimated_distance_mm > APPROACH_MAX_TARGET_DISTANCE_MM:
                 continue
+            if self.locked_target is None and not self.initial_target_size_is_plausible(block):
+                continue
             if self.pickup_handoff_armed:
                 # A close block naturally enters the bottom margin as the
                 # camera tilts down. Keep following that already-locked block
@@ -288,6 +295,17 @@ class BlockApproachDemo:
                 continue
             candidates.append(block)
         return candidates
+
+    def initial_target_size_is_plausible(self, block):
+        """Reject objects too large to be a 1.2-inch block on the floor."""
+        _, _, _, bottom_y = self.detector._block_bounds(block)
+        ground_depth = bottom_y - APPROACH_FLOOR_HORIZON_Y
+        if ground_depth <= 0:
+            return False
+
+        apparent_size = max(block.width, block.height)
+        size_ratio = apparent_size / float(ground_depth)
+        return size_ratio <= INITIAL_MAX_SIZE_TO_GROUND_RATIO
 
     def target_is_stable(self, target):
         """Require the selected target to stay in about the same place."""

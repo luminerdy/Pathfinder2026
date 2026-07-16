@@ -8,14 +8,16 @@ only.
 ## What It Does
 
 1. Finds one selected block color.
-2. Locks onto one block and keeps checking it after every movement.
-3. Centers the block while driving closer.
-4. Drives forward while moving the camera down in small steps.
-5. Keeps following the locked block into the bottom edge of the camera view.
-6. Stops when that close, centered block is no longer detected for three frames.
-7. Moves the arm to the pickup pose.
-8. Checks for target-color pixels under the claw.
-9. Closes the claw only if that final pickup-zone check passes.
+2. Rejects objects that are too large to be a 1.2-inch target block at their floor position.
+3. Locks onto one correctly sized block and keeps checking it after every movement.
+4. Centers the block while driving closer.
+5. Drives forward while moving the camera down in small steps.
+6. Relaxes the size rule for that same locked block as it grows close to the camera.
+7. Keeps following the locked block into the bottom edge of the camera view.
+8. Stops when that close, centered block is no longer detected for three frames.
+9. Moves the arm to the pickup pose.
+10. Checks for target-color pixels under the claw.
+11. Closes the claw only if that final pickup-zone check passes.
 
 The pickup sequence only runs if approach succeeds.
 
