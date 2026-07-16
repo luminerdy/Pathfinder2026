@@ -42,7 +42,9 @@ BlockApproachDemo = approach_module.BlockApproachDemo
 run_pickup_sequence = pickup_module.run_pickup_sequence
 
 SETTLE_FORWARD_POWER = 24
-SETTLE_FORWARD_SECONDS = 0.12
+SETTLE_FORWARD_SECONDS = 0.28
+MAX_SETTLE_POWER = 45
+MAX_SETTLE_SECONDS = 0.60
 
 
 def stop_drive_motors(board):
@@ -50,7 +52,12 @@ def stop_drive_motors(board):
     board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
 
 
-def settle_forward(board):
+def clamp_settle(value, minimum, maximum):
+    """Keep command-line settle tuning inside a safe test range."""
+    return max(minimum, min(maximum, value))
+
+
+def settle_forward(board, power, seconds):
     """
     Move forward a tiny amount after vision handoff.
 
@@ -58,19 +65,19 @@ def settle_forward(board):
     the block can still sit just forward of the claw. This small nudge moves
     the robot into the tested pickup geometry before the arm sequence starts.
     """
-    print(
-        "Settling forward at %d%% for %.2fs..." %
-        (SETTLE_FORWARD_POWER, SETTLE_FORWARD_SECONDS)
-    )
+    power = int(clamp_settle(power, 0, MAX_SETTLE_POWER))
+    seconds = clamp_settle(seconds, 0.0, MAX_SETTLE_SECONDS)
+
+    print("Settling forward at %d%% for %.2fs..." % (power, seconds))
     try:
         board.set_motor_duty([
-            (1, SETTLE_FORWARD_POWER),
-            (2, SETTLE_FORWARD_POWER),
-            (3, SETTLE_FORWARD_POWER),
-            (4, SETTLE_FORWARD_POWER),
+            (1, power),
+            (2, power),
+            (3, power),
+            (4, power),
         ])
         import time
-        time.sleep(SETTLE_FORWARD_SECONDS)
+        time.sleep(seconds)
     finally:
         stop_drive_motors(board)
         print("Settle complete. Drive motors stopped.")
@@ -100,6 +107,18 @@ def parse_args():
         '--no-settle',
         action='store_true',
         help='Skip the tiny forward settle before pickup.',
+    )
+    parser.add_argument(
+        '--settle-power',
+        type=int,
+        default=SETTLE_FORWARD_POWER,
+        help='Forward settle motor power percent. Default: %(default)s',
+    )
+    parser.add_argument(
+        '--settle-seconds',
+        type=float,
+        default=SETTLE_FORWARD_SECONDS,
+        help='Forward settle time in seconds. Default: %(default)s',
     )
     return parser.parse_args()
 
@@ -136,7 +155,7 @@ def main():
     print()
     print("Approach reached handoff.")
     if not args.no_settle:
-        settle_forward(approach.board)
+        settle_forward(approach.board, args.settle_power, args.settle_seconds)
     else:
         print("Forward settle skipped.")
 

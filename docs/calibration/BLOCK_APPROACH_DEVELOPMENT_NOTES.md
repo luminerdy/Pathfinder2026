@@ -58,8 +58,10 @@ These notes track active block detection and approach testing. This work is not 
 - Updated handoff to stop when centered within `25px`, at about `17cm` or closer, and `y >= 300`.
 - July 15 settle test showed approach still drove one pulse too far. The missed stop frame was about `17cm`, `offset=+19`, `y=345`, so the distance handoff was moved back to `170mm` while keeping `y >= 300`.
 - Photos after the run showed the block centered well, about 5 inches from the robot, but still forward of the claw pickup geometry.
-- Added a tiny forward settle in the combined approach-and-pickup script before pickup: `24%` power for `0.12s`, with motors stopped before pickup begins.
+- Added a tunable forward settle in the combined approach-and-pickup script before pickup, with motors stopped before pickup begins.
 - July 15 settle retest at about `7.97V`: approach stopped at about `14cm`, `offset=+18`, `y=345`, ran the forward settle, then pickup reported `SUCCESS`.
+- July 15 settle retest at `7.80V`: approach stopped at about `14cm`, `offset=+17`, `y=318`, ran the `24%` / `0.12s` settle, then pickup reported `SUCCESS`, but photos showed the block still on the floor about 8 inches from the robot.
+- Increased the default settle to `24%` / `0.28s` and added `--settle-power` plus `--settle-seconds` so the final nudge can be tuned without editing code.
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 300`.
 - Current pickup alignment tolerance is `PICKUP_X_TOLERANCE_PX = 25`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
@@ -100,6 +102,12 @@ Skip final settle if needed:
 
 ```bash
 python3 skills/block_approach_pickup/run_demo.py --color blue --no-settle
+```
+
+Tune final settle distance if needed:
+
+```bash
+python3 skills/block_approach_pickup/run_demo.py --color blue --settle-seconds 0.35
 ```
 
 ## Next To-Dos

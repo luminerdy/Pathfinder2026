@@ -35,6 +35,16 @@ To skip the final settle nudge:
 python3 skills/block_approach_pickup/run_demo.py --color blue --no-settle
 ```
 
+To tune the final settle nudge during testing:
+
+```bash
+python3 skills/block_approach_pickup/run_demo.py --color blue --settle-seconds 0.35
+```
+
+The default settle is `24%` motor power for `0.28s`. If the robot still stops
+short, try a slightly longer settle. If the robot bumps the block too far, use a
+shorter settle.
+
 Valid colors are `red`, `blue`, and `yellow`.
 
 ## Safety
