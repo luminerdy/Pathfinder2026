@@ -193,7 +193,7 @@
 
         .automation-controls {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
             margin-top: 15px;
         }
@@ -211,6 +211,10 @@
 
         .automation-button.stop {
             background: #f44336;
+        }
+
+        .automation-button.toggle-on {
+            background: #4CAF50;
         }
 
         .automation-button:disabled {
@@ -250,12 +254,13 @@
                 <div class="automation-controls">
                     <button class="automation-button" id="btn-auto-apriltag">AprilTag Nav</button>
                     <button class="automation-button" id="btn-auto-line">Line Follow</button>
+                    <button class="automation-button" id="btn-block-detect">Block Detect: Off</button>
                     <button class="automation-button stop" id="btn-auto-stop">Stop Automation</button>
                 </div>
                 <div id="automation-status" class="automation-status">Automation ready.</div>
                 <div class="automation-note">
                     AprilTag Nav moves the arm/camera forward first. Line Follow moves the camera down.
-                    The live camera feed shows tracking overlays while automation is running.
+                    Block Detect adds red, blue, and yellow detection boxes to the live feed.
                 </div>
             </div>
 
@@ -658,7 +663,9 @@
         const autoApriltagButton = document.getElementById('btn-auto-apriltag');
         const autoLineButton = document.getElementById('btn-auto-line');
         const autoStopButton = document.getElementById('btn-auto-stop');
+        const blockDetectButton = document.getElementById('btn-block-detect');
         const automationStatus = document.getElementById('automation-status');
+        let blockDetectionEnabled = false;
 
         function setAutomationStatus(message, isError = false) {
             automationStatus.textContent = message;
@@ -670,6 +677,31 @@
             autoApriltagButton.disabled = active;
             autoLineButton.disabled = active;
             autoStopButton.disabled = !active;
+        }
+
+        function setBlockDetectionButton(enabled) {
+            blockDetectionEnabled = enabled;
+            blockDetectButton.textContent = enabled ? 'Block Detect: On' : 'Block Detect: Off';
+            blockDetectButton.classList.toggle('toggle-on', enabled);
+        }
+
+        function updateBlockDetectionStatus(data) {
+            if (!data) {
+                return;
+            }
+            setBlockDetectionButton(Boolean(data.enabled));
+            if (!data.enabled) {
+                return;
+            }
+            const target = data.selected_target;
+            if (target) {
+                setAutomationStatus(
+                    `Block Detect: ${data.merged_count} block(s), selected ${target.color} ` +
+                    `${target.distance_cm}cm offset ${target.offset}`
+                );
+            } else {
+                setAutomationStatus(`Block Detect: ${data.merged_count} block(s), selected none`);
+            }
         }
 
         function startAutomation(mode) {
@@ -705,6 +737,27 @@
                 });
         }
 
+        function toggleBlockDetection() {
+            const nextState = !blockDetectionEnabled;
+            setBlockDetectionButton(nextState);
+            setAutomationStatus(nextState ? 'Starting block detection overlay...' : 'Stopping block detection overlay...');
+            postJson('/block_detection/toggle', {enabled: nextState})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status !== 'ok') {
+                        setBlockDetectionButton(!nextState);
+                        setAutomationStatus(data.message || 'Block detection toggle failed.', true);
+                        return;
+                    }
+                    updateBlockDetectionStatus(data.block_detection);
+                })
+                .catch(error => {
+                    setBlockDetectionButton(!nextState);
+                    setAutomationStatus('Block detection request did not reach the robot.', true);
+                    console.log('Block detection toggle failed:', error);
+                });
+        }
+
         function updateAutomationStatus() {
             getJson('/automation/status')
                 .then(response => response.json())
@@ -725,9 +778,17 @@
                 .catch(error => console.log('Automation status failed:', error));
         }
 
+        function updateBlockDetection() {
+            getJson('/block_detection/status')
+                .then(response => response.json())
+                .then(updateBlockDetectionStatus)
+                .catch(error => console.log('Block detection status failed:', error));
+        }
+
         autoApriltagButton.addEventListener('click', () => startAutomation('apriltag'));
         autoLineButton.addEventListener('click', () => startAutomation('line'));
         autoStopButton.addEventListener('click', stopAutomation);
+        blockDetectButton.addEventListener('click', toggleBlockDetection);
 
         // Battery monitoring
         function updateBattery() {
@@ -749,8 +810,10 @@
         loadSavedPositions();
         updateBattery();
         updateAutomationStatus();
+        updateBlockDetection();
         setInterval(updateBattery, 5000); // Update every 5 seconds
         setInterval(updateAutomationStatus, 1000);
+        setInterval(updateBlockDetection, 1000);
     </script>
 </body>
 </html>

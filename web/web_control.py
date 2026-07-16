@@ -25,6 +25,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from lib.board import get_board
 from lib.battery import is_runtime_safe, read_voltage, status_for_voltage
+from skills.block_detect import BlockDetector
 from skills.strafe_nav import StrafeNavigator
 from skills.line_following.line_follower import LineFollower
 BoardController = None  # Use get_board() instead
@@ -64,6 +65,13 @@ tracking_state = {
     'line_error': 0,
     'line_heading': 0,
     'line_ratio': 0.0,
+}
+block_detection_state = {
+    'enabled': False,
+    'raw_count': 0,
+    'merged_count': 0,
+    'selected_target': None,
+    'updated_at': 0.0,
 }
 drive_state_lock = threading.Lock()
 drive_state = {
@@ -187,6 +195,8 @@ APRILTAG_NAV_TIMEOUT = 30.0
 LINE_FOLLOW_TIMEOUT = 30.0
 CAMERA_FORWARD_POSITION = [(1, 2500), (3, 590), (4, 2450), (5, 700), (6, 1500)]
 APRILTAG_OVERLAY_DETECTOR = None
+BLOCK_DETECTOR = BlockDetector()
+BLOCK_DETECTION_COLORS = ('red', 'blue', 'yellow')
 
 
 class LockedBoard:
@@ -282,6 +292,42 @@ def clear_tracking_state(mode=None):
             'line_heading': 0,
             'line_ratio': 0.0,
         })
+
+
+def block_target_to_dict(block):
+    """Return browser-friendly details for the selected block target."""
+    if block is None:
+        return None
+
+    return {
+        'color': block.color,
+        'center_x': block.center_x,
+        'center_y': block.center_y,
+        'width': block.width,
+        'height': block.height,
+        'offset': block.offset_from_center,
+        'distance_cm': round(block.estimated_distance_mm / 10.0, 1),
+        'confidence': round(block.confidence, 2),
+        'score': BLOCK_DETECTOR.pickup_target_score(block),
+    }
+
+
+def set_block_detection_enabled(enabled):
+    """Turn the block detection overlay on or off."""
+    with automation_lock:
+        block_detection_state.update({
+            'enabled': bool(enabled),
+            'raw_count': 0,
+            'merged_count': 0,
+            'selected_target': None,
+            'updated_at': time.time(),
+        })
+
+
+def get_block_detection_snapshot():
+    """Return the current block detection overlay status."""
+    with automation_lock:
+        return block_detection_state.copy()
 
 
 def automation_cancel_requested():
@@ -510,6 +556,71 @@ def draw_line_overlay(frame, track):
                     cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 165, 255), 2)
 
 
+def draw_selected_block_overlay(frame, target):
+    """Draw the selected block target with a green box."""
+    frame_h, frame_w = frame.shape[:2]
+    if target is None:
+        cv2.putText(frame, 'selected block: none', (10, frame_h - 20),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 165, 255), 2)
+        return
+
+    x1 = target.center_x - target.width // 2
+    y1 = target.center_y - target.height // 2
+    x2 = x1 + target.width
+    y2 = y1 + target.height
+
+    cv2.rectangle(frame, (x1 - 4, y1 - 4), (x2 + 4, y2 + 4),
+                  (0, 255, 0), 4)
+    cv2.drawMarker(frame, (target.center_x, target.center_y),
+                   (0, 255, 0), markerType=cv2.MARKER_CROSS,
+                   markerSize=24, thickness=2)
+    label = 'selected: %s %.0fcm offset=%+d' % (
+        target.color,
+        target.estimated_distance_mm / 10.0,
+        target.offset_from_center,
+    )
+    cv2.putText(frame, label, (10, frame_h - 20),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 0), 2)
+
+
+def draw_block_detection_overlay(frame):
+    """Draw block detections on the live camera feed when enabled."""
+    state = get_block_detection_snapshot()
+    if not state['enabled']:
+        return
+
+    raw_blocks = BLOCK_DETECTOR.detect(frame, colors=BLOCK_DETECTION_COLORS)
+    blocks = BLOCK_DETECTOR.merge_close_detections(raw_blocks)
+    target = BLOCK_DETECTOR.select_pickup_target(
+        blocks,
+        frame_width=frame.shape[1],
+        frame_height=frame.shape[0],
+    )
+
+    BLOCK_DETECTOR.annotate_frame(frame, blocks)
+
+    cv2.line(frame, (frame.shape[1] // 2, 0),
+             (frame.shape[1] // 2, frame.shape[0]), (255, 255, 255), 1)
+    cv2.line(frame, (0, frame.shape[0] // 2),
+             (frame.shape[1], frame.shape[0] // 2), (120, 120, 120), 1)
+    cv2.putText(frame, 'block detection on', (10, 105),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 255), 2)
+    detection_label = 'blocks: %d' % len(blocks)
+    if len(raw_blocks) != len(blocks):
+        detection_label += ' (merged from %d)' % len(raw_blocks)
+    cv2.putText(frame, detection_label, (10, 132),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 255), 2)
+    draw_selected_block_overlay(frame, target)
+
+    with automation_lock:
+        block_detection_state.update({
+            'raw_count': len(raw_blocks),
+            'merged_count': len(blocks),
+            'selected_target': block_target_to_dict(target),
+            'updated_at': time.time(),
+        })
+
+
 def draw_automation_overlay(frame):
     """Add active automation status/tracking overlays to the video stream."""
     auto, track = get_automation_snapshot()
@@ -553,6 +664,7 @@ def generate_frames():
                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
             y_pos += 30
 
+        draw_block_detection_overlay(frame)
         draw_automation_overlay(frame)
 
         # Encode frame
@@ -797,6 +909,22 @@ def automation_stop():
         return jsonify({'status': 'ok', 'message': 'Automation stop requested'})
     stop_drive()
     return jsonify({'status': 'ok', 'message': 'No automation running'})
+
+@app.route('/block_detection/status', methods=['GET'])
+def block_detection_status():
+    """Return current block detection overlay status."""
+    return jsonify(get_block_detection_snapshot())
+
+@app.route('/block_detection/toggle', methods=['POST'])
+def block_detection_toggle():
+    """Turn the block detection overlay on or off."""
+    data = request.json or {}
+    enabled = bool(data.get('enabled'))
+    set_block_detection_enabled(enabled)
+    return jsonify({
+        'status': 'ok',
+        'block_detection': get_block_detection_snapshot(),
+    })
 
 # Load saved positions on startup
 try:

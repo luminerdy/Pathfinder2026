@@ -49,9 +49,9 @@ Use the robot IP from Phase 1. Do not use the Pi 500 IP.
 - Arm sliders: move individual servos
 - Save/load positions: store arm poses for testing
 
-## Automation Buttons
+## Camera And Automation Buttons
 
-The web page also includes two automation buttons near the live camera feed.
+The web page includes camera overlay and automation buttons near the live camera feed.
 
 Use these only after the team has already tested the individual capability demos from Capabilities Exploration.
 
@@ -59,14 +59,17 @@ Use these only after the team has already tested the individual capability demos
 |--------|--------|
 | AprilTag Nav | Moves the arm/camera forward, searches for event AprilTags `582`, `583`, `584`, or `585`, drives toward the detected tag, then returns to web control |
 | Line Follow | Moves the camera down, follows the lime green tape, then returns to web control |
+| Block Detect | Turns red, blue, and yellow block detection boxes on or off in the live camera feed |
 | Stop Automation | Requests cancellation and stops the drive motors |
 
 While an automation runs, the live camera feed shows tracking overlays:
 
 - AprilTag Nav: visible event tags are boxed and labeled.
 - Line Follow: the center line and detected line position are shown.
+- Block Detect: colored block boxes and the selected green target box are shown while the toggle is on.
 
 Manual drive commands are blocked while automation is running. Press `Stop Automation` before returning to manual driving.
+Block Detect is only a camera overlay. It does not drive the robot.
 
 ## If A Movement Button Does Not Respond
 
