@@ -242,7 +242,7 @@ def parse_args():
     parser.add_argument(
         '--drive-seconds',
         type=float,
-        default=0.25,
+        default=0.45,
         help='Calibration drive time while lowering the arm. Default: %(default)s',
     )
     return parser.parse_args()

@@ -54,7 +54,7 @@ The pickup transition includes a short forward drive while the arm lowers. Tune
 that movement without editing code:
 
 ```bash
-python3 skills/block_approach_pickup/run_demo.py --color blue --pickup-drive-power 24 --pickup-drive-seconds 0.25
+python3 skills/block_approach_pickup/run_demo.py --color blue --pickup-drive-power 24 --pickup-drive-seconds 0.45
 ```
 
 To disable that synchronized pickup drive during calibration:

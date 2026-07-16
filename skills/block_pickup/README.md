@@ -43,7 +43,7 @@ Calibration only: to test the synchronized forward nudge used by the combined
 approach-and-pickup script:
 
 ```bash
-python3 skills/block_pickup/run_demo.py --color blue --check-camera --drive-during-arm --drive-power 24 --drive-seconds 0.25
+python3 skills/block_pickup/run_demo.py --color blue --check-camera --drive-during-arm --drive-power 24 --drive-seconds 0.45
 ```
 
 ## Safety
