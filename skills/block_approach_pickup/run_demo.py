@@ -8,18 +8,38 @@ is repeatable across colors, batteries, and starting distances.
 """
 
 import argparse
+import importlib.util
 import os
 import sys
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
+SCRIPT_DIR = os.path.dirname(__file__)
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '../..'))
+sys.path.insert(0, REPO_ROOT)
 
-from skills.block_approach.run_demo import (
-    DEFAULT_COLOR,
-    MAX_RUNTIME_SECONDS,
-    VALID_COLORS,
-    BlockApproachDemo,
+
+def load_module(module_name, relative_path):
+    """Load a helper module by file path to avoid legacy module name conflicts."""
+    module_path = os.path.join(REPO_ROOT, relative_path)
+    spec = importlib.util.spec_from_file_location(module_name, module_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+approach_module = load_module(
+    'pathfinder_block_approach_demo',
+    os.path.join('skills', 'block_approach', 'run_demo.py'),
 )
-from skills.block_pickup.run_demo import run_pickup_sequence
+pickup_module = load_module(
+    'pathfinder_block_pickup_demo',
+    os.path.join('skills', 'block_pickup', 'run_demo.py'),
+)
+
+DEFAULT_COLOR = approach_module.DEFAULT_COLOR
+MAX_RUNTIME_SECONDS = approach_module.MAX_RUNTIME_SECONDS
+VALID_COLORS = approach_module.VALID_COLORS
+BlockApproachDemo = approach_module.BlockApproachDemo
+run_pickup_sequence = pickup_module.run_pickup_sequence
 
 
 def parse_args():
