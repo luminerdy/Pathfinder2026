@@ -1,8 +1,8 @@
 # Skill: Block Detection
 
-**Difficulty:** ⭐⭐ (Intermediate - Computer Vision Application)
+**Difficulty:** Intermediate - Computer Vision Application
 **Type:** Vision + Color Detection
-**Prerequisites:** Camera hardware checked in C3
+**Prerequisites:** Camera hardware checked in Phase 1
 **Estimated Time:** 20-25 minutes
 
 ---

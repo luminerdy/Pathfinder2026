@@ -239,7 +239,7 @@ def main():
         print("Next steps:")
         print("  - Try editing the TEAM TUNING constants near the top of run_demo.py")
         print("  - Read SKILL.md to understand how ultrasonic works")
-        print("  - Integrate with D1 (mecanum + sonar = safe navigation)")
+        print("  - Integrate with mecanum drive (mecanum + sonar = safe navigation)")
 
         # Victory beep
         board.set_buzzer(1000, 0.1, 0.1, 2)

@@ -1,7 +1,7 @@
-# D1: Mecanum Drive - Learning Outcomes
+# Mecanum Drive - Learning Outcomes
 
-**Skill:** D1 - Mecanum Drive (Foundation)
-**Difficulty:** ⭐ Beginner
+**Skill:** Mecanum Drive (Foundation)
+**Difficulty:** Beginner
 **Time:** 15-20 minutes
 
 ---
@@ -10,7 +10,7 @@
 
 ### Knowledge (Cognitive - Remember/Understand)
 
-**After completing D1, participants can:**
+**After completing this skill, participants can:**
 
 1. **Explain** how mecanum wheels work
    - Describe the 45° roller configuration
@@ -218,11 +218,11 @@ Student can:
 **None** - This is the starting skill!
 
 ### Builds Foundation For
-- **D2: Sonar** - Add sensors to movement
-- **D3: Arm** - Coordinate arm while moving
-- **E3: AprilTag Navigation** - Autonomous mecanum control
-- **E4: Visual Servoing** - Approach targets with strafing
-- **E5: Autonomous Pickup** - Navigate + manipulate
+- **Sonar** - Add sensors to movement
+- **Arm** - Coordinate arm while moving
+- **AprilTag Navigation** - Autonomous mecanum control
+- **Visual Servoing** - Approach targets with strafing
+- **Autonomous Pickup** - Navigate and manipulate
 
 ### Time Allocation (6-hour workshop)
 **Hour 1 (30 minutes):**
@@ -231,7 +231,7 @@ Student can:
 - Discussion (5 min): Q&A, safety, next steps
 - Hands-on (10 min): Students run on their robots
 
-**For students:** This is enough, move to D2
+**For students:** This is enough, move to the next recommended capability.
 **For engineers:** Additional 15-30 min for config tuning and theory
 
 ---

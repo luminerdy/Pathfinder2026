@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Autonomous Pickup Demo (E5) [Beta]
+Autonomous Pickup Demo [Beta]
 
 Full cycle: scan for block, drive to it, pick it up.
 
@@ -82,7 +82,7 @@ def main():
         print("  [OK] State machine design (phases with clear transitions)")
         print("  [OK] Camera switching (forward view -> down view)")
         print("  [OK] Stop-look-drive (no motion blur for detection)")
-        print("  [OK] Full integration (D1 + D3 + camera + D5 + E4)")
+        print("  [OK] Full integration (drive + arm + camera + detection + servoing)")
     else:
         print("Tips if it failed:")
         print("  - Better lighting (avoid harsh shadows on blocks)")

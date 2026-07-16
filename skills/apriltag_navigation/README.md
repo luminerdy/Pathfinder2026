@@ -1,4 +1,4 @@
-# AprilTag Navigation (E3) - Quick Reference
+# AprilTag Navigation - Quick Reference
 
 **Quick Reference Card**
 

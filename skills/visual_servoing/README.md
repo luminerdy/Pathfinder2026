@@ -1,4 +1,4 @@
-# Visual Servoing (E4) - Quick Reference
+# Visual Servoing - Quick Reference
 
 **Drive toward targets using real-time camera feedback**
 
@@ -32,7 +32,7 @@ ba.cleanup()
 - Target: block at y=420 (bottom of frame)
 - Tolerance: +/-40px horizontal, +/-30px vertical
 
-## Next: E5 Autonomous Pickup (add arm grab!)
+## Next: Autonomous Pickup (add arm grab!)
 
 ---
 *See target, correct, reach!*

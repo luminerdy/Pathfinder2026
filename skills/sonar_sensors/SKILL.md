@@ -1,8 +1,8 @@
 # Skill: Sonar Sensors
 
-**Difficulty:** ⭐ (Beginner - Hardware Skill)
+**Difficulty:** Beginner - Hardware Skill
 **Type:** Sensor Reading & Obstacle Detection
-**Prerequisites:** D1 (Mecanum Drive recommended)
+**Prerequisites:** Mecanum drive recommended
 **Estimated Time:** 15-20 minutes
 
 ---
@@ -410,7 +410,7 @@ sonar:
 - Add sound alerts (beep when obstacle close)
 - Log distance over time (plot in graph)
 - Multi-zone detection (left, center, right if multiple sensors)
-- Integrate with D1 (stop movement when obstacle)
+- Integrate with mecanum drive (stop movement when obstacle)
 
 **Advanced:**
 - Kalman filter (optimal sensor fusion)

@@ -1,6 +1,6 @@
 # Skill: Camera Vision
 
-**Difficulty:** ⭐⭐ (Intermediate - Computer Vision Basics)
+**Difficulty:** Intermediate - Computer Vision Basics
 **Type:** Sensor Input & Image Processing
 **Prerequisites:** None (foundation skill)
 **Estimated Time:** 20-25 minutes

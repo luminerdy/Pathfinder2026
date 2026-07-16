@@ -1,8 +1,8 @@
-# Skill: Visual Servoing (E4)
+# Skill: Visual Servoing
 
-**Difficulty:** ⭐⭐⭐ (Advanced - Control + Vision Integration)
+**Difficulty:** Advanced - Control + Vision Integration
 **Type:** Closed-Loop Vision-Guided Motion
-**Prerequisites:** D1 (Mecanum Drive), camera hardware checked in C3, D5 (Block Detection)
+**Prerequisites:** Mecanum drive, camera hardware checked in Phase 1, block detection
 **Estimated Time:** 25-30 minutes
 
 ---
@@ -32,7 +32,7 @@
 
 ### Open-Loop vs Closed-Loop
 
-**Open-loop (D1 Mecanum Drive):**
+**Open-loop (mecanum drive):**
 ```
 Command → Motors → Hope for the best
 "Drive forward 2 seconds" — no correction if drifting

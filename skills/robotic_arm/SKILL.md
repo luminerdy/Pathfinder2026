@@ -2,7 +2,7 @@
 
 **Difficulty:** Intermediate - Hardware Manipulation
 **Type:** Servo Control & Manipulation
-**Prerequisites:** D1 (Mecanum Drive recommended)
+**Prerequisites:** Mecanum drive recommended
 **Estimated Time:** 25-30 minutes
 
 ---

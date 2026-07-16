@@ -1,8 +1,8 @@
-# Skill: Autonomous Block Pickup (E5)
+# Skill: Autonomous Block Pickup
 
-**Difficulty:** ⭐⭐⭐ (Advanced - Full Integration)
+**Difficulty:** Advanced - Full Integration
 **Type:** Vision + Drive + Arm Coordination
-**Prerequisites:** D1 (Drive), D3 (Arm), camera hardware checked in C3, D5 (Detection), E4 (Servoing)
+**Prerequisites:** Mecanum drive, robotic arm, camera hardware checked in Phase 1, block detection, visual servoing
 **Estimated Time:** 30-40 minutes
 
 ---
@@ -423,4 +423,4 @@ Existing code (already on robot):
 
 ---
 
-*The grand integration: See it, drive to it, grab it!* ✊
+*The grand integration: See it, drive to it, grab it!*

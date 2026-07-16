@@ -60,9 +60,9 @@ After this skill, you can:
 
 ## Next Skills
 
-- **D3: Robotic Arm** - Add manipulation
-- **E3: AprilTag Navigation** + Sonar = Safe autonomous navigation
-- **E4: Visual Servoing** - Camera + Sonar for precise approach
+- **Robotic Arm** - Add manipulation
+- **AprilTag Navigation** + Sonar = Safe autonomous navigation
+- **Visual Servoing** - Camera + Sonar for precise approach
 
 ---
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Visual Servoing Demo (E4)
+Visual Servoing Demo
 
 Demonstrates closed-loop approach to a colored block.
 Robot drives toward the nearest visible block using camera feedback.
 
 How it works:
-  1. Camera detects block (using D5 block detection)
+  1. Camera detects block using block detection
   2. Lock onto target (won't switch blocks mid-approach)
   3. Calculate error (block position vs frame center)
   4. Proportional control: error * Kp = motor speed
@@ -14,7 +14,7 @@ How it works:
   6. Stop when block is at bottom of frame (pickup distance)
 
 This is CLOSED-LOOP control — the robot corrects itself as it moves.
-Compare to D1 (open-loop): "drive forward 2 seconds and hope."
+Compare to open-loop driving: "drive forward 2 seconds and hope."
 
 Usage:
     python3 run_demo.py            # Approach any color

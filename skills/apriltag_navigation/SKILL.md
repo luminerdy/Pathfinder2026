@@ -1,4 +1,4 @@
-# Skill: AprilTag Navigation (E3)
+# Skill: AprilTag Navigation
 
 **Difficulty:** Intermediate
 **Type:** Autonomous Navigation

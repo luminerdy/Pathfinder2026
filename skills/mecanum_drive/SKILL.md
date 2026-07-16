@@ -1,6 +1,6 @@
 # Skill: Mecanum Drive
 
-**Difficulty:** ⭐ (Beginner - Foundation Skill)
+**Difficulty:** Beginner - Foundation Skill
 **Type:** Hardware Control
 **Prerequisites:** None (start here!)
 **Estimated Time:** 15-20 minutes
