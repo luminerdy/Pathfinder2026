@@ -54,7 +54,9 @@ These notes track active block detection and approach testing. This work is not 
 - Later July 15 run at `7.43V` showed the tracker switching from the near blue block to a farther blue block: distance jumped from about `17cm` to about `39cm` while the target moved higher in the image.
 - Updated target lock behavior to follow the last accepted target, reject sudden farther/higher same-color detections, and use a stricter final pickup handoff tolerance of `25px`.
 - Added a fine-strafe correction near handoff so pickup alignment can be tighter than general approach alignment.
-- Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 340`.
+- July 15 run at `8.15V` drove well and fine-strafed correctly, but missed the handoff. The log showed a good pickup stop candidate at about `14cm`, `offset=+3`, `y=302`; the robot then drove one more forward pulse, reached `12cm`, and lost the target.
+- Updated handoff to stop earlier when centered within `25px`, at about `14cm` or closer, and `y >= 300`.
+- Current handoff values are `HANDOFF_DISTANCE_MM = 140` and `HANDOFF_VIEW_Y_MIN = 300`.
 - Current pickup alignment tolerance is `PICKUP_X_TOLERANCE_PX = 25`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
 - The viewer looked stable with Blue-only selection and three close blue blocks.
