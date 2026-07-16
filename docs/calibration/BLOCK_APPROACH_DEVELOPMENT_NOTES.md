@@ -65,6 +65,7 @@ These notes track active block detection and approach testing. This work is not 
 - Added a pickup-pose camera check before the claw closes. At the actual grab pose the block may only be partly visible at the bottom of the image, so this check looks for target-color pixels in the lower center of the frame instead of requiring the full-block target selector.
 - Replaced the early vision handoff with close tracking for the combined demo. Once the block is close and centered, the robot continues checking it after every movement, drives while lowering the camera in small steps, and only hands off to pickup after the selected green-box target disappears for three consecutive frames.
 - Removed the blind forward settle from the default combined run. It remains available only as an explicit calibration option with `--settle-seconds`.
+- First close-tracking test stopped too early at `S5=985`. A post-run frame still had a healthy blue detection at `x=345`, `y=407`, about `16.5cm`, but the normal `50px` bottom-edge exclusion removed its green target box. Close tracking now allows the already-locked block into the bottom edge while retaining left, right, and top-edge safety checks.
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 300`.
 - Current pickup alignment tolerance is `PICKUP_X_TOLERANCE_PX = 25`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.

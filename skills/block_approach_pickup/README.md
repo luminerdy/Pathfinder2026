@@ -11,10 +11,11 @@ only.
 2. Locks onto one block and keeps checking it after every movement.
 3. Centers the block while driving closer.
 4. Drives forward while moving the camera down in small steps.
-5. Stops when the close, centered block is no longer detected for three frames.
-6. Moves the arm to the pickup pose.
-7. Checks for target-color pixels under the claw.
-8. Closes the claw only if that final pickup-zone check passes.
+5. Keeps following the locked block into the bottom edge of the camera view.
+6. Stops when that close, centered block is no longer detected for three frames.
+7. Moves the arm to the pickup pose.
+8. Checks for target-color pixels under the claw.
+9. Closes the claw only if that final pickup-zone check passes.
 
 The pickup sequence only runs if approach succeeds.
 

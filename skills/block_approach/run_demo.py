@@ -267,7 +267,19 @@ class BlockApproachDemo:
         for block in blocks:
             if block.estimated_distance_mm > APPROACH_MAX_TARGET_DISTANCE_MM:
                 continue
-            if self.detector._is_edge_touching(
+            if self.pickup_handoff_armed:
+                # A close block naturally enters the bottom margin as the
+                # camera tilts down. Keep following that already-locked block
+                # until the detector truly loses it, while retaining the side
+                # and top protections that prevent unsafe target chasing.
+                x1, y1, x2, _ = self.detector._block_bounds(block)
+                if (
+                    x1 <= APPROACH_EDGE_MARGIN_PX
+                    or x2 >= FRAME_W - APPROACH_EDGE_MARGIN_PX
+                    or y1 <= APPROACH_EDGE_MARGIN_PX
+                ):
+                    continue
+            elif self.detector._is_edge_touching(
                 block,
                 frame_width=FRAME_W,
                 frame_height=FRAME_H,
