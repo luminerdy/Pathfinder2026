@@ -75,6 +75,10 @@ TARGET_VIEW_TOLERANCE_PX = 45
 HANDOFF_S5_MIN = 1200
 HANDOFF_DISTANCE_MM = 170
 HANDOFF_VIEW_Y_MIN = 300
+VISIBLE_HANDOFF_S5_MIN = 1230
+VISIBLE_HANDOFF_DISTANCE_MM = 130
+VISIBLE_HANDOFF_VIEW_Y_MIN = 380
+VISIBLE_HANDOFF_X_TOLERANCE_PX = 45
 
 
 class BlockApproachDemo:
@@ -440,6 +444,22 @@ class BlockApproachDemo:
             )
         )
 
+    def at_visible_pickup_handoff(self, target):
+        """
+        Return True when the block is close enough to hand off while still seen.
+
+        Waiting until the block fully disappears can make the robot drive too far
+        forward. At the final downward camera angle, a centered block low in the
+        image is already in the pickup handoff zone.
+        """
+        return (
+            self.pickup_handoff_armed
+            and self.current_s5 >= VISIBLE_HANDOFF_S5_MIN
+            and target.estimated_distance_mm <= VISIBLE_HANDOFF_DISTANCE_MM
+            and target.center_y >= VISIBLE_HANDOFF_VIEW_Y_MIN
+            and abs(target.offset_from_center) <= VISIBLE_HANDOFF_X_TOLERANCE_PX
+        )
+
     def run(self, timeout=MAX_RUNTIME_SECONDS, track_until_lost=False):
         """Run the approach-only demo."""
         if not self.check_battery():
@@ -536,6 +556,18 @@ class BlockApproachDemo:
                         self.pickup_handoff_armed = True
                     if self.pickup_handoff_armed and not was_armed:
                         print("  Close tracking armed; continuing until target leaves view.")
+
+                    if self.at_visible_pickup_handoff(target):
+                        self.stop()
+                        print("Visible pickup handoff reached. Motors stopped.")
+                        return {
+                            'success': True,
+                            'reason': 'visible_pickup_handoff',
+                            'frames': frames,
+                            'distance_cm': round(distance_cm, 1),
+                            'offset': target.offset_from_center,
+                            's5': self.current_s5,
+                        }
 
                 action, vx, vy = self.choose_action(
                     target,
