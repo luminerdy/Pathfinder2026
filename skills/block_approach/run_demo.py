@@ -52,6 +52,8 @@ APPROACH_FLOOR_HORIZON_Y = 100
 INITIAL_MAX_SIZE_TO_GROUND_RATIO = 0.55
 CENTER_PROGRESS_MIN_PX = 8
 CENTER_PROGRESS_LIMIT = 10
+STRAFE_DRIFT_LIMIT = 3
+STRAFE_DRIFT_MARGIN_PX = 8
 
 X_TOLERANCE_PX = 60
 PICKUP_X_TOLERANCE_PX = 25
@@ -94,6 +96,8 @@ class BlockApproachDemo:
         self.lost_target_frames = 0
         self.best_abs_offset = None
         self.no_center_progress_frames = 0
+        self.best_strafe_abs_offset = None
+        self.strafe_drift_frames = 0
         self.stable_count = 0
         self.current_s5 = APPROACH_START_S5
         self.pickup_handoff_armed = False
@@ -365,6 +369,31 @@ class BlockApproachDemo:
 
         return 'forward', 0, FORWARD_POWER
 
+    def strafe_is_making_alignment_worse(self, target, action):
+        """
+        Return True when repeated strafe pulses push the target farther away.
+
+        On the foam field, the mecanum strafe can yaw the robot instead of
+        sliding cleanly. When that happens, keep approaching forward while the
+        camera lowers instead of chasing the block sideways out of view.
+        """
+        if 'strafe' not in action:
+            self.best_strafe_abs_offset = None
+            self.strafe_drift_frames = 0
+            return False
+
+        abs_offset = abs(target.offset_from_center)
+        if (
+            self.best_strafe_abs_offset is None
+            or abs_offset < self.best_strafe_abs_offset - STRAFE_DRIFT_MARGIN_PX
+        ):
+            self.best_strafe_abs_offset = abs_offset
+            self.strafe_drift_frames = 0
+            return False
+
+        self.strafe_drift_frames += 1
+        return self.strafe_drift_frames >= STRAFE_DRIFT_LIMIT
+
     def near_pickup_handoff(self, target):
         """Return True when only small centering corrections should remain."""
         return (
@@ -573,6 +602,14 @@ class BlockApproachDemo:
                     target,
                     track_until_lost=track_until_lost,
                 )
+                if (
+                    track_until_lost
+                    and self.near_pickup_handoff(target)
+                    and self.strafe_is_making_alignment_worse(target, action)
+                ):
+                    print("  Strafe drift detected; prioritizing forward approach.")
+                    action, vx, vy = 'forward', 0, FORWARD_POWER
+
                 camera_action, next_s5 = self.next_camera_adjustment(target)
                 if camera_action != 'camera steady':
                     if track_until_lost and camera_action == 'camera down':

@@ -72,6 +72,7 @@ These notes track active block detection and approach testing. This work is not 
 - July 16 visible-handoff retest stopped at `S5=1230`, about `11cm`, `offset=+12`, `y=418`, but the pickup camera check saw no blue under the claw. That stop was too early. Visible handoff now waits until `S5=1250` so the robot gets one more tracked forward/camera-down move before pickup.
 - July 16 final-camera-angle retest stopped with the block still about 4 inches away. The approach was good, but the arm-only pickup transition did not move the chassis far enough for the claw to reach. The combined approach-and-pickup script now drives forward briefly while the arm lowers into pickup pose.
 - July 16 photo after the first synchronized pickup-drive attempt showed the claw aligned and low, but still short of the cube. Default pickup-drive calibration changed from `24%` for `0.25s` to `24%` for `0.45s`, tunable with `--pickup-drive-power` and `--pickup-drive-seconds`.
+- July 16 two retests showed the robot losing the block during repeated fine strafe corrections. The log showed offset growing from about `+31` to more than `+200` while the script kept choosing `fine strafe right`. Close approach now detects repeated strafe drift and switches back to forward movement while lowering the camera.
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 300`.
 - Current pickup alignment tolerance is `PICKUP_X_TOLERANCE_PX = 25`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
