@@ -529,7 +529,11 @@ class BlockApproachDemo:
 
                 if track_until_lost:
                     was_armed = self.pickup_handoff_armed
-                    self.pickup_handoff_armed = self.at_front_approach_position(target)
+                    # Once close tracking is armed, keep it armed. The block can
+                    # wobble a few pixels or partly leave the frame as the robot
+                    # moves from approach view into pickup view.
+                    if self.at_front_approach_position(target):
+                        self.pickup_handoff_armed = True
                     if self.pickup_handoff_armed and not was_armed:
                         print("  Close tracking armed; continuing until target leaves view.")
 

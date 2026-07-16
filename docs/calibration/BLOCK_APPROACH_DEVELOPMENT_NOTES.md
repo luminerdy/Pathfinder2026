@@ -1,6 +1,6 @@
 # Block Approach Development Notes
 
-**Last updated:** July 15, 2026
+**Last updated:** July 16, 2026
 
 These notes track active block detection and approach testing. This work is not ready for the participant event flow yet and should not be added to the workshop phase list until the approach and pickup behavior is reliable.
 
@@ -67,6 +67,7 @@ These notes track active block detection and approach testing. This work is not 
 - Removed the blind forward settle from the default combined run. It remains available only as an explicit calibration option with `--settle-seconds`.
 - First close-tracking test stopped too early at `S5=985`. A post-run frame still had a healthy blue detection at `x=345`, `y=407`, about `16.5cm`, but the normal `50px` bottom-edge exclusion removed its green target box. Close tracking now allows the already-locked block into the bottom edge while retaining left, right, and top-edge safety checks.
 - Added an initial physical-size check to distinguish 1.2-inch target blocks from 5-inch foam cubes. It compares apparent object size with the object's floor position below the horizon. The check applies while choosing a target, then relaxes after a correctly sized block is locked so a real close block can grow and become clipped at the bottom of the image.
+- July 16 close-tracking test reached about `10cm`, `offset=+33`, `y=407`, and `S5=1250`, but then reported normal `lost_target` instead of handing off to pickup. The block was still visible at the bottom of the camera view and about 4 inches from the robot. Close tracking is now latched after it first arms, so a small offset wobble near the bottom of the frame does not demote the run back to normal lost-target handling.
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 300`.
 - Current pickup alignment tolerance is `PICKUP_X_TOLERANCE_PX = 25`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
