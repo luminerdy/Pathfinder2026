@@ -41,6 +41,40 @@ VALID_COLORS = approach_module.VALID_COLORS
 BlockApproachDemo = approach_module.BlockApproachDemo
 run_pickup_sequence = pickup_module.run_pickup_sequence
 
+SETTLE_FORWARD_POWER = 24
+SETTLE_FORWARD_SECONDS = 0.12
+
+
+def stop_drive_motors(board):
+    """Stop all four drive motors."""
+    board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+
+
+def settle_forward(board):
+    """
+    Move forward a tiny amount after vision handoff.
+
+    The approach handoff leaves the block centered and close, but photos showed
+    the block can still sit just forward of the claw. This small nudge moves
+    the robot into the tested pickup geometry before the arm sequence starts.
+    """
+    print(
+        "Settling forward at %d%% for %.2fs..." %
+        (SETTLE_FORWARD_POWER, SETTLE_FORWARD_SECONDS)
+    )
+    try:
+        board.set_motor_duty([
+            (1, SETTLE_FORWARD_POWER),
+            (2, SETTLE_FORWARD_POWER),
+            (3, SETTLE_FORWARD_POWER),
+            (4, SETTLE_FORWARD_POWER),
+        ])
+        import time
+        time.sleep(SETTLE_FORWARD_SECONDS)
+    finally:
+        stop_drive_motors(board)
+        print("Settle complete. Drive motors stopped.")
+
 
 def parse_args():
     """Parse command-line options."""
@@ -61,6 +95,11 @@ def parse_args():
         '--yes',
         action='store_true',
         help='Run without the safety confirmation prompt.',
+    )
+    parser.add_argument(
+        '--no-settle',
+        action='store_true',
+        help='Skip the tiny forward settle before pickup.',
     )
     return parser.parse_args()
 
@@ -95,7 +134,13 @@ def main():
         return
 
     print()
-    print("Approach reached handoff. Starting pickup sequence...")
+    print("Approach reached handoff.")
+    if not args.no_settle:
+        settle_forward(approach.board)
+    else:
+        print("Forward settle skipped.")
+
+    print("Starting pickup sequence...")
     pickup_result = run_pickup_sequence(approach.board)
 
     print()

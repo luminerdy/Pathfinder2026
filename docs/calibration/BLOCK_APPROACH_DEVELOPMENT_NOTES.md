@@ -55,8 +55,12 @@ These notes track active block detection and approach testing. This work is not 
 - Updated target lock behavior to follow the last accepted target, reject sudden farther/higher same-color detections, and use a stricter final pickup handoff tolerance of `25px`.
 - Added a fine-strafe correction near handoff so pickup alignment can be tighter than general approach alignment.
 - July 15 run at `8.15V` drove well and fine-strafed correctly, but missed the handoff. The log showed a good pickup stop candidate at about `14cm`, `offset=+3`, `y=302`; the robot then drove one more forward pulse, reached `12cm`, and lost the target.
-- Updated handoff to stop earlier when centered within `25px`, at about `14cm` or closer, and `y >= 300`.
-- Current handoff values are `HANDOFF_DISTANCE_MM = 140` and `HANDOFF_VIEW_Y_MIN = 300`.
+- Updated handoff to stop when centered within `25px`, at about `17cm` or closer, and `y >= 300`.
+- July 15 settle test showed approach still drove one pulse too far. The missed stop frame was about `17cm`, `offset=+19`, `y=345`, so the distance handoff was moved back to `170mm` while keeping `y >= 300`.
+- Photos after the run showed the block centered well, about 5 inches from the robot, but still forward of the claw pickup geometry.
+- Added a tiny forward settle in the combined approach-and-pickup script before pickup: `24%` power for `0.12s`, with motors stopped before pickup begins.
+- July 15 settle retest at about `7.97V`: approach stopped at about `14cm`, `offset=+18`, `y=345`, ran the forward settle, then pickup reported `SUCCESS`.
+- Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 300`.
 - Current pickup alignment tolerance is `PICKUP_X_TOLERANCE_PX = 25`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
 - The viewer looked stable with Blue-only selection and three close blue blocks.
@@ -90,6 +94,12 @@ Approach-and-pickup test:
 ```bash
 cd /home/robot/pathfinder
 python3 skills/block_approach_pickup/run_demo.py --color blue
+```
+
+Skip final settle if needed:
+
+```bash
+python3 skills/block_approach_pickup/run_demo.py --color blue --no-settle
 ```
 
 ## Next To-Dos

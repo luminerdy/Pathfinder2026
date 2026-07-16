@@ -10,7 +10,9 @@ only.
 1. Finds one selected block color.
 2. Drives to the approach handoff position.
 3. Stops the drive motors.
-4. Runs the tested front pickup arm sequence.
+4. Moves forward a tiny settle distance.
+5. Stops the drive motors again.
+6. Runs the tested front pickup arm sequence.
 
 The pickup sequence only runs if approach succeeds.
 
@@ -25,6 +27,12 @@ For repeat testing when the robot area is already clear:
 
 ```bash
 python3 skills/block_approach_pickup/run_demo.py --color blue --yes
+```
+
+To skip the final settle nudge:
+
+```bash
+python3 skills/block_approach_pickup/run_demo.py --color blue --no-settle
 ```
 
 Valid colors are `red`, `blue`, and `yellow`.
