@@ -111,6 +111,34 @@ Use these after the recommended demos are working. These are useful for camera-b
 
 ### Optional Demo Notes
 
+#### AprilTag Navigation
+
+This demo uses the camera to find one of the event AprilTags and drive toward it. The robot looks for the event tag IDs `582`, `583`, `584`, or `585`.
+
+**Caution:** The robot will turn while searching and drive when a tag is found. Put it on the floor, not on a table. Keep the area clear and keep hands away from the wheels.
+
+```bash
+python3 skills/apriltag_navigation/run_demo.py
+```
+
+Start with the robot about 3 to 5 feet from a printed tag. Good lighting matters. If the robot cannot find a tag, check that the tag is flat, not glossy, and visible to the camera.
+
+See [AprilTag Navigation](../../skills/apriltag_navigation/README.md) for tag IDs and tuning notes.
+
+#### Line Following
+
+This demo follows lime green tape using the camera and mecanum drive. It is useful for testing whether a taped path could become part of the course strategy.
+
+**Caution:** The robot will move as soon as it sees the line. Put it on the floor and keep the path clear.
+
+```bash
+python3 skills/line_following/run_demo.py
+```
+
+Use lime green tape with good contrast against the floor. Start with a simple straight line before trying curves or obstacles. Press `Ctrl+C` to stop the demo.
+
+See [Line Following](../../skills/line_following/README.md) for detection and tuning notes.
+
 #### Block Detection Viewer
 
 Use the viewer to see what the robot camera can identify before trying to move toward a block.
