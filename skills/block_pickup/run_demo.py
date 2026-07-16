@@ -29,11 +29,48 @@ PICKUP_CHECK_X_MAX = 520
 PICKUP_CHECK_Y_MIN = 345
 PICKUP_CHECK_MIN_PIXELS = 250
 PICKUP_CHECK_MIN_CONTOUR_AREA = 80
+PICKUP_ARM_MOVE_MS = 1200
+MAX_PICKUP_DRIVE_POWER = 40
+MAX_PICKUP_DRIVE_SECONDS = 0.60
 
 
 def stop_drive_motors(board):
     """Stop all four drive motors before moving the arm."""
     board.set_motor_duty([(1, 0), (2, 0), (3, 0), (4, 0)])
+
+
+def clamp(value, minimum, maximum):
+    """Keep calibration values inside a conservative test range."""
+    return max(minimum, min(maximum, value))
+
+
+def drive_forward_while_arm_moves(board, power, seconds, total_seconds):
+    """
+    Move forward briefly while the arm lowers into pickup position.
+
+    The block approach code stops with the cube centered and visible, but the
+    claw may still be a few inches behind it. This synchronized nudge lets the
+    robot keep moving into the block while the camera/arm moves into pickup pose.
+    """
+    power = int(clamp(power, 0, MAX_PICKUP_DRIVE_POWER))
+    seconds = clamp(seconds, 0.0, MAX_PICKUP_DRIVE_SECONDS)
+    if power <= 0 or seconds <= 0:
+        time.sleep(total_seconds)
+        return
+
+    print("Driving forward during arm drop at %d%% for %.2fs..." % (power, seconds))
+    try:
+        board.set_motor_duty([
+            (1, power),
+            (2, power),
+            (3, power),
+            (4, power),
+        ])
+        time.sleep(seconds)
+    finally:
+        stop_drive_motors(board)
+        remaining = max(0.0, total_seconds - seconds)
+        time.sleep(remaining)
 
 
 def block_visible_under_claw(color):
@@ -92,7 +129,14 @@ def block_visible_under_claw(color):
         camera.release()
 
 
-def run_pickup_sequence(board=None, color=DEFAULT_COLOR, verify_before_grab=False):
+def run_pickup_sequence(
+    board=None,
+    color=DEFAULT_COLOR,
+    verify_before_grab=False,
+    drive_during_arm=False,
+    drive_power=0,
+    drive_seconds=0.0,
+):
     """
     Run the tested front pickup arm sequence.
 
@@ -110,13 +154,21 @@ def run_pickup_sequence(board=None, color=DEFAULT_COLOR, verify_before_grab=Fals
 
     # Move the arm to the tested right-in-front pickup pose.
     # Servo 1 is intentionally not included here; it closes last.
-    board.set_servo_position(1200, [
+    board.set_servo_position(PICKUP_ARM_MOVE_MS, [
         (6, 1500),
         (5, 2120),
         (4, 2500),
         (3, 940),
     ])
-    time.sleep(1.3)
+    if drive_during_arm:
+        drive_forward_while_arm_moves(
+            board,
+            drive_power,
+            drive_seconds,
+            PICKUP_ARM_MOVE_MS / 1000.0 + 0.1,
+        )
+    else:
+        time.sleep(PICKUP_ARM_MOVE_MS / 1000.0 + 0.1)
 
     if verify_before_grab:
         check = block_visible_under_claw(color)
@@ -176,6 +228,23 @@ def parse_args():
         action='store_true',
         help='Run without the safety confirmation prompt.',
     )
+    parser.add_argument(
+        '--drive-during-arm',
+        action='store_true',
+        help='Calibration only: drive forward while lowering the arm.',
+    )
+    parser.add_argument(
+        '--drive-power',
+        type=int,
+        default=24,
+        help='Calibration drive power percent. Default: %(default)s',
+    )
+    parser.add_argument(
+        '--drive-seconds',
+        type=float,
+        default=0.25,
+        help='Calibration drive time while lowering the arm. Default: %(default)s',
+    )
     return parser.parse_args()
 
 
@@ -201,6 +270,9 @@ def main():
             board,
             color=args.color,
             verify_before_grab=args.check_camera,
+            drive_during_arm=args.drive_during_arm,
+            drive_power=args.drive_power,
+            drive_seconds=args.drive_seconds,
         )
         print()
         print("Result: %s" % ("COMPLETE" if result['success'] else "STOPPED"))

@@ -45,6 +45,8 @@ SETTLE_FORWARD_POWER = 24
 SETTLE_FORWARD_SECONDS = 0.0
 MAX_SETTLE_POWER = 45
 MAX_SETTLE_SECONDS = 0.60
+PICKUP_DRIVE_POWER = 24
+PICKUP_DRIVE_SECONDS = 0.25
 
 
 def stop_drive_motors(board):
@@ -114,6 +116,11 @@ def parse_args():
         help='Skip the camera check before the claw closes.',
     )
     parser.add_argument(
+        '--no-pickup-drive',
+        action='store_true',
+        help='Skip the short forward nudge while the arm lowers for pickup.',
+    )
+    parser.add_argument(
         '--settle-power',
         type=int,
         default=SETTLE_FORWARD_POWER,
@@ -124,6 +131,18 @@ def parse_args():
         type=float,
         default=SETTLE_FORWARD_SECONDS,
         help='Optional extra blind settle time. Default: %(default)s',
+    )
+    parser.add_argument(
+        '--pickup-drive-power',
+        type=int,
+        default=PICKUP_DRIVE_POWER,
+        help='Forward drive power while the arm lowers. Default: %(default)s',
+    )
+    parser.add_argument(
+        '--pickup-drive-seconds',
+        type=float,
+        default=PICKUP_DRIVE_SECONDS,
+        help='Forward drive time while the arm lowers. Default: %(default)s',
     )
     return parser.parse_args()
 
@@ -172,6 +191,9 @@ def main():
         approach.board,
         color=args.color,
         verify_before_grab=not args.no_pickup_check,
+        drive_during_arm=not args.no_pickup_drive,
+        drive_power=args.pickup_drive_power,
+        drive_seconds=args.pickup_drive_seconds,
     )
 
     print()

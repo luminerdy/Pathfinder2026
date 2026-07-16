@@ -14,8 +14,8 @@ only.
 5. Drives forward while moving the camera down in small steps.
 6. Relaxes the size rule for that same locked block as it grows close to the camera.
 7. Keeps following the locked block into the bottom edge of the camera view.
-8. Stops when that close, centered block is no longer detected for three frames.
-9. Moves the arm to the pickup pose.
+8. Stops at a visible pickup handoff near the final camera angle.
+9. Moves the arm to the pickup pose while driving forward briefly.
 10. Checks for target-color pixels under the claw.
 11. Closes the claw only if that final pickup-zone check passes.
 
@@ -49,6 +49,19 @@ python3 skills/block_approach_pickup/run_demo.py --color blue --settle-seconds 0
 
 Do this only during calibration. The robot cannot see the block during that
 extra movement.
+
+The pickup transition includes a short forward drive while the arm lowers. Tune
+that movement without editing code:
+
+```bash
+python3 skills/block_approach_pickup/run_demo.py --color blue --pickup-drive-power 24 --pickup-drive-seconds 0.25
+```
+
+To disable that synchronized pickup drive during calibration:
+
+```bash
+python3 skills/block_approach_pickup/run_demo.py --color blue --no-pickup-drive
+```
 
 Valid colors are `red`, `blue`, and `yellow`.
 

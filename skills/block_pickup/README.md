@@ -10,13 +10,14 @@ the autonomous block approach and pickup behavior.
 - Stops the drive motors.
 - Opens the claw.
 - Moves the arm to the tested front pickup pose.
+- For calibration only, can drive forward briefly while lowering the arm.
 - Optionally checks whether the selected block color is visible under the claw.
 - Closes the claw on the block if the camera check passes, or immediately if
   the camera check is not enabled.
 - Lifts the arm to the carry position.
 
-The script does not drive the robot. The robot must already be positioned with
-one block directly in front of the claw.
+The script does not drive the robot by default. The robot must already be
+positioned with one block directly in front of the claw.
 
 ## Run
 
@@ -36,6 +37,13 @@ claw:
 
 ```bash
 python3 skills/block_pickup/run_demo.py --color blue --check-camera
+```
+
+Calibration only: to test the synchronized forward nudge used by the combined
+approach-and-pickup script:
+
+```bash
+python3 skills/block_pickup/run_demo.py --color blue --check-camera --drive-during-arm --drive-power 24 --drive-seconds 0.25
 ```
 
 ## Safety
