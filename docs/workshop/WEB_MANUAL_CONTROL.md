@@ -59,17 +59,17 @@ Use these only after the team has already tested the individual capability demos
 |--------|--------|
 | AprilTag Nav | Moves the arm/camera forward, searches for event AprilTags `582`, `583`, `584`, or `585`, drives toward the detected tag, then returns to web control |
 | Line Follow | Moves the camera down, follows the lime green tape, then returns to web control |
-| Block Detect | Turns red, blue, and yellow block detection boxes on or off in the live camera feed |
+| Block Detect color checkboxes | Turns red, blue, and yellow block detection boxes on or off by color in the live camera feed |
 | Stop Automation | Requests cancellation and stops the drive motors |
 
 While an automation runs, the live camera feed shows tracking overlays:
 
 - AprilTag Nav: visible event tags are boxed and labeled.
 - Line Follow: the center line and detected line position are shown.
-- Block Detect: colored block boxes and the selected green target box are shown while the toggle is on.
+- Block Detect: selected color boxes and the selected green target box are shown while one or more color checkboxes are selected.
 
 Manual drive commands are blocked while automation is running. Press `Stop Automation` before returning to manual driving.
-Block Detect is only a camera overlay. It does not drive the robot.
+Block Detect is only a camera overlay. It starts with no colors selected and does not drive the robot.
 
 ## If A Movement Button Does Not Respond
 

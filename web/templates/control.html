@@ -193,7 +193,7 @@
 
         .automation-controls {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 15px;
         }
@@ -213,9 +213,34 @@
             background: #f44336;
         }
 
-        .automation-button.toggle-on {
-            background: #4CAF50;
+        .block-detect-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 12px;
         }
+
+        .block-filter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .block-filter input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .block-filter.red { color: #ff8a8a; }
+        .block-filter.blue { color: #7ab0ff; }
+        .block-filter.yellow { color: #fff27a; }
 
         .automation-button:disabled {
             background: #666;
@@ -254,13 +279,26 @@
                 <div class="automation-controls">
                     <button class="automation-button" id="btn-auto-apriltag">AprilTag Nav</button>
                     <button class="automation-button" id="btn-auto-line">Line Follow</button>
-                    <button class="automation-button" id="btn-block-detect">Block Detect: Off</button>
                     <button class="automation-button stop" id="btn-auto-stop">Stop Automation</button>
+                </div>
+                <div class="block-detect-controls" aria-label="Block detection color filters">
+                    <label class="block-filter red">
+                        <input type="checkbox" id="block-color-red" value="red">
+                        Red
+                    </label>
+                    <label class="block-filter blue">
+                        <input type="checkbox" id="block-color-blue" value="blue">
+                        Blue
+                    </label>
+                    <label class="block-filter yellow">
+                        <input type="checkbox" id="block-color-yellow" value="yellow">
+                        Yellow
+                    </label>
                 </div>
                 <div id="automation-status" class="automation-status">Automation ready.</div>
                 <div class="automation-note">
                     AprilTag Nav moves the arm/camera forward first. Line Follow moves the camera down.
-                    Block Detect adds red, blue, and yellow detection boxes to the live feed.
+                    Select one or more block colors to add detection boxes to the live feed.
                 </div>
             </div>
 
@@ -663,9 +701,8 @@
         const autoApriltagButton = document.getElementById('btn-auto-apriltag');
         const autoLineButton = document.getElementById('btn-auto-line');
         const autoStopButton = document.getElementById('btn-auto-stop');
-        const blockDetectButton = document.getElementById('btn-block-detect');
         const automationStatus = document.getElementById('automation-status');
-        let blockDetectionEnabled = false;
+        const blockColorIds = ['red', 'blue', 'yellow'];
 
         function setAutomationStatus(message, isError = false) {
             automationStatus.textContent = message;
@@ -679,28 +716,39 @@
             autoStopButton.disabled = !active;
         }
 
-        function setBlockDetectionButton(enabled) {
-            blockDetectionEnabled = enabled;
-            blockDetectButton.textContent = enabled ? 'Block Detect: On' : 'Block Detect: Off';
-            blockDetectButton.classList.toggle('toggle-on', enabled);
+        function getSelectedBlockColors() {
+            return blockColorIds.filter(color => {
+                return document.getElementById(`block-color-${color}`).checked;
+            });
+        }
+
+        function setSelectedBlockColors(colors) {
+            const selected = new Set(colors || []);
+            blockColorIds.forEach(color => {
+                const checkbox = document.getElementById(`block-color-${color}`);
+                if (checkbox) {
+                    checkbox.checked = selected.has(color);
+                }
+            });
         }
 
         function updateBlockDetectionStatus(data) {
             if (!data) {
                 return;
             }
-            setBlockDetectionButton(Boolean(data.enabled));
+            setSelectedBlockColors(data.colors || []);
             if (!data.enabled) {
                 return;
             }
             const target = data.selected_target;
+            const colors = (data.colors || []).join(', ');
             if (target) {
                 setAutomationStatus(
-                    `Block Detect: ${data.merged_count} block(s), selected ${target.color} ` +
+                    `Block Detect (${colors}): ${data.merged_count} block(s), selected ${target.color} ` +
                     `${target.distance_cm}cm offset ${target.offset}`
                 );
             } else {
-                setAutomationStatus(`Block Detect: ${data.merged_count} block(s), selected none`);
+                setAutomationStatus(`Block Detect (${colors}): ${data.merged_count} block(s), selected none`);
             }
         }
 
@@ -737,24 +785,24 @@
                 });
         }
 
-        function toggleBlockDetection() {
-            const nextState = !blockDetectionEnabled;
-            setBlockDetectionButton(nextState);
-            setAutomationStatus(nextState ? 'Starting block detection overlay...' : 'Stopping block detection overlay...');
-            postJson('/block_detection/toggle', {enabled: nextState})
+        function updateBlockDetectionColors() {
+            const colors = getSelectedBlockColors();
+            const label = colors.length ? colors.join(', ') : 'none';
+            setAutomationStatus(colors.length ? `Block Detect: ${label}` : 'Block Detect off.');
+            postJson('/block_detection/toggle', {colors: colors})
                 .then(response => response.json())
                 .then(data => {
                     if (data.status !== 'ok') {
-                        setBlockDetectionButton(!nextState);
                         setAutomationStatus(data.message || 'Block detection toggle failed.', true);
+                        updateBlockDetection();
                         return;
                     }
                     updateBlockDetectionStatus(data.block_detection);
                 })
                 .catch(error => {
-                    setBlockDetectionButton(!nextState);
                     setAutomationStatus('Block detection request did not reach the robot.', true);
                     console.log('Block detection toggle failed:', error);
+                    updateBlockDetection();
                 });
         }
 
@@ -788,7 +836,9 @@
         autoApriltagButton.addEventListener('click', () => startAutomation('apriltag'));
         autoLineButton.addEventListener('click', () => startAutomation('line'));
         autoStopButton.addEventListener('click', stopAutomation);
-        blockDetectButton.addEventListener('click', toggleBlockDetection);
+        blockColorIds.forEach(color => {
+            document.getElementById(`block-color-${color}`).addEventListener('change', updateBlockDetectionColors);
+        });
 
         // Battery monitoring
         function updateBattery() {

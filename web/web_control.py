@@ -68,6 +68,7 @@ tracking_state = {
 }
 block_detection_state = {
     'enabled': False,
+    'colors': [],
     'raw_count': 0,
     'merged_count': 0,
     'selected_target': None,
@@ -312,11 +313,13 @@ def block_target_to_dict(block):
     }
 
 
-def set_block_detection_enabled(enabled):
-    """Turn the block detection overlay on or off."""
+def set_block_detection_colors(colors):
+    """Select which block colors should be shown in the overlay."""
+    selected = [color for color in BLOCK_DETECTION_COLORS if color in colors]
     with automation_lock:
         block_detection_state.update({
-            'enabled': bool(enabled),
+            'enabled': bool(selected),
+            'colors': selected,
             'raw_count': 0,
             'merged_count': 0,
             'selected_target': None,
@@ -586,10 +589,11 @@ def draw_selected_block_overlay(frame, target):
 def draw_block_detection_overlay(frame):
     """Draw block detections on the live camera feed when enabled."""
     state = get_block_detection_snapshot()
-    if not state['enabled']:
+    colors = state.get('colors', [])
+    if not colors:
         return
 
-    raw_blocks = BLOCK_DETECTOR.detect(frame, colors=BLOCK_DETECTION_COLORS)
+    raw_blocks = BLOCK_DETECTOR.detect(frame, colors=colors)
     blocks = BLOCK_DETECTOR.merge_close_detections(raw_blocks)
     target = BLOCK_DETECTOR.select_pickup_target(
         blocks,
@@ -603,7 +607,7 @@ def draw_block_detection_overlay(frame):
              (frame.shape[1] // 2, frame.shape[0]), (255, 255, 255), 1)
     cv2.line(frame, (0, frame.shape[0] // 2),
              (frame.shape[1], frame.shape[0] // 2), (120, 120, 120), 1)
-    cv2.putText(frame, 'block detection on', (10, 105),
+    cv2.putText(frame, 'blocks: %s' % ', '.join(colors), (10, 105),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 255), 2)
     detection_label = 'blocks: %d' % len(blocks)
     if len(raw_blocks) != len(blocks):
@@ -917,10 +921,23 @@ def block_detection_status():
 
 @app.route('/block_detection/toggle', methods=['POST'])
 def block_detection_toggle():
-    """Turn the block detection overlay on or off."""
+    """Select which block colors the overlay should show."""
     data = request.json or {}
-    enabled = bool(data.get('enabled'))
-    set_block_detection_enabled(enabled)
+    colors = data.get('colors', [])
+    if not isinstance(colors, list):
+        return jsonify({
+            'status': 'error',
+            'message': 'colors must be a list',
+        }), 400
+
+    invalid = [color for color in colors if color not in BLOCK_DETECTION_COLORS]
+    if invalid:
+        return jsonify({
+            'status': 'error',
+            'message': 'Invalid color: %s' % invalid[0],
+        }), 400
+
+    set_block_detection_colors(colors)
     return jsonify({
         'status': 'ok',
         'block_detection': get_block_detection_snapshot(),
