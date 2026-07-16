@@ -100,12 +100,48 @@ Use these after the team has explored the individual capability scripts. Manual 
 
 ## Optional If Time Allows
 
-Use these after the recommended demos are working. These are useful for stronger autonomous runs, but teams should not get stuck here before they have a simple course strategy.
+Use these after the recommended demos are working. These are useful for camera-based and autonomous strategies, but teams should not get stuck here before they have a simple course strategy.
 
 | Capability | Demo |
 |------------|------|
 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
 | Line following | `python3 skills/line_following/run_demo.py` |
+| Block detection viewer | `python3 skills/block_detection/viewer.py` |
+| Block approach | `python3 skills/block_approach/run_demo.py --color blue` |
+
+### Optional Demo Notes
+
+#### Block Detection Viewer
+
+Use the viewer to see what the robot camera can identify before trying to move toward a block.
+
+```bash
+python3 skills/block_detection/viewer.py
+```
+
+From the Pi 500 browser, open:
+
+```text
+http://<ROBOT_IP>:8081
+```
+
+The viewer can filter for red, blue, and yellow blocks. The green box shows the selected target. The arm controls can move the camera angle, but this viewer does not drive the robot base.
+
+See [Block Detection](../../skills/block_detection/README.md) for snapshot and tuning notes.
+
+#### Block Approach
+
+This demo uses the camera to select one block color, center the robot, and drive close to the block. It does not grab the block.
+
+**Caution:** The robot will move as soon as the target is found. Put it on the floor, not on a table. Clear at least a 4-foot by 4-foot area and keep hands clear of the wheels, arm, and claw.
+
+```bash
+python3 skills/block_approach/run_demo.py --color blue
+```
+
+Change `blue` to `red` or `yellow` to test a different target color. Press `Ctrl+C` to stop the demo.
+
+See [Block Approach](../../skills/block_approach/README.md) for behavior notes and color options.
 
 ## Team Notes
 
