@@ -36,6 +36,7 @@ These notes track active block detection and approach testing. This work is not 
   - `X_TOLERANCE_PX = 60`.
 - Added a centering-stall stop so the robot does not keep pulsing if the target offset is not improving.
 - Added `skills/block_pickup/run_demo.py` as a pickup-only test that uses the tested `Arm.pickup_front()` sequence.
+- Ran `skills/block_approach_pickup/run_demo.py --color blue --yes` on the robot. Approach reached handoff and pickup completed.
 
 ## Current Calibration Notes
 
@@ -48,6 +49,8 @@ These notes track active block detection and approach testing. This work is not 
 - July 15 successful run: the robot locked a blue block, centered it, drove forward, adjusted camera angle, and stopped with `Result: SUCCESS`, `Reason: reached`.
 - Successful final camera view after the run showed the selected blue block still visible at about `17cm`, `offset=+43`.
 - July 15 pickup-only test: ran `Arm.pickup_front()` from the approach handoff position. The post-pickup camera snapshot showed no blue block selected on the floor in front of the robot. This is a positive sign, but a human visual check is still needed to confirm the block is held in the claw.
+- July 15 combined test at about `7.62V`: approach locked a blue target, drove to handoff, reported `Approach result: SUCCESS`, then ran pickup and reported `Pickup result: SUCCESS`.
+- The post-combined-test camera snapshot still saw other blue blocks in the field, so it cannot prove the target block was held in the claw. Human visual confirmation is still required.
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 340`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
 - The viewer looked stable with Blue-only selection and three close blue blocks.
@@ -91,8 +94,8 @@ python3 skills/block_approach_pickup/run_demo.py --color blue
    - about 12 inches,
    - about 7 inches.
 2. Repeat the successful run with red and yellow blocks to confirm color-specific behavior.
-3. Have a human confirm whether the block is held in the claw after `skills/block_pickup/run_demo.py`.
-4. Test `skills/block_approach_pickup/run_demo.py --color blue` from a clean starting position with one blue block visible.
+3. Have a human confirm whether the block is held in the claw after `skills/block_approach_pickup/run_demo.py --color blue`.
+4. If blue pickup is confirmed, repeat the combined test with red and yellow blocks.
 5. Decide whether the approach should:
    - keep pulsed stop-look-drive motion, or
    - move toward a slow continuous drive while camera angle changes.
