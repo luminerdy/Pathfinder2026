@@ -38,7 +38,9 @@ VALID_COLORS = ('red', 'blue', 'yellow')
 MAX_RUNTIME_SECONDS = 20.0
 STABLE_FRAMES_REQUIRED = 4
 STABLE_CENTER_SHIFT_PX = 45
-LOCK_MATCH_MAX_SHIFT_PX = 120
+LOCK_MATCH_MAX_SHIFT_PX = 90
+LOCK_DISTANCE_JUMP_MM = 120
+LOCK_Y_DROP_PX = 20
 LOST_TARGET_LIMIT = 8
 APPROACH_EDGE_MARGIN_PX = 50
 APPROACH_MAX_TARGET_DISTANCE_MM = 450
@@ -46,11 +48,14 @@ CENTER_PROGRESS_MIN_PX = 8
 CENTER_PROGRESS_LIMIT = 10
 
 X_TOLERANCE_PX = 60
+PICKUP_X_TOLERANCE_PX = 25
 
 FORWARD_POWER = 30
 STRAFE_POWER = 42
+FINE_STRAFE_POWER = 34
 FORWARD_PULSE_SECONDS = 0.16
 STRAFE_PULSE_SECONDS = 0.35
+FINE_STRAFE_PULSE_SECONDS = 0.18
 LOOK_PAUSE_SECONDS = 0.12
 
 APPROACH_START_S5 = 950
@@ -121,7 +126,12 @@ class BlockApproachDemo:
         rear_left = vy - vx
         rear_right = vy + vx
 
-        pulse_seconds = STRAFE_PULSE_SECONDS if vx else FORWARD_PULSE_SECONDS
+        if not vx:
+            pulse_seconds = FORWARD_PULSE_SECONDS
+        elif abs(vx) <= FINE_STRAFE_POWER:
+            pulse_seconds = FINE_STRAFE_PULSE_SECONDS
+        else:
+            pulse_seconds = STRAFE_PULSE_SECONDS
 
         self.set_motors(front_left, front_right, rear_left, rear_right)
         time.sleep(pulse_seconds)
@@ -192,9 +202,13 @@ class BlockApproachDemo:
             )
 
         locked_candidates = []
+        reference = self.last_target or self.locked_target
         for block in candidates:
-            dx = block.center_x - self.locked_target.center_x
-            dy = block.center_y - self.locked_target.center_y
+            if self.is_wrong_locked_target(block, reference):
+                continue
+
+            dx = block.center_x - reference.center_x
+            dy = block.center_y - reference.center_y
             shift = (dx * dx + dy * dy) ** 0.5
             if shift <= LOCK_MATCH_MAX_SHIFT_PX:
                 locked_candidates.append((shift, block))
@@ -203,6 +217,24 @@ class BlockApproachDemo:
             return None
 
         return min(locked_candidates, key=lambda item: item[0])[1]
+
+    def is_wrong_locked_target(self, block, reference):
+        """
+        Reject likely target swaps after a block is locked.
+
+        During approach, the real target should generally get closer and lower
+        in the image. If a candidate suddenly looks much farther away and moves
+        higher in the image, it is probably a different same-color block.
+        """
+        if reference is None:
+            return False
+
+        distance_jump = block.estimated_distance_mm - reference.estimated_distance_mm
+        y_drop = reference.center_y - block.center_y
+        return (
+            distance_jump > LOCK_DISTANCE_JUMP_MM
+            and y_drop > LOCK_Y_DROP_PX
+        )
 
     def filter_approach_candidates(self, blocks):
         """Keep only blocks that are reasonable approach targets."""
@@ -262,12 +294,24 @@ class BlockApproachDemo:
         if self.at_front_approach_position(target):
             return 'reached', 0, 0
 
+        if self.near_pickup_handoff(target) and abs(offset) > PICKUP_X_TOLERANCE_PX:
+            if offset > 0:
+                return 'fine strafe right', FINE_STRAFE_POWER, 0
+            return 'fine strafe left', -FINE_STRAFE_POWER, 0
+
         if abs(offset) > X_TOLERANCE_PX:
             if offset > 0:
                 return 'strafe right', STRAFE_POWER, 0
             return 'strafe left', -STRAFE_POWER, 0
 
         return 'forward', 0, FORWARD_POWER
+
+    def near_pickup_handoff(self, target):
+        """Return True when only small centering corrections should remain."""
+        return (
+            target.estimated_distance_mm <= HANDOFF_DISTANCE_MM + 50
+            or target.center_y >= HANDOFF_VIEW_Y_MIN - 30
+        )
 
     def centering_has_stalled(self, target):
         """
@@ -319,7 +363,7 @@ class BlockApproachDemo:
         pickup routine can take over while the target is still visible.
         """
         return (
-            abs(target.offset_from_center) <= X_TOLERANCE_PX
+            abs(target.offset_from_center) <= PICKUP_X_TOLERANCE_PX
             and (
                 (
                     target.estimated_distance_mm <= HANDOFF_DISTANCE_MM

@@ -51,7 +51,11 @@ These notes track active block detection and approach testing. This work is not 
 - July 15 pickup-only test: ran `Arm.pickup_front()` from the approach handoff position. The post-pickup camera snapshot showed no blue block selected on the floor in front of the robot. This is a positive sign, but a human visual check is still needed to confirm the block is held in the claw.
 - July 15 combined test at about `7.62V`: approach locked a blue target, drove to handoff, reported `Approach result: SUCCESS`, then ran pickup and reported `Pickup result: SUCCESS`.
 - The post-combined-test camera snapshot still saw other blue blocks in the field, so it cannot prove the target block was held in the claw. Human visual confirmation is still required.
+- Later July 15 run at `7.43V` showed the tracker switching from the near blue block to a farther blue block: distance jumped from about `17cm` to about `39cm` while the target moved higher in the image.
+- Updated target lock behavior to follow the last accepted target, reject sudden farther/higher same-color detections, and use a stricter final pickup handoff tolerance of `25px`.
+- Added a fine-strafe correction near handoff so pickup alignment can be tighter than general approach alignment.
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 340`.
+- Current pickup alignment tolerance is `PICKUP_X_TOLERANCE_PX = 25`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
 - The viewer looked stable with Blue-only selection and three close blue blocks.
 - Added a combined approach-and-pickup script. It only runs pickup if approach reports success.
