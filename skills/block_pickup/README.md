@@ -10,7 +10,9 @@ the autonomous block approach and pickup behavior.
 - Stops the drive motors.
 - Opens the claw.
 - Moves the arm to the tested front pickup pose.
-- Closes the claw on the block.
+- Optionally checks whether the selected block color is visible under the claw.
+- Closes the claw on the block if the camera check passes, or immediately if
+  the camera check is not enabled.
 - Lifts the arm to the carry position.
 
 The script does not drive the robot. The robot must already be positioned with
@@ -27,6 +29,13 @@ For repeat testing when the block is already placed and the arm area is clear:
 
 ```bash
 python3 skills/block_pickup/run_demo.py --yes
+```
+
+To stop before closing the claw unless the target color is visible under the
+claw:
+
+```bash
+python3 skills/block_pickup/run_demo.py --color blue --check-camera
 ```
 
 ## Safety

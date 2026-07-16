@@ -62,6 +62,7 @@ These notes track active block detection and approach testing. This work is not 
 - July 15 settle retest at about `7.97V`: approach stopped at about `14cm`, `offset=+18`, `y=345`, ran the forward settle, then pickup reported `SUCCESS`.
 - July 15 settle retest at `7.80V`: approach stopped at about `14cm`, `offset=+17`, `y=318`, ran the `24%` / `0.12s` settle, then pickup reported `SUCCESS`, but photos showed the block still on the floor about 8 inches from the robot.
 - Increased the default settle to `24%` / `0.28s` and added `--settle-power` plus `--settle-seconds` so the final nudge can be tuned without editing code.
+- Added a pickup-pose camera check before the claw closes. At the actual grab pose the block may only be partly visible at the bottom of the image, so this check looks for target-color pixels in the lower center of the frame instead of requiring the full-block target selector.
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 300`.
 - Current pickup alignment tolerance is `PICKUP_X_TOLERANCE_PX = 25`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
@@ -108,6 +109,12 @@ Tune final settle distance if needed:
 
 ```bash
 python3 skills/block_approach_pickup/run_demo.py --color blue --settle-seconds 0.35
+```
+
+Skip the pickup camera check only when intentionally testing the arm sequence:
+
+```bash
+python3 skills/block_approach_pickup/run_demo.py --color blue --no-pickup-check
 ```
 
 ## Next To-Dos

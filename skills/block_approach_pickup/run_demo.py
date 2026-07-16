@@ -109,6 +109,11 @@ def parse_args():
         help='Skip the tiny forward settle before pickup.',
     )
     parser.add_argument(
+        '--no-pickup-check',
+        action='store_true',
+        help='Skip the camera check before the claw closes.',
+    )
+    parser.add_argument(
         '--settle-power',
         type=int,
         default=SETTLE_FORWARD_POWER,
@@ -160,7 +165,11 @@ def main():
         print("Forward settle skipped.")
 
     print("Starting pickup sequence...")
-    pickup_result = run_pickup_sequence(approach.board)
+    pickup_result = run_pickup_sequence(
+        approach.board,
+        color=args.color,
+        verify_before_grab=not args.no_pickup_check,
+    )
 
     print()
     print("Pickup result: %s" % (

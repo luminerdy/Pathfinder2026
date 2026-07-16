@@ -12,7 +12,9 @@ only.
 3. Stops the drive motors.
 4. Moves forward a tiny settle distance.
 5. Stops the drive motors again.
-6. Runs the tested front pickup arm sequence.
+6. Moves the arm to the pickup pose.
+7. Checks whether the selected block color is visible under the claw.
+8. Closes the claw only if the pickup camera check passes.
 
 The pickup sequence only runs if approach succeeds.
 
@@ -33,6 +35,12 @@ To skip the final settle nudge:
 
 ```bash
 python3 skills/block_approach_pickup/run_demo.py --color blue --no-settle
+```
+
+To skip the pickup camera check during calibration:
+
+```bash
+python3 skills/block_approach_pickup/run_demo.py --color blue --no-pickup-check
 ```
 
 To tune the final settle nudge during testing:
