@@ -42,7 +42,7 @@ BlockApproachDemo = approach_module.BlockApproachDemo
 run_pickup_sequence = pickup_module.run_pickup_sequence
 
 SETTLE_FORWARD_POWER = 24
-SETTLE_FORWARD_SECONDS = 0.28
+SETTLE_FORWARD_SECONDS = 0.0
 MAX_SETTLE_POWER = 45
 MAX_SETTLE_SECONDS = 0.60
 
@@ -106,7 +106,7 @@ def parse_args():
     parser.add_argument(
         '--no-settle',
         action='store_true',
-        help='Skip the tiny forward settle before pickup.',
+        help='Skip an explicitly requested extra forward settle before pickup.',
     )
     parser.add_argument(
         '--no-pickup-check',
@@ -123,7 +123,7 @@ def parse_args():
         '--settle-seconds',
         type=float,
         default=SETTLE_FORWARD_SECONDS,
-        help='Forward settle time in seconds. Default: %(default)s',
+        help='Optional extra blind settle time. Default: %(default)s',
     )
     return parser.parse_args()
 
@@ -145,7 +145,10 @@ def main():
         input("Press Enter when the robot area is clear and the block is visible...")
 
     approach = BlockApproachDemo(color=args.color)
-    approach_result = approach.run(timeout=args.timeout)
+    approach_result = approach.run(
+        timeout=args.timeout,
+        track_until_lost=True,
+    )
 
     print()
     print("Approach result: %s" % (
@@ -158,11 +161,11 @@ def main():
         return
 
     print()
-    print("Approach reached handoff.")
-    if not args.no_settle:
+    print("Approach tracked the block below the camera handoff point.")
+    if not args.no_settle and args.settle_seconds > 0:
         settle_forward(approach.board, args.settle_power, args.settle_seconds)
     else:
-        print("Forward settle skipped.")
+        print("No blind forward settle; pickup starts from the tracked handoff.")
 
     print("Starting pickup sequence...")
     pickup_result = run_pickup_sequence(

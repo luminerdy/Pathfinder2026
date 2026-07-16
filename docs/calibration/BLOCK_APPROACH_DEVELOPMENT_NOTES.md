@@ -63,6 +63,8 @@ These notes track active block detection and approach testing. This work is not 
 - July 15 settle retest at `7.80V`: approach stopped at about `14cm`, `offset=+17`, `y=318`, ran the `24%` / `0.12s` settle, then pickup reported `SUCCESS`, but photos showed the block still on the floor about 8 inches from the robot.
 - Increased the default settle to `24%` / `0.28s` and added `--settle-power` plus `--settle-seconds` so the final nudge can be tuned without editing code.
 - Added a pickup-pose camera check before the claw closes. At the actual grab pose the block may only be partly visible at the bottom of the image, so this check looks for target-color pixels in the lower center of the frame instead of requiring the full-block target selector.
+- Replaced the early vision handoff with close tracking for the combined demo. Once the block is close and centered, the robot continues checking it after every movement, drives while lowering the camera in small steps, and only hands off to pickup after the selected green-box target disappears for three consecutive frames.
+- Removed the blind forward settle from the default combined run. It remains available only as an explicit calibration option with `--settle-seconds`.
 - Current handoff values are `HANDOFF_DISTANCE_MM = 170` and `HANDOFF_VIEW_Y_MIN = 300`.
 - Current pickup alignment tolerance is `PICKUP_X_TOLERANCE_PX = 25`.
 - If blocks are very close together, too much merge padding can combine separate blocks. Current merge padding is `8px`.
@@ -99,13 +101,7 @@ cd /home/robot/pathfinder
 python3 skills/block_approach_pickup/run_demo.py --color blue
 ```
 
-Skip final settle if needed:
-
-```bash
-python3 skills/block_approach_pickup/run_demo.py --color blue --no-settle
-```
-
-Tune final settle distance if needed:
+Add an optional final settle only if tracked-handoff testing proves it is needed:
 
 ```bash
 python3 skills/block_approach_pickup/run_demo.py --color blue --settle-seconds 0.35
@@ -127,9 +123,7 @@ python3 skills/block_approach_pickup/run_demo.py --color blue --no-pickup-check
 2. Repeat the successful run with red and yellow blocks to confirm color-specific behavior.
 3. Have a human confirm whether the block is held in the claw after `skills/block_approach_pickup/run_demo.py --color blue`.
 4. If blue pickup is confirmed, repeat the combined test with red and yellow blocks.
-5. Decide whether the approach should:
-   - keep pulsed stop-look-drive motion, or
-   - move toward a slow continuous drive while camera angle changes.
+5. Confirm that the close-tracking handoff only triggers after the selected block leaves the camera view, not after an ordinary distant detection failure.
 6. Do not add this to the event participant flow yet.
 
 ## Known Risks

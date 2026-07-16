@@ -42,6 +42,7 @@ LOCK_MATCH_MAX_SHIFT_PX = 90
 LOCK_DISTANCE_JUMP_MM = 120
 LOCK_Y_DROP_PX = 20
 LOST_TARGET_LIMIT = 8
+CLOSE_TARGET_LOST_LIMIT = 3
 APPROACH_EDGE_MARGIN_PX = 50
 APPROACH_MAX_TARGET_DISTANCE_MM = 450
 CENTER_PROGRESS_MIN_PX = 8
@@ -86,6 +87,7 @@ class BlockApproachDemo:
         self.no_center_progress_frames = 0
         self.stable_count = 0
         self.current_s5 = APPROACH_START_S5
+        self.pickup_handoff_armed = False
 
     def open_camera(self):
         """Open the USB camera."""
@@ -126,17 +128,40 @@ class BlockApproachDemo:
         rear_left = vy - vx
         rear_right = vy + vx
 
-        if not vx:
-            pulse_seconds = FORWARD_PULSE_SECONDS
-        elif abs(vx) <= FINE_STRAFE_POWER:
-            pulse_seconds = FINE_STRAFE_PULSE_SECONDS
-        else:
-            pulse_seconds = STRAFE_PULSE_SECONDS
+        pulse_seconds = self.pulse_duration(vx)
 
         self.set_motors(front_left, front_right, rear_left, rear_right)
         time.sleep(pulse_seconds)
         self.stop()
         time.sleep(LOOK_PAUSE_SECONDS)
+
+    def pulse_duration(self, vx):
+        """Return the calibrated duration for a forward or strafe pulse."""
+        if not vx:
+            return FORWARD_PULSE_SECONDS
+        if abs(vx) <= FINE_STRAFE_POWER:
+            return FINE_STRAFE_PULSE_SECONDS
+        return STRAFE_PULSE_SECONDS
+
+    def drive_and_tilt_pulse(self, s5, vx=0, vy=0):
+        """Drive briefly while the shoulder moves the camera farther down."""
+        s5 = int(max(APPROACH_MIN_S5, min(APPROACH_MAX_S5, s5)))
+        pulse_seconds = self.pulse_duration(vx)
+        servo_seconds = ARM_MOVE_MS / 1000.0
+
+        front_left = vy + vx
+        front_right = vy - vx
+        rear_left = vy - vx
+        rear_right = vy + vx
+
+        # Servo movement continues after this command, so the short drive pulse
+        # and camera tilt happen together while the target is still tracked.
+        self.board.set_servo_position(ARM_MOVE_MS, [(5, s5)])
+        self.current_s5 = s5
+        self.set_motors(front_left, front_right, rear_left, rear_right)
+        time.sleep(pulse_seconds)
+        self.stop()
+        time.sleep(max(0.0, servo_seconds - pulse_seconds) + LOOK_PAUSE_SECONDS)
 
     def set_approach_camera(self, s5, duration_ms=ARM_MOVE_MS):
         """Move only the shoulder/camera angle within approach-safe limits."""
@@ -287,11 +312,11 @@ class BlockApproachDemo:
 
         return stable
 
-    def choose_action(self, target):
+    def choose_action(self, target, track_until_lost=False):
         """Return the next safe movement action for a stable target."""
         offset = target.offset_from_center
 
-        if self.at_front_approach_position(target):
+        if not track_until_lost and self.at_front_approach_position(target):
             return 'reached', 0, 0
 
         if self.near_pickup_handoff(target) and abs(offset) > PICKUP_X_TOLERANCE_PX:
@@ -354,13 +379,22 @@ class BlockApproachDemo:
             return 'camera forward'
         return 'camera steady'
 
+    def next_camera_adjustment(self, target):
+        """Return the next camera action and S5 target without moving it."""
+        y_error = target.center_y - TARGET_VIEW_Y
+        if y_error > TARGET_VIEW_TOLERANCE_PX and self.current_s5 < APPROACH_MAX_S5:
+            return 'camera down', min(self.current_s5 + ARM_STEP, APPROACH_MAX_S5)
+        if y_error < -TARGET_VIEW_TOLERANCE_PX and self.current_s5 > APPROACH_START_S5:
+            return 'camera forward', max(self.current_s5 - ARM_STEP, APPROACH_START_S5)
+        return 'camera steady', self.current_s5
+
     def at_front_approach_position(self, target):
         """
-        Return True when the block is close enough for the next pickup step.
+        Return True when the block is close, low, and tightly centered.
 
-        Testing showed that one more forward pulse after about 12-13 cm can
-        push the block below the camera view. Stop at this handoff point so the
-        pickup routine can take over while the target is still visible.
+        The approach-only demo stops here while the target is visible. The
+        combined demo uses this state to arm its handoff, then keeps tracking
+        until the same close target passes below the camera.
         """
         return (
             abs(target.offset_from_center) <= PICKUP_X_TOLERANCE_PX
@@ -376,7 +410,7 @@ class BlockApproachDemo:
             )
         )
 
-    def run(self, timeout=MAX_RUNTIME_SECONDS):
+    def run(self, timeout=MAX_RUNTIME_SECONDS, track_until_lost=False):
         """Run the approach-only demo."""
         if not self.check_battery():
             return {'success': False, 'reason': 'battery_low'}
@@ -406,6 +440,23 @@ class BlockApproachDemo:
                     self.stop()
                     if self.locked_target is not None:
                         self.lost_target_frames += 1
+
+                        if track_until_lost and self.pickup_handoff_armed:
+                            print("Close centered target no longer visible (%d/%d)." % (
+                                self.lost_target_frames,
+                                CLOSE_TARGET_LOST_LIMIT,
+                            ))
+                            if self.lost_target_frames >= CLOSE_TARGET_LOST_LIMIT:
+                                print("Target passed below camera. Motors stopped.")
+                                return {
+                                    'success': True,
+                                    'reason': 'target_below_camera',
+                                    'frames': frames,
+                                    's5': self.current_s5,
+                                }
+                            time.sleep(0.15)
+                            continue
+
                         print("Locked %s target lost (%d/%d)." % (
                             self.color,
                             self.lost_target_frames,
@@ -446,9 +497,31 @@ class BlockApproachDemo:
                     time.sleep(0.15)
                     continue
 
-                camera_action = self.adjust_camera_for_target(target)
+                if track_until_lost:
+                    was_armed = self.pickup_handoff_armed
+                    self.pickup_handoff_armed = self.at_front_approach_position(target)
+                    if self.pickup_handoff_armed and not was_armed:
+                        print("  Close tracking armed; continuing until target leaves view.")
+
+                action, vx, vy = self.choose_action(
+                    target,
+                    track_until_lost=track_until_lost,
+                )
+                camera_action, next_s5 = self.next_camera_adjustment(target)
                 if camera_action != 'camera steady':
-                    print("  Moving: %s (S5=%d)" % (camera_action, self.current_s5))
+                    if track_until_lost and camera_action == 'camera down':
+                        print("  Moving: %s + %s (S5=%d)" % (
+                            action,
+                            camera_action,
+                            next_s5,
+                        ))
+                        self.drive_and_tilt_pulse(next_s5, vx=vx, vy=vy)
+                    else:
+                        self.set_approach_camera(next_s5)
+                        print("  Moving: %s (S5=%d)" % (
+                            camera_action,
+                            self.current_s5,
+                        ))
                     continue
 
                 if self.centering_has_stalled(target):
@@ -461,7 +534,6 @@ class BlockApproachDemo:
                         'offset': target.offset_from_center,
                     }
 
-                action, vx, vy = self.choose_action(target)
                 if action == 'reached':
                     self.stop()
                     print("Reached front approach position. Motors stopped.")
