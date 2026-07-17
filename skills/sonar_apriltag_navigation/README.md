@@ -44,6 +44,7 @@ robot from walking too far sideways and losing the AprilTag.
 | `--strafe-direction` | `right` | First direction to slide around barriers |
 | `--strafe-mode` | `alternate` | Use opposite strafe direction on each barrier, or `fixed` |
 | `--extra-clearance` | `0.45` | Extra strafe seconds after the edge is found |
+| `--edge-timeout` | `12` | Maximum seconds to strafe while looking for one barrier edge |
 | `--target-distance` | `0.50` | Stop distance from the AprilTag in meters |
 
 ## Safety
@@ -67,3 +68,4 @@ Then add the next barrier and test again.
 If the robot still crawls in open space, increase `--forward-power`. If it gets
 too close before stopping, increase `--barrier-cm` or reduce `--slow-cm`. If it
 slides past a usable gap and reports `edge_not_found`, reduce `--clear-cm`.
+If the barrier is wider, increase `--edge-timeout`.

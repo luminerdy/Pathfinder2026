@@ -55,6 +55,7 @@ class SonarAprilTagNavigator:
             strafe_direction='right',
             strafe_mode='alternate',
             extra_clearance_seconds=0.45,
+            edge_timeout=12.0,
             forward_power=50,
             slow_forward_power=30,
             turn_power=35,
@@ -68,6 +69,7 @@ class SonarAprilTagNavigator:
         self.strafe_direction = strafe_direction
         self.strafe_mode = strafe_mode
         self.extra_clearance_seconds = extra_clearance_seconds
+        self.edge_timeout = edge_timeout
         self.forward_power = forward_power
         self.slow_forward_power = slow_forward_power
         self.turn_power = turn_power
@@ -198,7 +200,7 @@ class SonarAprilTagNavigator:
         print("Barrier %d detected. Strafing %s to find the edge." % (
             barrier_number, direction))
 
-        while time.time() - start < 8.0:
+        while time.time() - start < self.edge_timeout:
             distance_cm = self.read_sonar_cm()
             self.set_sonar_led(distance_cm)
 
@@ -385,6 +387,8 @@ def parse_args():
                         help='Alternate strafe direction each barrier, or keep it fixed.')
     parser.add_argument('--extra-clearance', type=float, default=0.45,
                         help='Extra strafe seconds after edge is found.')
+    parser.add_argument('--edge-timeout', type=float, default=12.0,
+                        help='Maximum seconds to strafe while looking for one barrier edge.')
     parser.add_argument('--timeout', type=float, default=90.0,
                         help='Maximum run time in seconds.')
     return parser.parse_args()
@@ -418,6 +422,7 @@ def main():
         strafe_direction=args.strafe_direction,
         strafe_mode=args.strafe_mode,
         extra_clearance_seconds=args.extra_clearance,
+        edge_timeout=args.edge_timeout,
         timeout=args.timeout,
     )
 
