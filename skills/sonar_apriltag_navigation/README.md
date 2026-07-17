@@ -17,6 +17,10 @@ If the robot needs to clear barriers in the opposite direction:
 python3 skills/sonar_apriltag_navigation/run_demo.py --strafe-direction left
 ```
 
+By default, each barrier alternates direction. For example, if the first
+barrier strafes right, the second barrier strafes left. This helps keep the
+robot from walking too far sideways and losing the AprilTag.
+
 ## What It Does
 
 1. Moves the arm/camera to the AprilTag viewing position.
@@ -37,7 +41,8 @@ python3 skills/sonar_apriltag_navigation/run_demo.py --strafe-direction left
 | `--clear-cm` | `55` | Treat the barrier edge as clear at this distance |
 | `--forward-power` | `50` | Normal forward motor power before the slow zone |
 | `--slow-forward-power` | `30` | Forward motor power inside the slow zone |
-| `--strafe-direction` | `right` | Direction to slide around barriers |
+| `--strafe-direction` | `right` | First direction to slide around barriers |
+| `--strafe-mode` | `alternate` | Use opposite strafe direction on each barrier, or `fixed` |
 | `--extra-clearance` | `0.45` | Extra strafe seconds after the edge is found |
 | `--target-distance` | `0.50` | Stop distance from the AprilTag in meters |
 

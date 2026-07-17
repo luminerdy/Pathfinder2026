@@ -11,6 +11,7 @@ navigation.
 Usage:
     python3 skills/sonar_apriltag_navigation/run_demo.py
     python3 skills/sonar_apriltag_navigation/run_demo.py --strafe-direction left
+    python3 skills/sonar_apriltag_navigation/run_demo.py --strafe-mode fixed
 
 Safety:
     - The robot will drive, strafe, and turn.
@@ -52,6 +53,7 @@ class SonarAprilTagNavigator:
             slow_cm=20.0,
             clear_cm=55.0,
             strafe_direction='right',
+            strafe_mode='alternate',
             extra_clearance_seconds=0.45,
             forward_power=50,
             slow_forward_power=30,
@@ -64,6 +66,7 @@ class SonarAprilTagNavigator:
         self.slow_cm = slow_cm
         self.clear_cm = clear_cm
         self.strafe_direction = strafe_direction
+        self.strafe_mode = strafe_mode
         self.extra_clearance_seconds = extra_clearance_seconds
         self.forward_power = forward_power
         self.slow_forward_power = slow_forward_power
@@ -170,20 +173,30 @@ class SonarAprilTagNavigator:
             return None, None, None
         return tag_id, distance, angle
 
-    def clear_barrier_edge(self, barrier_number):
+    def strafe_direction_for_barrier(self, barrier_number):
+        """Return the strafe direction for this barrier."""
+        if self.strafe_mode == 'fixed':
+            return self.strafe_direction
+
+        use_start_direction = barrier_number % 2 == 1
+        if use_start_direction:
+            return self.strafe_direction
+        return 'left' if self.strafe_direction == 'right' else 'right'
+
+    def clear_barrier_edge(self, barrier_number, direction):
         """
         Strafe until sonar no longer sees the barrier, then add wheel clearance.
 
         The course can contain several fixed boxes. This method handles one
         barrier edge and returns to the main loop so sonar can catch the next.
         """
-        direction_value = 1 if self.strafe_direction == 'right' else -1
+        direction_value = 1 if direction == 'right' else -1
         clear_count = 0
         start = time.time()
 
         print()
         print("Barrier %d detected. Strafing %s to find the edge." % (
-            barrier_number, self.strafe_direction))
+            barrier_number, direction))
 
         while time.time() - start < 8.0:
             distance_cm = self.read_sonar_cm()
@@ -258,8 +271,10 @@ class SonarAprilTagNavigator:
         print("Navigating toward AprilTag %d with continuous sonar checks." % self.tag_id)
         print("Fast forward: %d%% | slow: %d%% inside %.0f cm" % (
             self.forward_power, self.slow_forward_power, self.slow_cm))
-        print("Barrier stop: %.0f cm | clear edge: %.0f cm | strafe: %s" % (
-            self.barrier_cm, self.clear_cm, self.strafe_direction))
+        print("Barrier stop: %.0f cm | clear edge: %.0f cm" % (
+            self.barrier_cm, self.clear_cm))
+        print("Strafe mode: %s | start direction: %s" % (
+            self.strafe_mode, self.strafe_direction))
         print("-" * 60)
 
         while time.time() - start < self.timeout:
@@ -270,7 +285,8 @@ class SonarAprilTagNavigator:
                 self.stop()
                 barrier_count += 1
                 print("SONAR barrier %d at %.1f cm" % (barrier_count, distance_cm))
-                ok, reason = self.clear_barrier_edge(barrier_count)
+                direction = self.strafe_direction_for_barrier(barrier_count)
+                ok, reason = self.clear_barrier_edge(barrier_count, direction)
                 if not ok:
                     return {
                         'success': False,
@@ -363,7 +379,10 @@ def parse_args():
                         help='Forward motor power inside the slow zone.')
     parser.add_argument('--strafe-direction', choices=('left', 'right'),
                         default='right',
-                        help='Direction to strafe when a barrier is detected.')
+                        help='First strafe direction when a barrier is detected.')
+    parser.add_argument('--strafe-mode', choices=('alternate', 'fixed'),
+                        default='alternate',
+                        help='Alternate strafe direction each barrier, or keep it fixed.')
     parser.add_argument('--extra-clearance', type=float, default=0.45,
                         help='Extra strafe seconds after edge is found.')
     parser.add_argument('--timeout', type=float, default=60.0,
@@ -397,6 +416,7 @@ def main():
         forward_power=args.forward_power,
         slow_forward_power=args.slow_forward_power,
         strafe_direction=args.strafe_direction,
+        strafe_mode=args.strafe_mode,
         extra_clearance_seconds=args.extra_clearance,
         timeout=args.timeout,
     )
