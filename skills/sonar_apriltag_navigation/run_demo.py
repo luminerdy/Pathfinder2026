@@ -51,7 +51,7 @@ class SonarAprilTagNavigator:
             target_distance=0.50,
             barrier_cm=12.0,
             slow_cm=20.0,
-            clear_cm=45.0,
+            clear_cm=40.0,
             strafe_direction='right',
             strafe_mode='alternate',
             extra_clearance_seconds=0.45,
@@ -371,7 +371,7 @@ def parse_args():
                         help='Stop and strafe when sonar is this close.')
     parser.add_argument('--slow-cm', type=float, default=20.0,
                         help='Slow forward movement inside this sonar distance.')
-    parser.add_argument('--clear-cm', type=float, default=45.0,
+    parser.add_argument('--clear-cm', type=float, default=40.0,
                         help='Sonar distance that means barrier edge is clear.')
     parser.add_argument('--forward-power', type=int, default=50,
                         help='Normal forward motor power before the slow zone.')
