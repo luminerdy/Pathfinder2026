@@ -32,8 +32,11 @@ python3 skills/sonar_apriltag_navigation/run_demo.py --strafe-direction left
 | Option | Default | Meaning |
 |--------|---------|---------|
 | `--tag-id` | `583` | AprilTag to approach |
-| `--barrier-cm` | `28` | Stop and clear a barrier when sonar is this close |
+| `--barrier-cm` | `12` | Stop and clear a barrier when sonar is this close |
+| `--slow-cm` | `20` | Slow down when sonar is inside this distance |
 | `--clear-cm` | `55` | Treat the barrier edge as clear at this distance |
+| `--forward-power` | `50` | Normal forward motor power before the slow zone |
+| `--slow-forward-power` | `30` | Forward motor power inside the slow zone |
 | `--strafe-direction` | `right` | Direction to slide around barriers |
 | `--extra-clearance` | `0.45` | Extra strafe seconds after the edge is found |
 | `--target-distance` | `0.50` | Stop distance from the AprilTag in meters |
@@ -55,3 +58,6 @@ Start with one barrier. Confirm:
 - AprilTag `583` stays visible or becomes visible again after the strafe.
 
 Then add the next barrier and test again.
+
+If the robot still crawls in open space, increase `--forward-power`. If it gets
+too close before stopping, increase `--barrier-cm` or reduce `--slow-cm`.

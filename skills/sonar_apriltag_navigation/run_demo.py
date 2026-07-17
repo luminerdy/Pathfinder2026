@@ -48,21 +48,25 @@ class SonarAprilTagNavigator:
             self,
             tag_id=AREA2_TAG_ID,
             target_distance=0.50,
-            barrier_cm=28.0,
+            barrier_cm=12.0,
+            slow_cm=20.0,
             clear_cm=55.0,
             strafe_direction='right',
             extra_clearance_seconds=0.45,
-            forward_power=36,
+            forward_power=50,
+            slow_forward_power=30,
             turn_power=35,
             strafe_power=42,
             timeout=60.0):
         self.tag_id = tag_id
         self.target_distance = target_distance
         self.barrier_cm = barrier_cm
+        self.slow_cm = slow_cm
         self.clear_cm = clear_cm
         self.strafe_direction = strafe_direction
         self.extra_clearance_seconds = extra_clearance_seconds
         self.forward_power = forward_power
+        self.slow_forward_power = slow_forward_power
         self.turn_power = turn_power
         self.strafe_power = strafe_power
         self.timeout = timeout
@@ -116,7 +120,7 @@ class SonarAprilTagNavigator:
             self.sonar.set_led_color(0, 0, 0)
         elif distance_cm <= self.barrier_cm:
             self.sonar.set_led_color(255, 0, 0)
-        elif distance_cm <= self.clear_cm:
+        elif distance_cm <= self.slow_cm:
             self.sonar.set_led_color(255, 255, 0)
         else:
             self.sonar.set_led_color(0, 255, 0)
@@ -252,6 +256,8 @@ class SonarAprilTagNavigator:
 
         print()
         print("Navigating toward AprilTag %d with continuous sonar checks." % self.tag_id)
+        print("Fast forward: %d%% | slow: %d%% inside %.0f cm" % (
+            self.forward_power, self.slow_forward_power, self.slow_cm))
         print("Barrier stop: %.0f cm | clear edge: %.0f cm | strafe: %s" % (
             self.barrier_cm, self.clear_cm, self.strafe_direction))
         print("-" * 60)
@@ -311,13 +317,19 @@ class SonarAprilTagNavigator:
                 continue
 
             distance_error = max(0.0, tag_distance - self.target_distance)
-            forward = min(max(distance_error * 85.0, 32.0), self.forward_power)
+            near_barrier = (
+                distance_cm is not None
+                and self.barrier_cm < distance_cm <= self.slow_cm
+            )
+            speed_limit = self.slow_forward_power if near_barrier else self.forward_power
+            pulse_seconds = 0.07 if near_barrier else 0.14
+            forward = min(max(distance_error * 85.0, 32.0), speed_limit)
             turn = max(-12.0, min(12.0, angle * 1.0))
 
             # Move in short pulses. The next loop reads sonar again before the
             # robot is allowed to continue, so multiple barriers are handled.
             self.drive_arc(forward=forward, turn=turn)
-            time.sleep(0.08)
+            time.sleep(pulse_seconds)
             self.stop()
             time.sleep(0.04)
 
@@ -339,10 +351,16 @@ def parse_args():
                         help='AprilTag ID to approach. Default: 583.')
     parser.add_argument('--target-distance', type=float, default=0.50,
                         help='Stop distance from tag in meters. Default: 0.50.')
-    parser.add_argument('--barrier-cm', type=float, default=28.0,
-                        help='Sonar distance that means barrier ahead.')
+    parser.add_argument('--barrier-cm', type=float, default=12.0,
+                        help='Stop and strafe when sonar is this close.')
+    parser.add_argument('--slow-cm', type=float, default=20.0,
+                        help='Slow forward movement inside this sonar distance.')
     parser.add_argument('--clear-cm', type=float, default=55.0,
                         help='Sonar distance that means barrier edge is clear.')
+    parser.add_argument('--forward-power', type=int, default=50,
+                        help='Normal forward motor power before the slow zone.')
+    parser.add_argument('--slow-forward-power', type=int, default=30,
+                        help='Forward motor power inside the slow zone.')
     parser.add_argument('--strafe-direction', choices=('left', 'right'),
                         default='right',
                         help='Direction to strafe when a barrier is detected.')
@@ -374,7 +392,10 @@ def main():
         tag_id=args.tag_id,
         target_distance=args.target_distance,
         barrier_cm=args.barrier_cm,
+        slow_cm=args.slow_cm,
         clear_cm=args.clear_cm,
+        forward_power=args.forward_power,
+        slow_forward_power=args.slow_forward_power,
         strafe_direction=args.strafe_direction,
         extra_clearance_seconds=args.extra_clearance,
         timeout=args.timeout,
