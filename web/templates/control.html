@@ -241,6 +241,7 @@
         .block-filter.red { color: #ff8a8a; }
         .block-filter.blue { color: #7ab0ff; }
         .block-filter.yellow { color: #fff27a; }
+        .block-filter.sonar { color: #8fffd0; }
 
         .automation-button:disabled {
             background: #666;
@@ -281,7 +282,7 @@
                     <button class="automation-button" id="btn-auto-line">Line Follow</button>
                     <button class="automation-button stop" id="btn-auto-stop">Stop Automation</button>
                 </div>
-                <div class="block-detect-controls" aria-label="Block detection color filters">
+                <div class="block-detect-controls" aria-label="Camera overlays">
                     <label class="block-filter red">
                         <input type="checkbox" id="block-color-red" value="red">
                         Red
@@ -294,11 +295,16 @@
                         <input type="checkbox" id="block-color-yellow" value="yellow">
                         Yellow
                     </label>
+                    <label class="block-filter sonar">
+                        <input type="checkbox" id="sonar-overlay">
+                        Sonar
+                    </label>
                 </div>
                 <div id="automation-status" class="automation-status">Automation ready.</div>
+                <div id="overlay-status" class="automation-status">Camera overlays off.</div>
                 <div class="automation-note">
                     AprilTag Nav moves the arm/camera forward first. Line Follow moves the camera down.
-                    Select one or more block colors to add detection boxes to the live feed.
+                    Select block colors or Sonar to add camera overlays to the live feed.
                 </div>
             </div>
 
@@ -702,11 +708,18 @@
         const autoLineButton = document.getElementById('btn-auto-line');
         const autoStopButton = document.getElementById('btn-auto-stop');
         const automationStatus = document.getElementById('automation-status');
+        const overlayStatus = document.getElementById('overlay-status');
+        const sonarOverlayCheckbox = document.getElementById('sonar-overlay');
         const blockColorIds = ['red', 'blue', 'yellow'];
 
         function setAutomationStatus(message, isError = false) {
             automationStatus.textContent = message;
             automationStatus.style.color = isError ? '#ffb0b0' : '#ddd';
+        }
+
+        function setOverlayStatus(message, isError = false) {
+            overlayStatus.textContent = message;
+            overlayStatus.style.color = isError ? '#ffb0b0' : '#ddd';
         }
 
         function setAutomationButtons(active) {
@@ -738,17 +751,20 @@
             }
             setSelectedBlockColors(data.colors || []);
             if (!data.enabled) {
+                if (!sonarOverlayCheckbox.checked) {
+                    setOverlayStatus('Camera overlays off.');
+                }
                 return;
             }
             const target = data.selected_target;
             const colors = (data.colors || []).join(', ');
             if (target) {
-                setAutomationStatus(
+                setOverlayStatus(
                     `Block Detect (${colors}): ${data.merged_count} block(s), selected ${target.color} ` +
                     `${target.distance_cm}cm offset ${target.offset}`
                 );
             } else {
-                setAutomationStatus(`Block Detect (${colors}): ${data.merged_count} block(s), selected none`);
+                setOverlayStatus(`Block Detect (${colors}): ${data.merged_count} block(s), selected none`);
             }
         }
 
@@ -788,19 +804,19 @@
         function updateBlockDetectionColors() {
             const colors = getSelectedBlockColors();
             const label = colors.length ? colors.join(', ') : 'none';
-            setAutomationStatus(colors.length ? `Block Detect: ${label}` : 'Block Detect off.');
+            setOverlayStatus(colors.length ? `Block Detect: ${label}` : 'Block Detect off.');
             postJson('/block_detection/toggle', {colors: colors})
                 .then(response => response.json())
                 .then(data => {
                     if (data.status !== 'ok') {
-                        setAutomationStatus(data.message || 'Block detection toggle failed.', true);
+                        setOverlayStatus(data.message || 'Block detection toggle failed.', true);
                         updateBlockDetection();
                         return;
                     }
                     updateBlockDetectionStatus(data.block_detection);
                 })
                 .catch(error => {
-                    setAutomationStatus('Block detection request did not reach the robot.', true);
+                    setOverlayStatus('Block detection request did not reach the robot.', true);
                     console.log('Block detection toggle failed:', error);
                     updateBlockDetection();
                 });
@@ -833,12 +849,54 @@
                 .catch(error => console.log('Block detection status failed:', error));
         }
 
+        function updateSonarStatus(data) {
+            if (!data) {
+                return;
+            }
+            sonarOverlayCheckbox.checked = Boolean(data.enabled);
+            if (!data.enabled) {
+                if (getSelectedBlockColors().length === 0) {
+                    setOverlayStatus('Camera overlays off.');
+                }
+                return;
+            }
+            setOverlayStatus('Sonar: ' + (data.message || 'reading...'));
+        }
+
+        function updateSonarOverlay() {
+            const enabled = sonarOverlayCheckbox.checked;
+            setOverlayStatus(enabled ? 'Sonar overlay on.' : 'Sonar overlay off.');
+            postJson('/sonar/toggle', {enabled: enabled})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status !== 'ok') {
+                        setOverlayStatus(data.message || 'Sonar toggle failed.', true);
+                        updateSonar();
+                        return;
+                    }
+                    updateSonarStatus(data.sonar);
+                })
+                .catch(error => {
+                    setOverlayStatus('Sonar request did not reach the robot.', true);
+                    console.log('Sonar toggle failed:', error);
+                    updateSonar();
+                });
+        }
+
+        function updateSonar() {
+            getJson('/sonar/status')
+                .then(response => response.json())
+                .then(updateSonarStatus)
+                .catch(error => console.log('Sonar status failed:', error));
+        }
+
         autoApriltagButton.addEventListener('click', () => startAutomation('apriltag'));
         autoLineButton.addEventListener('click', () => startAutomation('line'));
         autoStopButton.addEventListener('click', stopAutomation);
         blockColorIds.forEach(color => {
             document.getElementById(`block-color-${color}`).addEventListener('change', updateBlockDetectionColors);
         });
+        sonarOverlayCheckbox.addEventListener('change', updateSonarOverlay);
 
         // Battery monitoring
         function updateBattery() {
@@ -861,9 +919,11 @@
         updateBattery();
         updateAutomationStatus();
         updateBlockDetection();
+        updateSonar();
         setInterval(updateBattery, 5000); // Update every 5 seconds
         setInterval(updateAutomationStatus, 1000);
         setInterval(updateBlockDetection, 1000);
+        setInterval(updateSonar, 1000);
     </script>
 </body>
 </html>

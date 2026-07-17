@@ -37,7 +37,9 @@ SAVED_POSITIONS_PATH = REPO_ROOT / 'saved_positions.json'
 # Global state
 board = get_board()
 camera = None  # Opened lazily to avoid locking camera on import
+sonar = None  # Opened lazily so non-robot syntax checks do not need I2C hardware
 camera_lock = threading.Lock()
+sonar_lock = threading.Lock()
 state_lock = threading.Lock()
 board_lock = threading.Lock()
 automation_lock = threading.Lock()
@@ -72,6 +74,13 @@ block_detection_state = {
     'raw_count': 0,
     'merged_count': 0,
     'selected_target': None,
+    'updated_at': 0.0,
+}
+sonar_overlay_state = {
+    'enabled': False,
+    'distance_mm': None,
+    'distance_cm': None,
+    'message': 'Off',
     'updated_at': 0.0,
 }
 drive_state_lock = threading.Lock()
@@ -331,6 +340,67 @@ def get_block_detection_snapshot():
     """Return the current block detection overlay status."""
     with automation_lock:
         return block_detection_state.copy()
+
+
+def get_sonar():
+    """Create the sonar object only when the overlay is used."""
+    global sonar
+    if sonar is None:
+        from lib.sonar import Sonar
+        sonar = Sonar()
+    return sonar
+
+
+def set_sonar_overlay_enabled(enabled):
+    """Turn the sonar distance overlay on or off."""
+    with state_lock:
+        sonar_overlay_state.update({
+            'enabled': bool(enabled),
+            'distance_mm': None,
+            'distance_cm': None,
+            'message': 'On' if enabled else 'Off',
+            'updated_at': 0.0,
+        })
+
+
+def get_sonar_overlay_snapshot():
+    """Return the current sonar overlay status."""
+    with state_lock:
+        return sonar_overlay_state.copy()
+
+
+def read_sonar_for_overlay(max_age=0.25):
+    """Read sonar distance for the camera overlay without over-polling I2C."""
+    now = time.time()
+    snapshot = get_sonar_overlay_snapshot()
+    if not snapshot['enabled']:
+        return snapshot
+    if snapshot['updated_at'] and now - snapshot['updated_at'] <= max_age:
+        return snapshot
+
+    try:
+        with sonar_lock:
+            distance_mm = get_sonar().get_distance()
+    except Exception as error:
+        with state_lock:
+            sonar_overlay_state.update({
+                'distance_mm': None,
+                'distance_cm': None,
+                'message': 'Error: %s' % error,
+                'updated_at': time.time(),
+            })
+            return sonar_overlay_state.copy()
+
+    distance_cm = distance_mm / 10.0 if distance_mm is not None else None
+    message = 'No reading' if distance_cm is None else '%.0f cm' % distance_cm
+    with state_lock:
+        sonar_overlay_state.update({
+            'distance_mm': distance_mm,
+            'distance_cm': distance_cm,
+            'message': message,
+            'updated_at': time.time(),
+        })
+        return sonar_overlay_state.copy()
 
 
 def automation_cancel_requested():
@@ -625,6 +695,30 @@ def draw_block_detection_overlay(frame):
         })
 
 
+def draw_sonar_overlay(frame):
+    """Draw the current sonar distance on the live camera feed when enabled."""
+    state = read_sonar_for_overlay()
+    if not state['enabled']:
+        return
+
+    distance_cm = state.get('distance_cm')
+    if distance_cm is None:
+        label = 'Sonar: %s' % state.get('message', 'No reading')
+        color = (0, 165, 255)
+    else:
+        label = 'Sonar: %.0f cm' % distance_cm
+        if distance_cm < 15:
+            color = (0, 0, 255)
+        elif distance_cm < 31:
+            color = (0, 255, 255)
+        else:
+            color = (0, 255, 0)
+
+    x = max(10, frame.shape[1] - 230)
+    cv2.putText(frame, label, (x, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 4)
+    cv2.putText(frame, label, (x, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.75, color, 2)
+
+
 def draw_automation_overlay(frame):
     """Add active automation status/tracking overlays to the video stream."""
     auto, track = get_automation_snapshot()
@@ -669,6 +763,7 @@ def generate_frames():
             y_pos += 30
 
         draw_block_detection_overlay(frame)
+        draw_sonar_overlay(frame)
         draw_automation_overlay(frame)
 
         # Encode frame
@@ -941,6 +1036,22 @@ def block_detection_toggle():
     return jsonify({
         'status': 'ok',
         'block_detection': get_block_detection_snapshot(),
+    })
+
+@app.route('/sonar/status', methods=['GET'])
+def sonar_status():
+    """Return current sonar overlay status."""
+    return jsonify(get_sonar_overlay_snapshot())
+
+@app.route('/sonar/toggle', methods=['POST'])
+def sonar_toggle():
+    """Turn the sonar distance overlay on or off."""
+    data = request.json or {}
+    enabled = bool(data.get('enabled', False))
+    set_sonar_overlay_enabled(enabled)
+    return jsonify({
+        'status': 'ok',
+        'sonar': get_sonar_overlay_snapshot(),
     })
 
 # Load saved positions on startup
