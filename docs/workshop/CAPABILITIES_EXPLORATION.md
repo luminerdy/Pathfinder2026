@@ -129,7 +129,7 @@ See [AprilTag Navigation](../../skills/apriltag_navigation/README.md) for tag ID
 
 #### Sonar + AprilTag Navigation
 
-This experimental Area 2 demo uses sonar to clear fixed white cardboard barriers while the camera navigates toward AprilTag `583`.
+This Area 2 demo uses sonar to clear fixed white cardboard barriers while the camera navigates toward AprilTag `583`.
 
 **Caution:** The robot will drive, strafe, and turn. Put it on the floor, not on a table. Keep hands clear of the wheels, barriers, arm, and claw.
 
@@ -137,7 +137,9 @@ This experimental Area 2 demo uses sonar to clear fixed white cardboard barriers
 python3 skills/sonar_apriltag_navigation/run_demo.py
 ```
 
-Start with one barrier before testing several barriers. If the robot strafes the wrong direction, stop and try:
+This is the published starting tool for the Area 2 sonar route. It is tuned for fixed white cardboard barriers, alternating strafe directions, and a clear camera sightline to AprilTag `583`.
+
+Start with one barrier before testing the full route. If the robot strafes the wrong direction, stop and try:
 
 ```bash
 python3 skills/sonar_apriltag_navigation/run_demo.py --strafe-direction left

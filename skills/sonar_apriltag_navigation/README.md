@@ -1,8 +1,10 @@
 # Sonar + AprilTag Navigation - Quick Reference
 
-Experimental Area 2 navigation.
+Area 2 navigation for the Pathfinder2026 course.
 
-The robot drives toward AprilTag `583` while the forward sonar watches for the fixed white cardboard barriers. When sonar sees a barrier, the robot strafes until it finds the barrier edge, strafes a little farther for wheel clearance, then resumes AprilTag navigation.
+The robot drives toward AprilTag `583` while the forward sonar watches for the fixed white cardboard barriers. When sonar sees a barrier, the robot strafes until it finds the barrier edge, strafes a little farther for wheel clearance, moves forward before turning, then resumes AprilTag navigation.
+
+This is the published Area 2 starting tool. It is intended for a simplified barrier layout using fixed white cardboard barriers, alternating strafe directions, and a clear sightline to AprilTag `583`.
 
 ## Quick Start
 
@@ -65,7 +67,7 @@ Start with one barrier. Confirm:
 - The extra clearance is enough for the wheels.
 - AprilTag `583` stays visible or becomes visible again after the strafe.
 
-Then add the next barrier and test again.
+Then add the next barrier and test again. The published layout is designed for three barrier levels made from paired 12-inch boxes, creating 24-inch fixed barriers.
 
 If the robot still crawls in open space, increase `--forward-power`. If it gets
 too close before stopping, increase `--barrier-cm` or reduce `--slow-cm`. If it

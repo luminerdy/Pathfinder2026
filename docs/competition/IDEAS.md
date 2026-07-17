@@ -1,6 +1,6 @@
 # Competition Ideas
 
-**Last Updated:** July 16, 2026
+**Last Updated:** July 17, 2026
 **Status:** Planning notes for field testing, not final event rules
 
 Use this document to develop the competition layout before moving final decisions into [Field Layout](FIELD_LAYOUT.md) and [Scoring](SCORING.md).
@@ -54,21 +54,46 @@ Area 2 should let teams use tag 583 as a visual heading reference while using th
 
 - Mount tag 583 in the top-right corner, angled toward the field center.
 - Create a 36-inch-wide approach lane from Area 1.
-- Build two low cardboard barrier rows with openings on opposite sides.
+- Build three low cardboard barrier levels with openings on alternating sides.
+- Make each fixed barrier from two 12-inch boxes placed together, creating a 24-inch barrier.
 - Make each clear opening at least 30 inches wide.
-- Separate the two barrier rows by 30 to 36 inches.
-- Place the red block pickup area beyond the second barrier.
+- Separate the barrier levels by 30 to 36 inches.
+- Place the red block pickup area beyond the final barrier level.
 - Keep red blocks 12 to 18 inches apart and away from the perimeter.
 - Use only sonar-visible cardboard barriers in this route.
 - Do not place sonar-invisible foam cubes in the required travel path.
 
-The two rows create a simple S-shaped sonar course. The robot detects a barrier, finds the opening by moving sideways, then continues toward tag 583.
+The barrier levels create a simple S-shaped sonar course. The robot detects a barrier, finds the opening by moving sideways, moves forward before turning, then continues toward tag 583.
 
-Build the second barrier row so it can be removed. If the baseline robot cannot complete both rows reliably, use one offset gate for the event.
+Keep the layout simple enough that the published `skills/sonar_apriltag_navigation/run_demo.py` route can clear it consistently. If the baseline robot cannot complete three barrier levels reliably, remove the farthest level before the event.
+
+### Published Starting Tool
+
+Use:
+
+```bash
+python3 skills/sonar_apriltag_navigation/run_demo.py
+```
+
+Current known-good defaults from field testing:
+
+| Setting | Value |
+|---------|-------|
+| Target tag | `583` |
+| Fast forward | `50%` |
+| Slow zone | `20 cm` |
+| Slow forward | `30%` |
+| Barrier stop | `12 cm` |
+| Clear edge | `40 cm` |
+| Strafe mode | `alternate` |
+| Extra wheel clearance | `0.45 s` |
+| Edge search timeout | `12 s` |
+| Forward after clearing | `0.45 s` |
+| No-pivot window after clearing | `1.0 s` |
 
 ### Area 2 Test Questions
 
-- Can the robot keep tag 583 visible while moving through both openings?
+- Can the robot keep tag 583 visible while moving through the openings?
 - Does sonar consistently detect every cardboard barrier?
 - Is a 30-inch opening wide enough for different robot builds and storage additions?
 - Can the robot complete the route at lower battery voltage?
@@ -163,8 +188,7 @@ Time a complete baseline route before finalizing the limit. If a reliable autono
 ## Software Work Suggested By The Layout
 
 - Use explicit target IDs 583, 584, and 585 during the challenge.
-- Convert the current tag-584 barrier experiment into a generic barrier navigator for Area 2.
-- Configure that navigator for tag 583 and the event's 10-inch tag size.
+- Keep the published Area 2 sonar navigator tuned against the final barrier layout.
 - Verify sonar barrier thresholds against the actual cardboard boxes.
 - Verify the software's expected opening width against the physical Area 2 gaps.
 - Test the Area 3 line follower using the final tape, lighting, curves, and foam floor.
@@ -179,8 +203,8 @@ Suggested success targets:
 | Section | Target Success Rate |
 |---------|---------------------|
 | Navigate to the correct AprilTag | At least 8 of 10 |
-| Complete one Area 2 sonar gate | At least 8 of 10 |
-| Complete both Area 2 sonar gates | At least 7 of 10 |
+| Complete one Area 2 sonar barrier level | At least 8 of 10 |
+| Complete the full Area 2 sonar route | At least 7 of 10 |
 | Complete the Area 3 line | At least 8 of 10 |
 | Enter the Area 4 delivery zone | At least 8 of 10 |
 
@@ -188,11 +212,10 @@ If a required section misses its target, first widen the route or simplify one f
 
 ## Decisions Still Needed
 
-- Final Area 2 barrier count and opening width.
+- Final Area 2 opening width.
 - Final Area 3 line length and curve shape.
 - Final delivery-zone size.
 - Final autonomous point values.
 - Final autonomous restart rule.
 - Final run time.
 - Whether autonomous activation locations need visible taped boxes or only entry lines.
-
