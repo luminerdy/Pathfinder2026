@@ -45,6 +45,8 @@ robot from walking too far sideways and losing the AprilTag.
 | `--strafe-mode` | `alternate` | Use opposite strafe direction on each barrier, or `fixed` |
 | `--extra-clearance` | `0.45` | Extra strafe seconds after the edge is found |
 | `--edge-timeout` | `12` | Maximum seconds to strafe while looking for one barrier edge |
+| `--post-clear-forward` | `0.45` | Forward seconds after clearing a barrier before turning |
+| `--post-clear-no-pivot` | `1.0` | Seconds after barrier clear before pivot turns are allowed |
 | `--target-distance` | `0.50` | Stop distance from the AprilTag in meters |
 
 ## Safety
@@ -69,3 +71,5 @@ If the robot still crawls in open space, increase `--forward-power`. If it gets
 too close before stopping, increase `--barrier-cm` or reduce `--slow-cm`. If it
 slides past a usable gap and reports `edge_not_found`, reduce `--clear-cm`.
 If the barrier is wider, increase `--edge-timeout`.
+If the robot turns back into a barrier it just cleared, increase
+`--post-clear-forward` or `--post-clear-no-pivot`.

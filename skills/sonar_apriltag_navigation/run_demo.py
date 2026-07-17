@@ -56,6 +56,8 @@ class SonarAprilTagNavigator:
             strafe_mode='alternate',
             extra_clearance_seconds=0.45,
             edge_timeout=12.0,
+            post_clear_forward_seconds=0.45,
+            post_clear_no_pivot_seconds=1.0,
             forward_power=50,
             slow_forward_power=30,
             turn_power=35,
@@ -70,11 +72,14 @@ class SonarAprilTagNavigator:
         self.strafe_mode = strafe_mode
         self.extra_clearance_seconds = extra_clearance_seconds
         self.edge_timeout = edge_timeout
+        self.post_clear_forward_seconds = post_clear_forward_seconds
+        self.post_clear_no_pivot_seconds = post_clear_no_pivot_seconds
         self.forward_power = forward_power
         self.slow_forward_power = slow_forward_power
         self.turn_power = turn_power
         self.strafe_power = strafe_power
         self.timeout = timeout
+        self.no_pivot_until = 0.0
 
         self.nav = StrafeNavigator()
         self.board = self.nav.board
@@ -163,6 +168,25 @@ class SonarAprilTagNavigator:
         self.stop()
         time.sleep(0.08)
 
+    def post_clear_forward(self):
+        """Move forward briefly before allowing pivot turns near a barrier."""
+        if self.post_clear_forward_seconds <= 0:
+            return
+
+        print("  Moving forward to clear barrier before turning.")
+        start = time.time()
+        while time.time() - start < self.post_clear_forward_seconds:
+            distance_cm = self.read_sonar_cm(samples=1)
+            self.set_sonar_led(distance_cm)
+            if distance_cm is not None and 0 < distance_cm <= self.barrier_cm:
+                print("  Forward clearance stopped: next barrier at %.1f cm" % distance_cm)
+                break
+            self.drive_arc(forward=self.slow_forward_power, turn=0)
+            time.sleep(0.05)
+
+        self.stop()
+        self.no_pivot_until = time.time() + self.post_clear_no_pivot_seconds
+
     def detect_tag(self):
         """Return (tag_id, distance_m, angle_deg), or (None, None, None)."""
         frame = self.nav._get_frame()
@@ -233,6 +257,7 @@ class SonarAprilTagNavigator:
             time.sleep(0.05)
 
         self.stop()
+        self.post_clear_forward()
         time.sleep(0.15)
         return True, 'cleared'
 
@@ -302,11 +327,21 @@ class SonarAprilTagNavigator:
             tag_id, tag_distance, angle = self.detect_tag()
 
             if tag_id is None:
-                # If the tag is not visible, rotate in small pulses. Sonar is
-                # checked again before every pulse in the next loop iteration.
-                print("Tag %d not visible. Searching..." % self.tag_id)
-                self.rotate_once(search_direction)
-                search_direction *= -1
+                if time.time() < self.no_pivot_until:
+                    # Immediately after clearing a barrier, move forward instead
+                    # of pivoting in place. A pivot can swing the robot's side
+                    # back into the barrier it just passed.
+                    print("Tag %d not visible. Moving forward before searching..." % self.tag_id)
+                    self.drive_arc(forward=self.slow_forward_power, turn=0)
+                    time.sleep(0.08)
+                    self.stop()
+                    time.sleep(0.04)
+                else:
+                    # If the tag is not visible, rotate in small pulses. Sonar
+                    # is checked again before every pulse in the next loop.
+                    print("Tag %d not visible. Searching..." % self.tag_id)
+                    self.rotate_once(search_direction)
+                    search_direction *= -1
                 continue
 
             last_distance = tag_distance
@@ -329,7 +364,7 @@ class SonarAprilTagNavigator:
                     'final_angle': angle,
                 }
 
-            if abs(angle) > 22:
+            if abs(angle) > 22 and time.time() >= self.no_pivot_until:
                 turn = 1 if angle > 0 else -1
                 self.rotate_once(turn)
                 continue
@@ -343,6 +378,8 @@ class SonarAprilTagNavigator:
             pulse_seconds = 0.07 if near_barrier else 0.14
             forward = min(max(distance_error * 85.0, 32.0), speed_limit)
             turn = max(-12.0, min(12.0, angle * 1.0))
+            if time.time() < self.no_pivot_until:
+                turn = max(-6.0, min(6.0, turn))
 
             # Move in short pulses. The next loop reads sonar again before the
             # robot is allowed to continue, so multiple barriers are handled.
@@ -389,6 +426,10 @@ def parse_args():
                         help='Extra strafe seconds after edge is found.')
     parser.add_argument('--edge-timeout', type=float, default=12.0,
                         help='Maximum seconds to strafe while looking for one barrier edge.')
+    parser.add_argument('--post-clear-forward', type=float, default=0.45,
+                        help='Forward seconds after clearing a barrier before turning.')
+    parser.add_argument('--post-clear-no-pivot', type=float, default=1.0,
+                        help='Seconds after barrier clear before pivot turns are allowed.')
     parser.add_argument('--timeout', type=float, default=90.0,
                         help='Maximum run time in seconds.')
     return parser.parse_args()
@@ -423,6 +464,8 @@ def main():
         strafe_mode=args.strafe_mode,
         extra_clearance_seconds=args.extra_clearance,
         edge_timeout=args.edge_timeout,
+        post_clear_forward_seconds=args.post_clear_forward,
+        post_clear_no_pivot_seconds=args.post_clear_no_pivot,
         timeout=args.timeout,
     )
 
