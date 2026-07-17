@@ -16,6 +16,8 @@ The viewer also highlights one selected pickup target in green. This is the bloc
 
 Nearby same-color boxes are merged before target selection using a small padding. This reduces flicker when one cube is briefly split into multiple contours by glare or shadows, while avoiding merging separate blocks that are close together.
 
+The viewer ignores detections above the visible field floor. This keeps bright objects outside the field perimeter from being labeled as blocks.
+
 ```bash
 cd /home/robot/pathfinder
 python3 skills/block_detection/viewer.py
@@ -56,6 +58,7 @@ from skills.block_detect import BlockDetector
 detector = BlockDetector()
 blocks = detector.detect(frame)              # All colors
 blocks = detector.detect(frame, ['red'])     # Red only
+blocks = detector.detect(frame, field_min_y_ratio=0.45) # Ignore above-field objects
 nearest = detector.find_nearest(frame, 'red') # Nearest red
 merged = detector.merge_close_detections(blocks) # Reduce split boxes
 target = detector.select_pickup_target(merged)   # Best pickup target

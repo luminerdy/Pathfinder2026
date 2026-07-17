@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
 from lib.arm_positions import POS_CAMERA_DOWN, POS_CAMERA_FORWARD
 from lib.board import get_board
-from skills.block_detect import BlockDetector
+from skills.block_detect import BlockDetector, DEFAULT_FIELD_MIN_Y_RATIO
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -40,6 +40,7 @@ PORT = 8081
 MAX_PROCESS_FPS = 5.0
 FRAME_INTERVAL = 1.0 / MAX_PROCESS_FPS
 JPEG_QUALITY = 70
+FIELD_MIN_Y_RATIO = DEFAULT_FIELD_MIN_Y_RATIO
 
 app = Flask(__name__)
 
@@ -229,6 +230,11 @@ def annotate(frame, detections, selected_target, colors, raw_detection_count):
     """Draw detection boxes plus extra tuning guides."""
     annotated = detector.annotate_frame(frame.copy(), detections)
 
+    # Detections above this line are outside the playable floor area.
+    field_top_y = int(FRAME_H * FIELD_MIN_Y_RATIO)
+    cv2.line(annotated, (0, field_top_y), (FRAME_W, field_top_y),
+             (0, 200, 255), 1)
+
     # Center line helps judge whether the chosen target is usable for pickup.
     cv2.line(annotated, (FRAME_W // 2, 0), (FRAME_W // 2, FRAME_H),
              (255, 255, 255), 1)
@@ -271,7 +277,11 @@ def process_frame():
         return None
 
     colors = get_enabled_colors()
-    raw_detections = detector.detect(frame, colors=colors)
+    raw_detections = detector.detect(
+        frame,
+        colors=colors,
+        field_min_y_ratio=FIELD_MIN_Y_RATIO,
+    )
     detections = detector.merge_close_detections(raw_detections)
     selected_target = detector.select_pickup_target(
         detections,

@@ -25,7 +25,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from lib.board import get_board
 from lib.battery import is_runtime_safe, read_voltage, status_for_voltage
-from skills.block_detect import BlockDetector
+from skills.block_detect import BlockDetector, DEFAULT_FIELD_MIN_Y_RATIO
 from skills.strafe_nav import StrafeNavigator
 from skills.line_following.line_follower import LineFollower
 BoardController = None  # Use get_board() instead
@@ -207,6 +207,7 @@ CAMERA_FORWARD_POSITION = [(1, 2500), (3, 590), (4, 2450), (5, 700), (6, 1500)]
 APRILTAG_OVERLAY_DETECTOR = None
 BLOCK_DETECTOR = BlockDetector()
 BLOCK_DETECTION_COLORS = ('red', 'blue', 'yellow')
+BLOCK_DETECTION_FIELD_MIN_Y_RATIO = DEFAULT_FIELD_MIN_Y_RATIO
 
 
 class LockedBoard:
@@ -663,7 +664,11 @@ def draw_block_detection_overlay(frame):
     if not colors:
         return
 
-    raw_blocks = BLOCK_DETECTOR.detect(frame, colors=colors)
+    raw_blocks = BLOCK_DETECTOR.detect(
+        frame,
+        colors=colors,
+        field_min_y_ratio=BLOCK_DETECTION_FIELD_MIN_Y_RATIO,
+    )
     blocks = BLOCK_DETECTOR.merge_close_detections(raw_blocks)
     target = BLOCK_DETECTOR.select_pickup_target(
         blocks,
@@ -673,6 +678,9 @@ def draw_block_detection_overlay(frame):
 
     BLOCK_DETECTOR.annotate_frame(frame, blocks)
 
+    field_top_y = int(frame.shape[0] * BLOCK_DETECTION_FIELD_MIN_Y_RATIO)
+    cv2.line(frame, (0, field_top_y), (frame.shape[1], field_top_y),
+             (0, 200, 255), 1)
     cv2.line(frame, (frame.shape[1] // 2, 0),
              (frame.shape[1] // 2, frame.shape[0]), (255, 255, 255), 1)
     cv2.line(frame, (0, frame.shape[0] // 2),

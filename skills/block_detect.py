@@ -76,6 +76,7 @@ MIN_ASPECT = 0.4            # Minimum aspect ratio
 # close cubes while still rejecting large field objects.
 MAX_AREA = 12000
 MIN_CONFIDENCE = 0.3        # Lowered — was missing real blocks at 0.5
+DEFAULT_FIELD_MIN_Y_RATIO = 0.45
 
 
 class BlockDetector:
@@ -117,6 +118,25 @@ class BlockDetector:
 
         return mask
 
+    def _apply_field_mask(self, mask, min_y_ratio):
+        """
+        Ignore objects above the visible field floor.
+
+        The camera can see walls, windows, monitors, and AprilTag mounts above
+        the field perimeter. Those objects may match the block colors but are
+        not valid pickup targets, so overlay tools can ask the detector to only
+        trust the lower floor portion of the image.
+        """
+        if min_y_ratio is None:
+            return mask
+
+        height = mask.shape[0]
+        field_top = int(height * min_y_ratio)
+        field_top = max(0, min(field_top, height))
+        masked = mask.copy()
+        masked[:field_top, :] = 0
+        return masked
+
     def _estimate_distance(self, pixel_width):
         """Estimate distance from known block size and apparent pixel size"""
         if pixel_width <= 0:
@@ -152,13 +172,15 @@ class BlockDetector:
 
         return min(conf, 1.0)
 
-    def detect(self, frame, colors=None):
+    def detect(self, frame, colors=None, field_min_y_ratio=None):
         """
         Detect all visible blocks in frame.
 
         Args:
             frame: BGR image (640x480)
             colors: Override which colors to detect
+            field_min_y_ratio: Optional fraction of image height. When set,
+                detections above that y position are ignored.
 
         Returns:
             List of BlockDetection, sorted by distance (nearest first)
@@ -171,6 +193,7 @@ class BlockDetector:
 
         for color in colors:
             mask = self._create_mask(hsv, color)
+            mask = self._apply_field_mask(mask, field_min_y_ratio)
             contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL,
                                            cv2.CHAIN_APPROX_SIMPLE)
 
