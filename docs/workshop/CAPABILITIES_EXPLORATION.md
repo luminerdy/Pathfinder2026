@@ -105,6 +105,7 @@ Use these after the recommended demos are working. These are useful for camera-b
 | Capability | Demo |
 |------------|------|
 | AprilTag navigation | `python3 skills/apriltag_navigation/run_demo.py` |
+| Sonar + AprilTag navigation | `python3 skills/sonar_apriltag_navigation/run_demo.py` |
 | Line following | `python3 skills/line_following/run_demo.py` |
 | Block detection viewer | `python3 skills/block_detection/viewer.py` |
 | Block approach | `python3 skills/block_approach/run_demo.py --color blue` |
@@ -125,6 +126,24 @@ python3 skills/apriltag_navigation/run_demo.py
 Start with the robot about 3 to 5 feet from a printed tag. Good lighting matters. If the robot cannot find a tag, check that the tag is flat, not glossy, and visible to the camera.
 
 See [AprilTag Navigation](../../skills/apriltag_navigation/README.md) for tag IDs and tuning notes.
+
+#### Sonar + AprilTag Navigation
+
+This experimental Area 2 demo uses sonar to clear fixed white cardboard barriers while the camera navigates toward AprilTag `583`.
+
+**Caution:** The robot will drive, strafe, and turn. Put it on the floor, not on a table. Keep hands clear of the wheels, barriers, arm, and claw.
+
+```bash
+python3 skills/sonar_apriltag_navigation/run_demo.py
+```
+
+Start with one barrier before testing several barriers. If the robot strafes the wrong direction, stop and try:
+
+```bash
+python3 skills/sonar_apriltag_navigation/run_demo.py --strafe-direction left
+```
+
+See [Sonar + AprilTag Navigation](../../skills/sonar_apriltag_navigation/README.md) for tuning notes.
 
 #### Line Following
 

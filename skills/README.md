@@ -14,6 +14,7 @@ Most teams should begin with folders that contain `run_demo.py`:
 | `camera_vision/` | Camera capture and basic vision |
 | `block_detection/` | Colored block detection |
 | `apriltag_navigation/` | AprilTag detection and navigation |
+| `sonar_apriltag_navigation/` | Experimental sonar barrier clearing toward an AprilTag |
 | `visual_servoing/` | Camera-guided approach |
 | `autonomous_pickup/` | Block pickup sequence |
 | `line_following/` | Tape line following |
