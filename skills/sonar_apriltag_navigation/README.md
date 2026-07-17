@@ -38,7 +38,7 @@ robot from walking too far sideways and losing the AprilTag.
 | `--tag-id` | `583` | AprilTag to approach |
 | `--barrier-cm` | `12` | Stop and clear a barrier when sonar is this close |
 | `--slow-cm` | `20` | Slow down when sonar is inside this distance |
-| `--clear-cm` | `55` | Treat the barrier edge as clear at this distance |
+| `--clear-cm` | `45` | Treat the barrier edge as clear at this distance |
 | `--forward-power` | `50` | Normal forward motor power before the slow zone |
 | `--slow-forward-power` | `30` | Forward motor power inside the slow zone |
 | `--strafe-direction` | `right` | First direction to slide around barriers |
@@ -65,4 +65,5 @@ Start with one barrier. Confirm:
 Then add the next barrier and test again.
 
 If the robot still crawls in open space, increase `--forward-power`. If it gets
-too close before stopping, increase `--barrier-cm` or reduce `--slow-cm`.
+too close before stopping, increase `--barrier-cm` or reduce `--slow-cm`. If it
+slides past a usable gap and reports `edge_not_found`, reduce `--clear-cm`.

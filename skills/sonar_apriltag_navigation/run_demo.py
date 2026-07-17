@@ -51,7 +51,7 @@ class SonarAprilTagNavigator:
             target_distance=0.50,
             barrier_cm=12.0,
             slow_cm=20.0,
-            clear_cm=55.0,
+            clear_cm=45.0,
             strafe_direction='right',
             strafe_mode='alternate',
             extra_clearance_seconds=0.45,
@@ -59,7 +59,7 @@ class SonarAprilTagNavigator:
             slow_forward_power=30,
             turn_power=35,
             strafe_power=42,
-            timeout=60.0):
+            timeout=90.0):
         self.tag_id = tag_id
         self.target_distance = target_distance
         self.barrier_cm = barrier_cm
@@ -371,7 +371,7 @@ def parse_args():
                         help='Stop and strafe when sonar is this close.')
     parser.add_argument('--slow-cm', type=float, default=20.0,
                         help='Slow forward movement inside this sonar distance.')
-    parser.add_argument('--clear-cm', type=float, default=55.0,
+    parser.add_argument('--clear-cm', type=float, default=45.0,
                         help='Sonar distance that means barrier edge is clear.')
     parser.add_argument('--forward-power', type=int, default=50,
                         help='Normal forward motor power before the slow zone.')
@@ -385,7 +385,7 @@ def parse_args():
                         help='Alternate strafe direction each barrier, or keep it fixed.')
     parser.add_argument('--extra-clearance', type=float, default=0.45,
                         help='Extra strafe seconds after edge is found.')
-    parser.add_argument('--timeout', type=float, default=60.0,
+    parser.add_argument('--timeout', type=float, default=90.0,
                         help='Maximum run time in seconds.')
     return parser.parse_args()
 
