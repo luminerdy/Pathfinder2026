@@ -20,9 +20,13 @@ from skills.line_following.line_follower import LineFollower
 
 def callback(detection, strafe, turn):
     """Print a short status line every few frames while the robot follows."""
-    print("  line x=%d, err=%+d, heading=%+d, strafe=%+.1f, turn=%+.1f, green=%.1f%%" % (
-        detection['cx'], detection['error'], detection['heading_error'],
-        strafe, turn, detection['ratio'] * 100))
+    def center(value):
+        return '---' if value is None else str(value)
+
+    print("  far=%s mid=%s near=%s err=%+d heading=%+d strafe=%+.1f turn=%+.1f" % (
+        center(detection['far_cx']), center(detection['mid_cx']),
+        center(detection['near_cx']), detection['error'],
+        detection['heading_error'], strafe, turn))
 
 
 def main():

@@ -4,38 +4,17 @@
 
 ## Quick Start
 
-### Test detection only (no driving):
+### Test detection only (drive motors do not move):
 ```bash
-python3 test_line_detect.py
+cd /home/robot/pathfinder
+python3 skills/line_following/test_line_detect.py
 ```
 
 ### Follow the line:
 ```bash
-python3 run_demo.py
-```
-
-## Experimental Tight-Following Test
-
-The experimental test uses three thin camera scan strips, including one near
-the bottom of the image, to keep the robot more directly over the tape. It does
-not replace the normal demo. Before driving, it keeps turning until the far
-scan strip confirms that the line is visible ahead of the robot.
-
-First capture an annotated image without moving the drive motors:
-
-```bash
 cd /home/robot/pathfinder
-python3 skills/line_following/run_tight_test.py --detect-only
+python3 skills/line_following/run_demo.py
 ```
-
-Confirm that `tight_line_test.jpg` shows the tape inside the far, middle, and
-near scan strips. Then place the robot on the floor with a clear path and run:
-
-```bash
-python3 skills/line_following/run_tight_test.py
-```
-
-Press `Ctrl+C` to stop. Use `--timeout 15` for a shorter driving test.
 
 ## API
 ```python
@@ -53,12 +32,13 @@ detection = follower.detect_line(frame)
 
 ## How It Works
 1. Camera points down (arm repositioned)
-2. Crop to the visible tape area (ROI)
+2. Measure three thin horizontal scan strips in the camera image
 3. HSV threshold for lime green (H=35-85)
-4. Split the line into near, middle, and far bands
-5. Strafe to stay centered over the near line
-6. Add a small turn correction for curves
-7. Stop when line ends (green ratio drops)
+4. Use the largest connected green region in each strip
+5. Search until the far strip confirms that the line is ahead
+6. Strafe to stay centered over the nearest visible line
+7. Add a small turn correction from the near-to-far line angle
+8. Stop after three frames without a line
 
 ## Key Parameters
 - HSV: [35,50,50] to [85,255,255] (lime green)
@@ -67,7 +47,9 @@ detection = follower.detect_line(frame)
 - Forward speed: 38
 - Minimum strafe: 18
 - Maximum strafe: 28
-- ROI: Top 65% of frame
+- Scan strips: rows 240-280, 340-380, and 420-465
+- Search turn power: 40
+- Lost-line confirmation: 3 frames
 
 ## Why Lime Green?
 - Far from red (H=0-10), blue (H=100-130), yellow (H=20-40)

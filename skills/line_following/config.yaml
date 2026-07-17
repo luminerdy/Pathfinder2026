@@ -8,12 +8,11 @@ color:
   upper: [75, 255, 255]   # H, S, V maximums
   description: "Lime green / fluorescent green tape"
 
-# Region of Interest
-roi:
-  top_ratio: 0.0
-  bottom_ratio: 0.65
-  # Lower value = see further ahead (better for fast speeds)
-  # Higher value = see closer (better for tight curves)
+# Camera scan strips: [first row, last row, steering weight]
+scan_bands:
+  far: [240, 280, 0.10]
+  mid: [340, 380, 0.30]
+  near: [420, 465, 0.60]
 
 # Control parameters
 control:
@@ -23,14 +22,23 @@ control:
   min_strafe: 18         # Minimum useful sideways correction
   max_strafe: 28         # Maximum sideways correction
   max_turn: 10           # Maximum heading correction
-  center_deadband: 10    # Pixels from center before strafing
+  center_enter: 12       # Start correcting outside this distance from center
+  center_exit: 5         # Continue correcting until inside this distance
   heading_deadband: 18   # Pixel difference before turning
 
 # Line detection thresholds
 detection:
-  min_line_ratio: 0.005  # Minimum green pixel ratio (0.5% of ROI)
-  lost_frames: 15        # Frames without line before declaring "line ended"
+  min_contour_area: 25   # Ignore smaller connected green regions
+  lost_frames: 3         # Stop while confirming the end of the line
   morph_kernel: 5        # Morphology kernel size (noise cleanup)
+
+# Initial line acquisition
+search:
+  steps: 18
+  turn_power: 40
+  turn_seconds: 0.10
+  settle_seconds: 0.18
+  far_max_error: 100     # Far strip must be this close to image center
 
 # Arm position for camera-down view
 arm:
@@ -51,12 +59,12 @@ safety:
 #   - Increase k_turn
 #   - Increase max_turn
 #   - Decrease forward_speed (more time to react)
-#   - Decrease roi.top_ratio or increase roi.bottom_ratio
+#   - Move the scan-strip rows after inspecting line_detect_result.jpg
 #
 # False detections:
 #   - Narrow HSV range (increase S_min or V_min)
 #   - Increase morph_kernel (more noise filtering)
-#   - Increase min_line_ratio (require more green pixels)
+#   - Increase min_contour_area (ignore larger noise regions)
 #
 # Doesn't detect tape:
 #   - Widen HSV range (decrease lower, increase upper)

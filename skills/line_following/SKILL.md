@@ -19,7 +19,7 @@ Follow a **lime green tape line** on the floor using camera feedback. The camera
 - Line detection using HSV color filtering
 - Centroid calculation (where is the line?)
 - Proportional strafe and turn control
-- Region of interest (ROI) for efficiency
+- Thin camera scan strips for focused detection
 - End-of-line detection (when to stop)
 - Intersection handling (optional: which way to turn)
 
@@ -37,7 +37,7 @@ Follow a **lime green tape line** on the floor using camera feedback. The camera
 Camera Frame (pointed down)
     |
     v
-Crop to ROI (visible tape area)
+Sample far, middle, and near scan strips
     |
     v
 Convert to HSV
@@ -46,7 +46,7 @@ Convert to HSV
 Threshold for lime green (create binary mask)
     |
     v
-Find weighted line center using near/middle/far bands
+Find the largest connected line region in each strip
     |
     v
 Calculate lateral error and rough line angle
@@ -141,24 +141,25 @@ follower.cleanup()
 
 ### Level 3: Understand Line Detection
 
-**Step 1: Capture and crop to ROI**
+**Step 1: Capture three scan strips**
 ```python
 ret, frame = camera.read()
 
-# Look at the visible tape area
-height = frame.shape[0]  # 480
-roi = frame[0:int(height * 0.65), :]
+# Look far ahead, midway ahead, and close to the robot
+far = frame[240:280, :]
+mid = frame[340:380, :]
+near = frame[420:465, :]
 ```
 
-**Why crop?**
+**Why use thin strips?**
 - Near tape is most important for centering
 - Far tape helps estimate the curve direction
-- Less pixels to process = faster
+- Fewer pixels to process means faster detection
 - Reduces false positives from distant objects
 
 **Step 2: HSV threshold for lime green**
 ```python
-hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+hsv = cv2.cvtColor(near, cv2.COLOR_BGR2HSV)
 
 # Lime green tape
 lower_green = np.array([35, 50, 50])
@@ -222,16 +223,14 @@ board.set_motor_duty([(1, fl), (2, fr), (3, rl), (4, rr)])
 
 **How to know when the line ends:**
 ```python
-green_pixels = cv2.countNonZero(mask)
-total_pixels = mask.shape[0] * mask.shape[1]
-green_ratio = green_pixels / total_pixels
+contours = cv2.findContours(mask, cv2.RETR_EXTERNAL,
+                            cv2.CHAIN_APPROX_SIMPLE)[-2]
+line_found = any(cv2.contourArea(c) >= 25 for c in contours)
 
-# Thresholds
-MIN_LINE_RATIO = 0.01   # Below this = no line visible (0.5% of ROI)
-
-if green_ratio < MIN_LINE_RATIO:
+if not line_found:
     consecutive_lost += 1
-    if consecutive_lost > 10:  # Lost for 10+ frames
+    stop()  # Do not continue driving while the line is missing
+    if consecutive_lost >= 3:
         stop()
         return 'line_ended'
 else:
@@ -242,19 +241,18 @@ else:
 
 **Multiple scan lines (better for curves):**
 ```python
-# Instead of one centroid, scan at 3 heights
-# Near (bottom), mid, far (top of ROI)
-near_row = roi[140:160, :]  # Bottom strip
-mid_row = roi[70:90, :]     # Middle strip
-far_row = roi[0:20, :]      # Top strip
+# Instead of one centroid, scan at three tested heights
+far_row = frame[240:280, :]
+mid_row = frame[340:380, :]
+near_row = frame[420:465, :]
 
 # Calculate centroid for each strip
 near_cx = find_centroid(near_row, mask)
 mid_cx = find_centroid(mid_row, mask)
 far_cx = find_centroid(far_row, mask)
 
-# Weighted centering: near matters most
-error = near_cx * 0.75 + mid_cx * 0.20 + far_cx * 0.05 - frame_center
+# Center from the closest visible strip; use far for curve direction
+error = near_cx - frame_center
 heading_error = far_cx - near_cx
 ```
 
@@ -303,10 +301,10 @@ For centering: React to what's close (bottom)
 For planning: Look ahead (top) to anticipate curves
 ```
 
-**Weighted scan lines approximate "look-ahead":**
-- Near (75%): Immediate centering
-- Mid (20%): Short-term planning
-- Far (5%): Curve anticipation
+**Scan-strip jobs:**
+- Near: Immediate lateral centering
+- Mid: Backup center when the near strip cannot see the line
+- Far: Initial line acquisition and curve anticipation
 
 ### Lighting Robustness
 

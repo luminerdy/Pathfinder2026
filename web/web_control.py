@@ -64,6 +64,9 @@ tracking_state = {
     'action': '',
     'line_found': False,
     'line_cx': None,
+    'line_far_cx': None,
+    'line_mid_cx': None,
+    'line_near_cx': None,
     'line_error': 0,
     'line_heading': 0,
     'line_ratio': 0.0,
@@ -299,6 +302,9 @@ def clear_tracking_state(mode=None):
             'action': '',
             'line_found': False,
             'line_cx': None,
+            'line_far_cx': None,
+            'line_mid_cx': None,
+            'line_near_cx': None,
             'line_error': 0,
             'line_heading': 0,
             'line_ratio': 0.0,
@@ -545,6 +551,9 @@ def run_line_automation():
                 mode=mode,
                 line_found=detection['found'],
                 line_cx=detection['cx'],
+                line_far_cx=detection['far_cx'],
+                line_mid_cx=detection['mid_cx'],
+                line_near_cx=detection['near_cx'],
                 line_error=detection['error'],
                 line_heading=detection['heading_error'],
                 line_ratio=detection['ratio'],
@@ -614,11 +623,22 @@ def draw_apriltag_overlay(frame):
 def draw_line_overlay(frame, track):
     """Draw line-following tracking values on the live stream."""
     cv2.line(frame, (320, 0), (320, frame.shape[0]), (255, 255, 255), 1)
-    if track.get('line_found') and track.get('line_cx') is not None:
-        roi_y = int(LineFollower.FRAME_H * LineFollower.ROI_BOTTOM_RATIO / 2)
-        cx = int(track['line_cx'])
-        cv2.circle(frame, (cx, roi_y), 10, (0, 255, 0), -1)
-        cv2.line(frame, (cx, roi_y), (320, roi_y), (0, 255, 0), 2)
+    band_colors = {
+        'far': (255, 180, 0),
+        'mid': (0, 220, 220),
+        'near': (0, 255, 0),
+    }
+    for name, top, bottom, _ in LineFollower.SCAN_BANDS:
+        color = band_colors[name]
+        cv2.rectangle(frame, (0, top), (frame.shape[1] - 1, bottom), color, 1)
+        cx = track.get('line_%s_cx' % name)
+        if cx is not None:
+            cy = (top + bottom) // 2
+            cx = int(cx)
+            cv2.circle(frame, (cx, cy), 7, color, -1)
+            cv2.line(frame, (cx, cy), (320, cy), color, 1)
+
+    if track.get('line_found'):
         label = 'line err=%+d heading=%+d' % (
             track.get('line_error', 0),
             track.get('line_heading', 0),
