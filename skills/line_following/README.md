@@ -14,6 +14,28 @@ python3 test_line_detect.py
 python3 run_demo.py
 ```
 
+## Experimental Tight-Following Test
+
+The experimental test uses three thin camera scan strips, including one near
+the bottom of the image, to keep the robot more directly over the tape. It does
+not replace the normal demo.
+
+First capture an annotated image without moving the drive motors:
+
+```bash
+cd /home/robot/pathfinder
+python3 skills/line_following/run_tight_test.py --detect-only
+```
+
+Confirm that `tight_line_test.jpg` shows the tape inside the far, middle, and
+near scan strips. Then place the robot on the floor with a clear path and run:
+
+```bash
+python3 skills/line_following/run_tight_test.py
+```
+
+Press `Ctrl+C` to stop. Use `--timeout 15` for a shorter driving test.
+
 ## API
 ```python
 from skills.line_following.line_follower import LineFollower
