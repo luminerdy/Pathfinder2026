@@ -1,6 +1,6 @@
 # Competition Docs
 
-**Last Updated:** July 11, 2026
+**Last Updated:** July 16, 2026
 **Status:** Draft while the physical field is being tested
 
 The Pathfinder2026 event capstone is a course challenge where teams combine driving, vision, arm control, sensing, and strategy on one field.
@@ -10,6 +10,7 @@ The Pathfinder2026 event capstone is a course challenge where teams combine driv
 | [Field Layout](FIELD_LAYOUT.md) | Facilitators and field builders | Field areas, AprilTag IDs, block zones, start area, and delivery zone |
 | [Scoring](SCORING.md) | Teams and judges | Draft point values, penalties, and score sheet |
 | [Competition Field BOM](BILL_OF_MATERIALS.md) | Setup team | Materials for one field |
+| [Competition Ideas](IDEAS.md) | Event planners | Working field, automation, and scoring ideas to test before finalizing |
 
 ## Field Direction
 
