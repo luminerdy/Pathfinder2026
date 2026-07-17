@@ -3,8 +3,8 @@
 Approach and pickup block demo.
 
 This experimental script combines the calibrated approach-only demo with the
-pickup-only arm sequence. Keep this out of the participant event flow until it
-is repeatable across colors, batteries, and starting distances.
+pickup-only arm sequence. It is an optional starter for teams that want to
+explore autonomous pickup, not a complete course solution.
 """
 
 import argparse

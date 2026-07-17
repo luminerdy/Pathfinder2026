@@ -2,8 +2,9 @@
 
 Experimental combined block automation for Pathfinder2026.
 
-This is not part of the event participant flow yet. It is for calibration work
-only.
+This is an optional event starter tool, not a finished course solution. Use it
+to learn how detection, driving, and arm pickup can be combined, then improve or
+simplify it for a team strategy.
 
 ## What It Does
 
@@ -64,6 +65,12 @@ python3 skills/block_approach_pickup/run_demo.py --color blue --no-pickup-drive
 ```
 
 Valid colors are `red`, `blue`, and `yellow`.
+
+## What To Expect
+
+- It may work better with one color, battery level, or starting distance than another.
+- It is meant to be read, tested, and improved.
+- If it fails, use the images and terminal output to decide whether the issue is detection, approach alignment, final pickup distance, or arm timing.
 
 ## Safety
 
