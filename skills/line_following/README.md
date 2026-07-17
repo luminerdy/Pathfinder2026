@@ -18,7 +18,8 @@ python3 run_demo.py
 
 The experimental test uses three thin camera scan strips, including one near
 the bottom of the image, to keep the robot more directly over the tape. It does
-not replace the normal demo.
+not replace the normal demo. Before driving, it keeps turning until the far
+scan strip confirms that the line is visible ahead of the robot.
 
 First capture an annotated image without moving the drive motors:
 

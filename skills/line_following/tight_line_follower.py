@@ -40,6 +40,7 @@ class TightLineFollower(LineFollower):
     SEARCH_TURN_POWER = 40
     SEARCH_TURN_SECONDS = 0.10
     SEARCH_SETTLE_SECONDS = 0.18
+    ACQUIRE_FAR_MAX_ERROR = 100
 
     def __init__(self, robot=None, board=None):
         super().__init__(robot=robot, board=board)
@@ -145,19 +146,53 @@ class TightLineFollower(LineFollower):
             "mask": full_mask,
         }
 
-    def _search_for_line(self, max_rotations=12, cancel_callback=None):
-        """Search using enough turn power to move reliably on the foam floor."""
-        for _ in range(max_rotations):
+    def _search_for_line(self, max_rotations=18, cancel_callback=None):
+        """Search until the far strip sees a usable line ahead of the robot."""
+        direction = 1
+
+        for step in range(max_rotations):
             if cancel_callback and cancel_callback():
                 self._stop()
                 return False
 
             frame = self._get_frame()
-            if frame is not None and self.detect_line(frame)["found"]:
-                self._stop()
-                return True
+            detection = self.detect_line(frame) if frame is not None else None
 
-            power = self.SEARCH_TURN_POWER
+            if detection is not None:
+                far_cx = detection["far_cx"]
+                mid_cx = detection["mid_cx"]
+                near_cx = detection["near_cx"]
+                print(
+                    "  Search: far=%s mid=%s near=%s" % (
+                        "---" if far_cx is None else far_cx,
+                        "---" if mid_cx is None else mid_cx,
+                        "---" if near_cx is None else near_cx,
+                    )
+                )
+
+                # Green in only the middle or near strip means the tape is
+                # beside or underneath the robot. Do not drive forward yet.
+                # Continue turning until the far strip confirms a path ahead.
+                if far_cx is not None:
+                    far_error = far_cx - self.CENTER_X
+                    if abs(far_error) <= self.ACQUIRE_FAR_MAX_ERROR:
+                        self._stop()
+                        print("  Far strip acquired. Starting line following.")
+                        return True
+                    direction = 1 if far_error > 0 else -1
+                elif detection["found"]:
+                    closest_cx = near_cx if near_cx is not None else mid_cx
+                    if closest_cx is not None:
+                        closest_error = closest_cx - self.CENTER_X
+                        if abs(closest_error) > self.CENTER_EXIT_PIXELS:
+                            direction = 1 if closest_error > 0 else -1
+
+            # With no visible tape, search to one side first and then sweep
+            # back through the starting heading toward the other side.
+            if (detection is None or not detection["found"]) and step == 6:
+                direction = -1
+
+            power = self.SEARCH_TURN_POWER * direction
             self.board.set_motor_duty([
                 (1, power), (2, -power), (3, power), (4, -power)
             ])
@@ -274,4 +309,3 @@ class TightLineFollower(LineFollower):
             }
         finally:
             self._stop()
-
