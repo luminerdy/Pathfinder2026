@@ -2,13 +2,15 @@
 
 **Purpose:** Create an SD card image for a Pathfinder2026 workshop robot.
 **Platform:** Raspberry Pi 4 (4GB+)
-**OS:** Raspberry Pi OS (Debian 13 Trixie, 64-bit)
+**OS:** Raspberry Pi OS (64-bit), Debian 13 (Trixie)
+**Image type:** Lite recommended for robot-only images; Desktop is OK if VNC is needed
 **Raspberry Pi Imager:** 2.0.0
 **Current Pi OS Released:** 2026-06-18
+**Kernel version:** 6.18
 **Last tested:** 2026-06-18
 **Time:** ~30 minutes
 
-> **OS Note:** Use the Raspberry Pi OS 64-bit release dated **2026-06-18**. This guide was last tested on **2026-06-18**.
+> **OS Note:** Use the Raspberry Pi OS 64-bit release dated **2026-06-18**. Raspberry Pi lists this image as Debian 13 (Trixie) with kernel 6.18. This guide was last tested on **2026-06-18**.
 
 ---
 
@@ -559,8 +561,8 @@ sudo nmcli dev wifi connect "SSID" password "PASSWORD"
 
 | Component | Version | Purpose |
 |-----------|---------|---------|
-| Raspberry Pi OS | Debian 13 Trixie 64-bit | Base operating system |
-| Kernel | 6.12.75 | Linux kernel |
+| Raspberry Pi OS | Debian 13 Trixie 64-bit, released 2026-06-18 | Base operating system |
+| Kernel | 6.18 | Linux kernel |
 | Python | 3.13.5 | Programming language |
 | OpenCV | 4.10.0 | Computer vision (via apt) |
 | pupil-apriltags | 1.0.4 | AprilTag detection |
@@ -657,4 +659,4 @@ sudo reboot
 *Created: March 26, 2026*
 *Updated: June 18, 2026 - aligned to Raspberry Pi OS release 2026-06-18 and Raspberry Pi Imager 2.0.0*
 *Last tested: June 18, 2026*
-*Tested on: Raspberry Pi 4 Model B, Debian 13 Trixie 64-bit, Python 3.13.x*
+*Tested on: Raspberry Pi 4 Model B, Raspberry Pi OS 64-bit, Debian 13 Trixie, kernel 6.18, Python 3.13.x*

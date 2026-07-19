@@ -2,7 +2,7 @@
 
 **Summer 2026 Pathfinder robotics event**
 
-**Last Updated:** July 17, 2026
+**Last Updated:** July 19, 2026
 
 Pathfinder2026 is the event repo for the 2026 Pathfinder robot workshop. Participants should use this page as the starting point.
 

@@ -2,7 +2,16 @@
 
 **Purpose:** Create the SD card image for the Raspberry Pi 500 (team control hub)
 
-**OS:** Raspberry Pi OS (Debian 13.5 Trixie, 64-bit) — tested on Pi 500, June 2026
+**Platform:** Raspberry Pi 500
+**OS:** Raspberry Pi OS (64-bit), Debian 13 (Trixie)
+**Image type:** Desktop
+**Raspberry Pi Imager:** 2.0.0
+**Current Pi OS Released:** 2026-06-18
+**Kernel version:** 6.18
+**Last tested:** 2026-06-18
+**Time:** ~20 minutes
+
+> **OS Note:** Use the Raspberry Pi OS 64-bit release dated **2026-06-18**. Raspberry Pi lists this image as Debian 13 (Trixie) with kernel 6.18. This guide was last tested on **2026-06-18**.
 
 The Pi 500 is your **command center** — you'll use it to write code, SSH into the robot, monitor camera feeds, and run all workshop scripts. The robot runs headless; you control everything from here.
 
@@ -23,7 +32,7 @@ The Pi 500 is your **command center** — you'll use it to write code, SSH into 
 1. Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/) on your computer
 2. Insert microSD card into your computer
 3. Open Raspberry Pi Imager
-4. Choose OS: **Raspberry Pi OS (64-bit)** — Desktop version
+4. Choose OS: **Raspberry Pi OS (64-bit)** — Desktop version, released 2026-06-18
 5. Choose Storage: Select your microSD card
 6. Click the **gear icon** (⚙️) for advanced settings:
    - Set device name / hostname: `pihub`
@@ -128,7 +137,7 @@ After setup, your Pi 500 has:
 
 | Item | Purpose |
 |------|---------|
-| Raspberry Pi OS Desktop | Visual interface for coding and monitoring |
+| Raspberry Pi OS Desktop | Debian 13 Trixie, 64-bit desktop environment |
 | Python 3 | Basic scripting and tools |
 | SSH client | Connect to robot remotely |
 | Visual Studio Code + Remote SSH | Write and run robot code directly on the robot |
